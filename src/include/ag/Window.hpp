@@ -10,7 +10,7 @@ class Window {
 public:
     using Instance = std::shared_ptr<Window>;
 
-    static Instance create(int width, int height, const std::string& title);
+    static Instance create(int width, int height, bool resizable, const std::string& title);
     bool shouldClose() const;
     void makeContextCurrent();
     void dispose();

@@ -6,10 +6,11 @@
 namespace ag {
 std::vector<Window::Instance> Window::s_windows;
 
-Window::Instance Window::create(int width, int height, const std::string& title)
+Window::Instance Window::create(int width, int height, bool resizable, const std::string& title)
 {
     Engine::require();
     glfwDefaultWindowHints();
+    glfwWindowHint(GLFW_RESIZABLE, resizable);
     Engine::getInstance()->getGraphicsDriver()->useWindowHint();
     // create window instance.
     GLFWwindow* glfwWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
