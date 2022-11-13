@@ -13,3 +13,4 @@ function(def_test label)
 endfunction()
 
 def_test(Hello)
+def_test(Window)
