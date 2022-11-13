@@ -1,4 +1,4 @@
-#include <ag.h>
+#include <ag.hpp>
 #include <iostream>
 
 namespace ag {
