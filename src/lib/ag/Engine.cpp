@@ -1,4 +1,5 @@
 #include <ag/Engine.hpp>
+#include <ag/Looper.hpp>
 #include <ag/Window.hpp>
 #include <ag/graphics/ogl/OglGraphicsDriver.hpp>
 #include <ag/native/glfw.hpp>
@@ -56,7 +57,10 @@ void Engine::shutdown()
     glfwTerminate();
     s_instance = nullptr;
 }
-
+std::shared_ptr<Looper> Engine::getLooper() const
+{
+    return m_looper;
+}
 std::shared_ptr<IGraphicsDriver> Engine::getGraphicsDriver() const
 {
     return m_graphicsDriver;
@@ -65,6 +69,7 @@ std::shared_ptr<IGraphicsDriver> Engine::getGraphicsDriver() const
 // private
 Engine::Engine()
     : m_started(false)
+    , m_looper(std::make_shared<Looper>())
     , m_graphicsDriver()
 {
     m_graphicsDriver = std::make_shared<OglGraphicsDriver>();

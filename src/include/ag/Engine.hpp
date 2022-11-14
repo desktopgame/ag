@@ -4,6 +4,7 @@
 
 namespace ag {
 class IGraphicsDriver;
+class Looper;
 /**
  * @brief Engine class is ag Engine.
  */
@@ -36,6 +37,12 @@ public:
     void shutdown();
 
     /**
+     * @brief Get the Looper object
+     * @return std::shared_ptr<Looper>
+     */
+    std::shared_ptr<Looper> getLooper() const;
+
+    /**
      * @brief Get the Graphics Driver object
      * @return std::shared_ptr<IGraphicsDriver>
      */
@@ -45,6 +52,7 @@ private:
     static std::mutex s_mutex;
     static Instance s_instance;
     bool m_started;
+    std::shared_ptr<Looper> m_looper;
     std::shared_ptr<IGraphicsDriver> m_graphicsDriver;
     Engine();
 };
