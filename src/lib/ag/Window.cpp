@@ -43,6 +43,10 @@ void Window::dispose()
         });
     s_windows.erase(iter, s_windows.end());
 }
+bool Window::isDisposed() const
+{
+    return m_disposed;
+}
 std::vector<Window::Instance> Window::getWindows()
 {
     return s_windows;

@@ -14,6 +14,7 @@ public:
     bool shouldClose() const;
     void makeContextCurrent();
     void dispose();
+    bool isDisposed() const;
     static std::vector<Instance> getWindows();
 
 private:
