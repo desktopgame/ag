@@ -7,8 +7,7 @@ int main(int argc, char* argv[])
 {
     auto engine = ag::Engine::getInstance()->startup(argc, argv);
     auto looper = engine->getLooper();
-    auto window = ag::Window::create(1280, 720, false, "");
-    auto window2 = ag::Window::create(1280, 720, false, "");
+    ag::Window::create(1280, 720, false, "Window");
     while (looper->isRunnable()) {
         looper->run();
     }
