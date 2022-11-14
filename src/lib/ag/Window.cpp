@@ -28,6 +28,10 @@ void Window::makeContextCurrent()
     glfwMakeContextCurrent(m_glfwWindow);
     Engine::getInstance()->getGraphicsDriver()->useContextExtension();
 }
+void Window::swapBuffers()
+{
+    glfwSwapBuffers(m_glfwWindow);
+}
 void Window::setTitle(const std::string& title)
 {
     m_title = title;

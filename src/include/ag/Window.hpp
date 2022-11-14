@@ -14,6 +14,7 @@ public:
     static Instance create(int width, int height, bool resizable, const std::string& title);
     bool shouldClose() const;
     void makeContextCurrent();
+    void swapBuffers();
 
     void setTitle(const std::string& title);
     std::string getTitle() const;
