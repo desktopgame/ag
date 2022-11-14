@@ -14,7 +14,7 @@ Window::Instance Window::create(int width, int height, bool resizable, const std
     Engine::getInstance()->getGraphicsDriver()->useWindowHint();
     // create window instance.
     GLFWwindow* glfwWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-    Window::Instance window = Window::Instance(new Window(glfwWindow));
+    Window::Instance window = Window::Instance(new Window(glfwWindow, title));
     Window::s_windows.emplace_back(window);
     return window;
 }
@@ -27,6 +27,47 @@ void Window::makeContextCurrent()
     Engine::require();
     glfwMakeContextCurrent(m_glfwWindow);
     Engine::getInstance()->getGraphicsDriver()->useContextExtension();
+}
+void Window::setTitle(const std::string& title)
+{
+    m_title = title;
+    glfwSetWindowTitle(m_glfwWindow, title.c_str());
+}
+std::string Window::getTitle() const
+{
+    return m_title;
+}
+void Window::setSize(const glm::ivec2& size)
+{
+    glfwSetWindowSize(m_glfwWindow, size.x, size.y);
+}
+glm::ivec2 Window::getSize() const
+{
+    glm::ivec2 v;
+    glfwGetWindowSize(m_glfwWindow, &v.x, &v.y);
+    return v;
+}
+void Window::setPosition(const glm::ivec2& position)
+{
+    glfwSetWindowPos(m_glfwWindow, position.x, position.y);
+}
+glm::ivec2 Window::getPosition() const
+{
+    glm::ivec2 v;
+    glfwGetWindowPos(m_glfwWindow, &v.x, &v.y);
+    return v;
+}
+glm::ivec2 Window::getFrameBufferSize() const
+{
+    glm::ivec2 v;
+    glfwGetFramebufferSize(m_glfwWindow, &v.x, &v.y);
+    return v;
+}
+glm::ivec2 Window::getMousePosition() const
+{
+    double x, y;
+    glfwGetCursorPos(m_glfwWindow, &x, &y);
+    return { static_cast<int>(x), static_cast<int>(y) };
 }
 void Window::dispose()
 {
@@ -52,8 +93,9 @@ const std::vector<Window::Instance>& Window::getWindows()
     return s_windows;
 }
 // private
-Window::Window(GLFWwindow* glfwWindow)
+Window::Window(GLFWwindow* glfwWindow, const std::string& title)
     : m_glfwWindow(glfwWindow)
+    , m_title(title)
     , m_disposed(false)
 {
 }
