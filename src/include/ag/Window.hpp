@@ -15,7 +15,7 @@ public:
     void makeContextCurrent();
     void dispose();
     bool isDisposed() const;
-    static std::vector<Instance> getWindows();
+    static const std::vector<Instance>& getWindows();
 
 private:
     Window(GLFWwindow* glfwWindow);

@@ -47,7 +47,7 @@ bool Window::isDisposed() const
 {
     return m_disposed;
 }
-std::vector<Window::Instance> Window::getWindows()
+const std::vector<Window::Instance>& Window::getWindows()
 {
     return s_windows;
 }
