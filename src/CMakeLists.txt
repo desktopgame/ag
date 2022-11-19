@@ -18,8 +18,8 @@ add_library(
 target_compile_definitions(
     ag
     PRIVATE
-    $<$<CONFIG:Release>:ag_NDEBUG>
-    $<$<CONFIG:Debug>:ag_DEBUG _DEBUG>
+    $<$<CONFIG:Release>:AG_NDEBUG>
+    $<$<CONFIG:Debug>:AG_DEBUG _DEBUG>
 )
 target_compile_options(
     ag
