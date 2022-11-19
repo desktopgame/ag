@@ -1,7 +1,6 @@
 #include <ag/Engine.hpp>
 #include <ag/Looper.hpp>
 #include <ag/Window.hpp>
-#include <ag/native/glfw.hpp>
 
 int main(int argc, char* argv[])
 {
