@@ -7,25 +7,54 @@
 
 namespace ag {
 Looper::Looper()
+    : m_windows()
+    , m_cursor()
+    , m_at(-1)
 {
 }
 
-void Looper::run()
+std::shared_ptr<Window> Looper::acquire()
 {
     Engine::require();
-    auto windows = Window::getWindows();
-    for (Window::Instance window : windows) {
-        window->makeContextCurrent();
-        Engine::getInstance()->getGraphicsDriver()->useContextExtension();
-        glfwPollEvents();
-        if (window->shouldClose()) {
-            window->dispose();
-        }
+    if (!m_cursor) {
+        return nullptr;
     }
+    m_cursor->makeContextCurrent();
+    Engine::getInstance()->getGraphicsDriver()->useContextExtension();
+    return m_cursor;
 }
 
-bool Looper::isRunnable() const
+void Looper::release()
 {
-    return !Window::getWindows().empty();
+    Engine::require();
+    glfwPollEvents();
+    m_at++;
+}
+
+bool Looper::nextLoop()
+{
+    Engine::require();
+    m_windows = Window::getWindows();
+    m_at = 0;
+    return !m_windows.empty();
+}
+
+bool Looper::nextWindow()
+{
+    Engine::require();
+    bool ret = m_at < m_windows.size();
+    if (ret) {
+        m_cursor = m_windows.at(m_at);
+        m_at++;
+    } else {
+        for (auto window : m_windows) {
+            if (window->shouldClose()) {
+                window->dispose();
+            }
+        }
+        m_at = -1;
+        m_cursor = nullptr;
+    }
+    return ret;
 }
 }

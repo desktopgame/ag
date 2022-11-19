@@ -7,9 +7,15 @@ class Window;
 class Looper {
 public:
     explicit Looper();
-    void run();
-    bool isRunnable() const;
+    [[nodiscard]] std::shared_ptr<Window> acquire();
+    void release();
+
+    bool nextLoop();
+    bool nextWindow();
 
 private:
+    std::vector<std::shared_ptr<Window>> m_windows;
+    std::shared_ptr<Window> m_cursor;
+    int m_at;
 };
 }
