@@ -1,4 +1,5 @@
 #include <ag/Engine.hpp>
+#include <ag/ImageIO.hpp>
 #include <ag/Looper.hpp>
 #include <ag/Window.hpp>
 #include <ag/graphics/ogl/OglGraphicsDriver.hpp>
@@ -42,6 +43,8 @@ Engine::Instance Engine::startup(int argc, char* argv[])
     if (glfwStatus == GLFW_FALSE) {
         return nullptr;
     }
+    // initialize freeimage system.
+    ImageIO::initialize();
     return s_instance;
 }
 
@@ -56,6 +59,8 @@ void Engine::shutdown()
     // terminalte glfw.
     glfwTerminate();
     s_instance = nullptr;
+    // terminalte freeimage.
+    ImageIO::destroy();
 }
 std::shared_ptr<Looper> Engine::getLooper() const
 {
