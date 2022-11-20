@@ -9,6 +9,7 @@ namespace ag {
 Looper::Looper()
     : m_windows()
     , m_cursor()
+    , m_use(false)
     , m_at(-1)
 {
 }
@@ -16,9 +17,10 @@ Looper::Looper()
 std::shared_ptr<Window> Looper::acquire()
 {
     Engine::require();
-    if (!m_cursor) {
+    if (!m_cursor || m_use) {
         return nullptr;
     }
+    m_use = true;
     m_cursor->makeContextCurrent();
     Engine::getInstance()->getGraphicsDriver()->useContextExtension();
     return m_cursor;
@@ -28,6 +30,7 @@ void Looper::release()
 {
     Engine::require();
     glfwPollEvents();
+    m_use = false;
     m_at++;
 }
 

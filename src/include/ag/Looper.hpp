@@ -16,6 +16,7 @@ public:
 private:
     std::vector<std::shared_ptr<Window>> m_windows;
     std::shared_ptr<Window> m_cursor;
+    bool m_use;
     int m_at;
 };
 }
