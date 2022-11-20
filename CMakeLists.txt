@@ -14,3 +14,4 @@ endfunction()
 
 def_test(Hello)
 def_test(Window)
+def_test(Image)
