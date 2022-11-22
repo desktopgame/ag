@@ -5,7 +5,10 @@ project(
     LANGUAGES CXX
 )
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
-#find_package(OpenGL REQUIRED)
+option(AG_OPEN_GL "use OpenGL" ON)
+if(AG_OPEN_GL)
+    find_package(OpenGL REQUIRED)
+endif()
 find_package(GLFW REQUIRED)
 find_package(GLM REQUIRED)
 find_package(FreeImage REQUIRED)
