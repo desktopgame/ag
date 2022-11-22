@@ -5,8 +5,8 @@ namespace ag {
 class MtlGraphicsDriver : public IGraphicsDriver {
 public:
     explicit MtlGraphicsDriver();
-    void useWindowHint();
-    void useContextExtension();
+    void useWindowHint() override;
+    void useContextExtension() override;
 
 private:
 };
