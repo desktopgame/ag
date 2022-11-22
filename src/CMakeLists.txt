@@ -9,13 +9,13 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 option(AG_USE_OPEN_GL "use OpenGL" ON)
 if(AG_USE_OPEN_GL)
     find_package(OpenGL REQUIRED)
+    find_package(GLEWEx REQUIRED)
 endif()
 #
 # Library Settings
 #
 find_package(GLFW REQUIRED)
 find_package(GLM REQUIRED)
-find_package(GLEWEx REQUIRED)
 find_package(FreeImage REQUIRED)
 set(AG_INCLUDE
     ${GLFW_INCLUDE_DIR}
