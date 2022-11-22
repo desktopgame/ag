@@ -6,8 +6,8 @@ project(
 )
 include("./Defines.cmake")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
-option(AG_OPEN_GL "use OpenGL" ON)
-if(AG_OPEN_GL)
+option(AG_USE_OPEN_GL "use OpenGL" ON)
+if(AG_USE_OPEN_GL)
     find_package(OpenGL REQUIRED)
 endif()
 #
@@ -17,14 +17,12 @@ find_package(GLFW REQUIRED)
 find_package(GLM REQUIRED)
 find_package(FreeImage REQUIRED)
 set(AG_INCLUDE
-    #${OPENGL_INCLUDE_DIR}
     ${GLFW_INCLUDE_DIR}
     ${GLM_INCLUDE_DIR}
     ${FREEIMAGE_INCLUDE_DIRS}
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 set(AG_LIBRARY
-    #${OPENGL_LIBRARIES}
     "-framework Cocoa"
     "-framework Foundation"
     "-framework Metal"
@@ -32,6 +30,12 @@ set(AG_LIBRARY
     ${GLFW_LIBRARIES}
     ${FREEIMAGE_LIBRARIES}
 )
+if(AG_USE_OPEN_GL)
+    list(APPEND AG_DEBUG_DEFINE AG_OPEN_GL)
+    list(APPEND AG_RELEASE_DEFINE AG_OPEN_GL)
+    list(APPEND AG_INCLUDE ${OPENGL_INCLUDE_DIR})
+    list(APPEND AG_LIBRARY ${OPENGL_LIBRARIES})
+endif()
 #
 # Build Options
 #
