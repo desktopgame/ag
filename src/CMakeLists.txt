@@ -10,6 +10,9 @@ option(AG_OPEN_GL "use OpenGL" ON)
 if(AG_OPEN_GL)
     find_package(OpenGL REQUIRED)
 endif()
+#
+# Library Settings
+#
 find_package(GLFW REQUIRED)
 find_package(GLM REQUIRED)
 find_package(FreeImage REQUIRED)
@@ -29,7 +32,9 @@ set(AG_LIBRARY
     ${GLFW_LIBRARIES}
     ${FREEIMAGE_LIBRARIES}
 )
-
+#
+# Build Options
+#
 file(GLOB_RECURSE SOURCES "lib/*.cpp")
 add_library(
     ag
