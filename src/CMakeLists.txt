@@ -4,6 +4,7 @@ project(
     VERSION 0.0.1
     LANGUAGES CXX
 )
+include("./Defines.cmake")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 option(AG_OPEN_GL "use OpenGL" ON)
 if(AG_OPEN_GL)
@@ -21,20 +22,20 @@ add_library(
 target_compile_definitions(
     ag
     PRIVATE
-    $<$<CONFIG:Release>:AG_NDEBUG>
-    $<$<CONFIG:Debug>:AG_DEBUG _DEBUG>
+    $<$<CONFIG:Release>:${AG_RELEASE_DEFINE}>
+    $<$<CONFIG:Debug>:${AG_DEBUG_DEFINE}>
 )
 target_compile_options(
     ag
     PRIVATE
-    $<$<CONFIG:Release>:-O3>
-    $<$<CONFIG:Debug>:-O0 -g -Wall -Werror -fsanitize=address>
+    $<$<CONFIG:Release>:${AG_RELEASE_COMPILE}>
+    $<$<CONFIG:Debug>:${AG_DEBUG_COMPILE}>
 )
 target_link_options(
     ag
     PRIVATE
-    $<$<CONFIG:Release>:>
-    $<$<CONFIG:Debug>: -fsanitize=address>
+    $<$<CONFIG:Release>: ${AG_RELEASE_LINK}>
+    $<$<CONFIG:Debug>: ${AG_DEBUG_LINK}>
 )
 target_compile_features(ag PRIVATE cxx_std_17)
 target_include_directories(
