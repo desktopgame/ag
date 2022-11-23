@@ -1,3 +1,4 @@
+#include <ag/graphics/ogl/OglShader.hpp>
 #include <ag/graphics/ogl/OglShaderCompiler.hpp>
 #include <ag/native/glfw.hpp>
 #include <iostream>
@@ -21,7 +22,7 @@ std::shared_ptr<IShader> OglShaderCompiler::compileFromSource(const std::string&
     if (GL_FALSE == status) {
         reportProgramError(program);
     }
-    return nullptr;
+    return std::make_shared<OglShader>(program);
 }
 bool OglShaderCompiler::isCompilableFromSource() const
 {
