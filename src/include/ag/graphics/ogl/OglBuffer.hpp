@@ -11,6 +11,12 @@ public:
     void update(const void* data) override;
     void release() override;
 
+    void bindAsVertex(GLuint attrib, GLint component, GLsizei stride, const void* offset);
+    void unbindAsVertex();
+
+    void bindAsIndex();
+    void unbindAsIndex();
+
 private:
     GLuint* m_res;
     size_t m_size;

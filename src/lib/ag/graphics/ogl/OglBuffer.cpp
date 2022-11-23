@@ -30,4 +30,22 @@ void OglBuffer::release()
         m_res = nullptr;
     }
 }
+void OglBuffer::bindAsVertex(GLuint attrib, GLint component, GLsizei stride, const void* offset)
+{
+    glBindBuffer(GL_ARRAY_BUFFER, *m_res);
+    glVertexAttribPointer(attrib, component, GL_FLOAT, GL_FALSE, 0, offset);
+    glEnableVertexAttribArray(attrib);
+}
+void OglBuffer::unbindAsVertex()
+{
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+void OglBuffer::bindAsIndex()
+{
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *m_res);
+}
+void OglBuffer::unbindAsIndex()
+{
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
 }
