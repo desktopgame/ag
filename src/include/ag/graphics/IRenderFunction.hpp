@@ -11,6 +11,6 @@ public:
     using Instance = std::shared_ptr<IRenderFunction>;
     IRenderFunction() = default;
     virtual ~IRenderFunction() = default;
-    virtual void draw(IShader shader, IShaderParameter params, IBuffer vertex, IBuffer index) = 0;
+    virtual void draw(const std::shared_ptr<IShader>& shader, const std::shared_ptr<IShaderParameter>& parameter, const std::shared_ptr<IBuffer>& vertex, const std::shared_ptr<IBuffer>& index) = 0;
 };
 }
