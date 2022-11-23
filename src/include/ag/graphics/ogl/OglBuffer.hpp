@@ -6,7 +6,7 @@
 namespace ag {
 class OglBuffer : public IBuffer {
 public:
-    explicit OglBuffer();
+    explicit OglBuffer(bool indexMode);
     void allocate(size_t size) override;
     void update(const void* data) override;
     void release() override;
@@ -14,5 +14,6 @@ public:
 private:
     GLuint* m_res;
     size_t m_size;
+    bool m_indexMode;
 };
 }

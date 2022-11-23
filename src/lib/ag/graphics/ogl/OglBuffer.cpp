@@ -2,9 +2,10 @@
 
 namespace ag {
 
-OglBuffer::OglBuffer()
+OglBuffer::OglBuffer(bool indexMode)
     : m_res(nullptr)
     , m_size(0)
+    , m_indexMode(indexMode)
 {
     release();
 }
@@ -17,9 +18,10 @@ void OglBuffer::allocate(size_t size)
 }
 void OglBuffer::update(const void* data)
 {
-    glBindBuffer(GL_ARRAY_BUFFER, *m_res);
-    glBufferData(GL_ARRAY_BUFFER, m_size, data, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GLenum mode = m_indexMode ? GL_ELEMENT_ARRAY_BUFFER : GL_ARRAY_BUFFER;
+    glBindBuffer(mode, *m_res);
+    glBufferData(mode, m_size, data, GL_STATIC_DRAW);
+    glBindBuffer(mode, 0);
 }
 void OglBuffer::release()
 {
