@@ -18,7 +18,7 @@ public:
     void updateVertex(const std::vector<glm::vec3>& data);
     void updateIndex(const std::vector<unsigned short>& data);
 
-private:
+protected:
     std::shared_ptr<IShaderParameter> m_parameter;
     std::shared_ptr<IBuffer> m_vertex;
     std::shared_ptr<IBuffer> m_index;
