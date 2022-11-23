@@ -4,6 +4,7 @@
 
 namespace ag {
 class ITexture {
+public:
     using Component = uint8_t;
     using Instance = std::shared_ptr<ITexture>;
     ITexture() = default;

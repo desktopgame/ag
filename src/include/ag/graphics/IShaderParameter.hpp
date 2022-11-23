@@ -5,6 +5,7 @@
 namespace ag {
 class ITexture;
 class IShaderParameter {
+public:
     using Instance = std::shared_ptr<IShaderParameter>;
     IShaderParameter() = default;
     virtual ~IShaderParameter() = default;

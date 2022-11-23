@@ -7,6 +7,7 @@ class IShaderParameter;
 class IBuffer;
 
 class IRenderFunction {
+public:
     using Instance = std::shared_ptr<IRenderFunction>;
     IRenderFunction() = default;
     virtual ~IRenderFunction() = default;

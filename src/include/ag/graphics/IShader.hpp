@@ -4,6 +4,7 @@
 namespace ag {
 class IShaderParameter;
 class IShader {
+public:
     using Instance = std::shared_ptr<IShader>;
     IShader() = default;
     virtual ~IShader() = default;

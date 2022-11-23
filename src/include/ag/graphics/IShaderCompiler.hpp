@@ -5,6 +5,7 @@
 namespace ag {
 class IShader;
 class IShaderCompiler {
+public:
     using Instance = std::shared_ptr<IShaderCompiler>;
     IShaderCompiler() = default;
     virtual ~IShaderCompiler() = default;
