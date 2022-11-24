@@ -1,11 +1,14 @@
+#include <ag/Engine.hpp>
 #include <ag/graphics/IBuffer.hpp>
+#include <ag/graphics/IGraphicsDevice.hpp>
+#include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 
 namespace ag {
 RenderingContext::RenderingContext()
     : m_parameter()
-    , m_vertex()
-    , m_index()
+    , m_vertex(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newVertexBuffer())
+    , m_index(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newIndexBuffer())
     , m_vertexLength()
     , m_indexLength()
 {
