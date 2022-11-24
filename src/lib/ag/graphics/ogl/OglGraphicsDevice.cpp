@@ -16,8 +16,4 @@ std::shared_ptr<IBuffer> OglGraphicsDevice::newIndexBuffer() const
 {
     return std::make_shared<OglBuffer>(true);
 }
-std::shared_ptr<IShaderParameter> OglGraphicsDevice::newShaderParameter() const
-{
-    return nullptr;
-}
 }
