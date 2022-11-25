@@ -9,6 +9,9 @@ public:
     ~OglShader();
     void apply(const std::shared_ptr<ShaderParameter>& parameter) override;
 
+    void use();
+    void unuse();
+
 private:
     GLuint m_program;
 };

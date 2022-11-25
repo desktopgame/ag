@@ -9,6 +9,6 @@ void OglRenderFunction::draw(const std::shared_ptr<IShader>& shader, const std::
 {
     context->setup(shader);
     glDrawElements(GL_TRIANGLES, context->getIndexLength(), GL_UNSIGNED_SHORT, nullptr);
-    context->teardown();
+    context->teardown(shader);
 }
 }

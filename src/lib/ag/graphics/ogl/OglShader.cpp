@@ -15,7 +15,6 @@ OglShader::~OglShader()
 
 void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 {
-    glUseProgram(m_program);
     glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(parameter->getTransform()));
     if (parameter->useTexture()) {
         glUniform1i(1, 0);
@@ -28,6 +27,7 @@ void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
         glm::vec4 color2 = parameter->getColor1();
         glUniform4fv(3, 1, &color2.x);
     }
-    glUseProgram(0);
 }
+void OglShader::use() { glUseProgram(m_program); }
+void OglShader::unuse() { glUseProgram(0); }
 }

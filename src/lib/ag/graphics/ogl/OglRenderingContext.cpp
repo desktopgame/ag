@@ -1,5 +1,7 @@
+#include <ag/graphics/IShader.hpp>
 #include <ag/graphics/ogl/OglBuffer.hpp>
 #include <ag/graphics/ogl/OglRenderingContext.hpp>
+#include <ag/graphics/ogl/OglShader.hpp>
 
 namespace ag {
 OglRenderingContext::OglRenderingContext()
@@ -14,6 +16,7 @@ OglRenderingContext::~OglRenderingContext()
 
 void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
 {
+    auto oglShader = std::static_pointer_cast<OglShader>(shader);
     auto oglVertex = std::static_pointer_cast<OglBuffer>(m_vertex);
     auto oglIndex = std::static_pointer_cast<OglBuffer>(m_index);
     if (!m_vao) {
@@ -24,11 +27,15 @@ void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
     } else {
         glBindVertexArray(*m_vao);
     }
+    oglShader->use();
+    oglShader->apply(m_parameter);
 }
-void OglRenderingContext::teardown()
+void OglRenderingContext::teardown(const std::shared_ptr<IShader>& shader)
 {
+    auto oglShader = std::static_pointer_cast<OglShader>(shader);
     auto oglVertex = std::static_pointer_cast<OglBuffer>(m_vertex);
     auto oglIndex = std::static_pointer_cast<OglBuffer>(m_index);
+    oglShader->unuse();
     oglVertex->unbindAsVertex();
     oglIndex->unbindAsIndex();
     glBindVertexArray(0);

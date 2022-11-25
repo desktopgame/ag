@@ -14,7 +14,7 @@ public:
     virtual ~RenderingContext() = default;
 
     virtual void setup(const std::shared_ptr<IShader>& shader) = 0;
-    virtual void teardown() = 0;
+    virtual void teardown(const std::shared_ptr<IShader>& shader) = 0;
 
     void updateVertex(const std::vector<glm::vec3>& data);
     void updateIndex(const std::vector<unsigned short>& data);

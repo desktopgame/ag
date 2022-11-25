@@ -8,7 +8,7 @@ public:
     explicit OglRenderingContext();
     ~OglRenderingContext();
     void setup(const std::shared_ptr<IShader>& shader) override;
-    void teardown() override;
+    void teardown(const std::shared_ptr<IShader>& shader) override;
 
 private:
     void release();
