@@ -13,9 +13,9 @@ RenderingContext::RenderingContext()
     , m_indexLength()
 {
 }
-void RenderingContext::updateVertex(const std::vector<glm::vec3>& data)
+void RenderingContext::updateVertex(const std::vector<glm::vec2>& data)
 {
-    m_vertex->allocate(sizeof(glm::vec3) * data.size());
+    m_vertex->allocate(sizeof(glm::vec2) * data.size());
     m_vertex->update(&data.front().x);
     m_vertexLength = data.size();
 }

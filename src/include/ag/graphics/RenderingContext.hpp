@@ -16,7 +16,7 @@ public:
     virtual void setup(const std::shared_ptr<IShader>& shader) = 0;
     virtual void teardown(const std::shared_ptr<IShader>& shader) = 0;
 
-    void updateVertex(const std::vector<glm::vec3>& data);
+    void updateVertex(const std::vector<glm::vec2>& data);
     void updateIndex(const std::vector<unsigned short>& data);
 
     size_t getVertexLength() const;
