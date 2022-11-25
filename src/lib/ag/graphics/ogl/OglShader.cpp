@@ -13,7 +13,7 @@ OglShader::~OglShader()
     glDeleteProgram(m_program);
 }
 
-void OglShader::apply(const std::shared_ptr<IShaderParameter>& parameter)
+void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 {
     glUseProgram(m_program);
     glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(parameter->getTransform()));

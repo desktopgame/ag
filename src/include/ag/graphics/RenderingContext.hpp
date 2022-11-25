@@ -1,4 +1,5 @@
 #pragma once
+#include <ag/graphics/ShaderParameter.hpp>
 #include <ag/native/glm.hpp>
 #include <memory>
 #include <vector>
@@ -6,7 +7,6 @@
 namespace ag {
 class IBuffer;
 class IShader;
-class IShaderParameter;
 class RenderingContext {
 public:
     using Instance = std::shared_ptr<RenderingContext>;
@@ -23,7 +23,7 @@ public:
     size_t getIndexLength() const;
 
 protected:
-    std::shared_ptr<IShaderParameter> m_parameter;
+    std::shared_ptr<ShaderParameter> m_parameter;
     std::shared_ptr<IBuffer> m_vertex;
     std::shared_ptr<IBuffer> m_index;
     size_t m_vertexLength;

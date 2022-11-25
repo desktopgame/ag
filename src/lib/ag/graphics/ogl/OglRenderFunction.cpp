@@ -1,4 +1,3 @@
-#include <ag/graphics/IShaderParameter.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/ogl/OglBuffer.hpp>
 #include <ag/graphics/ogl/OglRenderFunction.hpp>
