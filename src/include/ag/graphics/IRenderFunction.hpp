@@ -2,6 +2,7 @@
 #include <memory>
 
 namespace ag {
+class IShader;
 class RenderingContext;
 
 class IRenderFunction {

@@ -10,9 +10,11 @@ public:
     void useContextExtension() override;
     std::shared_ptr<IGraphicsDevice> getGraphicsDevice() const override;
     std::shared_ptr<IShaderCompiler> getShaderCompiler() const override;
+    std::shared_ptr<IRenderFunction> getRenderFunction() const override;
 
 private:
     std::shared_ptr<IGraphicsDevice> m_device;
     std::shared_ptr<IShaderCompiler> m_shaderCompiler;
+    std::shared_ptr<IRenderFunction> m_renderFunction;
 };
 }

@@ -1,4 +1,5 @@
 #include <ag/graphics/ogl/OglGraphicsDriver.hpp>
+#include <ag/graphics/ogl/OglRenderFunction.hpp>
 #include <ag/graphics/ogl/OglShaderCompiler.hpp>
 #include <ag/native/glfw.hpp>
 #include <stdexcept>
@@ -7,6 +8,7 @@ namespace ag {
 OglGraphicsDriver::OglGraphicsDriver()
     : m_device(std::make_shared<OglGraphicsDevice>())
     , m_shaderCompiler(std::make_shared<OglShaderCompiler>())
+    , m_renderFunction(std::make_shared<OglRenderFunction>())
 {
 }
 
@@ -28,5 +30,9 @@ std::shared_ptr<IGraphicsDevice> OglGraphicsDriver::getGraphicsDevice() const
 std::shared_ptr<IShaderCompiler> OglGraphicsDriver::getShaderCompiler() const
 {
     return m_shaderCompiler;
+}
+std::shared_ptr<IRenderFunction> OglGraphicsDriver::getRenderFunction() const
+{
+    return m_renderFunction;
 }
 }
