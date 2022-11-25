@@ -21,6 +21,7 @@ public:
 
     size_t getVertexLength() const;
     size_t getIndexLength() const;
+    std::shared_ptr<ShaderParameter> getParameter() const;
 
 protected:
     std::shared_ptr<ShaderParameter> m_parameter;

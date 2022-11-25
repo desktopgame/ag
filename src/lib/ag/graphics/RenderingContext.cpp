@@ -6,7 +6,7 @@
 
 namespace ag {
 RenderingContext::RenderingContext()
-    : m_parameter()
+    : m_parameter(std::make_shared<ShaderParameter>())
     , m_vertex(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newVertexBuffer())
     , m_index(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newIndexBuffer())
     , m_vertexLength()
@@ -33,5 +33,9 @@ size_t RenderingContext::getVertexLength() const
 size_t RenderingContext::getIndexLength() const
 {
     return m_indexLength;
+}
+std::shared_ptr<ShaderParameter> RenderingContext::getParameter() const
+{
+    return m_parameter;
 }
 }
