@@ -30,7 +30,9 @@ void Window::makeContextCurrent()
 }
 void Window::swapBuffers()
 {
+#ifdef AG_DEBUG
     glfwSwapBuffers(m_glfwWindow);
+#endif
 }
 void Window::setTitle(const std::string& title)
 {
