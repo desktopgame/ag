@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
                 renderer = new ag::Renderer();
             }
             renderer->resize(window->getSize());
-            renderer->drawRect(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 1, 0, 0));
+            renderer->drawCircle(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 1, 0, 0));
             looper->release();
         }
     }

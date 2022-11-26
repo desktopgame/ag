@@ -24,6 +24,8 @@ void OglRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
 GLenum OglRenderFunction::convPrimitiveType(PrimitiveType type)
 {
     switch (type) {
+    case PrimitiveType::Polygon:
+        return GL_POLYGON;
     case PrimitiveType::Triangles:
         return GL_TRIANGLES;
     case PrimitiveType::LineStrip:

@@ -39,6 +39,35 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle()
     auto shader = compiler->compileFromSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
     return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
 }
+std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
+{
+    auto compiler = Engine::getInstance()->getGraphicsDriver()->getShaderCompiler();
+    auto context = createRenderingContext();
+    std::vector<glm::vec2> verts;
+    float degree = 0.0f;
+    float applyScale = isFill ? 1.0f : 1.0f; //m_scaleUniform->value;
+    int points = 0;
+    float fx = 0.0f;
+    float fy = 0.0f;
+    while (degree < 360.0f) {
+        degree += 360.0f / static_cast<float>(100 /* split count */);
+        float radian = degree * (3.14f / 180.0f);
+        float x = std::cosf(radian);
+        float y = std::sinf(radian);
+        if (fx <= 0.0f || fy <= 0.0f) {
+            fx = x;
+            fy = y;
+        }
+        verts.push_back({ x * applyScale, y * applyScale });
+        points++;
+    }
+    verts.push_back({ fx * applyScale, fy * applyScale });
+    points++;
+    context->updateVertex(verts);
+    //context->updateIndex(index);
+    auto shader = compiler->compileFromSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
+    return std::make_shared<RenderingObject>(PrimitiveType::Polygon, points, shader, context);
+}
 // property
 PrimitiveType RenderingObject::getPrimitiveType() const { return m_primitiveType; }
 int RenderingObject::getPrimitiveCount() const { return m_primitiveCount; }

@@ -3,6 +3,7 @@
 
 namespace ag {
 enum class PrimitiveType {
+    Polygon,
     Triangles,
     LineStrip,
 };
@@ -19,6 +20,7 @@ public:
         const std::shared_ptr<RenderingContext>& context);
 
     static std::shared_ptr<RenderingObject> createColorRectangle();
+    static std::shared_ptr<RenderingObject> createColorCircle(bool isFill);
 
     PrimitiveType getPrimitiveType() const;
     int getPrimitiveCount() const;
