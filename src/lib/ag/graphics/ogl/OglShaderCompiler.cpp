@@ -32,6 +32,9 @@ std::shared_ptr<IShader> OglShaderCompiler::compileFromSingleFile(const std::str
 {
     return nullptr;
 }
+std::shared_ptr<IShader> OglShaderCompiler::compileFromSingleSource(const std::string& source) { return nullptr; }
+bool OglShaderCompiler::isCompilableFromSingleSource() const { return false; }
+
 bool OglShaderCompiler::isCompilableFromSingleFile() const
 {
     return false;
