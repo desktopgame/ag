@@ -16,6 +16,16 @@ Window::Instance Window::create(int width, int height, bool resizable, const std
     GLFWwindow* glfwWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     Window::Instance window = Window::Instance(new Window(glfwWindow, title));
     Window::s_windows.emplace_back(window);
+    // link metal layer.
+#if AG_METAL
+    window->m_metalLayer = CA::MetalLayer::alloc()->init();
+    //window->m_metalLayer->setDevice(m_device);
+    window->m_metalLayer->setOpaque(true);
+    NS::Window* nsWindow = NS::Window::bridgingCast(getCocoaWindow(glfwWindow));
+    NS::View* contentView = nsWindow->contentView();
+    contentView->setLayer(window->m_metalLayer);
+    contentView->setWantsLayer(true);
+#endif
     return window;
 }
 bool Window::shouldClose() const
@@ -108,6 +118,9 @@ Window::Window(GLFWwindow* glfwWindow, const std::string& title)
     : m_glfwWindow(glfwWindow)
     , m_title(title)
     , m_disposed(false)
+#if AG_METAL
+    , m_metalLayer(nullptr)
+#endif
 {
 }
 }

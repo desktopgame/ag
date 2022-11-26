@@ -1,5 +1,6 @@
 #pragma once
 #include <ag/native/glm.hpp>
+#include <ag/native/metal.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -38,5 +39,8 @@ private:
     std::string m_title;
     glm::vec3 m_clearColor;
     bool m_disposed;
+#if AG_METAL
+    CA::MetalLayer* m_metalLayer;
+#endif
 };
 }
