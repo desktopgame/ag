@@ -23,6 +23,9 @@ std::shared_ptr<Window> Looper::acquire()
     m_use = true;
     m_cursor->makeContextCurrent();
     Engine::getInstance()->getGraphicsDriver()->useContextExtension();
+    glm::vec3 clearColor = m_cursor->getClearColor();
+    glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
     return m_cursor;
 }
 
