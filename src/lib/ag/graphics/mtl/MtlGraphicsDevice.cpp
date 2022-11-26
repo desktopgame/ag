@@ -15,8 +15,6 @@ MtlGraphicsDevice::~MtlGraphicsDevice()
 }
 std::shared_ptr<ITexture> MtlGraphicsDevice::newTexture(int width, int height, const uint8_t* data) const
 {
-    m_device->retain();
-    m_commandQueue->retain();
     return nullptr;
 }
 std::shared_ptr<IBuffer> MtlGraphicsDevice::newVertexBuffer() const
