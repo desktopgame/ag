@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/native/osx/Metal.hpp>
 
 namespace NS::Private::Class {
@@ -20,3 +21,4 @@ public:
     void setWantsLayer(bool yes);
 };
 } // namespace NS
+#endif

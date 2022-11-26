@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/native/osx/Metal.hpp>
 
 namespace NS::Private::Class {
@@ -17,3 +18,4 @@ public:
     class View* contentView() const;
 };
 } // namespace NS
+#endif

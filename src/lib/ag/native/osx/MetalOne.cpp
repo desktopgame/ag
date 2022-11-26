@@ -5,6 +5,7 @@
 #include <ag/native/osx/NSView.hpp>
 #include <ag/native/osx/NSWindow.hpp>
 
+#ifdef AG_METAL
 namespace CA {
 // CAMetalLayer
 MetalLayer* MetalLayer::alloc()
@@ -48,3 +49,4 @@ View* Window::contentView() const
     return Object::sendMessage<View*>(this, _NS_PRIVATE_SEL(contentView_));
 }
 } // namespace NS
+#endif

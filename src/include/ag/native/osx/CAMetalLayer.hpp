@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/native/osx/Metal.hpp>
 
 namespace CA::Private::Class {
@@ -21,3 +22,4 @@ public:
     CA::MetalDrawable* nextDrawable();
 };
 } // namespace CA
+#endif
