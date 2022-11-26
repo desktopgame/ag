@@ -14,5 +14,11 @@ public:
 
 private:
     GLuint m_program;
+    GLuint m_attribVertexPosition;
+    GLuint m_attribTexCoordPosition;
+    GLuint m_uniformTransformMatrix;
+    GLuint m_uniformTexture;
+    GLuint m_uniformColor1;
+    GLuint m_uniformColor2;
 };
 }
