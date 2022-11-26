@@ -20,12 +20,13 @@ void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
     auto oglVertex = std::static_pointer_cast<OglBuffer>(m_vertex);
     auto oglIndex = std::static_pointer_cast<OglBuffer>(m_index);
     if (!m_vao) {
-        glGenVertexArrays(1, &m_vao);
-        glBindVertexArray(m_vao);
-        oglVertex->bindAsVertex(0, 3, sizeof(float) * 3, 0);
+        glGenVertexArraysAPPLE(1, &m_vao);
+        glBindVertexArrayAPPLE(m_vao);
+        oglVertex->bindAsVertex(0, 2, 0, nullptr);
         oglIndex->bindAsIndex();
     } else {
-        glBindVertexArray(m_vao);
+        glBindVertexArrayAPPLE(m_vao);
+        oglIndex->bindAsIndex();
     }
     oglShader->use();
     oglShader->apply(m_parameter);
@@ -38,13 +39,13 @@ void OglRenderingContext::teardown(const std::shared_ptr<IShader>& shader)
     oglShader->unuse();
     oglVertex->unbindAsVertex();
     oglIndex->unbindAsIndex();
-    glBindVertexArray(0);
+    glBindVertexArrayAPPLE(0);
 }
 // private
 void OglRenderingContext::release()
 {
     if (m_vao) {
-        glDeleteVertexArrays(1, &m_vao);
+        glDeleteVertexArraysAPPLE(1, &m_vao);
         m_vao = 0;
     }
 }
