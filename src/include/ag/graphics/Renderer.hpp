@@ -19,7 +19,6 @@ public:
 
 private:
     glm::mat4 m_projMat;
-    //glm::vec4 m_color;
 
     RenderingObject::Instance m_colorDrawRectObject;
     RenderingObject::Instance m_colorFillRectObject;

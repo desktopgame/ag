@@ -6,7 +6,6 @@
 namespace ag {
 Renderer::Renderer()
     : m_projMat()
-    // , m_color()
     , m_colorDrawRectObject(RenderingObject::createColorRectangle(false))
     , m_colorFillRectObject(RenderingObject::createColorRectangle(true))
     , m_colorDrawCircleObject(RenderingObject::createColorCircle(false))
