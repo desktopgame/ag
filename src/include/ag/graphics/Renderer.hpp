@@ -12,14 +12,14 @@ public:
 
     void resize(int width, int height);
     void resize(const glm::ivec2& size);
-    void drawRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
-    void drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
+    void fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
+    void fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
 
 private:
     glm::mat4 m_projMat;
     //glm::vec4 m_color;
 
-    RenderingObject::Instance m_colorRectObject;
-    RenderingObject::Instance m_colorCircleObject;
+    RenderingObject::Instance m_colorFillRectObject;
+    RenderingObject::Instance m_colorFillCircleObject;
 };
 }
