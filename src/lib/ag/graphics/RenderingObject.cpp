@@ -46,6 +46,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     std::vector<glm::vec2> verts;
     float degree = 0.0f;
     float applyScale = isFill ? 1.0f : 1.0f; //m_scaleUniform->value;
+    float half = applyScale;
     int points = 0;
     float fx = 0.0f;
     float fy = 0.0f;
@@ -58,10 +59,10 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
             fx = x;
             fy = y;
         }
-        verts.push_back({ x * applyScale, y * applyScale });
+        verts.push_back({ half + (x * applyScale), half + (y * applyScale) });
         points++;
     }
-    verts.push_back({ fx * applyScale, fy * applyScale });
+    verts.push_back({ half + (fx * applyScale), half + (fy * applyScale) });
     points++;
     context->updateVertex(verts);
     //context->updateIndex(index);
