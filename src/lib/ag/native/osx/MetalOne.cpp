@@ -1,10 +1,12 @@
+// include all implementations.
 #include <ag/native/osx/MetalOne.hpp>
-//
+// expand all macro.
 #include <ag/native/osx/CAMetalLayer.hpp>
 #include <ag/native/osx/NSView.hpp>
 #include <ag/native/osx/NSWindow.hpp>
 
 namespace CA {
+// CAMetalLayer
 MetalLayer* MetalLayer::alloc()
 {
     return NS::Object::alloc<MetalLayer>(_CA_PRIVATE_CLS(CAMetalLayer));
@@ -26,9 +28,8 @@ CA::MetalDrawable* MetalLayer::nextDrawable()
 }
 } // namespace CA
 
-#include <ag/native/osx/NSView.hpp>
-
 namespace NS {
+// NSView
 void View::setLayer(const CA::MetalLayer* layer)
 {
     Object::sendMessage<void>(this, _NS_PRIVATE_SEL(setLayer_), layer);
@@ -37,9 +38,7 @@ void View::setWantsLayer(bool yes)
 {
     Object::sendMessage<void>(this, _NS_PRIVATE_SEL(setWantsLayer_), yes);
 }
-} // namespace NS
-
-namespace NS {
+// NSWindow
 Window* Window::bridgingCast(const void* ptr)
 {
     return Object::bridgingCast<Window*>(ptr);
