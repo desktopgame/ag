@@ -77,6 +77,8 @@ Engine::Engine()
     , m_looper(std::make_shared<Looper>())
     , m_graphicsDriver()
 {
+#ifdef AG_OPEN_GL
     m_graphicsDriver = std::make_shared<OglGraphicsDriver>();
+#endif
 }
 }

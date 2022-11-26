@@ -90,7 +90,7 @@ std::shared_ptr<RenderingContext> RenderingObject::getContext() const { return m
 
 RenderingContext::Instance RenderingObject::createRenderingContext()
 {
-#ifdef AG_DEBUG
+#ifdef AG_OPEN_GL
     return std::make_shared<OglRenderingContext>();
 #else
     return nullptr;
