@@ -7,6 +7,7 @@ project(
 include("./Defines.cmake")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 option(AG_USE_OPEN_GL "use OpenGL" ON)
+option(AG_USE_METAL "use Metal" ON)
 if(AG_USE_OPEN_GL)
     find_package(OpenGL REQUIRED)
     find_package(GLEWEx REQUIRED)
@@ -24,10 +25,6 @@ set(AG_INCLUDE
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 set(AG_LIBRARY
-    "-framework Cocoa"
-    "-framework Foundation"
-    "-framework Metal"
-    "-framework QuartzCore"
     ${GLFW_LIBRARIES}
     ${FREEIMAGE_LIBRARIES}
 )
@@ -36,6 +33,12 @@ if(AG_USE_OPEN_GL)
     list(APPEND AG_RELEASE_DEFINE AG_OPEN_GL)
     list(APPEND AG_INCLUDE ${OPENGL_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS})
     list(APPEND AG_LIBRARY ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
+endif()
+if(AG_USE_METAL)
+    list(APPEND AG_LIBRARY "-framework Cocoa")
+    list(APPEND AG_LIBRARY "-framework Foundation")
+    list(APPEND AG_LIBRARY "-framework Metal")
+    list(APPEND AG_LIBRARY "-framework QuartzCore")
 endif()
 #
 # Build Options
