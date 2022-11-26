@@ -7,7 +7,9 @@ namespace ag {
 Renderer::Renderer()
     : m_projMat()
     // , m_color()
-    , m_colorFillRectObject(RenderingObject::createColorRectangle())
+    , m_colorDrawRectObject(RenderingObject::createColorRectangle(false))
+    , m_colorFillRectObject(RenderingObject::createColorRectangle(true))
+    , m_colorDrawCircleObject(RenderingObject::createColorCircle(false))
     , m_colorFillCircleObject(RenderingObject::createColorCircle(true))
 {
 }
@@ -22,6 +24,15 @@ void Renderer::resize(const glm::ivec2& size)
 {
     resize(size.x, size.y);
 }
+void Renderer::drawRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
+{
+    auto param = m_colorDrawRectObject->getContext()->getParameter();
+    glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
+        glm::vec3(size, 1));
+    param->setTransform(m_projMat * transform);
+    param->setColor1(color);
+    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_colorDrawRectObject);
+}
 void Renderer::fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
 {
     auto param = m_colorFillRectObject->getContext()->getParameter();
@@ -30,6 +41,16 @@ void Renderer::fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::
     param->setTransform(m_projMat * transform);
     param->setColor1(color);
     ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_colorFillRectObject);
+}
+
+void Renderer::drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
+{
+    auto param = m_colorDrawCircleObject->getContext()->getParameter();
+    glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
+        glm::vec3(size / 2.f, 1));
+    param->setTransform(m_projMat * transform);
+    param->setColor1(color);
+    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_colorDrawCircleObject);
 }
 void Renderer::fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
 {

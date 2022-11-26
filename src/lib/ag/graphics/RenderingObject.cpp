@@ -24,20 +24,32 @@ RenderingObject::RenderingObject(
 {
 }
 // factory
-std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle()
+std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle(bool isFill)
 {
     auto compiler = Engine::getInstance()->getGraphicsDriver()->getShaderCompiler();
     const float left = 0;
     const float right = 1;
     const float top = 0;
     const float bottom = 1;
-    const std::vector<glm::vec2> verts { { left, top }, { right, top }, { right, bottom }, { left, bottom } };
-    const std::vector<unsigned short> index { 0, 1, 2, 2, 3, 0 };
     auto context = createRenderingContext();
-    context->updateVertex(verts);
-    context->updateIndex(index);
     auto shader = compiler->compileFromSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
-    return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
+    if (isFill) {
+        const std::vector<glm::vec2> verts { { left, top }, { right, top }, { right, bottom }, { left, bottom } };
+        const std::vector<unsigned short> index { 0, 1, 2, 2, 3, 0 };
+        context->updateVertex(verts);
+        context->updateIndex(index);
+        return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
+    } else {
+        const std::vector<glm::vec2> verts {
+            { left, top },
+            { left, bottom },
+            { right, bottom },
+            { right, top },
+            { left, top },
+        };
+        context->updateVertex(verts);
+        return std::make_shared<RenderingObject>(PrimitiveType::LineStrip, 5, shader, context);
+    }
 }
 std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
 {
@@ -67,7 +79,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     context->updateVertex(verts);
     //context->updateIndex(index);
     auto shader = compiler->compileFromSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
-    return std::make_shared<RenderingObject>(PrimitiveType::Polygon, points, shader, context);
+    return std::make_shared<RenderingObject>(isFill ? PrimitiveType::Polygon : PrimitiveType::LineStrip, points, shader, context);
 }
 // property
 PrimitiveType RenderingObject::getPrimitiveType() const { return m_primitiveType; }
