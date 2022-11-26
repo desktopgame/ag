@@ -8,8 +8,8 @@ public:
     OglShaderCompiler() = default;
     ~OglShaderCompiler() = default;
 
-    std::shared_ptr<IShader> compileFromSource(const std::string& vSource, const std::string& fSource) override;
-    bool isCompilableFromSource() const override;
+    std::shared_ptr<IShader> compileFromPartedSource(const std::string& vSource, const std::string& fSource) override;
+    bool isCompilableFromPartedSource() const override;
 
     std::shared_ptr<IShader> compileFromSingleFile(const std::string& file) override;
     bool isCompilableFromSingleFile() const override;

@@ -4,7 +4,7 @@
 #include <iostream>
 
 namespace ag {
-std::shared_ptr<IShader> OglShaderCompiler::compileFromSource(const std::string& vSource, const std::string& fSource)
+std::shared_ptr<IShader> OglShaderCompiler::compileFromPartedSource(const std::string& vSource, const std::string& fSource)
 {
     GLuint program = glCreateProgram();
     if (program == 0) {
@@ -24,7 +24,7 @@ std::shared_ptr<IShader> OglShaderCompiler::compileFromSource(const std::string&
     }
     return std::make_shared<OglShader>(program);
 }
-bool OglShaderCompiler::isCompilableFromSource() const
+bool OglShaderCompiler::isCompilableFromPartedSource() const
 {
     return true;
 }

@@ -32,7 +32,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle(bool isFi
     const float top = 0;
     const float bottom = 1;
     auto context = createRenderingContext();
-    auto shader = compiler->compileFromSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
+    auto shader = compiler->compileFromPartedSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
     if (isFill) {
         const std::vector<glm::vec2> verts { { left, top }, { right, top }, { right, bottom }, { left, bottom } };
         const std::vector<unsigned short> index { 0, 1, 2, 2, 3, 0 };
@@ -78,7 +78,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     points++;
     context->updateVertex(verts);
     //context->updateIndex(index);
-    auto shader = compiler->compileFromSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
+    auto shader = compiler->compileFromPartedSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
     return std::make_shared<RenderingObject>(isFill ? PrimitiveType::Polygon : PrimitiveType::LineStrip, points, shader, context);
 }
 // property
