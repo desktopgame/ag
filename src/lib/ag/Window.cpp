@@ -30,7 +30,7 @@ void Window::makeContextCurrent()
 }
 void Window::swapBuffers()
 {
-#ifdef AG_DEBUG
+#ifdef AG_OPEN_GL
     glfwSwapBuffers(m_glfwWindow);
 #endif
 }
