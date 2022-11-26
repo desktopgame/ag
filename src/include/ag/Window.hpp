@@ -22,6 +22,8 @@ public:
     glm::ivec2 getSize() const;
     void setPosition(const glm::ivec2& position);
     glm::ivec2 getPosition() const;
+    void setClearColor(const glm::vec3& clearColor);
+    glm::vec3 getClearColor() const;
     glm::ivec2 getFrameBufferSize() const;
     glm::ivec2 getMousePosition() const;
 
@@ -34,6 +36,7 @@ private:
     static std::vector<Instance> s_windows;
     GLFWwindow* m_glfwWindow;
     std::string m_title;
+    glm::vec3 m_clearColor;
     bool m_disposed;
 };
 }

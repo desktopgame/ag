@@ -63,6 +63,11 @@ glm::ivec2 Window::getPosition() const
     glfwGetWindowPos(m_glfwWindow, &v.x, &v.y);
     return v;
 }
+void Window::setClearColor(const glm::vec3& clearColor)
+{
+    m_clearColor = clearColor;
+}
+glm::vec3 Window::getClearColor() const { return m_clearColor; }
 glm::ivec2 Window::getFrameBufferSize() const
 {
     glm::ivec2 v;
