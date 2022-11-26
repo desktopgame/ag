@@ -18,7 +18,7 @@ public:
     void unbindAsIndex();
 
 private:
-    GLuint* m_res;
+    GLuint m_res;
     size_t m_size;
     bool m_indexMode;
 };
