@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/graphics/IGraphicsDevice.hpp>
 #include <ag/native/metal.hpp>
 
@@ -16,3 +17,4 @@ private:
     MTL::CommandQueue* m_commandQueue;
 };
 }
+#endif

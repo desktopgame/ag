@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/graphics/IBuffer.hpp>
 #include <ag/native/glfw.hpp>
 #include <cstddef>
@@ -15,3 +16,4 @@ private:
     //bool m_indexMode;
 };
 }
+#endif

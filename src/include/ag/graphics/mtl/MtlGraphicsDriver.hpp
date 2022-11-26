@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/graphics/IGraphicsDriver.hpp>
 
 namespace ag {
@@ -14,3 +15,4 @@ public:
 private:
 };
 }
+#endif

@@ -1,4 +1,5 @@
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
+#ifdef AG_METAL
 
 namespace ag {
 MtlGraphicsDevice::MtlGraphicsDevice()
@@ -27,3 +28,4 @@ std::shared_ptr<IBuffer> MtlGraphicsDevice::newIndexBuffer() const
     return nullptr;
 }
 }
+#endif

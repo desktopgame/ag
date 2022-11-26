@@ -1,4 +1,5 @@
 #include <ag/graphics/mtl/MtlGraphicsDriver.hpp>
+#ifdef AG_METAL
 #include <ag/native/glfw.hpp>
 
 namespace ag {
@@ -19,3 +20,4 @@ std::shared_ptr<IShaderCompiler> MtlGraphicsDriver::getShaderCompiler() const { 
 std::shared_ptr<IRenderFunction> MtlGraphicsDriver::getRenderFunction() const { return nullptr; }
 
 }
+#endif

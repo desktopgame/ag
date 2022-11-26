@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/graphics/IRenderFunction.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/native/glfw.hpp>
@@ -12,3 +13,4 @@ public:
 private:
 };
 }
+#endif

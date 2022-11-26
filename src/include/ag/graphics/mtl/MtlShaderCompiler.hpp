@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/graphics/IShaderCompiler.hpp>
 #include <ag/native/glfw.hpp>
 
@@ -17,3 +18,4 @@ public:
 private:
 };
 }
+#endif
