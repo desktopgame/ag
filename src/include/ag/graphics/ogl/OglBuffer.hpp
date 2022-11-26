@@ -7,6 +7,7 @@ namespace ag {
 class OglBuffer : public IBuffer {
 public:
     explicit OglBuffer(bool indexMode);
+    ~OglBuffer();
     void allocate(size_t size) override;
     void update(const void* data) override;
     void release() override;

@@ -7,6 +7,9 @@ OglBuffer::OglBuffer(bool indexMode)
     , m_size(0)
     , m_indexMode(indexMode)
 {
+}
+OglBuffer::~OglBuffer()
+{
     release();
 }
 void OglBuffer::allocate(size_t size)
