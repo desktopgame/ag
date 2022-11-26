@@ -1,5 +1,6 @@
 #pragma once
 #include <ag/graphics/RenderingContext.hpp>
+#include <ag/graphics/RenderingObject.hpp>
 #include <ag/native/glm.hpp>
 #include <memory>
 
@@ -14,11 +15,9 @@ public:
     void drawRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
 
 private:
-    static RenderingContext::Instance createRenderingContext();
     glm::mat4 m_projMat;
     //glm::vec4 m_color;
 
-    std::shared_ptr<IShader> m_colorRectShader;
-    RenderingContext::Instance m_colorRectCtx;
+    RenderingObject::Instance m_colorRectObject;
 };
 }

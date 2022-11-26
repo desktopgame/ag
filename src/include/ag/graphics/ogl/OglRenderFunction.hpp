@@ -1,10 +1,15 @@
 #pragma once
 #include <ag/graphics/IRenderFunction.hpp>
+#include <ag/graphics/RenderingObject.hpp>
+#include <ag/native/glfw.hpp>
 
 namespace ag {
 class OglRenderFunction : public IRenderFunction {
 public:
     explicit OglRenderFunction() = default;
-    void draw(const std::shared_ptr<IShader>& shader, const std::shared_ptr<RenderingContext>& context) override;
+    void draw(const std::shared_ptr<RenderingObject>& object) override;
+
+private:
+    static GLenum convPrimitiveType(PrimitiveType type);
 };
 }

@@ -26,7 +26,7 @@ public:
     std::shared_ptr<RenderingContext> getContext() const;
 
 private:
-    static RenderingContext::Instance createRenderingContext();
+    static std::shared_ptr<RenderingContext> createRenderingContext();
     PrimitiveType m_primitiveType;
     int m_primitiveCount;
     std::shared_ptr<IShader> m_shader;
