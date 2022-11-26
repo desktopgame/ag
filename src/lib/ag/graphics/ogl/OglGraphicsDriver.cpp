@@ -25,25 +25,6 @@ void OglGraphicsDriver::useContextExtension()
     if (err != GLEW_OK) {
         throw std::runtime_error("glew is unavailable.");
     }
-#ifdef AG_DEBUG
-    std::vector<std::string> versions {
-        "GL_VERSION_1_1",
-        "GL_VERSION_2_1",
-        "GL_VERSION_3_0",
-        "GL_VERSION_3_1",
-        "GL_VERSION_3_2",
-        "GL_VERSION_3_3",
-        "GL_VERSION_4_1",
-    };
-    for (const std::string& version : versions) {
-        bool supported = glewIsSupported(version.c_str());
-        if (supported) {
-            std::cout << "OpenGL " << version << " is supported!" << std::endl;
-        } else {
-            std::cout << "OpenGL " << version << " is not supported!" << std::endl;
-        }
-    }
-#endif
 }
 std::shared_ptr<IGraphicsDevice> OglGraphicsDriver::getGraphicsDevice() const
 {
