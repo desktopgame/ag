@@ -35,7 +35,7 @@ void Renderer::drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm
 {
     auto param = m_colorCircleObject->getContext()->getParameter();
     glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
-        glm::vec3(size, 1));
+        glm::vec3(size / 2.f, 1));
     param->setTransform(m_projMat * transform);
     param->setColor1(color);
     ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_colorCircleObject);
