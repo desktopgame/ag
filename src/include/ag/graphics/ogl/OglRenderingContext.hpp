@@ -12,6 +12,6 @@ public:
 
 private:
     void release();
-    GLuint* m_vao;
+    GLuint m_vao;
 };
 }
