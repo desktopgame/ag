@@ -1,5 +1,5 @@
 #pragma once
-#include <ag/native/osx/MetalOne.hpp>
+#include <ag/native/osx/Metal.hpp>
 
 namespace NS::Private::Class {
 _NS_PRIVATE_DEF_CLS(NSView);

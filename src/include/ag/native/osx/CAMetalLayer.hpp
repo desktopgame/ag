@@ -1,5 +1,5 @@
 #pragma once
-#include <ag/native/osx/MetalOne.hpp>
+#include <ag/native/osx/Metal.hpp>
 
 namespace CA::Private::Class {
 _CA_PRIVATE_DEF_CLS(CAMetalLayer);
