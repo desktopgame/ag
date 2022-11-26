@@ -2,9 +2,8 @@
 #ifdef AG_METAL
 
 namespace ag {
-MtlBuffer::MtlBuffer(MTL::Device* device, bool indexMode)
-    : m_indexMode(indexMode)
-    , m_device(device)
+MtlBuffer::MtlBuffer(MTL::Device* device)
+    : m_device(device)
     , m_buffer(nullptr)
     , m_size()
 {

@@ -2,12 +2,13 @@
 #ifdef AG_METAL
 #include <ag/graphics/IShaderCompiler.hpp>
 #include <ag/native/glfw.hpp>
+#include <ag/native/metal.hpp>
 
 namespace ag {
 class MtlShaderCompiler : public IShaderCompiler {
 public:
-    MtlShaderCompiler() = default;
-    ~MtlShaderCompiler() = default;
+    MtlShaderCompiler(MTL::Device* device);
+    ~MtlShaderCompiler();
 
     std::shared_ptr<IShader> compileFromPartedSource(const std::string& vSource, const std::string& fSource) override;
     bool isCompilableFromPartedSource() const override;
@@ -19,6 +20,7 @@ public:
     bool isCompilableFromSingleFile() const override;
 
 private:
+    MTL::Device* m_device;
 };
 }
 #endif

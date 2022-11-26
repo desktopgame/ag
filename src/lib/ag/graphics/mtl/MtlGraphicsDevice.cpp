@@ -20,11 +20,11 @@ std::shared_ptr<ITexture> MtlGraphicsDevice::newTexture(int width, int height, c
 }
 std::shared_ptr<IBuffer> MtlGraphicsDevice::newVertexBuffer() const
 {
-    return std::make_shared<MtlBuffer>(m_device, false);
+    return std::make_shared<MtlBuffer>(m_device);
 }
 std::shared_ptr<IBuffer> MtlGraphicsDevice::newIndexBuffer() const
 {
-    return std::make_shared<MtlBuffer>(m_device, true);
+    return std::make_shared<MtlBuffer>(m_device);
 }
 }
 #endif

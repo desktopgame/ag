@@ -3,8 +3,21 @@
 
 namespace ag {
 
-MtlShader::MtlShader() { }
-MtlShader::~MtlShader() { }
+MtlShader::MtlShader(MTL::Library* lib, MTL::Function* vFunc, MTL::Function* fFunc)
+    : m_lib(lib)
+    , m_vFunc(vFunc)
+    , m_fFunc(fFunc)
+{
+    m_lib->retain();
+    m_vFunc->retain();
+    m_fFunc->retain();
+}
+MtlShader::~MtlShader()
+{
+    m_lib->release();
+    m_vFunc->release();
+    m_fFunc->release();
+}
 void MtlShader::apply(const std::shared_ptr<ShaderParameter>& parameter) { }
 }
 #endif

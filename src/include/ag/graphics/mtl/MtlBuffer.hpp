@@ -8,14 +8,13 @@
 namespace ag {
 class MtlBuffer : public IBuffer {
 public:
-    explicit MtlBuffer(MTL::Device* device, bool indexMode);
+    explicit MtlBuffer(MTL::Device* device);
     ~MtlBuffer();
     void allocate(size_t size) override;
     void update(const void* data) override;
     void release() override;
 
 private:
-    bool m_indexMode;
     MTL::Device* m_device;
     MTL::Buffer* m_buffer;
     size_t m_size;
