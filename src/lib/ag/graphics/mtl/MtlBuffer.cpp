@@ -25,6 +25,7 @@ void MtlBuffer::allocate(size_t size)
 void MtlBuffer::update(const void* data)
 {
     ::memcpy(m_buffer->contents(), data, m_size);
+    m_buffer->didModifyRange(NS::Range(0, m_size));
 }
 void MtlBuffer::release()
 {
