@@ -29,6 +29,7 @@ std::shared_ptr<Window> Looper::acquire()
 void Looper::release()
 {
     Engine::require();
+    m_cursor->swapBuffers();
     glfwPollEvents();
     m_use = false;
     m_at++;
