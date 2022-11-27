@@ -65,17 +65,16 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     auto context = createRenderingContext();
     std::vector<glm::vec2> verts;
     float degree = 0.0f;
-    float applyScale = isFill ? 1.0f : 1.0f; //m_scaleUniform->value;
+    float applyScale = 1.0f;
     float half = applyScale;
     int points = 0;
-    int c = 0;
-    int primes = 0;
     float fx = 0.0f;
     float fy = 0.0f;
     glm::vec2 atlast;
-
+    // first point
     verts.push_back({ half + std::cosf(0.f), half + std::sinf(0.f) });
     points++;
+    // connect points
     while (degree < 360.0f) {
         degree += 360.0f / static_cast<float>(100 /* split count */);
         float radian = degree * (3.14f / 180.0f);
@@ -89,17 +88,15 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
             verts.push_back(atlast);
             points++;
         }
-        atlast = glm::vec2(half + (x * applyScale), half + (y * applyScale));
+        atlast = { half + (x * applyScale), half + (y * applyScale) };
         verts.push_back(atlast);
         points++;
+        // put a center point
         if (isFill && points % 2 == 0) {
             verts.push_back({ half, half });
-            c++;
-            primes++;
         }
     }
     context->updateVertex(verts);
-    //context->updateIndex(index);
 #if AG_OPEN_GL
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
 #elif AG_METAL
