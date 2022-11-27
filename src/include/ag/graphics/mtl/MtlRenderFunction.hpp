@@ -8,7 +8,9 @@ namespace ag {
 class MtlRenderFunction : public IRenderFunction {
 public:
     explicit MtlRenderFunction() = default;
+    void begin(const std::shared_ptr<Window>& window) override;
     void draw(const std::shared_ptr<RenderingObject>& object) override;
+    void end(const std::shared_ptr<Window>& window) override;
 
 private:
 };
