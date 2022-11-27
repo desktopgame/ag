@@ -68,8 +68,14 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     float applyScale = isFill ? 1.0f : 1.0f; //m_scaleUniform->value;
     float half = applyScale;
     int points = 0;
+    int c = 0;
+    int primes = 0;
     float fx = 0.0f;
     float fy = 0.0f;
+    glm::vec2 atlast;
+
+    verts.push_back({ half + std::cosf(0.f), half + std::sinf(0.f) });
+    points++;
     while (degree < 360.0f) {
         degree += 360.0f / static_cast<float>(100 /* split count */);
         float radian = degree * (3.14f / 180.0f);
@@ -79,11 +85,19 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
             fx = x;
             fy = y;
         }
-        verts.push_back({ half + (x * applyScale), half + (y * applyScale) });
+        if (isFill && points >= 2) {
+            verts.push_back(atlast);
+            points++;
+        }
+        atlast = glm::vec2(half + (x * applyScale), half + (y * applyScale));
+        verts.push_back(atlast);
         points++;
+        if (isFill && points % 2 == 0) {
+            verts.push_back({ half, half });
+            c++;
+            primes++;
+        }
     }
-    verts.push_back({ half + (fx * applyScale), half + (fy * applyScale) });
-    points++;
     context->updateVertex(verts);
     //context->updateIndex(index);
 #if AG_OPEN_GL
@@ -91,7 +105,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_ColorVFShader);
 #endif
-    return std::make_shared<RenderingObject>(isFill ? PrimitiveType::Polygon : PrimitiveType::LineStrip, points, shader, context);
+    return std::make_shared<RenderingObject>(isFill ? PrimitiveType::Triangles : PrimitiveType::LineStrip, verts.size(), shader, context);
 }
 // property
 PrimitiveType RenderingObject::getPrimitiveType() const { return m_primitiveType; }
