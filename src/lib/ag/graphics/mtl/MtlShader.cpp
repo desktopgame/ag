@@ -19,5 +19,10 @@ MtlShader::~MtlShader()
     m_fFunc->release();
 }
 void MtlShader::apply(const std::shared_ptr<ShaderParameter>& parameter) { }
+void MtlShader::attach(MTL::RenderPipelineDescriptor* desc)
+{
+    desc->setVertexFunction(m_vFunc);
+    desc->setFragmentFunction(m_fFunc);
+}
 }
 #endif
