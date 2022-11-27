@@ -2,6 +2,7 @@
 #ifdef AG_METAL
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/native/glfw.hpp>
+#include <ag/native/metal.hpp>
 
 namespace ag {
 class MtlRenderingContext : public RenderingContext {
@@ -12,6 +13,7 @@ public:
     void teardown(const std::shared_ptr<IShader>& shader) override;
 
 private:
+    MTL::RenderPipelineState* m_renderPipelineState;
 };
 }
 #endif
