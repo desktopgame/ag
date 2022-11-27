@@ -2,9 +2,16 @@
 #include <ag/ImageIO.hpp>
 #include <ag/Looper.hpp>
 #include <ag/Window.hpp>
-#include <ag/graphics/ogl/OglGraphicsDriver.hpp>
 #include <ag/native/glfw.hpp>
 #include <stdexcept>
+
+#if AG_OPEN_GL
+#include <ag/graphics/ogl/OglGraphicsDriver.hpp>
+#endif
+
+#if AG_METAL
+#include <ag/graphics/mtl/MtlGraphicsDriver.hpp>
+#endif
 
 namespace ag {
 std::mutex Engine::s_mutex;
@@ -77,8 +84,10 @@ Engine::Engine()
     , m_looper(std::make_shared<Looper>())
     , m_graphicsDriver()
 {
-#ifdef AG_OPEN_GL
+#if AG_OPEN_GL
     m_graphicsDriver = std::make_shared<OglGraphicsDriver>();
+#elif AG_METAL
+    m_graphicsDriver = std::make_shared<MtlGraphicsDriver>();
 #endif
 }
 }
