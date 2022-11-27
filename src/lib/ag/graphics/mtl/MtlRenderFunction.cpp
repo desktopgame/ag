@@ -6,6 +6,7 @@
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
 #include <ag/graphics/mtl/MtlRenderFunction.hpp>
 #include <ag/graphics/mtl/MtlRenderingContext.hpp>
+#include <ag/graphics/mtl/MtlShader.hpp>
 #ifdef AG_METAL
 
 namespace ag {
@@ -40,7 +41,11 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
 void MtlRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
 {
     auto mtlContext = std::static_pointer_cast<MtlRenderingContext>(object->getContext());
-    object->getContext()->setup(object->getShader());
+    auto mtlShader = std::static_pointer_cast<MtlShader>(object->getShader());
+    object->getContext()
+        ->setup(object->getShader());
+    mtlShader->useTransform(m_encoder, 0, 1);
+    mtlShader->useColor1(m_encoder, 0, 2);
     mtlContext->draw(m_encoder);
     object->getContext()->teardown(object->getShader());
 }

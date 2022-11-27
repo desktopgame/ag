@@ -37,9 +37,13 @@ void MtlBuffer::attachAsVertex(MTL::RenderCommandEncoder* encoder, int offset, i
 {
     encoder->setVertexBuffer(m_buffer, offset, index);
 }
-void MtlBuffer::drawWithIndex(MTL::RenderCommandEncoder* encoder)
+void MtlBuffer::attachAsFragment(MTL::RenderCommandEncoder* encoder, int offset, int index)
 {
-    encoder->drawIndexedPrimitives(MTL::PrimitiveType::PrimitiveTypeTriangle, 6,
+    encoder->setFragmentBuffer(m_buffer, offset, index);
+}
+void MtlBuffer::drawWithIndex(MTL::RenderCommandEncoder* encoder, MTL::PrimitiveType primitiveType)
+{
+    encoder->drawIndexedPrimitives(primitiveType, 6,
         MTL::IndexType::IndexTypeUInt16, m_buffer,
         0);
 }

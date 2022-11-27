@@ -45,7 +45,7 @@ void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder)
     encoder->setRenderPipelineState(m_renderPipelineState);
     mtlVertex->attachAsVertex(encoder, 0, 0);
     if (m_indexLength > 0) {
-        mtlIndex->drawWithIndex(encoder);
+        mtlIndex->drawWithIndex(encoder, MTL::PrimitiveType::PrimitiveTypeTriangle);
     } else {
     }
     /*

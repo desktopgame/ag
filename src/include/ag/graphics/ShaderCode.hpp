@@ -44,7 +44,7 @@ namespace internal {
         fragment float4 fragmentShader(
             RasterizerData in [[stage_in]],
             device const simd::float4& color
-                [[buffer(0)]])
+                [[buffer(2)]])
         {
             return color;
         }
