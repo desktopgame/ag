@@ -33,5 +33,15 @@ void MtlBuffer::release()
         m_buffer = nullptr;
     }
 }
+void MtlBuffer::attachAsVertex(MTL::RenderCommandEncoder* encoder, int offset, int index)
+{
+    encoder->setVertexBuffer(m_buffer, offset, index);
+}
+void MtlBuffer::drawWithIndex(MTL::RenderCommandEncoder* encoder)
+{
+    encoder->drawIndexedPrimitives(MTL::PrimitiveType::PrimitiveTypeTriangle, 6,
+        MTL::IndexType::IndexTypeUInt16, m_buffer,
+        0);
+}
 }
 #endif

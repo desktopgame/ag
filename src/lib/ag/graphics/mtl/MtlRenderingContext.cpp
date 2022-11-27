@@ -1,5 +1,6 @@
 #include <ag/Engine.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/mtl/MtlBuffer.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
 #include <ag/graphics/mtl/MtlRenderingContext.hpp>
 #include <ag/graphics/mtl/MtlShader.hpp>
@@ -39,6 +40,14 @@ void MtlRenderingContext::setup(const std::shared_ptr<IShader>& shader)
 }
 void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder)
 {
+    auto mtlVertex = std::static_pointer_cast<MtlBuffer>(m_vertex);
+    auto mtlIndex = std::static_pointer_cast<MtlBuffer>(m_index);
+    encoder->setRenderPipelineState(m_renderPipelineState);
+    mtlVertex->attachAsVertex(encoder, 0, 0);
+    if (m_indexLength > 0) {
+        mtlIndex->drawWithIndex(encoder);
+    } else {
+    }
     /*
     encoder->setRenderPipelineState(m_renderPipelineState);
     encoder->setVertexBuffer(m_vertexBuffer, 0, kShaderVertexInputIndexVertices);

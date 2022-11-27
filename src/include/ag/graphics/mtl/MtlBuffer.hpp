@@ -14,6 +14,9 @@ public:
     void update(const void* data) override;
     void release() override;
 
+    void attachAsVertex(MTL::RenderCommandEncoder* encoder, int offset, int index);
+    void drawWithIndex(MTL::RenderCommandEncoder* encoder);
+
 private:
     MTL::Device* m_device;
     MTL::Buffer* m_buffer;
