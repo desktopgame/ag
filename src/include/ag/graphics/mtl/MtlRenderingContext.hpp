@@ -10,6 +10,7 @@ public:
     explicit MtlRenderingContext();
     ~MtlRenderingContext();
     void setup(const std::shared_ptr<IShader>& shader) override;
+    void draw(MTL::RenderCommandEncoder* encoder);
     void teardown(const std::shared_ptr<IShader>& shader) override;
 
 private:

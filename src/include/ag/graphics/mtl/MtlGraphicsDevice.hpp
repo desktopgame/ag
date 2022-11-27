@@ -12,6 +12,7 @@ public:
     std::shared_ptr<IBuffer> newVertexBuffer() const override;
     std::shared_ptr<IBuffer> newIndexBuffer() const override;
     MTL::RenderPipelineState* newRenderPipelineState(const MTL::RenderPipelineDescriptor* desc, NS::Error** err) const;
+    MTL::CommandBuffer* newCommandBuffer() const;
 
 private:
     MTL::Device* m_device;

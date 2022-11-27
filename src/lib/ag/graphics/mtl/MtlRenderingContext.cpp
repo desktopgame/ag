@@ -35,6 +35,18 @@ void MtlRenderingContext::setup(const std::shared_ptr<IShader>& shader)
         }
         desc->release();
     }
+    shader->apply(m_parameter);
+}
+void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder)
+{
+    /*
+    encoder->setRenderPipelineState(m_renderPipelineState);
+    encoder->setVertexBuffer(m_vertexBuffer, 0, kShaderVertexInputIndexVertices);
+    encoder->setVertexBuffer(m_cameraBuffer, 0, kShaderVertexInputIndexCamera);
+    encoder->drawIndexedPrimitives(MTL::PrimitiveType::PrimitiveTypeTriangle, 6,
+        MTL::IndexType::IndexTypeUInt16, m_indexBuffer,
+        0);
+    */
 }
 void MtlRenderingContext::teardown(const std::shared_ptr<IShader>& shader) { }
 }

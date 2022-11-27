@@ -90,6 +90,12 @@ glm::ivec2 Window::getMousePosition() const
     glfwGetCursorPos(m_glfwWindow, &x, &y);
     return { static_cast<int>(x), static_cast<int>(y) };
 }
+#ifdef AG_METAL
+CA::MetalDrawable* Window::nextDrawable()
+{
+    return m_metalLayer->nextDrawable();
+}
+#endif
 void Window::dispose()
 {
     if (m_disposed) {

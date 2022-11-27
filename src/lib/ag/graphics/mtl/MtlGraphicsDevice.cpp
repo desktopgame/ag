@@ -30,5 +30,9 @@ MTL::RenderPipelineState* MtlGraphicsDevice::newRenderPipelineState(const MTL::R
 {
     return m_device->newRenderPipelineState(desc, err);
 }
+MTL::CommandBuffer* MtlGraphicsDevice::newCommandBuffer() const
+{
+    return m_commandQueue->commandBuffer();
+}
 }
 #endif

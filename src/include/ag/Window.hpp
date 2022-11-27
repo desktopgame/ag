@@ -28,6 +28,10 @@ public:
     glm::ivec2 getFrameBufferSize() const;
     glm::ivec2 getMousePosition() const;
 
+#ifdef AG_METAL
+    CA::MetalDrawable* nextDrawable();
+#endif
+
     void dispose();
     bool isDisposed() const;
     static const std::vector<Instance>& getWindows();
