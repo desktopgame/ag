@@ -1,6 +1,6 @@
+#ifdef AG_METAL
 #include <ag/graphics/mtl/MtlBuffer.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
-#ifdef AG_METAL
 
 namespace ag {
 MtlGraphicsDevice::MtlGraphicsDevice(MTL::Device* device)

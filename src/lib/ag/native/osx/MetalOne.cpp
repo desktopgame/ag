@@ -1,3 +1,4 @@
+#ifdef AG_METAL
 // include all implementations.
 #include <ag/native/osx/MetalOne.hpp>
 // expand all macro.
@@ -5,7 +6,6 @@
 #include <ag/native/osx/NSView.hpp>
 #include <ag/native/osx/NSWindow.hpp>
 
-#ifdef AG_METAL
 namespace CA {
 // CAMetalLayer
 MetalLayer* MetalLayer::alloc()

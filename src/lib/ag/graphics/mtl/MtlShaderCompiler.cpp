@@ -1,6 +1,6 @@
+#ifdef AG_METAL
 #include <ag/graphics/mtl/MtlShader.hpp>
 #include <ag/graphics/mtl/MtlShaderCompiler.hpp>
-#ifdef AG_METAL
 
 namespace ag {
 

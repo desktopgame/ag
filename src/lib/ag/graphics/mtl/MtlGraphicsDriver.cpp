@@ -1,6 +1,6 @@
-#include <ag/graphics/mtl/MtlGraphicsDriver.hpp>
 #ifdef AG_METAL
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
+#include <ag/graphics/mtl/MtlGraphicsDriver.hpp>
 #include <ag/graphics/mtl/MtlRenderFunction.hpp>
 #include <ag/graphics/mtl/MtlShaderCompiler.hpp>
 #include <ag/native/glfw.hpp>

@@ -1,3 +1,4 @@
+#ifdef AG_METAL
 #include <ag/Engine.hpp>
 #include <ag/Window.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
@@ -7,7 +8,6 @@
 #include <ag/graphics/mtl/MtlRenderFunction.hpp>
 #include <ag/graphics/mtl/MtlRenderingContext.hpp>
 #include <ag/graphics/mtl/MtlShader.hpp>
-#ifdef AG_METAL
 
 namespace ag {
 MtlRenderFunction::MtlRenderFunction()

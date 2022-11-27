@@ -1,5 +1,5 @@
-#include <ag/graphics/mtl/MtlBuffer.hpp>
 #ifdef AG_METAL
+#include <ag/graphics/mtl/MtlBuffer.hpp>
 
 namespace ag {
 MtlBuffer::MtlBuffer(MTL::Device* device)
