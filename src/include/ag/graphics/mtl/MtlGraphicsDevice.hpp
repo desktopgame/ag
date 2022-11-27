@@ -11,6 +11,7 @@ public:
     std::shared_ptr<ITexture> newTexture(int width, int height, const uint8_t* data) const override;
     std::shared_ptr<IBuffer> newVertexBuffer() const override;
     std::shared_ptr<IBuffer> newIndexBuffer() const override;
+    MTL::RenderPipelineState* newRenderPipelineState(const MTL::RenderPipelineDescriptor* desc, NS::Error** err) const;
 
 private:
     MTL::Device* m_device;

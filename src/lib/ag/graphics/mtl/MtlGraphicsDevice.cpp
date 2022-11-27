@@ -26,5 +26,9 @@ std::shared_ptr<IBuffer> MtlGraphicsDevice::newIndexBuffer() const
 {
     return std::make_shared<MtlBuffer>(m_device);
 }
+MTL::RenderPipelineState* MtlGraphicsDevice::newRenderPipelineState(const MTL::RenderPipelineDescriptor* desc, NS::Error** err) const
+{
+    return m_device->newRenderPipelineState(desc, err);
+}
 }
 #endif
