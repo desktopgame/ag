@@ -10,7 +10,7 @@ public:
     ITexture() = default;
     virtual ~ITexture() = default;
 
-    virtual void update(const Component* pixels) = 0;
+    virtual void update(int width, int height, const Component* pixels) = 0;
     virtual size_t getWidth() const = 0;
     virtual size_t getHeight() const = 0;
 };
