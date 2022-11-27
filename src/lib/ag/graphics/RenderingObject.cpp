@@ -6,7 +6,7 @@
 #include <ag/graphics/ShaderCode.hpp>
 #include <ag/native/glm.hpp>
 
-#ifdef AG_DEBUG
+#ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglRenderingContext.hpp>
 #endif
 
