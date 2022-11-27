@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_OPEN_GL
 #include <ag/graphics/IShaderCompiler.hpp>
 #include <ag/native/glfw.hpp>
 
@@ -23,3 +24,4 @@ private:
     void reportProgramError(GLuint program);
 };
 }
+#endif

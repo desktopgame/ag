@@ -1,3 +1,4 @@
+#ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglShader.hpp>
 #include <ag/graphics/ogl/OglShaderCompiler.hpp>
 #include <ag/native/glfw.hpp>
@@ -102,3 +103,4 @@ void OglShaderCompiler::reportProgramError(GLuint program)
     }
 }
 }
+#endif

@@ -1,3 +1,4 @@
+#ifdef AG_OPEN_GL
 #include <ag/Window.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
@@ -44,3 +45,4 @@ GLenum OglRenderFunction::convPrimitiveType(PrimitiveType type)
     return GL_TRIANGLES;
 }
 }
+#endif

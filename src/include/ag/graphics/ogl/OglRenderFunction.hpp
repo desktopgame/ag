@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_OPEN_GL
 #include <ag/graphics/IRenderFunction.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/native/glfw.hpp>
@@ -15,3 +16,4 @@ private:
     static GLenum convPrimitiveType(PrimitiveType type);
 };
 }
+#endif

@@ -1,3 +1,4 @@
+#ifdef AG_OPEN_GL
 #include <ag/graphics/IShader.hpp>
 #include <ag/graphics/ogl/OglBuffer.hpp>
 #include <ag/graphics/ogl/OglRenderingContext.hpp>
@@ -79,3 +80,4 @@ void OglRenderingContext::release()
     }
 }
 }
+#endif

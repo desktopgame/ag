@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_OPEN_GL
 #include <ag/graphics/IBuffer.hpp>
 #include <ag/native/glfw.hpp>
 #include <cstddef>
@@ -24,3 +25,4 @@ private:
     bool m_indexMode;
 };
 }
+#endif

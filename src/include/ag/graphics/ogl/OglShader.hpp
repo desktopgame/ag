@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_OPEN_GL
 #include <ag/graphics/IShader.hpp>
 #include <ag/native/glfw.hpp>
 
@@ -22,3 +23,4 @@ private:
     GLuint m_uniformColor2;
 };
 }
+#endif

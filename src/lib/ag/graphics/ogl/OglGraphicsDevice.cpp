@@ -1,3 +1,4 @@
+#ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglBuffer.hpp>
 #include <ag/graphics/ogl/OglGraphicsDevice.hpp>
 
@@ -17,3 +18,4 @@ std::shared_ptr<IBuffer> OglGraphicsDevice::newIndexBuffer() const
     return std::make_shared<OglBuffer>(true);
 }
 }
+#endif

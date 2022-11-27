@@ -1,3 +1,4 @@
+#ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglShader.hpp>
 #include <glm/ext.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -57,3 +58,4 @@ void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 void OglShader::use() { glUseProgram(m_program); }
 void OglShader::unuse() { glUseProgram(0); }
 }
+#endif

@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_OPEN_GL
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/ogl/OglGraphicsDevice.hpp>
 
@@ -18,3 +19,4 @@ private:
     std::shared_ptr<IRenderFunction> m_renderFunction;
 };
 }
+#endif

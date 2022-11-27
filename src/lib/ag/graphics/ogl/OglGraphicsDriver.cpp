@@ -1,3 +1,4 @@
+#ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglGraphicsDriver.hpp>
 #include <ag/graphics/ogl/OglRenderFunction.hpp>
 #include <ag/graphics/ogl/OglShaderCompiler.hpp>
@@ -39,3 +40,4 @@ std::shared_ptr<IRenderFunction> OglGraphicsDriver::getRenderFunction() const
     return m_renderFunction;
 }
 }
+#endif

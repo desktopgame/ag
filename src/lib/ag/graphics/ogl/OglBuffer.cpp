@@ -1,3 +1,4 @@
+#ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglBuffer.hpp>
 
 namespace ag {
@@ -52,3 +53,4 @@ void OglBuffer::unbindAsIndex()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 }
+#endif

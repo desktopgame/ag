@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_OPEN_GL
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/native/glfw.hpp>
 
@@ -15,3 +16,4 @@ private:
     GLuint m_vao;
 };
 }
+#endif
