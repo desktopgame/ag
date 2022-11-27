@@ -1,5 +1,6 @@
 #ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglShader.hpp>
+#include <ag/graphics/ogl/OglTexture.hpp>
 #include <glm/ext.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -44,6 +45,8 @@ void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
     // apply values
     glUniformMatrix4fv(m_uniformTransformMatrix, 1, GL_FALSE, glm::value_ptr(parameter->getTransform()));
     if (parameter->useTexture()) {
+        auto oglTexture = std::static_pointer_cast<OglTexture>(parameter->getTexture());
+        oglTexture->use();
         glUniform1i(m_uniformTexture, 0);
     }
     if (parameter->useColor1()) {

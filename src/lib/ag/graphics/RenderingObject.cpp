@@ -4,6 +4,7 @@
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/graphics/ShaderCode.hpp>
+#include <ag/graphics/VertexData.hpp>
 #include <ag/native/glm.hpp>
 
 #ifdef AG_OPEN_GL
@@ -28,6 +29,34 @@ RenderingObject::RenderingObject(
 {
 }
 // factory
+std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle()
+{
+    auto compiler = Engine::getInstance()->getGraphicsDriver()->getShaderCompiler();
+    const float left = 0;
+    const float right = 1;
+    const float top = 0;
+    const float bottom = 1;
+    auto context = createRenderingContext();
+#if AG_OPEN_GL
+    auto shader = compiler->compileFromPartedSource(ag::internal::GL_TextureVertexShader, ag::internal::GL_TextureFragmentShader);
+#elif AG_METAL
+    auto shader = compiler->compileFromSingleSource(ag::internal::Metal_ColorVFShader);
+#endif
+    const std::vector<VertexData> verts {
+        { { left, top },
+            { 0, 1 } },
+        { { right, top },
+            { 1, 1 } },
+        { { right, bottom },
+            { 1, 0 } },
+        { { left, bottom },
+            { 0, 0 } }
+    };
+    const std::vector<unsigned short> index { 0, 1, 2, 2, 3, 0 };
+    context->updateVertex(verts);
+    context->updateIndex(index);
+    return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
+}
 std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle(bool isFill)
 {
     auto compiler = Engine::getInstance()->getGraphicsDriver()->getShaderCompiler();

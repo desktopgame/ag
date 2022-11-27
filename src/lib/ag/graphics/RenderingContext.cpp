@@ -11,6 +11,7 @@ RenderingContext::RenderingContext()
     , m_index(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newIndexBuffer())
     , m_vertexLength()
     , m_indexLength()
+    , m_isUsingTexCoord(false)
 {
 }
 void RenderingContext::updateVertex(const std::vector<glm::vec2>& data)
@@ -18,6 +19,14 @@ void RenderingContext::updateVertex(const std::vector<glm::vec2>& data)
     m_vertex->allocate(sizeof(glm::vec2) * data.size());
     m_vertex->update(&data.front().x);
     m_vertexLength = data.size();
+}
+
+void RenderingContext::updateVertex(const std::vector<VertexData>& data)
+{
+    m_vertex->allocate(sizeof(VertexData) * data.size());
+    m_vertex->update(&data.front().position.x);
+    m_vertexLength = data.size();
+    m_isUsingTexCoord = true;
 }
 void RenderingContext::updateIndex(const std::vector<unsigned short>& data)
 {

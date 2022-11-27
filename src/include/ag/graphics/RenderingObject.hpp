@@ -15,6 +15,7 @@ public:
         const std::shared_ptr<IShader>& shader,
         const std::shared_ptr<RenderingContext>& context);
 
+    static std::shared_ptr<RenderingObject> createTextureRectangle();
     static std::shared_ptr<RenderingObject> createColorRectangle(bool isFill);
     static std::shared_ptr<RenderingObject> createColorCircle(bool isFill);
 

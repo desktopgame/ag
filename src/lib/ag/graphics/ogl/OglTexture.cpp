@@ -41,5 +41,17 @@ void OglTexture::update(int width, int height, const uint8_t* pixels)
 }
 size_t OglTexture::getWidth() const { return m_width; }
 size_t OglTexture::getHeight() const { return m_height; }
+
+void OglTexture::use()
+{
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_res);
+    glEnable(GL_TEXTURE_2D);
+}
+void OglTexture::unuse()
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_TEXTURE_2D);
+}
 }
 #endif

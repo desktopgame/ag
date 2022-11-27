@@ -31,7 +31,12 @@ void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
             glGenVertexArrays(1, &m_vao);
             glBindVertexArray(m_vao);
         }
-        oglVertex->bindAsVertex(0, 2, 0, nullptr);
+        if (m_isUsingTexCoord) {
+            oglVertex->bindAsVertex(0, 2, sizeof(VertexData), nullptr);
+            oglVertex->bindAsVertex(1, 2, sizeof(VertexData), (void*)sizeof(glm::vec2));
+        } else {
+            oglVertex->bindAsVertex(0, 2, 0, nullptr);
+        }
         oglIndex->bindAsIndex();
     } else {
 #if __APPLE__

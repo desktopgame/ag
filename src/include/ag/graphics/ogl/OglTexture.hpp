@@ -13,6 +13,9 @@ public:
     size_t getWidth() const override;
     size_t getHeight() const override;
 
+    void use();
+    void unuse();
+
 private:
     GLuint m_res;
     int m_width;

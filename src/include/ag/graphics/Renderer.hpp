@@ -24,5 +24,6 @@ private:
     RenderingObject::Instance m_colorFillRectObject;
     RenderingObject::Instance m_colorDrawCircleObject;
     RenderingObject::Instance m_colorFillCircleObject;
+    RenderingObject::Instance m_textureObject;
 };
 }

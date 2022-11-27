@@ -1,5 +1,6 @@
 #pragma once
 #include <ag/graphics/ShaderParameter.hpp>
+#include <ag/graphics/VertexData.hpp>
 #include <ag/native/glm.hpp>
 #include <memory>
 #include <vector>
@@ -17,6 +18,7 @@ public:
     virtual void teardown(const std::shared_ptr<IShader>& shader) = 0;
 
     void updateVertex(const std::vector<glm::vec2>& data);
+    void updateVertex(const std::vector<VertexData>& data);
     void updateIndex(const std::vector<unsigned short>& data);
 
     size_t getVertexLength() const;
@@ -29,5 +31,6 @@ protected:
     std::shared_ptr<IBuffer> m_index;
     size_t m_vertexLength;
     size_t m_indexLength;
+    bool m_isUsingTexCoord;
 };
 }

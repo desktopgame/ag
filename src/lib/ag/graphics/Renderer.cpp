@@ -10,6 +10,7 @@ Renderer::Renderer()
     , m_colorFillRectObject(RenderingObject::createColorRectangle(true))
     , m_colorDrawCircleObject(RenderingObject::createColorCircle(false))
     , m_colorFillCircleObject(RenderingObject::createColorCircle(true))
+    , m_textureObject(RenderingObject::createTextureRectangle())
 {
 }
 
