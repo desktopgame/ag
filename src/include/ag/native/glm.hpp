@@ -5,6 +5,7 @@
 #if __APPLE__
 #if AG_METAL
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE 1
+#include <simd/simd.h>
 #endif
 #endif
 
