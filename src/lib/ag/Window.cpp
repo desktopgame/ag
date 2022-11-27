@@ -117,6 +117,7 @@ const std::vector<Window::Instance>& Window::getWindows()
 Window::Window(GLFWwindow* glfwWindow, const std::string& title)
     : m_glfwWindow(glfwWindow)
     , m_title(title)
+    , m_clearColor(0.f, 0.f, 0.f)
     , m_disposed(false)
 #if AG_METAL
     , m_metalLayer(nullptr)
