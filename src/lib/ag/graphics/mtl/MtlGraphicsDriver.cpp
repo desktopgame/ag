@@ -29,6 +29,9 @@ void MtlGraphicsDriver::useContextExtension()
 std::shared_ptr<IGraphicsDevice> MtlGraphicsDriver::getGraphicsDevice() const { return m_device; }
 std::shared_ptr<IShaderCompiler> MtlGraphicsDriver::getShaderCompiler() const { return m_shaderCompiler; }
 std::shared_ptr<IRenderFunction> MtlGraphicsDriver::getRenderFunction() const { return m_renderFunction; }
-
+void MtlGraphicsDriver::useDevice(CA::MetalLayer* metalLayer)
+{
+    metalLayer->setDevice(m_nativeDevice);
+}
 }
 #endif

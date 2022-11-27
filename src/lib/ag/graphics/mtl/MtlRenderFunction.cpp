@@ -13,6 +13,7 @@ MtlRenderFunction::MtlRenderFunction()
     : m_commandBuffer(nullptr)
     , m_surface(nullptr)
     , m_passDesc(nullptr)
+    , m_encoder(nullptr)
 {
 }
 MtlRenderFunction::~MtlRenderFunction()
@@ -34,18 +35,20 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
     colorAttachmentDesc->setLoadAction(MTL::LoadAction::LoadActionClear);
     colorAttachmentDesc->setStoreAction(MTL::StoreAction::StoreActionStore);
     colorAttachmentDesc->setTexture(m_surface->texture());
+    m_encoder = m_commandBuffer->renderCommandEncoder(m_passDesc);
 }
 void MtlRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
 {
     auto mtlContext = std::static_pointer_cast<MtlRenderingContext>(object->getContext());
     object->getContext()->setup(object->getShader());
-    MTL::RenderCommandEncoder* encoder = m_commandBuffer->renderCommandEncoder(m_passDesc);
-    mtlContext->draw(encoder);
-    encoder->endEncoding();
+    mtlContext->draw(m_encoder);
     object->getContext()->teardown(object->getShader());
 }
 void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
 {
+    m_encoder->endEncoding();
+    m_commandBuffer->presentDrawable(m_surface);
+    m_commandBuffer->commit();
     if (m_commandBuffer) {
         m_commandBuffer->release();
         m_commandBuffer = nullptr;
@@ -54,8 +57,6 @@ void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
         m_passDesc->release();
         m_passDesc = nullptr;
     }
-    m_commandBuffer->presentDrawable(m_surface);
-    m_commandBuffer->commit();
 }
 }
 #endif

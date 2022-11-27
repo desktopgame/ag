@@ -14,6 +14,8 @@ public:
     std::shared_ptr<IShaderCompiler> getShaderCompiler() const override;
     std::shared_ptr<IRenderFunction> getRenderFunction() const override;
 
+    void useDevice(CA::MetalLayer* metalLayer);
+
 private:
     MTL::Device* m_nativeDevice;
     std::shared_ptr<IGraphicsDevice> m_device;

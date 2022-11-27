@@ -18,6 +18,7 @@ private:
     MTL::CommandBuffer* m_commandBuffer;
     CA::MetalDrawable* m_surface;
     MTL::RenderPassDescriptor* m_passDesc;
+    MTL::RenderCommandEncoder* m_encoder;
 };
 }
 #endif
