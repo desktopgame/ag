@@ -8,7 +8,7 @@
 struct GLFWwindow;
 
 namespace ag {
-class Window {
+class Window : public std::enable_shared_from_this<Window> {
 public:
     using Instance = std::shared_ptr<Window>;
 
