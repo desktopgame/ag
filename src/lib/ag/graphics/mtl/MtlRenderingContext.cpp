@@ -51,14 +51,6 @@ void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder, PrimitiveType
         NS::UInteger nsPrimCount = static_cast<NS::UInteger>(primCount);
         encoder->drawPrimitives(convPrimitiveType(type), nsOffs, nsPrimCount);
     }
-    /*
-    encoder->setRenderPipelineState(m_renderPipelineState);
-    encoder->setVertexBuffer(m_vertexBuffer, 0, kShaderVertexInputIndexVertices);
-    encoder->setVertexBuffer(m_cameraBuffer, 0, kShaderVertexInputIndexCamera);
-    encoder->drawIndexedPrimitives(MTL::PrimitiveType::PrimitiveTypeTriangle, 6,
-        MTL::IndexType::IndexTypeUInt16, m_indexBuffer,
-        0);
-    */
 }
 void MtlRenderingContext::teardown(const std::shared_ptr<IShader>& shader) { }
 // private
