@@ -36,7 +36,11 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle(bool isFi
     const float top = 0;
     const float bottom = 1;
     auto context = createRenderingContext();
+#if AG_OPEN_GL
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
+#elif AG_METAL
+    auto shader = compiler->compileFromSingleSource(ag::internal::Metal_ColorVFShader);
+#endif
     if (isFill) {
         const std::vector<glm::vec2> verts { { left, top }, { right, top }, { right, bottom }, { left, bottom } };
         const std::vector<unsigned short> index { 0, 1, 2, 2, 3, 0 };
@@ -82,7 +86,11 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     points++;
     context->updateVertex(verts);
     //context->updateIndex(index);
+#if AG_OPEN_GL
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
+#elif AG_METAL
+    auto shader = compiler->compileFromSingleSource(ag::internal::Metal_ColorVFShader);
+#endif
     return std::make_shared<RenderingObject>(isFill ? PrimitiveType::Polygon : PrimitiveType::LineStrip, points, shader, context);
 }
 // property
