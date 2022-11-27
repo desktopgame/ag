@@ -2,6 +2,7 @@
 #include <ag/Looper.hpp>
 #include <ag/Window.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/IRenderFunction.hpp>
 #include <ag/native/glfw.hpp>
 #include <algorithm>
 
@@ -23,17 +24,14 @@ std::shared_ptr<Window> Looper::acquire()
     m_use = true;
     m_cursor->makeContextCurrent();
     Engine::getInstance()->getGraphicsDriver()->useContextExtension();
-#ifdef AG_OPEN_GL
-    glm::vec3 clearColor = m_cursor->getClearColor();
-    glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-#endif
+    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->begin(m_cursor);
     return m_cursor;
 }
 
 void Looper::release()
 {
     Engine::require();
+    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->end(m_cursor);
     m_cursor->swapBuffers();
     glfwPollEvents();
     m_use = false;
