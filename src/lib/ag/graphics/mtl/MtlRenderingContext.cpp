@@ -38,15 +38,18 @@ void MtlRenderingContext::setup(const std::shared_ptr<IShader>& shader)
     }
     shader->apply(m_parameter);
 }
-void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder)
+void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder, PrimitiveType type, int primCount)
 {
     auto mtlVertex = std::static_pointer_cast<MtlBuffer>(m_vertex);
     auto mtlIndex = std::static_pointer_cast<MtlBuffer>(m_index);
     encoder->setRenderPipelineState(m_renderPipelineState);
     mtlVertex->attachAsVertex(encoder, 0, 0);
     if (m_indexLength > 0) {
-        mtlIndex->drawWithIndex(encoder, MTL::PrimitiveType::PrimitiveTypeTriangle);
+        mtlIndex->drawWithIndex(encoder, convPrimitiveType(type));
     } else {
+        NS::UInteger nsOffs = static_cast<NS::UInteger>(0);
+        NS::UInteger nsPrimCount = static_cast<NS::UInteger>(primCount);
+        encoder->drawPrimitives(convPrimitiveType(type), nsOffs, nsPrimCount);
     }
     /*
     encoder->setRenderPipelineState(m_renderPipelineState);
@@ -58,5 +61,18 @@ void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder)
     */
 }
 void MtlRenderingContext::teardown(const std::shared_ptr<IShader>& shader) { }
+// private
+MTL::PrimitiveType MtlRenderingContext::convPrimitiveType(PrimitiveType type)
+{
+    switch (type) {
+    case PrimitiveType::Triangles:
+        return MTL::PrimitiveType::PrimitiveTypeTriangle;
+    case PrimitiveType::LineStrip:
+        return MTL::PrimitiveType::PrimitiveTypeLineStrip;
+
+    default:
+        return MTL::PrimitiveType::PrimitiveTypeTriangle;
+    }
+}
 }
 #endif
