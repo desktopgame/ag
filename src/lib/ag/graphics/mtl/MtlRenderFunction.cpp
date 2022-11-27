@@ -24,12 +24,13 @@ MtlRenderFunction::~MtlRenderFunction()
 }
 void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
 {
+    auto clearColor = window->getClearColor();
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
     m_commandBuffer = mtlDevice->newCommandBuffer();
     m_surface = window->nextDrawable();
     m_passDesc = MTL::RenderPassDescriptor::alloc()->init();
     MTL::RenderPassColorAttachmentDescriptor* colorAttachmentDesc = m_passDesc->colorAttachments()->object(0);
-    colorAttachmentDesc->setClearColor(MTL::ClearColor(1.0, 0.0, 0.0, 1.0));
+    colorAttachmentDesc->setClearColor(MTL::ClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0));
     colorAttachmentDesc->setLoadAction(MTL::LoadAction::LoadActionClear);
     colorAttachmentDesc->setStoreAction(MTL::StoreAction::StoreActionStore);
     colorAttachmentDesc->setTexture(m_surface->texture());
