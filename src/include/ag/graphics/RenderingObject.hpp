@@ -1,12 +1,8 @@
 #pragma once
+#include <ag/graphics/PrimitiveType.hpp>
 #include <memory>
 
 namespace ag {
-enum class PrimitiveType {
-    Polygon,
-    Triangles,
-    LineStrip,
-};
 
 class IShader;
 class RenderingContext;
