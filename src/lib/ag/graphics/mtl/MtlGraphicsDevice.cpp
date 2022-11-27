@@ -3,10 +3,11 @@
 #ifdef AG_METAL
 
 namespace ag {
-MtlGraphicsDevice::MtlGraphicsDevice()
-    : m_device(MTL::CreateSystemDefaultDevice())
+MtlGraphicsDevice::MtlGraphicsDevice(MTL::Device* device)
+    : m_device(device)
     , m_commandQueue()
 {
+    m_device->retain();
     m_commandQueue = m_device->newCommandQueue();
 }
 MtlGraphicsDevice::~MtlGraphicsDevice()

@@ -6,7 +6,7 @@
 namespace ag {
 class MtlGraphicsDevice : public IGraphicsDevice {
 public:
-    explicit MtlGraphicsDevice();
+    explicit MtlGraphicsDevice(MTL::Device* device);
     ~MtlGraphicsDevice();
     std::shared_ptr<ITexture> newTexture(int width, int height, const uint8_t* data) const override;
     std::shared_ptr<IBuffer> newVertexBuffer() const override;
