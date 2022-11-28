@@ -6,12 +6,14 @@
 
 namespace ag {
 class IShader;
+class ITexture;
 class Renderer {
 public:
     explicit Renderer();
 
     void resize(int width, int height);
     void resize(const glm::ivec2& size);
+    void drawTexture(const glm::vec2& pos, const std::shared_ptr<ITexture>& texture);
     void drawRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
     void fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
     void drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
