@@ -25,9 +25,17 @@ void MtlRenderingContext::setup(const std::shared_ptr<IShader>& shader)
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
     if (!m_renderPipelineState) {
         MTL::RenderPipelineDescriptor* desc = MTL::RenderPipelineDescriptor::alloc()->init();
+        MTL::RenderPipelineColorAttachmentDescriptor* colorDesc = desc->colorAttachments()->object(0);
         mtlShader->attach(desc);
-        desc->colorAttachments()->object(0)->setPixelFormat(
+        colorDesc->setPixelFormat(
             MTL::PixelFormatBGRA8Unorm);
+        colorDesc->setBlendingEnabled(true);
+        colorDesc->setRgbBlendOperation(MTL::BlendOperation::BlendOperationAdd);
+        colorDesc->setAlphaBlendOperation(MTL::BlendOperation::BlendOperationAdd);
+        colorDesc->setSourceRGBBlendFactor(MTL::BlendFactor::BlendFactorSourceAlpha);
+        colorDesc->setSourceAlphaBlendFactor(MTL::BlendFactor::BlendFactorSourceAlpha);
+        colorDesc->setDestinationRGBBlendFactor(MTL::BlendFactor::BlendFactorOneMinusSourceAlpha);
+        colorDesc->setDestinationAlphaBlendFactor(MTL::BlendFactor::BlendFactorOneMinusSourceAlpha);
         desc->setDepthAttachmentPixelFormat(MTL::PixelFormat::PixelFormatInvalid);
         // initialize pipline
         NS::Error* err = nullptr;

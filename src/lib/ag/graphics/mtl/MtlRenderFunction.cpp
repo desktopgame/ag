@@ -37,6 +37,7 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
     colorAttachmentDesc->setStoreAction(MTL::StoreAction::StoreActionStore);
     colorAttachmentDesc->setTexture(m_surface->texture());
     m_encoder = m_commandBuffer->renderCommandEncoder(m_passDesc);
+    m_encoder->setCullMode(MTL::CullMode::CullModeFront);
 }
 void MtlRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
 {
