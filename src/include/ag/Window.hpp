@@ -38,6 +38,7 @@ public:
 
 private:
     Window(GLFWwindow* glfwWindow, const std::string& title);
+    static GLFWwindow* getSharedWindow();
     static std::vector<Instance> s_windows;
     GLFWwindow* m_glfwWindow;
     std::string m_title;

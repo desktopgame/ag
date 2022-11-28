@@ -14,7 +14,7 @@ Window::Instance Window::create(int width, int height, bool resizable, const std
     glfwWindowHint(GLFW_RESIZABLE, resizable);
     Engine::getInstance()->getGraphicsDriver()->useWindowHint();
     // create window instance.
-    GLFWwindow* glfwWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    GLFWwindow* glfwWindow = glfwCreateWindow(width, height, title.c_str(), NULL, getSharedWindow());
     Window::Instance window = Window::Instance(new Window(glfwWindow, title));
     Window::s_windows.emplace_back(window);
     // link metal layer.
@@ -131,5 +131,12 @@ Window::Window(GLFWwindow* glfwWindow, const std::string& title)
     , m_metalLayer(nullptr)
 #endif
 {
+}
+GLFWwindow* Window::getSharedWindow()
+{
+    if (s_windows.empty()) {
+        return nullptr;
+    }
+    return s_windows.front()->m_glfwWindow;
 }
 }
