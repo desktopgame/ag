@@ -44,15 +44,15 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle()
 #endif
     const std::vector<VertexData> verts {
         { { left, top },
-            { 0, 1 } },
+            { 0, 0 } },
         { { right, top },
-            { 1, 1 } },
-        { { right, bottom },
             { 1, 0 } },
+        { { right, bottom },
+            { 1, 1 } },
         { { left, bottom },
-            { 0, 0 } }
+            { 0, 1 } }
     };
-    const std::vector<unsigned short> index { 0, 1, 2, 2, 3, 0 };
+    const std::vector<unsigned short> index { 1, 0, 3, 1, 3, 2 };
     context->updateVertex(verts);
     context->updateIndex(index);
     return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);

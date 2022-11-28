@@ -38,7 +38,7 @@ void OglBuffer::bindAsVertex(GLuint attrib, GLint component, GLsizei stride, con
 {
     glBindBuffer(GL_ARRAY_BUFFER, m_res);
     glEnableVertexAttribArray(attrib);
-    glVertexAttribPointer(attrib, component, GL_FLOAT, GL_FALSE, 0, offset);
+    glVertexAttribPointer(attrib, component, GL_FLOAT, GL_FALSE, stride, offset);
 }
 void OglBuffer::unbindAsVertex()
 {

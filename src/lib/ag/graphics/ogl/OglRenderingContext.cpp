@@ -35,7 +35,7 @@ void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
         if (m_isUsingTexCoord) {
             auto oglTexture = std::static_pointer_cast<OglTexture>(m_parameter->getTexture());
             oglVertex->bindAsVertex(0, 2, sizeof(VertexData), nullptr);
-            oglVertex->bindAsVertex(1, 2, sizeof(VertexData), (void*)offsetof(VertexData, texcoord));
+            oglVertex->bindAsVertex(1, 2, sizeof(VertexData), (const void*)sizeof(glm::vec2));
             oglTexture->use();
         } else {
             oglVertex->bindAsVertex(0, 2, 0, nullptr);
