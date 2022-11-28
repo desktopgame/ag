@@ -13,9 +13,8 @@ void OglRenderFunction::begin(const std::shared_ptr<Window>& window)
     glm::vec3 clearColor = window->getClearColor();
     glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    glDisable(GL_CULL_FACE);
-    //glEnable(GL_CULL_FACE);
-    //glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 }
 void OglRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
 {

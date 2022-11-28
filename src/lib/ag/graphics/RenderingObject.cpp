@@ -122,6 +122,12 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
         points++;
         // put a center point
         if (isFill && points % 2 == 0) {
+            glm::vec2 sec = verts.back();
+            verts.pop_back();
+            glm::vec2 one = verts.back();
+            verts.pop_back();
+            verts.push_back(sec);
+            verts.push_back(one);
             verts.push_back({ half, half });
         }
     }
