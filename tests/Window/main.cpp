@@ -1,11 +1,4 @@
-#include <ag/Engine.hpp>
-#include <ag/Looper.hpp>
-#include <ag/Window.hpp>
-#include <ag/graphics/IGraphicsDevice.hpp>
-#include <ag/graphics/IGraphicsDriver.hpp>
-#include <ag/graphics/ITexture.hpp>
-#include <ag/graphics/ImageLoader.hpp>
-#include <ag/graphics/Renderer.hpp>
+#include <ag/agOne.hpp>
 
 int main(int argc, char* argv[])
 {

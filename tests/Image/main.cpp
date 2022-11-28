@@ -1,5 +1,4 @@
-#include <ag/Engine.hpp>
-#include <ag/ImageIO.hpp>
+#include <ag/agOne.hpp>
 #include <cassert>
 
 int main(int argc, char* argv[])
