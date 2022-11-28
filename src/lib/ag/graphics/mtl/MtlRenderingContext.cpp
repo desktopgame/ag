@@ -1,10 +1,12 @@
 #ifdef AG_METAL
 #include <ag/Engine.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/ShaderParameter.hpp>
 #include <ag/graphics/mtl/MtlBuffer.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
 #include <ag/graphics/mtl/MtlRenderingContext.hpp>
 #include <ag/graphics/mtl/MtlShader.hpp>
+#include <ag/graphics/mtl/MtlTexture.hpp>
 
 namespace ag {
 MtlRenderingContext::MtlRenderingContext()
@@ -43,6 +45,10 @@ void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder, PrimitiveType
     auto mtlIndex = std::static_pointer_cast<MtlBuffer>(m_index);
     encoder->setRenderPipelineState(m_renderPipelineState);
     mtlVertex->attachAsVertex(encoder, 0, 0);
+    if (m_parameter->useTexture()) {
+        auto mtlTexture = std::static_pointer_cast<MtlTexture>(m_parameter->getTexture());
+        mtlTexture->attach(encoder, 2);
+    }
     if (m_indexLength > 0) {
         mtlIndex->drawWithIndex(encoder, convPrimitiveType(type));
     } else {

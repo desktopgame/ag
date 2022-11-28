@@ -1,6 +1,7 @@
 #ifdef AG_METAL
 #include <ag/graphics/mtl/MtlBuffer.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
+#include <ag/graphics/mtl/MtlTexture.hpp>
 
 namespace ag {
 MtlGraphicsDevice::MtlGraphicsDevice(MTL::Device* device)
@@ -17,7 +18,9 @@ MtlGraphicsDevice::~MtlGraphicsDevice()
 }
 std::shared_ptr<ITexture> MtlGraphicsDevice::newTexture(int width, int height, const uint8_t* data) const
 {
-    return nullptr;
+    auto tex = std::make_shared<MtlTexture>(m_device);
+    tex->update(width, height, data);
+    return tex;
 }
 std::shared_ptr<IBuffer> MtlGraphicsDevice::newVertexBuffer() const
 {

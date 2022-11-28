@@ -45,7 +45,9 @@ void MtlRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
     object->getContext()
         ->setup(object->getShader());
     mtlShader->useTransform(m_encoder, 0, 1);
-    mtlShader->useColor1(m_encoder, 0, 2);
+    if (object->getContext()->getParameter()->useColor1()) {
+        mtlShader->useColor1(m_encoder, 0, 2);
+    }
     mtlContext->draw(m_encoder, object->getPrimitiveType(), object->getPrimitiveCount());
     object->getContext()->teardown(object->getShader());
 }

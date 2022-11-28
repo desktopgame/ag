@@ -25,7 +25,7 @@ std::shared_ptr<IShader> MtlShaderCompiler::compileFromSingleSource(const std::s
     NS::String* fFuncName = NS::String::alloc()->init("fragmentShader", NS::StringEncoding::UTF8StringEncoding);
     MTL::Library* lib = m_device->newLibrary(nsSource, MTL::CompileOptions::alloc()->init(), &err);
     if (err) {
-        throw std::logic_error("compile error.");
+        throw std::logic_error(err->description()->cString(NS::StringEncoding::UTF8StringEncoding));
     }
     MTL::Function* vFunc = lib->newFunction(vFuncName);
     MTL::Function* fFunc = lib->newFunction(fFuncName);
