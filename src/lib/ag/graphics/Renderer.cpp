@@ -1,6 +1,7 @@
 #include <ag/Engine.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/IRenderFunction.hpp>
+#include <ag/graphics/ITexture.hpp>
 #include <ag/graphics/Renderer.hpp>
 
 namespace ag {
@@ -27,7 +28,8 @@ void Renderer::resize(const glm::ivec2& size)
 void Renderer::drawTexture(const glm::vec2& pos, const std::shared_ptr<ITexture>& texture)
 {
     auto param = m_textureObject->getContext()->getParameter();
-    glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0));
+    glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
+        glm::vec3(texture->getWidth(), texture->getHeight(), 1));
     param->setTransform(m_projMat * transform);
     param->setTexture(texture);
     ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_textureObject);
