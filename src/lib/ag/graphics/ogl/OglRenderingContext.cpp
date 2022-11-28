@@ -3,6 +3,7 @@
 #include <ag/graphics/ogl/OglBuffer.hpp>
 #include <ag/graphics/ogl/OglRenderingContext.hpp>
 #include <ag/graphics/ogl/OglShader.hpp>
+#include <ag/graphics/ogl/OglTexture.hpp>
 
 namespace ag {
 OglRenderingContext::OglRenderingContext()
@@ -32,8 +33,10 @@ void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
             glBindVertexArray(m_vao);
         }
         if (m_isUsingTexCoord) {
+            auto oglTexture = std::static_pointer_cast<OglTexture>(m_parameter->getTexture());
             oglVertex->bindAsVertex(0, 2, sizeof(VertexData), nullptr);
-            oglVertex->bindAsVertex(1, 2, sizeof(VertexData), (void*)sizeof(glm::vec2));
+            oglVertex->bindAsVertex(1, 2, sizeof(VertexData), (void*)offsetof(VertexData, texcoord));
+            oglTexture->use();
         } else {
             oglVertex->bindAsVertex(0, 2, 0, nullptr);
         }
@@ -57,6 +60,10 @@ void OglRenderingContext::teardown(const std::shared_ptr<IShader>& shader)
     auto oglShader = std::static_pointer_cast<OglShader>(shader);
     auto oglVertex = std::static_pointer_cast<OglBuffer>(m_vertex);
     auto oglIndex = std::static_pointer_cast<OglBuffer>(m_index);
+    if (m_isUsingTexCoord) {
+        auto oglTexture = std::static_pointer_cast<OglTexture>(m_parameter->getTexture());
+        oglTexture->unuse();
+    }
     oglShader->unuse();
     oglVertex->unbindAsVertex();
     oglIndex->unbindAsIndex();
