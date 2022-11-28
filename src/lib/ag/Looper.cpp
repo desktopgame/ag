@@ -35,7 +35,6 @@ void Looper::release()
     m_cursor->swapBuffers();
     glfwPollEvents();
     m_use = false;
-    m_at++;
 }
 
 bool Looper::nextLoop()
