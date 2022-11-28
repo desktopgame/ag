@@ -25,14 +25,18 @@ void Renderer::resize(const glm::ivec2& size)
 {
     resize(size.x, size.y);
 }
-void Renderer::drawTexture(const glm::vec2& pos, const std::shared_ptr<ITexture>& texture)
+void Renderer::drawTexture(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<ITexture>& texture)
 {
     auto param = m_textureObject->getContext()->getParameter();
     glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
-        glm::vec3(texture->getWidth(), texture->getHeight(), 1));
+        glm::vec3(size, 1));
     param->setTransform(m_projMat * transform);
     param->setTexture(texture);
     ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_textureObject);
+}
+void Renderer::drawTexture(const glm::vec2& pos, const std::shared_ptr<ITexture>& texture)
+{
+    drawTexture(pos, glm::vec2(texture->getWidth(), texture->getHeight()), texture);
 }
 void Renderer::drawRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
 {
