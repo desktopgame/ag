@@ -3,6 +3,8 @@
 #include <ag/Looper.hpp>
 #include <ag/Window.hpp>
 #include <ag/native/glfw.hpp>
+#include <algorithm>
+#include <functional>
 #include <stdexcept>
 
 #if AG_OPEN_GL
