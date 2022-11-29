@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
             renderer->drawCircle(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
             renderer->drawTexture(glm::vec2(200, 0), texture);
             renderer->fillRect(glm::vec2(0, 0), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
+            renderer->fillRect(glm::vec2(500, 500), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
             looper->release();
         }
     }
