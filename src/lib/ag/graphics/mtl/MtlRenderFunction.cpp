@@ -10,8 +10,10 @@
 #include <ag/graphics/mtl/MtlShader.hpp>
 
 namespace ag {
-MtlRenderFunction::MtlRenderFunction()
-    : m_commandBuffer(nullptr)
+MtlRenderFunction::MtlRenderFunction(MtlBufferPool::Instance matrixPool, MtlBufferPool::Instance colorPool)
+    : m_matrixPool(matrixPool)
+    , m_colorPool(colorPool)
+    , m_commandBuffer(nullptr)
     , m_surface(nullptr)
     , m_passDesc(nullptr)
     , m_encoder(nullptr)
@@ -50,10 +52,13 @@ void MtlRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
         mtlShader->useColor1(m_encoder, 0, 2);
     }
     mtlContext->draw(m_encoder, object->getPrimitiveType(), object->getPrimitiveCount());
+    mtlShader->release();
     object->getContext()->teardown(object->getShader());
 }
 void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
 {
+    m_matrixPool->release();
+    m_colorPool->release();
     m_encoder->endEncoding();
     m_commandBuffer->presentDrawable(m_surface);
     m_commandBuffer->commit();

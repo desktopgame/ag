@@ -7,7 +7,7 @@
 namespace ag {
 class MtlShaderCompiler : public IShaderCompiler {
 public:
-    MtlShaderCompiler(MTL::Device* device);
+    MtlShaderCompiler(MTL::Device* device, MtlBufferPool::Instance matrixPool, MtlBufferPool::Instance colorPool);
     ~MtlShaderCompiler();
 
     std::shared_ptr<IShader> compileFromPartedSource(const std::string& vSource, const std::string& fSource) override;
@@ -21,6 +21,8 @@ public:
 
 private:
     MTL::Device* m_device;
+    MtlBufferPool::Instance m_matrixPool;
+    MtlBufferPool::Instance m_colorPool;
 };
 }
 #endif
