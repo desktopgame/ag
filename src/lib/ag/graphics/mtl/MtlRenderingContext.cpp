@@ -19,6 +19,7 @@ MtlRenderingContext::~MtlRenderingContext()
         m_renderPipelineState->release();
     }
 }
+/*
 void MtlRenderingContext::setup(const std::shared_ptr<IShader>& shader)
 {
     auto mtlShader = std::static_pointer_cast<MtlShader>(shader);
@@ -47,6 +48,7 @@ void MtlRenderingContext::setup(const std::shared_ptr<IShader>& shader)
     }
     shader->apply(m_parameter);
 }
+*/
 void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder, PrimitiveType type, int primCount)
 {
     auto mtlVertex = std::static_pointer_cast<MtlBuffer>(m_vertex);
@@ -65,7 +67,10 @@ void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder, PrimitiveType
         encoder->drawPrimitives(convPrimitiveType(type), nsOffs, nsPrimCount);
     }
 }
-void MtlRenderingContext::teardown(const std::shared_ptr<IShader>& shader) { }
+void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount)
+{
+}
+//void MtlRenderingContext::teardown(const std::shared_ptr<IShader>& shader) { }
 // private
 MTL::PrimitiveType MtlRenderingContext::convPrimitiveType(PrimitiveType type)
 {

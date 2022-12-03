@@ -1,4 +1,5 @@
 #pragma once
+#include <ag/graphics/PrimitiveType.hpp>
 #include <ag/graphics/ShaderParameter.hpp>
 #include <ag/graphics/VertexData.hpp>
 #include <ag/native/glm.hpp>
@@ -14,8 +15,7 @@ public:
     explicit RenderingContext();
     virtual ~RenderingContext() = default;
 
-    virtual void setup(const std::shared_ptr<IShader>& shader) = 0;
-    virtual void teardown(const std::shared_ptr<IShader>& shader) = 0;
+    virtual void draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount) = 0;
 
     void updateVertex(const std::vector<glm::vec2>& data);
     void updateVertex(const std::vector<VertexData>& data);

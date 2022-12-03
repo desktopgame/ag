@@ -10,9 +10,10 @@ class MtlRenderingContext : public RenderingContext {
 public:
     explicit MtlRenderingContext();
     ~MtlRenderingContext();
-    void setup(const std::shared_ptr<IShader>& shader) override;
+    //void setup(const std::shared_ptr<IShader>& shader) override;
     void draw(MTL::RenderCommandEncoder* encoder, PrimitiveType type, int primCount);
-    void teardown(const std::shared_ptr<IShader>& shader) override;
+    //void teardown(const std::shared_ptr<IShader>& shader) override;
+    void draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount) override;
 
 private:
     static MTL::PrimitiveType convPrimitiveType(PrimitiveType type);

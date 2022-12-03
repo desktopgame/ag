@@ -15,7 +15,7 @@ OglRenderingContext::~OglRenderingContext()
 {
     release();
 }
-
+/*
 void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
 {
     auto oglShader = std::static_pointer_cast<OglShader>(shader);
@@ -55,6 +55,12 @@ void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
     oglShader->use();
     oglShader->apply(m_parameter);
 }
+*/
+
+void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount)
+{
+}
+/*
 void OglRenderingContext::teardown(const std::shared_ptr<IShader>& shader)
 {
     auto oglShader = std::static_pointer_cast<OglShader>(shader);
@@ -76,6 +82,7 @@ void OglRenderingContext::teardown(const std::shared_ptr<IShader>& shader)
         glBindVertexArray(0);
     }
 }
+*/
 // private
 void OglRenderingContext::release()
 {
