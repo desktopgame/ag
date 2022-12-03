@@ -16,11 +16,11 @@ public:
     void end(const std::shared_ptr<Window>& window) override;
 
 private:
+    MTL::RenderPassDescriptor* allocRenderPassDescriptor(const std::shared_ptr<Window>& window);
     MtlBufferPool::Instance m_matrixPool;
     MtlBufferPool::Instance m_colorPool;
     MTL::CommandBuffer* m_commandBuffer;
     CA::MetalDrawable* m_surface;
-    MTL::RenderPassDescriptor* m_passDesc;
     MTL::RenderCommandEncoder* m_encoder;
 };
 }
