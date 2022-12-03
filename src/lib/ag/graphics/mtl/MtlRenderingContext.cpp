@@ -38,11 +38,11 @@ void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, Primitive
     if (m_parameter->useColor1()) {
         mtlShader->useColor1(encoder, 0, 2);
     }
-    // draw
     if (m_parameter->useTexture()) {
         auto mtlTexture = std::static_pointer_cast<MtlTexture>(m_parameter->getTexture());
         mtlTexture->attach(encoder, 2);
     }
+    // draw
     if (m_indexLength > 0) {
         mtlIndex->drawWithIndex(encoder, convPrimitiveType(primitiveType));
     } else {
