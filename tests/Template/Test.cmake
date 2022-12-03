@@ -14,7 +14,7 @@ target_compile_options(
     ${T_APP_NAME}
     PRIVATE
     $<$<CONFIG:Release>:-O3>
-    $<$<CONFIG:Debug>:-O0 -g -Wall -Werror -fsanitize=address>
+    $<$<CONFIG:Debug>:-O0 -g -Wall -Werror -Wno-deprecated-declarations -fsanitize=address>
 )
 target_link_options(
     ${T_APP_NAME}
