@@ -4,10 +4,9 @@
 
 namespace ag {
 
-MtlShaderCompiler::MtlShaderCompiler(MTL::Device* device, MtlBufferPool::Instance matrixPool, MtlBufferPool::Instance colorPool)
+MtlShaderCompiler::MtlShaderCompiler(MTL::Device* device, MtlUniformManager::Instance uniformManager)
     : m_device(device)
-    , m_matrixPool(matrixPool)
-    , m_colorPool(colorPool)
+    , m_uniformManager(uniformManager)
 {
     m_device->retain();
 }
@@ -34,7 +33,7 @@ std::shared_ptr<IShader> MtlShaderCompiler::compileFromSingleSource(const std::s
     nsSource->release();
     vFuncName->release();
     fFuncName->release();
-    return std::make_shared<MtlShader>(m_matrixPool, m_colorPool, lib, vFunc, fFunc);
+    return std::make_shared<MtlShader>(lib, vFunc, fFunc, m_uniformManager);
 }
 bool MtlShaderCompiler::isCompilableFromSingleSource() const { return true; }
 

@@ -10,9 +10,8 @@
 #include <ag/graphics/mtl/MtlShader.hpp>
 
 namespace ag {
-MtlRenderFunction::MtlRenderFunction(MtlBufferPool::Instance matrixPool, MtlBufferPool::Instance colorPool)
-    : m_matrixPool(matrixPool)
-    , m_colorPool(colorPool)
+MtlRenderFunction::MtlRenderFunction(MtlUniformManager::Instance uniformManager)
+    : m_uniformManager(uniformManager)
     , m_commandBuffer(nullptr)
     , m_surface(nullptr)
     , m_encoder(nullptr)
@@ -23,8 +22,14 @@ MtlRenderFunction::~MtlRenderFunction()
 }
 void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
 {
+    MtlRenderFunction* self = this;
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
+    m_uniformManager->next();
     m_commandBuffer = mtlDevice->newCommandBuffer();
+    m_uniformManager->waitSync();
+    m_commandBuffer->addCompletedHandler([self](auto _) -> void {
+        self->m_uniformManager->signal();
+    });
     m_surface = window->nextDrawable();
     // create encoder
     auto desc = allocRenderPassDescriptor(window);
@@ -38,8 +43,7 @@ void MtlRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
 }
 void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
 {
-    m_matrixPool->release();
-    m_colorPool->release();
+    m_uniformManager->releaseAll();
     m_encoder->endEncoding();
     m_encoder = nullptr;
     m_commandBuffer->presentDrawable(m_surface);

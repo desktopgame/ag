@@ -2,6 +2,7 @@
 #ifdef AG_METAL
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/mtl/MtlBufferPool.hpp>
+#include <ag/graphics/mtl/MtlUniformManager.hpp>
 #include <ag/native/metal.hpp>
 
 namespace ag {
@@ -22,8 +23,7 @@ private:
     std::shared_ptr<IGraphicsDevice> m_device;
     std::shared_ptr<IShaderCompiler> m_shaderCompiler;
     std::shared_ptr<IRenderFunction> m_renderFunction;
-    MtlBufferPool::Instance m_matrixPool;
-    MtlBufferPool::Instance m_colorPool;
+    MtlUniformManager::Instance m_uniformManager;
 };
 }
 #endif

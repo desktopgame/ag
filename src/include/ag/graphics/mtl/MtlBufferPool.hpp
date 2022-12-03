@@ -7,10 +7,9 @@
 namespace ag {
 class MtlBufferPool {
 public:
-    using Instance = std::shared_ptr<MtlBufferPool>;
     explicit MtlBufferPool(int size);
     IBuffer::Instance rent();
-    void release();
+    void releaseAll();
 
 private:
     int m_size;

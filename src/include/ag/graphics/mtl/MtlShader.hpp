@@ -3,13 +3,14 @@
 #include <ag/graphics/IBuffer.hpp>
 #include <ag/graphics/IShader.hpp>
 #include <ag/graphics/mtl/MtlBufferPool.hpp>
+#include <ag/graphics/mtl/MtlUniformManager.hpp>
 #include <ag/native/glfw.hpp>
 #include <ag/native/metal.hpp>
 
 namespace ag {
 class MtlShader : public IShader {
 public:
-    explicit MtlShader(MtlBufferPool::Instance matrixPool, MtlBufferPool::Instance colorPool, MTL::Library* lib, MTL::Function* vFunc, MTL::Function* fFunc);
+    explicit MtlShader(MTL::Library* lib, MTL::Function* vFunc, MTL::Function* fFunc, MtlUniformManager::Instance uniformManager);
     ~MtlShader();
     void apply(const std::shared_ptr<ShaderParameter>& parameter) override;
     void attach(MTL::RenderPipelineDescriptor* desc);
@@ -18,8 +19,6 @@ public:
     void release();
 
 private:
-    MtlBufferPool::Instance m_matrixPool;
-    MtlBufferPool::Instance m_colorPool;
     MTL::Library* m_lib;
     MTL::Function* m_vFunc;
     MTL::Function* m_fFunc;
@@ -27,6 +26,7 @@ private:
     IBuffer::Instance m_textureBuf;
     IBuffer::Instance m_color1Buf;
     IBuffer::Instance m_color2Buf;
+    MtlUniformManager::Instance m_uniformManager;
 };
 }
 #endif

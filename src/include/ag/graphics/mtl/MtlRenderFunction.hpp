@@ -3,13 +3,14 @@
 #include <ag/graphics/IRenderFunction.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/graphics/mtl/MtlBufferPool.hpp>
+#include <ag/graphics/mtl/MtlUniformManager.hpp>
 #include <ag/native/glfw.hpp>
 #include <ag/native/metal.hpp>
 
 namespace ag {
 class MtlRenderFunction : public IRenderFunction {
 public:
-    explicit MtlRenderFunction(MtlBufferPool::Instance matrixPool, MtlBufferPool::Instance colorPool);
+    explicit MtlRenderFunction(MtlUniformManager::Instance uniformManager);
     ~MtlRenderFunction();
     void begin(const std::shared_ptr<Window>& window) override;
     void draw(const std::shared_ptr<RenderingObject>& object) override;
@@ -18,8 +19,7 @@ public:
 
 private:
     MTL::RenderPassDescriptor* allocRenderPassDescriptor(const std::shared_ptr<Window>& window);
-    MtlBufferPool::Instance m_matrixPool;
-    MtlBufferPool::Instance m_colorPool;
+    MtlUniformManager::Instance m_uniformManager;
     MTL::CommandBuffer* m_commandBuffer;
     CA::MetalDrawable* m_surface;
     MTL::RenderCommandEncoder* m_encoder;

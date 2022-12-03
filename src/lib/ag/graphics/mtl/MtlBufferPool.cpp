@@ -15,6 +15,7 @@ IBuffer::Instance MtlBufferPool::rent()
 {
     if (!m_free.empty()) {
         auto ret = m_free.front();
+        m_pool.push_back(ret);
         m_free.pop();
         return ret;
     }
@@ -24,7 +25,7 @@ IBuffer::Instance MtlBufferPool::rent()
     return buf;
 }
 
-void MtlBufferPool::release()
+void MtlBufferPool::releaseAll()
 {
     for (auto buf : m_pool) {
         m_free.push(buf);

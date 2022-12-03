@@ -9,12 +9,11 @@
 namespace ag {
 MtlGraphicsDriver::MtlGraphicsDriver()
     : m_nativeDevice(MTL::CreateSystemDefaultDevice())
-    , m_matrixPool(std::make_shared<MtlBufferPool>(sizeof(glm::mat4)))
-    , m_colorPool(std::make_shared<MtlBufferPool>(sizeof(glm::vec4)))
+    , m_uniformManager(std::make_shared<MtlUniformManager>())
 {
     m_device = std::make_shared<MtlGraphicsDevice>(m_nativeDevice);
-    m_shaderCompiler = std::make_shared<MtlShaderCompiler>(m_nativeDevice, m_matrixPool, m_colorPool);
-    m_renderFunction = std::make_shared<MtlRenderFunction>(m_matrixPool, m_colorPool);
+    m_shaderCompiler = std::make_shared<MtlShaderCompiler>(m_nativeDevice, m_uniformManager);
+    m_renderFunction = std::make_shared<MtlRenderFunction>(m_uniformManager);
 }
 MtlGraphicsDriver::~MtlGraphicsDriver()
 {
