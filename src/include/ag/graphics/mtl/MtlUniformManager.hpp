@@ -10,6 +10,7 @@
 namespace ag {
 class MtlUniformManager {
 public:
+    static const int Count;
     using Instance = std::shared_ptr<MtlUniformManager>;
     explicit MtlUniformManager();
     IBuffer::Instance rentTransformBuffer();

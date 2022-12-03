@@ -2,15 +2,16 @@
 #include <ag/native/glm.hpp>
 
 namespace ag {
+const int MtlUniformManager::Count = 3;
 MtlUniformManager::MtlUniformManager()
     : m_index()
     , m_poolSet()
 #ifdef STD_SEMAPHORE
-    , m_semaphore(3)
+    , m_semaphore(MtlUniformManager::Count)
 #endif
 {
 #ifndef STD_SEMAPHORE
-    m_nsSemaphore = dispatch_semaphore_create(3);
+    m_nsSemaphore = dispatch_semaphore_create(MtlUniformManager::Count);
 #endif
 }
 IBuffer::Instance MtlUniformManager::rentTransformBuffer() { return m_poolSet.at(m_index).rent(sizeof(glm::mat4)); }
@@ -18,7 +19,7 @@ IBuffer::Instance MtlUniformManager::rentColorBuffer() { return m_poolSet.at(m_i
 void MtlUniformManager::releaseAll() { m_poolSet.at(m_index).releaseAll(); }
 void MtlUniformManager::next()
 {
-    m_index = (m_index + 1) % 3;
+    m_index = (m_index + 1) % MtlUniformManager::Count;
 }
 void MtlUniformManager::waitSync()
 {
