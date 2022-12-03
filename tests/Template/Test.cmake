@@ -7,8 +7,8 @@ add_executable(${T_APP_NAME} main.cpp)
 target_compile_definitions(
     ${T_APP_NAME}
     PRIVATE
-    $<$<CONFIG:Release>:AG_NDEBUG>
-    $<$<CONFIG:Debug>:AG_DEBUG _DEBUG>
+    $<$<CONFIG:Release>:AG_TEST AG_NDEBUG>
+    $<$<CONFIG:Debug>:AG_TEST AG_DEBUG _DEBUG>
 )
 target_compile_options(
     ${T_APP_NAME}
