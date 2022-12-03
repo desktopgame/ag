@@ -22,11 +22,11 @@ MtlRenderFunction::~MtlRenderFunction()
 }
 void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
 {
-    MtlRenderFunction* self = this;
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
     m_uniformManager->next();
     m_commandBuffer = mtlDevice->newCommandBuffer();
     m_uniformManager->waitSync();
+    MtlRenderFunction* self = this;
     m_commandBuffer->addCompletedHandler([self](auto _) -> void {
         self->m_uniformManager->signal();
     });
@@ -45,9 +45,10 @@ void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
 {
     m_uniformManager->releaseAll();
     m_encoder->endEncoding();
-    m_encoder = nullptr;
     m_commandBuffer->presentDrawable(m_surface);
     m_commandBuffer->commit();
+    m_encoder->release();
+    m_commandBuffer->release();
 }
 MTL::RenderCommandEncoder* MtlRenderFunction::getRenderCommandEncoder() const
 {
