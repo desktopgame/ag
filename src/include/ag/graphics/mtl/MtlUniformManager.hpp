@@ -1,8 +1,11 @@
 #pragma once
 #include <ag/graphics/mtl/MtlBufferPoolSet.hpp>
+#include <ag/native/metal.hpp>
 #include <array>
 #include <memory>
 #include <semaphore>
+
+#define STD_SEMAPHORE
 
 namespace ag {
 class MtlUniformManager {
@@ -20,6 +23,10 @@ public:
 private:
     int m_index;
     std::array<MtlBufferPoolSet, 3> m_poolSet;
+#ifdef STD_SEMAPHORE
     std::counting_semaphore<3> m_semaphore;
+#else
+    dispatch_semaphore_t m_nsSemaphore;
+#endif
 };
 }
