@@ -20,10 +20,6 @@ MtlRenderFunction::MtlRenderFunction(MtlBufferPool::Instance matrixPool, MtlBuff
 }
 MtlRenderFunction::~MtlRenderFunction()
 {
-    if (m_commandBuffer) {
-        m_commandBuffer->release();
-        m_commandBuffer = nullptr;
-    }
 }
 void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
 {
@@ -57,10 +53,6 @@ void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
     m_encoder->endEncoding();
     m_commandBuffer->presentDrawable(m_surface);
     m_commandBuffer->commit();
-    if (m_commandBuffer) {
-        m_commandBuffer->release();
-        m_commandBuffer = nullptr;
-    }
 }
 // private
 MTL::RenderPassDescriptor* MtlRenderFunction::allocRenderPassDescriptor(const std::shared_ptr<Window>& window)
