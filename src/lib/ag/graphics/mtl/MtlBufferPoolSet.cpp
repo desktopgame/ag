@@ -15,7 +15,7 @@ IBuffer::Instance MtlBufferPoolSet::rent(size_t size)
 }
 void MtlBufferPoolSet::releaseAll()
 {
-    for (auto kvp : m_poolMap) {
+    for (auto& kvp : m_poolMap) {
         kvp.second.releaseAll();
     }
 }
