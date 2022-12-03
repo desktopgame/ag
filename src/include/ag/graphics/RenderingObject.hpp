@@ -19,6 +19,8 @@ public:
     static std::shared_ptr<RenderingObject> createColorRectangle(bool isFill);
     static std::shared_ptr<RenderingObject> createColorCircle(bool isFill);
 
+    void draw();
+
     PrimitiveType getPrimitiveType() const;
     int getPrimitiveCount() const;
     std::shared_ptr<IShader> getShader() const;

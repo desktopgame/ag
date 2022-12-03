@@ -4,6 +4,7 @@
 #include <ag/graphics/ShaderParameter.hpp>
 #include <ag/graphics/mtl/MtlBuffer.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
+#include <ag/graphics/mtl/MtlRenderFunction.hpp>
 #include <ag/graphics/mtl/MtlRenderingContext.hpp>
 #include <ag/graphics/mtl/MtlShader.hpp>
 #include <ag/graphics/mtl/MtlTexture.hpp>
@@ -19,8 +20,40 @@ MtlRenderingContext::~MtlRenderingContext()
         m_renderPipelineState->release();
     }
 }
-/*
-void MtlRenderingContext::setup(const std::shared_ptr<IShader>& shader)
+void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount)
+{
+    auto mtlShader = std::static_pointer_cast<MtlShader>(shader);
+    auto mtlFunc = std::static_pointer_cast<MtlRenderFunction>(Engine::getInstance()->getGraphicsDriver()->getRenderFunction());
+    // setup shader
+    createRenderPipelineState(shader);
+    shader->apply(m_parameter);
+    // get encoder
+    auto encoder = mtlFunc->getRenderCommandEncoder();
+    // update vertex, uniform
+    auto mtlVertex = std::static_pointer_cast<MtlBuffer>(m_vertex);
+    auto mtlIndex = std::static_pointer_cast<MtlBuffer>(m_index);
+    encoder->setRenderPipelineState(m_renderPipelineState);
+    mtlVertex->attachAsVertex(encoder, 0, 0);
+    mtlShader->useTransform(encoder, 0, 1);
+    if (m_parameter->useColor1()) {
+        mtlShader->useColor1(encoder, 0, 2);
+    }
+    // draw
+    if (m_parameter->useTexture()) {
+        auto mtlTexture = std::static_pointer_cast<MtlTexture>(m_parameter->getTexture());
+        mtlTexture->attach(encoder, 2);
+    }
+    if (m_indexLength > 0) {
+        mtlIndex->drawWithIndex(encoder, convPrimitiveType(primitiveType));
+    } else {
+        NS::UInteger nsOffs = static_cast<NS::UInteger>(0);
+        NS::UInteger nsPrimCount = static_cast<NS::UInteger>(primCount);
+        encoder->drawPrimitives(convPrimitiveType(primitiveType), nsOffs, nsPrimCount);
+    }
+    mtlShader->release();
+}
+// private
+void MtlRenderingContext::createRenderPipelineState(const std::shared_ptr<IShader>& shader)
 {
     auto mtlShader = std::static_pointer_cast<MtlShader>(shader);
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
@@ -46,32 +79,7 @@ void MtlRenderingContext::setup(const std::shared_ptr<IShader>& shader)
         }
         desc->release();
     }
-    shader->apply(m_parameter);
 }
-*/
-void MtlRenderingContext::draw(MTL::RenderCommandEncoder* encoder, PrimitiveType type, int primCount)
-{
-    auto mtlVertex = std::static_pointer_cast<MtlBuffer>(m_vertex);
-    auto mtlIndex = std::static_pointer_cast<MtlBuffer>(m_index);
-    encoder->setRenderPipelineState(m_renderPipelineState);
-    mtlVertex->attachAsVertex(encoder, 0, 0);
-    if (m_parameter->useTexture()) {
-        auto mtlTexture = std::static_pointer_cast<MtlTexture>(m_parameter->getTexture());
-        mtlTexture->attach(encoder, 2);
-    }
-    if (m_indexLength > 0) {
-        mtlIndex->drawWithIndex(encoder, convPrimitiveType(type));
-    } else {
-        NS::UInteger nsOffs = static_cast<NS::UInteger>(0);
-        NS::UInteger nsPrimCount = static_cast<NS::UInteger>(primCount);
-        encoder->drawPrimitives(convPrimitiveType(type), nsOffs, nsPrimCount);
-    }
-}
-void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount)
-{
-}
-//void MtlRenderingContext::teardown(const std::shared_ptr<IShader>& shader) { }
-// private
 MTL::PrimitiveType MtlRenderingContext::convPrimitiveType(PrimitiveType type)
 {
     switch (type) {

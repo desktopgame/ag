@@ -34,17 +34,7 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
 }
 void MtlRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
 {
-    auto mtlContext = std::static_pointer_cast<MtlRenderingContext>(object->getContext());
-    auto mtlShader = std::static_pointer_cast<MtlShader>(object->getShader());
-    //object->getContext()
-    //    ->setup(object->getShader());
-    mtlShader->useTransform(m_encoder, 0, 1);
-    if (object->getContext()->getParameter()->useColor1()) {
-        mtlShader->useColor1(m_encoder, 0, 2);
-    }
-    mtlContext->draw(m_encoder, object->getPrimitiveType(), object->getPrimitiveCount());
-    mtlShader->release();
-    //object->getContext()->teardown(object->getShader());
+    object->draw();
 }
 void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
 {

@@ -139,6 +139,11 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
 #endif
     return std::make_shared<RenderingObject>(isFill ? PrimitiveType::Triangles : PrimitiveType::LineStrip, verts.size(), shader, context);
 }
+// draw
+void RenderingObject::draw()
+{
+    m_context->draw(m_shader, m_primitiveType, m_primitiveCount);
+}
 // property
 PrimitiveType RenderingObject::getPrimitiveType() const { return m_primitiveType; }
 int RenderingObject::getPrimitiveCount() const { return m_primitiveCount; }
