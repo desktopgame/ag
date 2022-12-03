@@ -14,6 +14,7 @@ public:
     void begin(const std::shared_ptr<Window>& window) override;
     void draw(const std::shared_ptr<RenderingObject>& object) override;
     void end(const std::shared_ptr<Window>& window) override;
+    MTL::RenderCommandEncoder* getRenderCommandEncoder() const;
 
 private:
     MTL::RenderPassDescriptor* allocRenderPassDescriptor(const std::shared_ptr<Window>& window);

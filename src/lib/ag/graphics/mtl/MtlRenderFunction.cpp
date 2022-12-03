@@ -51,8 +51,13 @@ void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
     m_matrixPool->release();
     m_colorPool->release();
     m_encoder->endEncoding();
+    m_encoder = nullptr;
     m_commandBuffer->presentDrawable(m_surface);
     m_commandBuffer->commit();
+}
+MTL::RenderCommandEncoder* MtlRenderFunction::getRenderCommandEncoder() const
+{
+    return m_encoder;
 }
 // private
 MTL::RenderPassDescriptor* MtlRenderFunction::allocRenderPassDescriptor(const std::shared_ptr<Window>& window)
