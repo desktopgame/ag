@@ -9,7 +9,7 @@ MtlBufferPoolSet::MtlBufferPoolSet()
 IBuffer::Instance MtlBufferPoolSet::rent(size_t size)
 {
     if (!m_poolMap.count(size)) {
-        m_poolMap.insert_or_assign(size, MtlBufferPool(size));
+        m_poolMap.insert_or_assign(size, MtlBufferPool(static_cast<int>(size)));
     }
     return m_poolMap.at(size).rent();
 }

@@ -20,9 +20,9 @@ public:
     void drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
     void fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
 
-private:
     glm::mat4 m_projMat;
 
+private:
     RenderingObject::Instance m_colorDrawRectObject;
     RenderingObject::Instance m_colorFillRectObject;
     RenderingObject::Instance m_colorDrawCircleObject;

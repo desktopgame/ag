@@ -19,7 +19,7 @@ void Renderer::resize(int width, int height)
 {
     float fWidth = static_cast<float>(width);
     float fHeight = static_cast<float>(height);
-    m_projMat = glm::ortho(0.0f, fWidth, fHeight, 0.0f /* lrbt*/, 0.0f, 1.0f);
+    m_projMat = glm::ortho(0.0f, fWidth, fHeight, 0.0f /* lrbt*/, -1.0f, 1.0f);
 }
 void Renderer::resize(const glm::ivec2& size)
 {

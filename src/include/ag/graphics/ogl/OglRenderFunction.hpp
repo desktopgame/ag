@@ -13,7 +13,6 @@ public:
     void end(const std::shared_ptr<Window>& window) override;
 
 private:
-    static GLenum convPrimitiveType(PrimitiveType type);
 };
 }
 #endif

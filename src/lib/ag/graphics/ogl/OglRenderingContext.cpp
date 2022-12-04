@@ -15,8 +15,20 @@ OglRenderingContext::~OglRenderingContext()
 {
     release();
 }
-/*
-void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
+void OglRenderingContext::draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount)
+{
+    GLenum primType = convPrimitiveType(primitiveType);
+    size_t indexLen = m_indexLength;
+    beginVAO(shader);
+    if (indexLen > 0) {
+        glDrawElements(primType, indexLen, GL_UNSIGNED_SHORT, nullptr);
+    } else {
+        glDrawArrays(primType, 0, primCount);
+    }
+    endVAO(shader);
+}
+// private
+void OglRenderingContext::beginVAO(const std::shared_ptr<IShader>& shader)
 {
     auto oglShader = std::static_pointer_cast<OglShader>(shader);
     auto oglVertex = std::static_pointer_cast<OglBuffer>(m_vertex);
@@ -55,13 +67,7 @@ void OglRenderingContext::setup(const std::shared_ptr<IShader>& shader)
     oglShader->use();
     oglShader->apply(m_parameter);
 }
-*/
-
-void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount)
-{
-}
-/*
-void OglRenderingContext::teardown(const std::shared_ptr<IShader>& shader)
+void OglRenderingContext::endVAO(const std::shared_ptr<IShader>& shader)
 {
     auto oglShader = std::static_pointer_cast<OglShader>(shader);
     auto oglVertex = std::static_pointer_cast<OglBuffer>(m_vertex);
@@ -82,8 +88,6 @@ void OglRenderingContext::teardown(const std::shared_ptr<IShader>& shader)
         glBindVertexArray(0);
     }
 }
-*/
-// private
 void OglRenderingContext::release()
 {
     if (m_vao) {
@@ -97,6 +101,18 @@ void OglRenderingContext::release()
         }
         m_vao = 0;
     }
+}
+GLenum OglRenderingContext::convPrimitiveType(PrimitiveType type)
+{
+    switch (type) {
+    case PrimitiveType::Polygon:
+        return GL_POLYGON;
+    case PrimitiveType::Triangles:
+        return GL_TRIANGLES;
+    case PrimitiveType::LineStrip:
+        return GL_LINE_STRIP;
+    }
+    return GL_TRIANGLES;
 }
 }
 #endif
