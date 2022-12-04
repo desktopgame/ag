@@ -1,0 +1,18 @@
+import json
+import os
+
+def makeConf(name: str):
+    return {
+            'type': 'lldb',
+            'request': 'launch',
+            'name': f'tests/{name}',
+            'program': f'${{workspaceFolder}}/tests/{name}/{name}',
+            'args': [],
+            'cwd': '${workspaceFolder}'
+    }
+
+obj = {
+    'version': '0.2.0',
+    'configurations': list(map(makeConf, filter(lambda d: d != 'Template', os.listdir('tests'))))
+}
+json.dump(obj, open('.vscode/launch.json', 'w'), indent='    ')
