@@ -17,7 +17,7 @@ if(WIN32 OR (GLEW_FOUND AND (("${GLEW_INCLUDE_DIRS}" STREQUAL "") AND ("${GLEW_I
     set(GLEW_INCLUDE_DIRS "${GLEW_INCLUDE_DIRS}" CACHE PATH "GLEW Include")
 endif()
 # ライブラリが空なら検索する
-if(WIN32 OR (GLEW_FOUND AND (("${GLEW_LIBRARIES}" STREQUAL "") AND ("${GLEW_LIBRARY}" STREQUAL ""))))
+if(WIN32 OR (GLEW_FOUND AND ("${GLEW_LIBRARY}" STREQUAL "")))
     find_library(
         GLEW_LIBRARY
         NAMES
@@ -28,6 +28,7 @@ if(WIN32 OR (GLEW_FOUND AND (("${GLEW_LIBRARIES}" STREQUAL "") AND ("${GLEW_LIBR
         PATHS
             "/usr/local/lib"
             "/opt/local/lib"
+            "/opt/homebrew/lib"
     )
     set(GLEW_LIBRARIES "${GLEW_LIBRARY}" CACHE PATH "GLEW Library")
     set(GLEW_LIBRARY "${GLEW_LIBRARY}" CACHE PATH "GLEW Library")
