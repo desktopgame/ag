@@ -23,6 +23,7 @@ private:
     MTL::CommandBuffer* m_commandBuffer;
     CA::MetalDrawable* m_surface;
     MTL::RenderCommandEncoder* m_encoder;
+    NS::AutoreleasePool* m_arPool;
 };
 }
 #endif
