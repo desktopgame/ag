@@ -41,12 +41,13 @@ std::shared_ptr<FontSprite> FontMap::load(int size, unsigned long charcode)
     }
     m_font->load(size, charcode);
     auto fontInstance = m_font->getCurrentInstance();
-    //Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newTexture();
-    //auto texture = std::make_shared<Texture>(
-    //    fontInstance->data, fontInstance->metrics.size.x(),
-    //    fontInstance->metrics.size.y(), TextureFormat::Red,
-    //    TextureFormat::Red);
-    auto fontSprite = std::make_shared<FontSprite>(nullptr, fontInstance->metrics);
+    std::vector<Pixel> pixels;
+    fontToPixel(fontInstance, pixels);
+    auto texture = Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newTexture(
+        fontInstance->metrics.size.x,
+        fontInstance->metrics.size.y,
+        &pixels.front().r);
+    auto fontSprite = std::make_shared<FontSprite>(texture, fontInstance->metrics);
     c->textureMap[charcode] = fontSprite;
     return fontSprite;
 }
@@ -58,5 +59,16 @@ std::vector<std::shared_ptr<FontSprite>> FontMap::load(
         v.emplace_back(load(size, c));
     }
     return v;
+}
+// private
+void FontMap::fontToPixel(const std::shared_ptr<FontInstance>& instance, std::vector<Pixel>& outPixels)
+{
+    int w = instance->metrics.size.x;
+    int h = instance->metrics.size.y;
+    for (int i = 0; i < w * h; i++) {
+        Pixel p;
+        p.a = instance->data[i];
+        outPixels.push_back(p);
+    }
 }
 }
