@@ -6,4 +6,4 @@ FontSprite::FontSprite(const std::shared_ptr<Texture>& texture,
     , metrics(metrics)
 {
 }
-} // namespace Gel
+}

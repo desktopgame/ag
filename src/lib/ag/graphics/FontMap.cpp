@@ -59,4 +59,4 @@ std::vector<std::shared_ptr<FontSprite>> FontMap::load(
     }
     return v;
 }
-} // namespace Gel
+}

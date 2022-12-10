@@ -58,4 +58,4 @@ std::shared_ptr<FontInstance> Font::getCurrentInstance()
     return instance;
 }
 bool Font::isOccurredError() const { return m_occurredError; }
-} // namespace Gel
+}

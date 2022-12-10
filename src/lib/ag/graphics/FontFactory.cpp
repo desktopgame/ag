@@ -51,4 +51,4 @@ FontFactory::FontFactory()
         this->m_occurredError = true;
     }
 }
-} // namespace Gel
+}
