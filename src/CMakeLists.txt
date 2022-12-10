@@ -18,15 +18,18 @@ endif()
 find_package(GLFW REQUIRED)
 find_package(GLM REQUIRED)
 find_package(FreeImage REQUIRED)
+find_package(FreeTypeEx REQUIRED)
 set(AG_INCLUDE
     ${GLFW_INCLUDE_DIR}
     ${GLM_INCLUDE_DIR}
     ${FREEIMAGE_INCLUDE_DIRS}
+    ${FREETYPE_INCLUDE_DIRS}
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 set(AG_LIBRARY
     ${GLFW_LIBRARIES}
     ${FREEIMAGE_LIBRARIES}
+    ${FREETYPE_LIBRARIES}
 )
 if(AG_USE_OPEN_GL)
     list(APPEND AG_DEBUG_DEFINE AG_OPEN_GL)
