@@ -18,7 +18,7 @@ public:
 
 private:
     explicit FontFactory();
-    static Instance m_instance;
+    static Instance s_instance;
     class Impl;
     std::unique_ptr<Impl> m_impl;
     std::map<std::string, std::shared_ptr<FontMap>> m_fontRegistry;

@@ -16,7 +16,7 @@ public:
     FT_Library ft;
 };
 // FontFactory
-FontFactory::Instance FontFactory::m_instance = nullptr;
+FontFactory::Instance FontFactory::s_instance = nullptr;
 FontFactory::~FontFactory()
 {
     m_fontRegistry.clear();
@@ -24,10 +24,10 @@ FontFactory::~FontFactory()
 }
 FontFactory::Instance FontFactory::getInstance()
 {
-    if (!FontFactory::m_instance) {
-        FontFactory::m_instance = Instance(new FontFactory());
+    if (!FontFactory::s_instance) {
+        FontFactory::s_instance = Instance(new FontFactory());
     }
-    return FontFactory::m_instance;
+    return FontFactory::s_instance;
 }
 std::shared_ptr<FontMap> FontFactory::load(const std::string& path)
 {
