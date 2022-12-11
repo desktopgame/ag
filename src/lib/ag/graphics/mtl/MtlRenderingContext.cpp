@@ -22,6 +22,23 @@ MtlRenderingContext::~MtlRenderingContext()
 }
 void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount)
 {
+    auto mtlIndex = std::static_pointer_cast<MtlBuffer>(m_index);
+    auto mtlFunc = std::static_pointer_cast<MtlRenderFunction>(Engine::getInstance()->getGraphicsDriver()->getRenderFunction());
+    auto encoder = mtlFunc->getRenderCommandEncoder();
+    beginBuffer(shader);
+    // draw
+    if (m_indexLength > 0) {
+        mtlIndex->drawWithIndex(encoder, convPrimitiveType(primitiveType));
+    } else {
+        NS::UInteger nsOffs = static_cast<NS::UInteger>(0);
+        NS::UInteger nsPrimCount = static_cast<NS::UInteger>(primCount);
+        encoder->drawPrimitives(convPrimitiveType(primitiveType), nsOffs, nsPrimCount);
+    }
+    endBuffer(shader);
+}
+// private
+void MtlRenderingContext::beginBuffer(const std::shared_ptr<IShader>& shader)
+{
     auto mtlShader = std::static_pointer_cast<MtlShader>(shader);
     auto mtlFunc = std::static_pointer_cast<MtlRenderFunction>(Engine::getInstance()->getGraphicsDriver()->getRenderFunction());
     // setup shader
@@ -42,17 +59,12 @@ void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, Primitive
         auto mtlTexture = std::static_pointer_cast<MtlTexture>(m_parameter->getTexture());
         mtlTexture->attach(encoder, 10);
     }
-    // draw
-    if (m_indexLength > 0) {
-        mtlIndex->drawWithIndex(encoder, convPrimitiveType(primitiveType));
-    } else {
-        NS::UInteger nsOffs = static_cast<NS::UInteger>(0);
-        NS::UInteger nsPrimCount = static_cast<NS::UInteger>(primCount);
-        encoder->drawPrimitives(convPrimitiveType(primitiveType), nsOffs, nsPrimCount);
-    }
+}
+void MtlRenderingContext::endBuffer(const std::shared_ptr<IShader>& shader)
+{
+    auto mtlShader = std::static_pointer_cast<MtlShader>(shader);
     mtlShader->release();
 }
-// private
 void MtlRenderingContext::createRenderPipelineState(const std::shared_ptr<IShader>& shader)
 {
     auto mtlShader = std::static_pointer_cast<MtlShader>(shader);

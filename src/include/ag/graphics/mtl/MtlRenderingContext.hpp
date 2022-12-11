@@ -13,6 +13,8 @@ public:
     void draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount) override;
 
 private:
+    void beginBuffer(const std::shared_ptr<IShader>& shader);
+    void endBuffer(const std::shared_ptr<IShader>& shader);
     void createRenderPipelineState(const std::shared_ptr<IShader>& shader);
     static MTL::PrimitiveType convPrimitiveType(PrimitiveType type);
     MTL::RenderPipelineState* m_renderPipelineState;
