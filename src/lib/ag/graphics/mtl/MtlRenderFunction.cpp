@@ -38,10 +38,6 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
     m_encoder->setCullMode(MTL::CullMode::CullModeFront);
     desc->release();
 }
-void MtlRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
-{
-    object->draw();
-}
 void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
 {
     m_uniformManager->releaseAll();

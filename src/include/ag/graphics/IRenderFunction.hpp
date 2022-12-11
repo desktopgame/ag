@@ -11,7 +11,6 @@ public:
     IRenderFunction() = default;
     virtual ~IRenderFunction() = default;
     virtual void begin(const std::shared_ptr<Window>& window) = 0;
-    virtual void draw(const std::shared_ptr<RenderingObject>& object) = 0;
     virtual void end(const std::shared_ptr<Window>& window) = 0;
 };
 }

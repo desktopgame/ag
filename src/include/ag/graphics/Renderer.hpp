@@ -31,6 +31,7 @@ public:
     glm::mat4 m_projMat;
 
 private:
+    static void draw(const RenderingObject::Instance& obj);
     RenderingObject::Instance m_colorDrawRectObject;
     RenderingObject::Instance m_colorFillRectObject;
     RenderingObject::Instance m_colorDrawCircleObject;

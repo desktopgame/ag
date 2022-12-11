@@ -18,10 +18,6 @@ void OglRenderFunction::begin(const std::shared_ptr<Window>& window)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
-void OglRenderFunction::draw(const std::shared_ptr<RenderingObject>& object)
-{
-    object->draw();
-}
 void OglRenderFunction::end(const std::shared_ptr<Window>& window)
 {
 }

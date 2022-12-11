@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
                     glm::vec3(size, 1));
                 param->setTransform(m_projMat * transform);
                 param->setColor1(color);
-                ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(rect);
+                rect->draw();
             }
             looper->release();
         }

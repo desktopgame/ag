@@ -35,7 +35,7 @@ void Renderer::drawTexture(const glm::vec2& pos, const glm::vec2& size, const st
         glm::vec3(size, 1));
     param->setTransform(m_projMat * transform);
     param->setTexture(texture);
-    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_textureObject);
+    draw(m_textureObject);
 }
 void Renderer::drawTexture(const glm::vec2& pos, const std::shared_ptr<ITexture>& texture)
 {
@@ -48,7 +48,7 @@ void Renderer::drawRect(const glm::vec2& pos, const glm::vec2& size, const glm::
         glm::vec3(size, 1));
     param->setTransform(m_projMat * transform);
     param->setColor1(color);
-    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_colorDrawRectObject);
+    draw(m_colorDrawRectObject);
 }
 void Renderer::fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
 {
@@ -57,7 +57,7 @@ void Renderer::fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::
         glm::vec3(size, 1));
     param->setTransform(m_projMat * transform);
     param->setColor1(color);
-    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_colorFillRectObject);
+    draw(m_colorFillRectObject);
 }
 
 void Renderer::drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
@@ -67,7 +67,7 @@ void Renderer::drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm
         glm::vec3(size / 2.f, 1));
     param->setTransform(m_projMat * transform);
     param->setColor1(color);
-    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_colorDrawCircleObject);
+    draw(m_colorDrawCircleObject);
 }
 void Renderer::fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
 {
@@ -76,7 +76,7 @@ void Renderer::fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm
         glm::vec3(size / 2.f, 1));
     param->setTransform(m_projMat * transform);
     param->setColor1(color);
-    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_colorFillCircleObject);
+    draw(m_colorFillCircleObject);
 }
 void Renderer::drawChar(const glm::vec2& pos, int fontSize, unsigned long charcode, const glm::vec4& color)
 {
@@ -90,7 +90,7 @@ void Renderer::drawChar(const glm::vec2& pos, int fontSize, unsigned long charco
     param->setTransform(m_projMat * transform);
     param->setTexture(sprite->texture);
     param->setColor1(color);
-    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_stringObject);
+    draw(m_stringObject);
 }
 void Renderer::drawString(const glm::vec2& pos, int fontSize, const std::u16string& str, const glm::vec4& color)
 {
@@ -117,7 +117,7 @@ void Renderer::drawString(const glm::vec2& pos, int fontSize, const std::u16stri
         param->setTransform(m_projMat * transform);
         param->setTexture(sprite->texture);
         param->setColor1(color);
-        ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_stringObject);
+        draw(m_stringObject);
         // move to next char.
         offset.x += sprite->metrics.advance.x >> 6;
     }
@@ -143,4 +143,9 @@ glm::vec2 Renderer::measureString(int fontSize, const std::u16string& str)
 }
 void Renderer::setFontMap(const std::shared_ptr<FontMap>& fontMap) { m_fontMap = fontMap; }
 std::shared_ptr<FontMap> Renderer::getFontMap() const { return m_fontMap; }
+// private
+void Renderer::draw(const RenderingObject::Instance& obj)
+{
+    obj->draw();
+}
 }
