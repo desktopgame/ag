@@ -70,7 +70,7 @@ namespace internal {
             return color;
         }
     )";
-    static constexpr inline const char* Metal_TextureVertexShader = R"(
+    static constexpr inline const char* Metal_TextureVFShader = R"(
         #include <metal_stdlib>
         #include <simd/simd.h>
         using namespace metal;

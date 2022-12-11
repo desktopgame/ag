@@ -40,7 +40,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle()
 #if AG_OPEN_GL
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_TextureVertexShader, ag::internal::GL_TextureFragmentShader);
 #elif AG_METAL
-    auto shader = compiler->compileFromSingleSource(ag::internal::Metal_TextureVertexShader);
+    auto shader = compiler->compileFromSingleSource(ag::internal::Metal_TextureVFShader);
 #endif
     const std::vector<VertexData> verts {
         { { left, top },
