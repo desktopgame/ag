@@ -29,7 +29,11 @@ int main(int argc, char* argv[])
             renderer->drawTexture(glm::vec2(200, 0), texture);
             renderer->fillRect(glm::vec2(0, 0), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
             renderer->fillRect(glm::vec2(500, 500), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
-            renderer->drawString(glm::vec2(0, 0), 20, u"こんにちは世界", glm::vec4(1, 1, 1, 1));
+
+            glm::vec2 helloTextPos = glm::vec2(600, 600);
+            renderer->drawString(helloTextPos, 20, u"こんにちは世界", glm::vec4(1, 1, 1, 1));
+            helloTextPos.x += renderer->measureString(20, u"こんにちは世界").x;
+            renderer->drawString(helloTextPos, 20, u"さようなら", glm::vec4(1, 0, 1, 1));
             looper->release();
         }
     }

@@ -105,14 +105,14 @@ void Renderer::drawString(const glm::vec2& pos, int fontSize, const std::u16stri
             maxY = sprite->metrics.size.y;
         }
     }
-    glm::vec2 offset;
+    glm::vec2 offset = pos;
     for (auto sprite : sprites) {
         float xpos = offset.x + sprite->metrics.bearing.x;
         float ypos = offset.y - sprite->metrics.bearing.y;
         ypos += maxY;
         // draw
         auto param = m_stringObject->getContext()->getParameter();
-        glm::mat4 translate = glm::translate(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)), glm::vec3(xpos, ypos, 0));
+        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, 0));
         glm::mat4 transform = glm::scale(translate, glm::vec3(sprite->metrics.size, 1));
         param->setTransform(m_projMat * transform);
         param->setTexture(sprite->texture);
@@ -121,6 +121,25 @@ void Renderer::drawString(const glm::vec2& pos, int fontSize, const std::u16stri
         // move to next char.
         offset.x += sprite->metrics.advance.x >> 6;
     }
+}
+glm::vec2 Renderer::measureString(int fontSize, const std::u16string& str)
+{
+    if (!m_fontMap) {
+        return glm::vec2 { 0, 0 };
+    }
+    auto sprites = m_fontMap->load(fontSize, str);
+    // get char height of baseline.
+    float maxY = -1.f;
+    for (auto sprite : sprites) {
+        if (maxY < sprite->metrics.size.y) {
+            maxY = sprite->metrics.size.y;
+        }
+    }
+    glm::vec2 offset { 0, maxY };
+    for (auto sprite : sprites) {
+        offset.x += sprite->metrics.advance.x >> 6;
+    }
+    return offset;
 }
 void Renderer::setFontMap(const std::shared_ptr<FontMap>& fontMap) { m_fontMap = fontMap; }
 std::shared_ptr<FontMap> Renderer::getFontMap() const { return m_fontMap; }

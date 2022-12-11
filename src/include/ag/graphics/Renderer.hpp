@@ -23,6 +23,7 @@ public:
     void fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
     void drawChar(const glm::vec2& pos, int fontSize, unsigned long charcode, const glm::vec4& color);
     void drawString(const glm::vec2& pos, int fontSize, const std::u16string& str, const glm::vec4& color);
+    glm::vec2 measureString(int fontSize, const std::u16string& str);
 
     void setFontMap(const std::shared_ptr<FontMap>& fontMap);
     std::shared_ptr<FontMap> getFontMap() const;
