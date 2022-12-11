@@ -1,4 +1,5 @@
 #include <ag/Engine.hpp>
+#include <ag/graphics/FontSprite.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/IRenderFunction.hpp>
 #include <ag/graphics/ITexture.hpp>
@@ -12,6 +13,8 @@ Renderer::Renderer()
     , m_colorDrawCircleObject(RenderingObject::createColorCircle(false))
     , m_colorFillCircleObject(RenderingObject::createColorCircle(true))
     , m_textureObject(RenderingObject::createTextureRectangle())
+    , m_stringObject(RenderingObject::createString())
+    , m_fontMap()
 {
 }
 
@@ -75,4 +78,21 @@ void Renderer::fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm
     param->setColor1(color);
     ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_colorFillCircleObject);
 }
+void Renderer::drawChar(const glm::vec2& pos, int fontSize, unsigned long charcode, const glm::vec4& color)
+{
+    if (!m_fontMap) {
+        return;
+    }
+    auto sprite = m_fontMap->load(fontSize, charcode);
+    auto param = m_stringObject->getContext()->getParameter();
+    glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
+        glm::vec3(sprite->metrics.size, 1));
+    param->setTransform(m_projMat * transform);
+    param->setTexture(sprite->texture);
+    param->setColor1(color);
+    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->draw(m_stringObject);
+}
+void Renderer::drawString(const glm::vec2& pos, int fontSize, const std::u16string& str, const glm::vec4& color) { }
+void Renderer::setFontMap(const std::shared_ptr<FontMap>& fontMap) { m_fontMap = fontMap; }
+std::shared_ptr<FontMap> Renderer::getFontMap() const { return m_fontMap; }
 }

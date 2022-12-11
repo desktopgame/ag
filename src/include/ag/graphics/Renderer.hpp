@@ -1,4 +1,5 @@
 #pragma once
+#include <ag/graphics/FontMap.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/native/glm.hpp>
@@ -7,6 +8,7 @@
 namespace ag {
 class IShader;
 class ITexture;
+class FontMap;
 class Renderer {
 public:
     explicit Renderer();
@@ -19,6 +21,11 @@ public:
     void fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
     void drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
     void fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
+    void drawChar(const glm::vec2& pos, int fontSize, unsigned long charcode, const glm::vec4& color);
+    void drawString(const glm::vec2& pos, int fontSize, const std::u16string& str, const glm::vec4& color);
+
+    void setFontMap(const std::shared_ptr<FontMap>& fontMap);
+    std::shared_ptr<FontMap> getFontMap() const;
 
     glm::mat4 m_projMat;
 
@@ -28,5 +35,7 @@ private:
     RenderingObject::Instance m_colorDrawCircleObject;
     RenderingObject::Instance m_colorFillCircleObject;
     RenderingObject::Instance m_textureObject;
+    RenderingObject::Instance m_stringObject;
+    std::shared_ptr<FontMap> m_fontMap;
 };
 }

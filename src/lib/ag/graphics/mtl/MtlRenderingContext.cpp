@@ -40,7 +40,7 @@ void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, Primitive
     }
     if (m_parameter->useTexture()) {
         auto mtlTexture = std::static_pointer_cast<MtlTexture>(m_parameter->getTexture());
-        mtlTexture->attach(encoder, 2);
+        mtlTexture->attach(encoder, 10);
     }
     // draw
     if (m_indexLength > 0) {

@@ -8,6 +8,8 @@ int main(int argc, char* argv[])
     ag::Renderer* renderer = nullptr;
     ag::Image img;
     ag::ImageLoader::load("testdata/textures/ghicon.png", img);
+    auto fontMap = ag::FontFactory::getInstance()->load("testdata/fonts/NotoSansJP-Regular.otf");
+    //auto fonts = fontMap->load(24, u"こんにちは世界");
     ag::ITexture::Instance texture = nullptr;
     while (looper->nextLoop()) {
         while (looper->nextWindow()) {
@@ -17,6 +19,7 @@ int main(int argc, char* argv[])
             }
             if (!renderer) {
                 renderer = new ag::Renderer();
+                renderer->setFontMap(fontMap);
             }
             renderer->resize(window->getSize());
             renderer->fillCircle(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
@@ -26,6 +29,7 @@ int main(int argc, char* argv[])
             renderer->drawTexture(glm::vec2(200, 0), texture);
             renderer->fillRect(glm::vec2(0, 0), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
             renderer->fillRect(glm::vec2(500, 500), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
+            renderer->drawChar(glm::vec2(600, 600), 20, u'あ', glm::vec4(1, 1, 1, 1));
             looper->release();
         }
     }
