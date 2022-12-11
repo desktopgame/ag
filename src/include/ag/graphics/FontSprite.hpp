@@ -3,14 +3,14 @@
 #include <memory>
 
 namespace ag {
-class Texture;
+class ITexture;
 class FontSprite {
 public:
     using Reference = std::weak_ptr<FontSprite>;
     using Instance = std::shared_ptr<FontSprite>;
-    explicit FontSprite(const std::shared_ptr<Texture>& texture,
+    explicit FontSprite(const std::shared_ptr<ITexture>& texture,
         FontMetrics metrics);
-    const std::shared_ptr<Texture> texture;
+    const std::shared_ptr<ITexture> texture;
     const FontMetrics metrics;
 
 private:
