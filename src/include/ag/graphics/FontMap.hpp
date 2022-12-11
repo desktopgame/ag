@@ -16,6 +16,7 @@ public:
     std::vector<std::shared_ptr<FontSprite>> load(
         int size, const std::u16string& str);
     std::shared_ptr<FontSprite> load(int size, unsigned long charcode);
+    bool isOccurredError() const;
 
 private:
     static void fontToPixel(const std::shared_ptr<FontInstance>& instance, std::vector<Pixel>& outPixels);

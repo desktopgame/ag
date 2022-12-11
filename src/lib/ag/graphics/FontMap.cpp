@@ -60,6 +60,7 @@ std::vector<std::shared_ptr<FontSprite>> FontMap::load(
     }
     return v;
 }
+bool FontMap::isOccurredError() const { return m_font->isOccurredError(); }
 // private
 void FontMap::fontToPixel(const std::shared_ptr<FontInstance>& instance, std::vector<Pixel>& outPixels)
 {
