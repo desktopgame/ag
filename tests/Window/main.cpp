@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
     ag::Window::create(1280, 720, false, "Window");
     ag::Renderer* renderer = nullptr;
     ag::Image img;
-    ag::ImageLoader::load("testdata/ghicon.png", img);
+    ag::ImageLoader::load("testdata/textures/ghicon.png", img);
     ag::ITexture::Instance texture = nullptr;
     while (looper->nextLoop()) {
         while (looper->nextWindow()) {
