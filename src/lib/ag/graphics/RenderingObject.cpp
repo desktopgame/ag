@@ -32,58 +32,22 @@ RenderingObject::RenderingObject(
 std::shared_ptr<RenderingObject> RenderingObject::createString()
 {
     auto compiler = Engine::getInstance()->getGraphicsDriver()->getShaderCompiler();
-    const float left = 0;
-    const float right = 1;
-    const float top = 0;
-    const float bottom = 1;
-    auto context = createRenderingContext();
 #if AG_OPEN_GL
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_StringVertexShader, ag::internal::GL_StringFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_StringVFShader);
 #endif
-    const std::vector<VertexData> verts {
-        { { left, top },
-            { 0, 0 } },
-        { { right, top },
-            { 1, 0 } },
-        { { right, bottom },
-            { 1, 1 } },
-        { { left, bottom },
-            { 0, 1 } }
-    };
-    const std::vector<unsigned short> index { 1, 0, 3, 1, 3, 2 };
-    context->updateVertex(verts);
-    context->updateIndex(index);
-    return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
+    return createTextureRectangle(shader);
 }
 std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle()
 {
     auto compiler = Engine::getInstance()->getGraphicsDriver()->getShaderCompiler();
-    const float left = 0;
-    const float right = 1;
-    const float top = 0;
-    const float bottom = 1;
-    auto context = createRenderingContext();
 #if AG_OPEN_GL
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_TextureVertexShader, ag::internal::GL_TextureFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_TextureVFShader);
 #endif
-    const std::vector<VertexData> verts {
-        { { left, top },
-            { 0, 0 } },
-        { { right, top },
-            { 1, 0 } },
-        { { right, bottom },
-            { 1, 1 } },
-        { { left, bottom },
-            { 0, 1 } }
-    };
-    const std::vector<unsigned short> index { 1, 0, 3, 1, 3, 2 };
-    context->updateVertex(verts);
-    context->updateIndex(index);
-    return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
+    return createTextureRectangle(shader);
 }
 std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle(bool isFill)
 {
@@ -178,7 +142,28 @@ int RenderingObject::getPrimitiveCount() const { return m_primitiveCount; }
 std::shared_ptr<IShader> RenderingObject::getShader() const { return m_shader; }
 std::shared_ptr<RenderingContext> RenderingObject::getContext() const { return m_context; }
 // private
-
+std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle(const std::shared_ptr<IShader>& shader)
+{
+    const float left = 0;
+    const float right = 1;
+    const float top = 0;
+    const float bottom = 1;
+    auto context = createRenderingContext();
+    const std::vector<VertexData> verts {
+        { { left, top },
+            { 0, 0 } },
+        { { right, top },
+            { 1, 0 } },
+        { { right, bottom },
+            { 1, 1 } },
+        { { left, bottom },
+            { 0, 1 } }
+    };
+    const std::vector<unsigned short> index { 1, 0, 3, 1, 3, 2 };
+    context->updateVertex(verts);
+    context->updateIndex(index);
+    return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
+}
 RenderingContext::Instance RenderingObject::createRenderingContext()
 {
 #if AG_OPEN_GL

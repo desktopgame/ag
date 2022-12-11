@@ -28,6 +28,7 @@ public:
     std::shared_ptr<RenderingContext> getContext() const;
 
 private:
+    static std::shared_ptr<RenderingObject> createTextureRectangle(const std::shared_ptr<IShader>& shader);
     static std::shared_ptr<RenderingContext> createRenderingContext();
     PrimitiveType m_primitiveType;
     int m_primitiveCount;
