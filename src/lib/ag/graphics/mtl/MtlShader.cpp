@@ -46,18 +46,18 @@ void MtlShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
     }
     m_color1Buf->update(glm::value_ptr(parameter->getColor1()));
 }
-void MtlShader::attach(MTL::RenderPipelineDescriptor* desc)
+void MtlShader::attachFunction(MTL::RenderPipelineDescriptor* desc)
 {
     desc->setVertexFunction(m_vFunc);
     desc->setFragmentFunction(m_fFunc);
 }
 
-void MtlShader::useTransform(MTL::RenderCommandEncoder* encoder, int offset, int index)
+void MtlShader::attachTransform(MTL::RenderCommandEncoder* encoder, int offset, int index)
 {
     auto mtlTransformMatrixBuf = std::static_pointer_cast<MtlBuffer>(m_transformMatrixBuf);
     mtlTransformMatrixBuf->attachAsVertex(encoder, offset, index);
 }
-void MtlShader::useColor1(MTL::RenderCommandEncoder* encoder, int offset, int index)
+void MtlShader::attachColor1(MTL::RenderCommandEncoder* encoder, int offset, int index)
 {
     auto mtlColor1Buf = std::static_pointer_cast<MtlBuffer>(m_color1Buf);
     mtlColor1Buf->attachAsFragment(encoder, offset, index);

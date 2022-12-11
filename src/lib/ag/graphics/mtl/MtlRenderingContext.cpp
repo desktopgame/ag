@@ -51,9 +51,9 @@ void MtlRenderingContext::beginBuffer(const std::shared_ptr<IShader>& shader)
     auto mtlIndex = std::static_pointer_cast<MtlBuffer>(m_index);
     encoder->setRenderPipelineState(m_renderPipelineState);
     mtlVertex->attachAsVertex(encoder, 0, 0);
-    mtlShader->useTransform(encoder, 0, 1);
+    mtlShader->attachTransform(encoder, 0, 1);
     if (m_parameter->useColor1()) {
-        mtlShader->useColor1(encoder, 0, 2);
+        mtlShader->attachColor1(encoder, 0, 2);
     }
     if (m_parameter->useTexture()) {
         auto mtlTexture = std::static_pointer_cast<MtlTexture>(m_parameter->getTexture());
@@ -72,7 +72,7 @@ void MtlRenderingContext::createRenderPipelineState(const std::shared_ptr<IShade
     if (!m_renderPipelineState) {
         MTL::RenderPipelineDescriptor* desc = MTL::RenderPipelineDescriptor::alloc()->init();
         MTL::RenderPipelineColorAttachmentDescriptor* colorDesc = desc->colorAttachments()->object(0);
-        mtlShader->attach(desc);
+        mtlShader->attachFunction(desc);
         colorDesc->setPixelFormat(
             MTL::PixelFormatBGRA8Unorm);
         colorDesc->setBlendingEnabled(true);

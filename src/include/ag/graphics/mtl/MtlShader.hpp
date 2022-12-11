@@ -13,9 +13,9 @@ public:
     explicit MtlShader(MTL::Library* lib, MTL::Function* vFunc, MTL::Function* fFunc, MtlUniformManager::Instance uniformManager);
     ~MtlShader();
     void apply(const std::shared_ptr<ShaderParameter>& parameter) override;
-    void attach(MTL::RenderPipelineDescriptor* desc);
-    void useTransform(MTL::RenderCommandEncoder* encoder, int offset, int index);
-    void useColor1(MTL::RenderCommandEncoder* encoder, int offset, int index);
+    void attachFunction(MTL::RenderPipelineDescriptor* desc);
+    void attachTransform(MTL::RenderCommandEncoder* encoder, int offset, int index);
+    void attachColor1(MTL::RenderCommandEncoder* encoder, int offset, int index);
     void release();
 
 private:
