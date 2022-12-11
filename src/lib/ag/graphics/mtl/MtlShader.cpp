@@ -63,7 +63,7 @@ void MtlShader::attachColor1(MTL::RenderCommandEncoder* encoder, int offset, int
     mtlColor1Buf->attachAsFragment(encoder, offset, index);
 }
 
-void MtlShader::release()
+void MtlShader::detach()
 {
     m_transformMatrixBuf = nullptr;
     m_color1Buf = nullptr;

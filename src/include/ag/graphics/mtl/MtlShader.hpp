@@ -16,7 +16,7 @@ public:
     void attachFunction(MTL::RenderPipelineDescriptor* desc);
     void attachTransform(MTL::RenderCommandEncoder* encoder, int offset, int index);
     void attachColor1(MTL::RenderCommandEncoder* encoder, int offset, int index);
-    void release();
+    void detach();
 
 private:
     MTL::Library* m_lib;

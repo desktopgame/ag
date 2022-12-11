@@ -63,7 +63,7 @@ void MtlRenderingContext::beginBuffer(const std::shared_ptr<IShader>& shader)
 void MtlRenderingContext::endBuffer(const std::shared_ptr<IShader>& shader)
 {
     auto mtlShader = std::static_pointer_cast<MtlShader>(shader);
-    mtlShader->release();
+    mtlShader->detach();
 }
 void MtlRenderingContext::createRenderPipelineState(const std::shared_ptr<IShader>& shader)
 {
