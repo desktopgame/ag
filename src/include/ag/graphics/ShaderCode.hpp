@@ -41,6 +41,30 @@ namespace internal {
             gl_FragColor = texture2D(uTexture, fragTexCoord);
         }
     )";
+    static constexpr inline const char* GL_StringVertexShader = R"(
+        #version 120
+        attribute vec2 aVertex;
+        attribute vec2 aTexCoord;
+        uniform mat4 uTransformMatrix;
+        varying vec2 fragTexCoord;
+
+        void main(void) {
+            fragTexCoord = aTexCoord;
+            gl_Position = uTransformMatrix * vec4(aVertex, 0, 1);
+        }
+    )";
+    static constexpr inline const char* GL_StringFragmentShader = R"(
+        #version 120
+        uniform sampler2D uTexture;
+        varying vec2 fragTexCoord;
+        uniform vec4 uColor1;
+
+        void main() {
+            vec4 col = uColor1;
+            col.a = texture2D(uTexture, fragTexCoord).a;
+            gl_FragColor = col;
+        }
+    )";
     static constexpr inline const char* Metal_ColorVFShader = R"(
         #include <metal_stdlib>
         #include <simd/simd.h>

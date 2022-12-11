@@ -38,7 +38,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createString()
     const float bottom = 1;
     auto context = createRenderingContext();
 #if AG_OPEN_GL
-    auto shader = compiler->compileFromPartedSource(ag::internal::GL_TextureVertexShader, ag::internal::GL_TextureFragmentShader);
+    auto shader = compiler->compileFromPartedSource(ag::internal::GL_StringVertexShader, ag::internal::GL_StringFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_StringVFShader);
 #endif
