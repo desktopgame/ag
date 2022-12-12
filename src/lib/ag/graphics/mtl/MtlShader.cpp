@@ -17,9 +17,6 @@ MtlShader::MtlShader(MTL::Library* lib, MTL::Function* vFunc, MTL::Function* fFu
     , m_color2Buf(nullptr)
     , m_uniformManager(uniformManager)
 {
-    m_lib->retain();
-    m_vFunc->retain();
-    m_fFunc->retain();
 }
 MtlShader::~MtlShader()
 {
