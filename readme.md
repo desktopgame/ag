@@ -14,8 +14,7 @@ cmake . -DAG_USE_METAL=ON
 ````
 
 # example
-agは簡単な2D描画しかサポートしていません。  
-（今後3Dをサポートする予定もありません。）
+agは簡単な2D描画しかサポートしていません。
 ````.cpp
 #include <ag/agOne.hpp>
 
