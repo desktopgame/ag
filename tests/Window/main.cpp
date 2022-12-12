@@ -4,23 +4,20 @@ int main(int argc, char* argv[])
 {
     auto engine = ag::Engine::getInstance()->startup(argc, argv);
     auto looper = engine->getLooper();
-    ag::Window::create(1280, 720, false, "Window");
-    ag::Renderer* renderer = nullptr;
+    auto window = ag::Window::create(1280, 720, false, "Window");
+    auto fontMap = ag::FontFactory::getInstance()->load("testdata/fonts/NotoSansJP-Regular.otf");
+    window->makeContextCurrent();
+    // create renderer.
+    auto renderer = new ag::Renderer();
+    renderer->setFontMap(fontMap);
+    // load texture.
     ag::Image img;
     ag::ImageLoader::load("testdata/textures/ghicon.png", img);
-    auto fontMap = ag::FontFactory::getInstance()->load("testdata/fonts/NotoSansJP-Regular.otf");
-    //auto fonts = fontMap->load(24, u"こんにちは世界");
-    ag::ITexture::Instance texture = nullptr;
+    ag::ITexture::Instance texture = engine->getGraphicsDriver()->getGraphicsDevice()->newTexture(img.width, img.height, img.getData());
+    // start main loop.
     while (looper->nextLoop()) {
         while (looper->nextWindow()) {
             auto window = looper->acquire();
-            if (!texture) {
-                texture = engine->getGraphicsDriver()->getGraphicsDevice()->newTexture(img.width, img.height, img.getData());
-            }
-            if (!renderer) {
-                renderer = new ag::Renderer();
-                renderer->setFontMap(fontMap);
-            }
             renderer->resize(window->getSize());
             renderer->fillCircle(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
             renderer->fillRect(glm::vec2(0, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
