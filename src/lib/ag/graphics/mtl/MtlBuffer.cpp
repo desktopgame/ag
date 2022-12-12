@@ -7,7 +7,6 @@ MtlBuffer::MtlBuffer(MTL::Device* device)
     , m_buffer(nullptr)
     , m_size()
 {
-    m_device->retain();
 }
 MtlBuffer::~MtlBuffer()
 {
