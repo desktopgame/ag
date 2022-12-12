@@ -33,15 +33,11 @@ void MtlShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
     auto device = driver->getGraphicsDevice();
     // matrix buffer
     if (!m_transformMatrixBuf) {
-        // m_transformMatrixBuf = device->newVertexBuffer();
-        // m_transformMatrixBuf->allocate(sizeof(glm::mat4));
         m_transformMatrixBuf = m_uniformManager->rentTransformBuffer();
     }
     m_transformMatrixBuf->update(glm::value_ptr(parameter->getTransform()));
     // color buffer
     if (!m_color1Buf) {
-        // m_color1Buf = device->newVertexBuffer();
-        // m_color1Buf->allocate(sizeof(glm::vec4));
         m_color1Buf = m_uniformManager->rentColorBuffer();
     }
     m_color1Buf->update(glm::value_ptr(parameter->getColor1()));
