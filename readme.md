@@ -16,39 +16,49 @@ cmake . -DAG_USE_METAL=ON
 # example
 agは簡単な2D描画しかサポートしていません。
 ````.cpp
-#include <ag/agOne.hpp>
+#include <ag/Engine.hpp>
+#include <ag/easy/App.hpp>
+#include <ag/graphics/FontFactory.hpp>
+#include <ag/graphics/FontMap.hpp>
+#include <ag/graphics/IGraphicsDevice.hpp>
+#include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/ITexture.hpp>
+#include <ag/graphics/ImageLoader.hpp>
+
+class MyApp : public ag::easy::App {
+public:
+    MyApp(int argc, char* argv[])
+        : App(argc, argv)
+    {
+    }
+    void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    {
+        r->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"));
+        loadTexture("testdata/textures/ghicon.png");
+    }
+    void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    {
+        r->fillCircle(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
+        r->fillRect(glm::vec2(0, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
+        r->drawRect(glm::vec2(100, 0), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
+        r->drawCircle(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
+        r->drawTexture(glm::vec2(200, 0), loadTexture("testdata/textures/ghicon.png"), glm::vec4(1, 1, 1, 1));
+        r->fillRect(glm::vec2(0, 0), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
+        r->fillRect(glm::vec2(500, 500), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
+
+        glm::vec2 helloTextPos = glm::vec2(600, 600);
+        r->drawString(helloTextPos, 20, u"こんにちは世界", glm::vec4(1, 1, 1, 1));
+        helloTextPos.x += r->measureString(20, u"こんにちは世界").x;
+        r->drawString(helloTextPos, 20, u"さようなら", glm::vec4(1, 0, 1, 1));
+    }
+
+private:
+};
 
 int main(int argc, char* argv[])
 {
-    auto engine = ag::Engine::getInstance()->startup(argc, argv);
-    auto looper = engine->getLooper();
-    ag::Window::create(1280, 720, false, "Window");
-    ag::Renderer* renderer = nullptr;
-    ag::Image img;
-    ag::ImageLoader::load("testdata/ghicon.png", img);
-    ag::ITexture::Instance texture = nullptr;
-    while (looper->nextLoop()) {
-        while (looper->nextWindow()) {
-            auto window = looper->acquire();
-            if (!texture) {
-                texture = engine->getGraphicsDriver()->getGraphicsDevice()->newTexture(img.width, img.height, img.getData());
-            }
-            if (!renderer) {
-                renderer = new ag::Renderer();
-            }
-            renderer->resize(window->getSize());
-            renderer->fillCircle(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
-            renderer->fillRect(glm::vec2(0, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
-            renderer->drawRect(glm::vec2(100, 0), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
-            renderer->drawCircle(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
-            renderer->drawTexture(glm::vec2(200, 0), texture);
-            renderer->fillRect(glm::vec2(0, 0), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
-            renderer->fillRect(glm::vec2(500, 500), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
-            looper->release();
-        }
-    }
-    delete renderer;
-    return 0;
+    MyApp app(argc, argv);
+    return app.main(1280, 720, false, "Window");
 }
 ````
 
