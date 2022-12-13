@@ -104,6 +104,7 @@
         "cinttypes": "cpp",
         "semaphore": "cpp",
         "*.ipp": "cpp",
-        "codecvt": "cpp"
+        "codecvt": "cpp",
+        "filesystem": "cpp"
     }
 }
