@@ -15,8 +15,8 @@ public:
 
     void resize(int width, int height);
     void resize(const glm::ivec2& size);
-    void drawTexture(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<ITexture>& texture);
-    void drawTexture(const glm::vec2& pos, const std::shared_ptr<ITexture>& texture);
+    void drawTexture(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<ITexture>& texture, const glm::vec4& color);
+    void drawTexture(const glm::vec2& pos, const std::shared_ptr<ITexture>& texture, const glm::vec4& color);
     void drawRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
     void fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
     void drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);

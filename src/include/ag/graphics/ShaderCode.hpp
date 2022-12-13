@@ -35,10 +35,11 @@ namespace internal {
     static constexpr inline const char* GL_TextureFragmentShader = R"(
         #version 120
         uniform sampler2D uTexture;
+        uniform vec4 uColor1;
         varying vec2 fragTexCoord;
 
         void main() {
-            gl_FragColor = texture2D(uTexture, fragTexCoord);
+            gl_FragColor = texture2D(uTexture, fragTexCoord) * uColor1;
         }
     )";
     static constexpr inline const char* GL_StringVertexShader = R"(
@@ -126,10 +127,12 @@ namespace internal {
         fragment half4 fragmentShader(
             RasterizerData in [[stage_in]],
             texture2d<half, access::sample> tex
-                [[texture(10)]])
+                [[texture(10)]],
+            device const simd::float4& color
+                [[buffer(2)]])
         {
             constexpr sampler s(address::repeat, filter::linear);
-            return tex.sample(s, in.texcoord).rgba;
+            return tex.sample(s, in.texcoord).rgba * (half4)color;
         }
     )";
     static constexpr inline const char* Metal_StringVFShader = R"(
