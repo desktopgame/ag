@@ -2,6 +2,10 @@
 #include <ag/Looper.hpp>
 #include <ag/Window.hpp>
 #include <ag/easy/App.hpp>
+#include <ag/graphics/FontFactory.hpp>
+#include <ag/graphics/IGraphicsDevice.hpp>
+#include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/ImageLoader.hpp>
 
 namespace ag::easy {
 App::App(int argc, char* argv[])
@@ -30,5 +34,22 @@ int App::main(int width, int height, bool resizable, const std::string& title)
         }
     }
     return 0;
+}
+// protected
+std::shared_ptr<ITexture> App::loadTexture(const std::string& file)
+{
+    if (!m_textureMap.count(file)) {
+        ag::Image img;
+        ag::ImageLoader::load(file, img);
+        m_textureMap.insert_or_assign(file, Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newTexture(img.width, img.height, img.getData()));
+    }
+    return m_textureMap.at(file);
+}
+std::shared_ptr<FontMap> App::loadFont(const std::string& file)
+{
+    if (!m_fontMap.count(file)) {
+        m_fontMap.insert_or_assign(file, ag::FontFactory::getInstance()->load(file));
+    }
+    return m_fontMap.at(file);
 }
 }
