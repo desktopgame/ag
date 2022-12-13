@@ -1,11 +1,4 @@
-#include <ag/Engine.hpp>
 #include <ag/easy/App.hpp>
-#include <ag/graphics/FontFactory.hpp>
-#include <ag/graphics/FontMap.hpp>
-#include <ag/graphics/IGraphicsDevice.hpp>
-#include <ag/graphics/IGraphicsDriver.hpp>
-#include <ag/graphics/ITexture.hpp>
-#include <ag/graphics/ImageLoader.hpp>
 
 class MyApp : public ag::easy::App {
 public:
