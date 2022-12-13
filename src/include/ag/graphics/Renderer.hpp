@@ -1,5 +1,6 @@
 #pragma once
 #include <ag/graphics/FontMap.hpp>
+#include <ag/graphics/MatrixStack.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/native/glm.hpp>
@@ -25,6 +26,15 @@ public:
     void drawString(const glm::vec2& pos, int fontSize, const std::u16string& str, const glm::vec4& color);
     glm::vec2 measureString(int fontSize, const std::u16string& str);
 
+    void pushMatrix();
+    void translate(const glm::vec3& pos);
+    void rotateX(float a);
+    void rotateY(float a);
+    void rotateZ(float a);
+    void scale(const glm::vec3& scale);
+    glm::mat4 getModelMatrix() const;
+    void popMatrix();
+
     void setFontMap(const std::shared_ptr<FontMap>& fontMap);
     std::shared_ptr<FontMap> getFontMap() const;
 
@@ -38,5 +48,6 @@ private:
     RenderingObject::Instance m_textureObject;
     RenderingObject::Instance m_stringObject;
     std::shared_ptr<FontMap> m_fontMap;
+    std::vector<MatrixStack> m_stack;
 };
 }

@@ -15,6 +15,7 @@ Renderer::Renderer()
     , m_textureObject(RenderingObject::createTextureRectangle())
     , m_stringObject(RenderingObject::createString())
     , m_fontMap()
+    , m_stack()
 {
 }
 
@@ -60,7 +61,6 @@ void Renderer::fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::
     param->setColor1(color);
     draw(m_colorFillRectObject);
 }
-
 void Renderer::drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
 {
     auto param = m_colorDrawCircleObject->getContext()->getParameter();
@@ -142,6 +142,26 @@ glm::vec2 Renderer::measureString(int fontSize, const std::u16string& str)
     }
     return offset;
 }
+// matrix
+void Renderer::pushMatrix() { m_stack.emplace_back(MatrixStack()); }
+void Renderer::translate(const glm::vec3& pos) { m_stack.back().push(glm::translate(glm::mat4(1.0f), pos)); }
+void Renderer::rotateX(float a) { m_stack.back().push(glm::rotate(glm::mat4(1.0f), a, glm::vec3(1, 0, 0))); }
+void Renderer::rotateY(float a) { m_stack.back().push(glm::rotate(glm::mat4(1.0f), a, glm::vec3(0, 1, 0))); }
+void Renderer::rotateZ(float a) { m_stack.back().push(glm::rotate(glm::mat4(1.0f), a, glm::vec3(0, 0, 1))); }
+void Renderer::scale(const glm::vec3& scale) { m_stack.back().push(glm::scale(glm::mat4(1.0f), scale)); }
+glm::mat4 Renderer::getModelMatrix() const
+{
+    glm::mat4 m;
+    auto iter = m_stack.rbegin();
+    while (iter != m_stack.rend()) {
+        auto i = (*iter).mult();
+        m = m * i;
+        ++iter;
+    }
+    return m;
+}
+void Renderer::popMatrix() { m_stack.pop_back(); }
+// property
 void Renderer::setFontMap(const std::shared_ptr<FontMap>& fontMap) { m_fontMap = fontMap; }
 std::shared_ptr<FontMap> Renderer::getFontMap() const { return m_fontMap; }
 // private
