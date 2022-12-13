@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_OPEN_GL
 
 namespace ag {
 class OglShaderLayout {
@@ -17,3 +18,4 @@ private:
     ~OglShaderLayout() = delete;
 };
 }
+#endif
