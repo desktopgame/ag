@@ -14,7 +14,7 @@ glm::mat4 MatrixStack::top() const { return m_stack.back(); }
 void MatrixStack::pop() { m_stack.pop_back(); }
 glm::mat4 MatrixStack::mult() const
 {
-    glm::mat4 m;
+    glm::mat4 m(1.0f);
     auto iter = m_stack.rbegin();
     while (iter != m_stack.rend()) {
         m = m * (*iter);
