@@ -7,8 +7,6 @@
 namespace ag {
 OglShader::OglShader(GLuint program)
     : m_program(program)
-    , m_attribVertexPosition()
-    , m_attribTexCoordPosition()
     , m_uniformTransformMatrix()
     , m_uniformTexture()
     , m_uniformColor1()
@@ -23,13 +21,10 @@ OglShader::~OglShader()
 
 void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 {
+    // bind attribute location
+    glBindAttribLocation(m_program, 0, "aVertex");
+    glBindAttribLocation(m_program, 1, "aTexCoord");
     // get variable location
-    if (!m_attribVertexPosition) {
-        m_attribVertexPosition = glGetAttribLocation(m_program, "aVertex");
-    }
-    if (!m_attribTexCoordPosition) {
-        m_attribTexCoordPosition = glGetAttribLocation(m_program, "aTexCoord");
-    }
     if (!m_uniformTransformMatrix) {
         m_uniformTransformMatrix = glGetUniformLocation(m_program, "uTransformMatrix");
     }
