@@ -9,6 +9,8 @@ public:
     static inline constexpr const char* k_uniformTextureName = "uTexture";
     static inline constexpr const char* k_uniformColor1Name = "uColor1";
     static inline constexpr const char* k_uniformColor2Name = "uColor2";
+    static inline constexpr int k_attribVertexIndex = 0;
+    static inline constexpr int k_attribTexCoordIndex = 1;
 
 private:
     OglShaderLayout() = delete;

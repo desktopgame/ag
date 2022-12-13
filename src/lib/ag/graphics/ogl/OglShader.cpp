@@ -23,8 +23,8 @@ OglShader::~OglShader()
 void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 {
     // bind attribute location
-    glBindAttribLocation(m_program, 0, OglShaderLayout::k_attribVertexName);
-    glBindAttribLocation(m_program, 1, OglShaderLayout::k_attribTexCoordName);
+    glBindAttribLocation(m_program, OglShaderLayout::k_attribVertexIndex, OglShaderLayout::k_attribVertexName);
+    glBindAttribLocation(m_program, OglShaderLayout::k_attribTexCoordIndex, OglShaderLayout::k_attribTexCoordName);
     // get variable location
     if (!m_uniformTransformMatrix) {
         m_uniformTransformMatrix = glGetUniformLocation(m_program, OglShaderLayout::k_uniformTransformName);
