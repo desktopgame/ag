@@ -28,10 +28,9 @@ public:
     void setFontMap(const std::shared_ptr<FontMap>& fontMap);
     std::shared_ptr<FontMap> getFontMap() const;
 
-    glm::mat4 m_projMat;
-
 private:
     static void draw(const RenderingObject::Instance& obj);
+    glm::mat4 m_projMat;
     RenderingObject::Instance m_colorDrawRectObject;
     RenderingObject::Instance m_colorFillRectObject;
     RenderingObject::Instance m_colorDrawCircleObject;
