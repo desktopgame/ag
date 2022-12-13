@@ -103,6 +103,7 @@
         "cfenv": "cpp",
         "cinttypes": "cpp",
         "semaphore": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "codecvt": "cpp"
     }
 }
