@@ -1,5 +1,6 @@
 #ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglShader.hpp>
+#include <ag/graphics/ogl/OglShaderLayout.hpp>
 #include <ag/graphics/ogl/OglTexture.hpp>
 #include <glm/ext.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -22,20 +23,20 @@ OglShader::~OglShader()
 void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 {
     // bind attribute location
-    glBindAttribLocation(m_program, 0, "aVertex");
-    glBindAttribLocation(m_program, 1, "aTexCoord");
+    glBindAttribLocation(m_program, 0, OglShaderLayout::k_attribVertexName);
+    glBindAttribLocation(m_program, 1, OglShaderLayout::k_attribTexCoordName);
     // get variable location
     if (!m_uniformTransformMatrix) {
-        m_uniformTransformMatrix = glGetUniformLocation(m_program, "uTransformMatrix");
+        m_uniformTransformMatrix = glGetUniformLocation(m_program, OglShaderLayout::k_uniformTransformName);
     }
     if (!m_uniformTexture) {
-        m_uniformTexture = glGetUniformLocation(m_program, "uTexture");
+        m_uniformTexture = glGetUniformLocation(m_program, OglShaderLayout::k_uniformTextureName);
     }
     if (!m_uniformColor1) {
-        m_uniformColor1 = glGetUniformLocation(m_program, "uColor1");
+        m_uniformColor1 = glGetUniformLocation(m_program, OglShaderLayout::k_uniformColor1Name);
     }
     if (!m_uniformColor2) {
-        m_uniformColor2 = glGetUniformLocation(m_program, "uColor2");
+        m_uniformColor2 = glGetUniformLocation(m_program, OglShaderLayout::k_uniformColor2Name);
     }
     // apply values
     glUniformMatrix4fv(m_uniformTransformMatrix, 1, GL_FALSE, glm::value_ptr(parameter->getTransform()));
