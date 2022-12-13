@@ -15,7 +15,7 @@ public:
     }
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        r->setFontMap(loadFont("testdata/fonts/NotoSansJP-Regular.otf"));
+        r->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"));
         loadTexture("testdata/textures/ghicon.png");
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)

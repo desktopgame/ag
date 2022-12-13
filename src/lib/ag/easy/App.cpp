@@ -45,7 +45,7 @@ std::shared_ptr<ITexture> App::loadTexture(const std::string& file)
     }
     return m_textureMap.at(file);
 }
-std::shared_ptr<FontMap> App::loadFont(const std::string& file)
+std::shared_ptr<FontMap> App::loadFontMap(const std::string& file)
 {
     if (!m_fontMap.count(file)) {
         m_fontMap.insert_or_assign(file, ag::FontFactory::getInstance()->load(file));

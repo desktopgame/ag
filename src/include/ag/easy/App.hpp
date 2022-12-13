@@ -24,7 +24,7 @@ public:
 
 protected:
     std::shared_ptr<ITexture> loadTexture(const std::string& file);
-    std::shared_ptr<FontMap> loadFont(const std::string& file);
+    std::shared_ptr<FontMap> loadFontMap(const std::string& file);
 
 private:
     std::shared_ptr<ag::Engine> m_engine;
