@@ -1,3 +1,4 @@
+#ifdef AG_METAL
 #include <ag/Engine.hpp>
 #include <ag/graphics/IGraphicsDevice.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
@@ -33,3 +34,4 @@ void MtlBufferPool::releaseAll()
     m_pool.clear();
 }
 }
+#endif

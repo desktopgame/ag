@@ -1,3 +1,4 @@
+#ifdef AG_METAL
 #include <ag/graphics/mtl/MtlUniformManager.hpp>
 #include <ag/native/glm.hpp>
 
@@ -38,3 +39,4 @@ void MtlUniformManager::signal()
 #endif
 }
 }
+#endif

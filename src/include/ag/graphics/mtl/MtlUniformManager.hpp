@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/graphics/mtl/MtlBufferPoolSet.hpp>
 #include <ag/native/metal.hpp>
 #include <array>
@@ -31,3 +32,4 @@ private:
 #endif
 };
 }
+#endif

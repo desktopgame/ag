@@ -1,3 +1,4 @@
+#ifdef AG_METAL
 #include <ag/graphics/mtl/MtlBufferPoolSet.hpp>
 #include <ag/native/glm.hpp>
 
@@ -20,3 +21,4 @@ void MtlBufferPoolSet::releaseAll()
     }
 }
 }
+#endif

@@ -1,4 +1,5 @@
 #pragma once
+#ifdef AG_METAL
 #include <ag/graphics/IBuffer.hpp>
 #include <memory>
 #include <queue>
@@ -17,3 +18,4 @@ private:
     std::queue<IBuffer::Instance> m_free;
 };
 }
+#endif
