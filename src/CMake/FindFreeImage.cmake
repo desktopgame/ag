@@ -1,6 +1,6 @@
 if (WIN32)
     set(FREEIMAGE_ROOTDIR "${EXTERNAL_DIR}/FreeImage" CACHE PATH "Root to FreeImage directory")
-    set(FREEIMAGE_INCLUDE_ROOTDIR "${EXTERNAL_DIR}/FreeImage3180" CACHE PATH "Root to FreeImage include directory")
+    set(FREEIMAGE_INCLUDE_ROOTDIR "${EXTERNAL_DIR}/FreeImage" CACHE PATH "Root to FreeImage include directory")
 endif()
 
 find_path(
@@ -11,7 +11,7 @@ find_path(
         "/usr/local/include"
         "/opt/local/include"
         "/opt/homebrew/include"
-        "${FREEIMAGE_INCLUDE_ROOTDIR}/FreeImage/Source"
+        "${FREEIMAGE_INCLUDE_ROOTDIR}/Source"
 )
 
 set(FREEIMAGE_NAMES FREEIMAGE freeimage)
