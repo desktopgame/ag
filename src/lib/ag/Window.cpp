@@ -3,6 +3,7 @@
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDriver.hpp>
 #include <ag/native/glfw.hpp>
+#include <algorithm>
 
 namespace ag {
 std::vector<Window::Instance> Window::s_windows;
