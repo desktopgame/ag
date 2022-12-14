@@ -6,6 +6,7 @@
 #include <ag/graphics/ShaderCode.hpp>
 #include <ag/graphics/VertexData.hpp>
 #include <ag/native/glm.hpp>
+#include <cmath>
 
 #ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglRenderingContext.hpp>
@@ -93,14 +94,14 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     float fy = 0.0f;
     glm::vec2 atlast;
     // first point
-    verts.push_back({ half + std::cosf(0.f), half + std::sinf(0.f) });
+    verts.push_back({ half + ::cosf(0.f), half + ::sinf(0.f) });
     points++;
     // connect points
     while (degree < 360.0f) {
         degree += 360.0f / static_cast<float>(100 /* split count */);
         float radian = degree * (3.14f / 180.0f);
-        float x = std::cosf(radian);
-        float y = std::sinf(radian);
+        float x = ::cosf(radian);
+        float y = ::sinf(radian);
         if (fx <= 0.0f || fy <= 0.0f) {
             fx = x;
             fy = y;
