@@ -28,9 +28,7 @@ if (WIN32)
         NAMES
             glfw3
         PATHS
-            "${GLFW_ROOT}/lib-vc2017"
-            "${GLFW_ROOT}/lib-vc2019"
-            "${GLFW_ROOT}/lib-vc2022"
+            "${GLFW_ROOT}/lib-mingw-w64"
         DOCS
             "The GLFW library"
     )
