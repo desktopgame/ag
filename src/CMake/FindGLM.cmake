@@ -7,7 +7,7 @@
 #  GLM_INCLUDE_DIRS = where glm/glm.hpp can be found
 
 if (WIN32)
-    set(GLM_ROOTDIR "${EXTERNAL_DIR}/glm")
+    set(GLM_ROOTDIR "${EXTERNAL_DIR}/glm" CACHE PATH "Root to GLM directory")
 endif()
 
 find_path(

@@ -4,7 +4,7 @@ if(NOT WIN32)
 endif()
 
 if (WIN32)
-    set(GLEW_ROOTDIR "${EXTERNAL_DIR}/glew-2.1.0" CACHE PATH "Root to FreeType directory")
+    set(GLEW_ROOTDIR "${EXTERNAL_DIR}/glew-2.1.0" CACHE PATH "Root to GLEW directory")
 endif()
 
 # インクルードパスが空なら検索する

@@ -4,7 +4,7 @@
 #
 
 if (WIN32)
-    set(GLFW_ROOT "${EXTERNAL_DIR}/glfw-3.3.8.bin.WIN64")
+    set(GLFW_ROOT "${EXTERNAL_DIR}/glfw-3.3.8.bin.WIN64" CACHE PATH "Root to GLFW directory")
 endif()
 
 find_path (GLFW_INCLUDE_DIR

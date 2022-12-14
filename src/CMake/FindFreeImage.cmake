@@ -1,6 +1,6 @@
 if (WIN32)
-    set(FREEIMAGE_ROOTDIR "${EXTERNAL_DIR}/FreeImage" CACHE PATH "Root to FreeType directory")
-    set(FREEIMAGE_INCLUDE_ROOTDIR "${EXTERNAL_DIR}/FreeImage3180" CACHE PATH "Root to FreeType directory")
+    set(FREEIMAGE_ROOTDIR "${EXTERNAL_DIR}/FreeImage" CACHE PATH "Root to FreeImage directory")
+    set(FREEIMAGE_INCLUDE_ROOTDIR "${EXTERNAL_DIR}/FreeImage3180" CACHE PATH "Root to FreeImage include directory")
 endif()
 
 find_path(
