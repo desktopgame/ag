@@ -48,7 +48,7 @@ bool Looper::nextLoop()
 bool Looper::nextWindow()
 {
     Engine::require();
-    bool ret = m_at < m_windows.size();
+    bool ret = m_at < static_cast<int>(m_windows.size());
     if (ret) {
         m_cursor = m_windows.at(m_at);
         m_at++;
