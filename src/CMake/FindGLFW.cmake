@@ -4,14 +4,14 @@
 #
 
 if (WIN32)
-    set(GLFW_ROOT "${EXTERNAL_DIR}/glfw-3.3.8.bin.WIN64" CACHE PATH "Root to GLFW directory")
+    set(GLFW_ROOTDIR "${EXTERNAL_DIR}/glfw-3.3.8.bin.WIN64" CACHE PATH "Root to GLFW directory")
 endif()
 
 find_path (GLFW_INCLUDE_DIR
     NAMES
         GLFW/glfw3.h
     PATHS
-        "${GLFW_ROOT}/include"
+        "${GLFW_ROOTDIR}/include"
         /usr/X11R6/include
         /usr/include/X11
         /opt/graphics/OpenGL/include
@@ -28,7 +28,7 @@ if (WIN32)
         NAMES
             glfw3
         PATHS
-            "${GLFW_ROOT}/lib-mingw-w64"
+            "${GLFW_ROOTDIR}/lib-mingw-w64"
         DOCS
             "The GLFW library"
     )
@@ -38,8 +38,8 @@ else ()
             glfw
             glfw3
         PATHS
-            "${GLFW_ROOT}/lib"
-            "${GLFW_ROOT}/lib/x11"
+            "${GLFW_ROOTDIR}/lib"
+            "${GLFW_ROOTDIR}/lib/x11"
             /usr/lib64
             /usr/lib
             /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}
