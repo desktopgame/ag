@@ -2,8 +2,9 @@ if(NOT WIN32)
     find_package(Freetype REQUIRED)
 endif()
 
-set(FREETYPEEX_VERSION "2.8.0.1")
-set(FREETYPEEX_ROOTDIR "${NUGET_PACKAGEDIR}/freetype.${FREETYPEEX_VERSION}" CACHE PATH "Root to FreeType directory")
+if (WIN32)
+    set(FREETYPE_ROOTDIR "${EXTERNAL_DIR}/freetype-2.12.1" CACHE PATH "Root to FreeType directory")
+endif()
 
 # インクルードパスが空なら検索する
 if(WIN32 OR (FREETYPE_FOUND AND (("${FREETYPE_INCLUDE_DIRS}" STREQUAL "") AND ("${GLEW_INCLUDE_DIR}" STREQUAL ""))))
@@ -13,7 +14,7 @@ if(WIN32 OR (FREETYPE_FOUND AND (("${FREETYPE_INCLUDE_DIRS}" STREQUAL "") AND ("
         NAMES
             ft2build.h
         PATHS
-            "${FREETYPEEX_ROOTDIR}/build/native/include"
+            "${FREETYPE_ROOTDIR}/include"
             "/usr/local/include"
             "/opt/local/include"
             "/opt/homebrew/include"
@@ -25,7 +26,7 @@ if(WIN32 OR (FREETYPE_FOUND AND (("${FREETYPE_INCLUDE_DIRS}" STREQUAL "") AND ("
         NAMES
             config/ftconfig.h
         PATHS
-            "${FREETYPEEX_ROOTDIR}/build/native/include/freetype"
+            "${FREETYPE_ROOTDIR}/include/freetype"
             "/usr/local/include"
             "/opt/local/include"
             "/opt/homebrew/include/freetype2/freetype"
@@ -43,7 +44,7 @@ if(WIN32 OR (FREETYPE_FOUND AND (("${FREETYPE_LIBRARIES}" STREQUAL ""))))
             freetype28
             freetype
         PATHS
-            "${FREETYPEEX_ROOTDIR}/build/native/lib/Win32/v141/static/Debug"
+            "${FREETYPE_ROOTDIR}/objs"
             "/usr/local/lib"
             "/opt/local/lib"
             "/opt/homebrew/lib"

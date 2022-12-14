@@ -1,3 +1,8 @@
+if (WIN32)
+    set(FREEIMAGE_ROOTDIR "${EXTERNAL_DIR}/FreeImage" CACHE PATH "Root to FreeType directory")
+    set(FREEIMAGE_INCLUDE_ROOTDIR "${EXTERNAL_DIR}/FreeImage3180" CACHE PATH "Root to FreeType directory")
+endif()
+
 find_path(
     FREEIMAGE_INCLUDE_DIR
     NAMES
@@ -6,6 +11,7 @@ find_path(
         "/usr/local/include"
         "/opt/local/include"
         "/opt/homebrew/include"
+        "${FREEIMAGE_INCLUDE_ROOTDIR}/FreeImage/Source"
 )
 
 set(FREEIMAGE_NAMES FREEIMAGE freeimage)
@@ -17,6 +23,7 @@ find_library(
         "/usr/local/lib"
         "/opt/local/lib"
         "/opt/homebrew/lib"
+        "${FREEIMAGE_ROOTDIR}/Dist/x64"
 )
 mark_as_advanced( FREEIMAGE_LIBRARY FREEIMAGE_INCLUDE_DIR )
 

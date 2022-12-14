@@ -3,6 +3,7 @@ project(agTest CXX)
 
 set(TEST_TEMPLATE_FILE "${CMAKE_CURRENT_SOURCE_DIR}/tests/Template/Test.cmake")
 set(TEST_TEMPLATE_MODS "${CMAKE_CURRENT_SOURCE_DIR}/tests/Template/CMake")
+set(EXTERNAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external")
 
 enable_testing()
 add_subdirectory(src)

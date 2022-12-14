@@ -3,6 +3,10 @@
 # GLFW_LIBRARIES
 #
 
+if (WIN32)
+    set(GLFW_ROOT "${EXTERNAL_DIR}/glfw-3.3.8.bin.WIN64")
+endif()
+
 find_path (GLFW_INCLUDE_DIR
     NAMES
         GLFW/glfw3.h
@@ -20,68 +24,16 @@ find_path (GLFW_INCLUDE_DIR
 )
 
 if (WIN32)
-    if (MSVC11 OR (${MSVC_VERSION} EQUAL 1700))
-        find_library (GLFW_LIBRARIES
-            NAMES
-                glfw3
-            PATHS
-                "${GLFW_ROOT}/lib"
-                "${GLFW_ROOT}/lib-vc2012"
-            DOCS
-                "The GLFW library"
-        )
-    elseif (MSVC12 OR (${MSVC_VERSION} EQUAL 1800))
-        find_library (GLFW_LIBRARIES
-            NAMES
-                glfw3
-            PATHS
-                "${GLFW_ROOT}/lib"
-                "${GLFW_ROOT}/lib-vc2013"
-            DOCS
-                "The GLFW library"
-        )
-    elseif (MSVC14 OR (${MSVC_VERSION} EQUAL 1900))
-        find_library (GLFW_LIBRARIES
-            NAMES
-                glfw3
-            PATHS
-                "${GLFW_ROOT}/lib"
-                "${GLFW_ROOT}/lib-vc2015"
-            DOCS
-                "The GLFW library"
-        )
-    elseif (MINGW)
-        if (CMAKE_CL_64)
-            find_library (GLFW_LIBRARIES
-                NAMES
-                    glfw3
-                PATHS
-                    "${GLFW_ROOT}/lib"
-                    "${GLFW_ROOT}/lib-mingw-w64"
-                DOCS
-                    "The GLFW library"
-            )
-        else ()
-            find_library (GLFW_LIBRARIES
-                NAMES
-                    glfw3
-                PATHS
-                    "${GLFW_ROOT}/lib"
-                    "${GLFW_ROOT}/lib-mingw"
-                DOCS
-                    "The GLFW library"
-            )
-        endif ()
-    else()
-        find_library (GLFW_LIBRARIES
-            NAMES
-                glfw3
-            PATHS
-                "${GLFW_ROOT}/lib"
-            DOCS
-                "The GLFW library"
-        )
-    endif()
+    find_library (GLFW_LIBRARIES
+        NAMES
+            glfw3
+        PATHS
+            "${GLFW_ROOT}/lib-vc2017"
+            "${GLFW_ROOT}/lib-vc2019"
+            "${GLFW_ROOT}/lib-vc2022"
+        DOCS
+            "The GLFW library"
+    )
 else ()
     find_library (GLFW_LIBRARIES
         NAMES
