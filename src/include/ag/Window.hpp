@@ -1,6 +1,7 @@
 #pragma once
 #include <ag/native/glm.hpp>
 #include <ag/native/metal.hpp>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -8,6 +9,14 @@
 struct GLFWwindow;
 
 namespace ag {
+using KeyCallback = std::function<void(int, int, int, int)>;
+using CharCallback = std::function<void(unsigned int)>;
+using CharModsCallback = std::function<void(unsigned int, int)>;
+using MouseButtonCallback = std::function<void(int, int, int)>;
+using CursorPosCallback = std::function<void(double, double)>;
+using CursorEnterCallback = std::function<void(int)>;
+using ScrollCallback = std::function<void(double, double)>;
+using DropCallback = std::function<void(int, const char**)>;
 class Window : public std::enable_shared_from_this<Window> {
 public:
     using Instance = std::shared_ptr<Window>;
