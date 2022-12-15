@@ -37,7 +37,6 @@ void Font::load(int size, unsigned long charcode)
         FT_Set_Pixel_Sizes(m_impl->face, 0, size);
     }
     if (FT_Load_Char(m_impl->face, charcode, FT_LOAD_RENDER)) {
-        //Debug::logWarning("failed load a chareacter.");
         return;
     }
     this->m_textureCreated = true;
