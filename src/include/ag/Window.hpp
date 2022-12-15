@@ -37,6 +37,30 @@ public:
     glm::ivec2 getFrameBufferSize() const;
     glm::ivec2 getMousePosition() const;
 
+    void setKeyCallback(KeyCallback keyCallback);
+    KeyCallback getKeyCallback() const;
+
+    void setCharCallback(CharCallback charCallback);
+    CharCallback getCharCallback() const;
+
+    void setCharModsCallback(CharModsCallback charModsCallback);
+    CharModsCallback getCharModsCallback() const;
+
+    void setMouseButtonCallback(MouseButtonCallback mouseButtonCallback);
+    MouseButtonCallback getMouseButtonCallback() const;
+
+    void setCursorPosCallback(CursorPosCallback cursorPosCallback);
+    CursorPosCallback getCursorPosCallback() const;
+
+    void setCursorEnterCallback(CursorEnterCallback cursorEnterCallback);
+    CursorEnterCallback getCursorEnterCallback() const;
+
+    void setScrollCallback(ScrollCallback scrollCallback);
+    ScrollCallback getScrollCallback() const;
+
+    void setDropCallback(DropCallback dropCallback);
+    DropCallback getDropCallback() const;
+
 #ifdef AG_METAL
     CA::MetalDrawable* nextDrawable();
 #endif
@@ -62,6 +86,15 @@ private:
     std::string m_title;
     glm::vec3 m_clearColor;
     bool m_disposed;
+
+    KeyCallback m_keyCallback;
+    CharCallback m_charCallback;
+    CharModsCallback m_charModsCallback;
+    MouseButtonCallback m_mouseButtonCallback;
+    CursorPosCallback m_cursorPosCallback;
+    CursorEnterCallback m_cursorEnterCallback;
+    ScrollCallback m_scrollCallback;
+    DropCallback m_dropCallback;
 #if AG_METAL
     CA::MetalLayer* m_metalLayer;
 #endif

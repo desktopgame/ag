@@ -104,6 +104,30 @@ glm::ivec2 Window::getMousePosition() const
     glfwGetCursorPos(m_glfwWindow, &x, &y);
     return { static_cast<int>(x), static_cast<int>(y) };
 }
+
+void Window::setKeyCallback(KeyCallback keyCallback) { m_keyCallback = keyCallback; }
+KeyCallback Window::getKeyCallback() const { return m_keyCallback; }
+
+void Window::setCharCallback(CharCallback charCallback) { m_charCallback = charCallback; }
+CharCallback Window::getCharCallback() const { return m_charCallback; }
+
+void Window::setCharModsCallback(CharModsCallback charModsCallback) { m_charModsCallback = charModsCallback; }
+CharModsCallback Window::getCharModsCallback() const { return m_charModsCallback; }
+
+void Window::setMouseButtonCallback(MouseButtonCallback mouseButtonCallback) { m_mouseButtonCallback = mouseButtonCallback; }
+MouseButtonCallback Window::getMouseButtonCallback() const { return m_mouseButtonCallback; }
+
+void Window::setCursorPosCallback(CursorPosCallback cursorPosCallback) { m_cursorPosCallback = cursorPosCallback; }
+CursorPosCallback Window::getCursorPosCallback() const { return m_cursorPosCallback; }
+
+void Window::setCursorEnterCallback(CursorEnterCallback cursorEnterCallback) { m_cursorEnterCallback = cursorEnterCallback; }
+CursorEnterCallback Window::getCursorEnterCallback() const { return m_cursorEnterCallback; }
+
+void Window::setScrollCallback(ScrollCallback scrollCallback) { m_scrollCallback = scrollCallback; }
+ScrollCallback Window::getScrollCallback() const { return m_scrollCallback; }
+
+void Window::setDropCallback(DropCallback dropCallback) { m_dropCallback = dropCallback; }
+DropCallback Window::getDropCallback() const { return m_dropCallback; }
 #ifdef AG_METAL
 CA::MetalDrawable* Window::nextDrawable()
 {
@@ -139,6 +163,14 @@ Window::Window(GLFWwindow* glfwWindow, const std::string& title)
     , m_title(title)
     , m_clearColor(0.f, 0.f, 0.f)
     , m_disposed(false)
+    , m_keyCallback()
+    , m_charCallback()
+    , m_charModsCallback()
+    , m_mouseButtonCallback()
+    , m_cursorPosCallback()
+    , m_cursorEnterCallback()
+    , m_scrollCallback()
+    , m_dropCallback()
 #if AG_METAL
     , m_metalLayer(nullptr)
 #endif
@@ -151,12 +183,60 @@ GLFWwindow* Window::getSharedWindow()
     }
     return s_windows.front()->m_glfwWindow;
 }
-void Window::onKey(GLFWwindow* window, int key, int scancode, int action, int mods) { }
-void Window::onChar(GLFWwindow* window, unsigned int codepoint) { }
-void Window::onCharMods(GLFWwindow* window, unsigned int codepoint, int mods) { }
-void Window::onMouseButton(GLFWwindow* window, int button, int action, int mods) { }
-void Window::onCursorPos(GLFWwindow* window, double xpos, double ypos) { }
-void Window::onCursorEnter(GLFWwindow* window, int entered) { }
-void Window::onScroll(GLFWwindow* window, double xoffset, double yoffset) { }
-void Window::onDrop(GLFWwindow* window, int path_count, const char* paths[]) { }
+void Window::onKey(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_keyCallback) {
+        agWindow->m_keyCallback(key, scancode, action, mods);
+    }
+}
+void Window::onChar(GLFWwindow* window, unsigned int codepoint)
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_charCallback) {
+        agWindow->m_charCallback(codepoint);
+    }
+}
+void Window::onCharMods(GLFWwindow* window, unsigned int codepoint, int mods)
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_charModsCallback) {
+        agWindow->m_charModsCallback(codepoint, mods);
+    }
+}
+void Window::onMouseButton(GLFWwindow* window, int button, int action, int mods)
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_mouseButtonCallback) {
+        agWindow->m_mouseButtonCallback(button, action, mods);
+    }
+}
+void Window::onCursorPos(GLFWwindow* window, double xpos, double ypos)
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_cursorPosCallback) {
+        agWindow->m_cursorPosCallback(xpos, ypos);
+    }
+}
+void Window::onCursorEnter(GLFWwindow* window, int entered)
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_cursorEnterCallback) {
+        agWindow->m_cursorEnterCallback(entered);
+    }
+}
+void Window::onScroll(GLFWwindow* window, double xoffset, double yoffset)
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_scrollCallback) {
+        agWindow->m_scrollCallback(xoffset, yoffset);
+    }
+}
+void Window::onDrop(GLFWwindow* window, int path_count, const char* paths[])
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_dropCallback) {
+        agWindow->m_dropCallback(path_count, paths);
+    }
+}
 }
