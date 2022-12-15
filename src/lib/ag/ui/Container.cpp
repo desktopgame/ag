@@ -2,12 +2,14 @@
 
 namespace agui {
 Container::Container()
-    : m_components()
+    : Component()
+    , m_components()
 {
 }
 
 void Container::update(const std::shared_ptr<ag::Renderer>& r)
 {
+    r->fillRect(getLocation(), getSize(), getBackground());
     for (auto c : m_components) {
         c->update(r);
     }
