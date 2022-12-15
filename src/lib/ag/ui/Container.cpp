@@ -13,7 +13,7 @@ void Container::update(const std::shared_ptr<ag::Renderer>& r)
     }
 }
 
-void Container::addComponent(const Component::Instance& component, const std::shared_ptr<LayoutParameter>& param)
+void Container::addComponent(const Component::Instance& component)
 {
     m_components.push_back(component);
 }

@@ -4,8 +4,6 @@
 #include <vector>
 
 namespace agui {
-class ILayoutManager;
-class LayoutParameter;
 class Container : public Component {
 public:
     explicit Container();
@@ -13,7 +11,7 @@ public:
 
     void update(const std::shared_ptr<ag::Renderer>& r) override;
 
-    void addComponent(const Component::Instance& component, const std::shared_ptr<LayoutParameter>& param);
+    void addComponent(const Component::Instance& component);
     Component::Instance getComponent(int i) const;
     int getComponentCount() const;
     std::vector<Component::Instance> getComponents() const;
