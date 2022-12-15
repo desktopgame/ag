@@ -11,6 +11,8 @@ public:
     explicit Container();
     virtual ~Container() = default;
 
+    void update(const std::shared_ptr<ag::Renderer>& r) override;
+
     void addComponent(const Component::Instance& component, const std::shared_ptr<LayoutParameter>& param);
     Component::Instance getComponent(int i) const;
     int getComponentCount() const;
