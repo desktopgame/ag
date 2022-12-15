@@ -16,6 +16,8 @@ public:
     int getComponentCount() const;
     std::vector<Component::Instance> getComponents() const;
 
+    virtual void doLayout(const Rect& bounds) = 0;
+
 private:
     std::vector<Component::Instance> m_components;
 };
