@@ -39,6 +39,15 @@ public:
 private:
     Window(GLFWwindow* glfwWindow, const std::string& title);
     static GLFWwindow* getSharedWindow();
+    static void onKey(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void onChar(GLFWwindow* window, unsigned int codepoint);
+    static void onCharMods(GLFWwindow* window, unsigned int codepoint, int mods);
+    static void onMouseButton(GLFWwindow* window, int button, int action, int mods);
+    static void onCursorPos(GLFWwindow* window, double xpos, double ypos);
+    static void onCursorEnter(GLFWwindow* window, int entered);
+    static void onScroll(GLFWwindow* window, double xoffset, double yoffset);
+    static void onDrop(GLFWwindow* window, int path_count, const char* paths[]);
+
     static std::vector<Instance> s_windows;
     GLFWwindow* m_glfwWindow;
     std::string m_title;

@@ -16,7 +16,8 @@ Window::Instance Window::create(int width, int height, bool resizable, const std
     Engine::getInstance()->getGraphicsDriver()->useWindowHint();
     // create window instance.
     GLFWwindow* glfwWindow = glfwCreateWindow(width, height, title.c_str(), NULL, getSharedWindow());
-    Window::Instance window = Window::Instance(new Window(glfwWindow, title));
+    Window* windowPtr = new Window(glfwWindow, title);
+    Window::Instance window = Window::Instance(windowPtr);
     Window::s_windows.emplace_back(window);
     // link metal layer.
 #if AG_METAL
@@ -29,6 +30,16 @@ Window::Instance Window::create(int width, int height, bool resizable, const std
     contentView->setLayer(window->m_metalLayer);
     contentView->setWantsLayer(true);
 #endif
+    // event
+    glfwSetWindowUserPointer(glfwWindow, windowPtr);
+    glfwSetKeyCallback(glfwWindow, Window::onKey);
+    glfwSetCharCallback(glfwWindow, Window::onChar);
+    glfwSetCharModsCallback(glfwWindow, Window::onCharMods);
+    glfwSetMouseButtonCallback(glfwWindow, Window::onMouseButton);
+    glfwSetCursorPosCallback(glfwWindow, Window::onCursorPos);
+    glfwSetCursorEnterCallback(glfwWindow, Window::onCursorEnter);
+    glfwSetScrollCallback(glfwWindow, Window::onScroll);
+    glfwSetDropCallback(glfwWindow, Window::onDrop);
     return window;
 }
 bool Window::shouldClose() const
@@ -140,4 +151,12 @@ GLFWwindow* Window::getSharedWindow()
     }
     return s_windows.front()->m_glfwWindow;
 }
+void Window::onKey(GLFWwindow* window, int key, int scancode, int action, int mods) { }
+void Window::onChar(GLFWwindow* window, unsigned int codepoint) { }
+void Window::onCharMods(GLFWwindow* window, unsigned int codepoint, int mods) { }
+void Window::onMouseButton(GLFWwindow* window, int button, int action, int mods) { }
+void Window::onCursorPos(GLFWwindow* window, double xpos, double ypos) { }
+void Window::onCursorEnter(GLFWwindow* window, int entered) { }
+void Window::onScroll(GLFWwindow* window, double xoffset, double yoffset) { }
+void Window::onDrop(GLFWwindow* window, int path_count, const char* paths[]) { }
 }
