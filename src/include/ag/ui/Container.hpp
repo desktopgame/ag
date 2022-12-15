@@ -16,6 +16,9 @@ public:
     int getComponentCount() const;
     std::vector<Component::Instance> getComponents() const;
 
+    void doLayoutTree(const Rect& bounds);
+
+protected:
     virtual void doLayout(const Rect& bounds) = 0;
 
 private:

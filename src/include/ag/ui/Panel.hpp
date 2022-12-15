@@ -7,6 +7,7 @@ public:
     explicit Panel(const glm::vec4& color);
     virtual ~Panel() = default;
 
+protected:
     void doLayout(const Rect& bounds) override;
 };
 }

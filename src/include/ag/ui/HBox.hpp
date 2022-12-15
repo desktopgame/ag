@@ -6,6 +6,8 @@ namespace agui {
 class HBox : public Container {
 public:
     explicit HBox(const std::vector<int>& weight);
+
+protected:
     void doLayout(const Rect& bounds) override;
 
 private:
