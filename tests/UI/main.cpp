@@ -38,7 +38,7 @@ public:
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
         m_root->setBounds(agui::Rect { { 0, 0 }, { 1280, 720 } });
-        m_root->doLayoutTree(agui::Rect { { 0, 0 }, { 1280, 720 } });
+        m_root->doLayoutTree();
         m_root->update(r);
     }
     void layoutPanel(std::shared_ptr<agui::Panel> p, glm::vec4 c1, glm::vec4 c2)

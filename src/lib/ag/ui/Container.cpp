@@ -32,17 +32,17 @@ std::vector<Component::Instance> Container::getComponents() const { return m_com
 void Container::setLayoutManager(const std::shared_ptr<ILayoutManager>& layoutManager) { m_layoutManager = layoutManager; }
 std::shared_ptr<ILayoutManager> Container::getLayoutManager() const { return m_layoutManager; }
 
-void Container::doLayoutTree(const Rect& bounds)
+void Container::doLayoutTree()
 {
-    doLayout(bounds);
+    doLayout();
     for (int i = 0; i < getComponentCount(); i++) {
         auto c = std::dynamic_pointer_cast<Container>(getComponent(i));
         if (c) {
-            c->doLayoutTree(Rect { c->getLocation(), c->getSize() });
+            c->doLayoutTree();
         }
     }
 }
-void Container::doLayout(const Rect& bounds)
+void Container::doLayout()
 {
     if (m_layoutManager) {
         m_layoutManager->layoutContainer(std::static_pointer_cast<Container>(shared_from_this()));

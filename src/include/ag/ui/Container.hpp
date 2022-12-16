@@ -21,10 +21,10 @@ public:
     void setLayoutManager(const std::shared_ptr<ILayoutManager>& layoutManager);
     std::shared_ptr<ILayoutManager> getLayoutManager() const;
 
-    void doLayoutTree(const Rect& bounds);
+    void doLayoutTree();
 
 protected:
-    virtual void doLayout(const Rect& bounds);
+    virtual void doLayout();
 
 private:
     std::vector<Component::Instance> m_components;
