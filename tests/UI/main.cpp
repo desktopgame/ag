@@ -37,7 +37,7 @@ public:
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        m_root->setBounds(agui::Rect { { 0, 0 }, { 1280, 720 } });
+        m_root->setBounds(agui::Rect { { 0, 0 }, { w->getSize() } });
         m_root->doLayoutTree();
         m_root->update(r);
     }
