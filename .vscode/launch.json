@@ -4,6 +4,14 @@
         {
             "type": "lldb",
             "request": "launch",
+            "name": "tests/UI",
+            "program": "${workspaceFolder}/tests/UI/UI",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
             "name": "tests/Image",
             "program": "${workspaceFolder}/tests/Image/Image",
             "args": [],

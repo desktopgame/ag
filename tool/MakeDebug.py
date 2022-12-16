@@ -13,6 +13,6 @@ def makeConf(name: str):
 
 obj = {
     'version': '0.2.0',
-    'configurations': list(map(makeConf, filter(lambda d: d != 'Template', os.listdir('tests'))))
+    'configurations': list(map(makeConf, filter(lambda d: d != 'Template' and 'gitignore' not in d, os.listdir('tests'))))
 }
 json.dump(obj, open('.vscode/launch.json', 'w'), indent='    ')
