@@ -1,9 +1,6 @@
 #include <ag/easy/App.hpp>
 #include <ag/ui/Button.hpp>
-#include <ag/ui/HBox.hpp>
 #include <ag/ui/Label.hpp>
-#include <ag/ui/Panel.hpp>
-#include <ag/ui/VBox.hpp>
 
 class MyApp : public ag::easy::App {
 public:
