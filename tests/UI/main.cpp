@@ -17,21 +17,38 @@ public:
         r->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"));
         loadTexture("testdata/textures/ghicon.png");
         m_root = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Horizontal));
-        auto p1 = std::make_shared<agui::Panel>(nullptr);
-        p1->setBackground(glm::vec4 { 1, 0, 0, 1 });
-        auto p2 = std::make_shared<agui::Panel>(nullptr);
-        p2->setBackground(glm::vec4 { 0, 1, 0, 1 });
-        auto p3 = std::make_shared<agui::Panel>(nullptr);
-        p3->setBackground(glm::vec4 { 0, 0, 1, 1 });
-        m_root->addComponent(p1, std::make_shared<agui::BoxLayoutParameter>(0));
-        m_root->addComponent(p2, std::make_shared<agui::BoxLayoutParameter>(0));
-        m_root->addComponent(p3, std::make_shared<agui::BoxLayoutParameter>(0));
+        auto vbox = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Vertical));
+        auto h1 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Horizontal));
+        h1->setBackground(glm::vec4 { 1, 0, 0, 1 });
+        layoutPanel(h1, { 1, 0, 0, 1 }, { 0, 1, 0, 1 });
+        auto h2 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Horizontal));
+        h2->setBackground(glm::vec4 { 0, 1, 0, 1 });
+        layoutPanel(h2, { 1, 0, 1, 1 }, { 0, 1, 1, 1 });
+        auto h3 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Horizontal));
+        h3->setBackground(glm::vec4 { 0, 0, 1, 1 });
+        layoutPanel(h3, { 1, 0, 0, 1 }, { 1, 1, 0, 1 });
+        vbox->addComponent(h1, std::make_shared<agui::BoxLayoutParameter>(0));
+        vbox->addComponent(h2, std::make_shared<agui::BoxLayoutParameter>(0));
+        vbox->addComponent(h3, std::make_shared<agui::BoxLayoutParameter>(0));
+        auto fill = std::make_shared<agui::Panel>(nullptr);
+        fill->setBackground({ 1, 0, 0, 1 });
+        m_root->addComponent(vbox, std::make_shared<agui::BoxLayoutParameter>(0));
+        m_root->addComponent(fill, std::make_shared<agui::BoxLayoutParameter>(0));
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
         m_root->setBounds(agui::Rect { { 0, 0 }, { 1280, 720 } });
         m_root->doLayoutTree(agui::Rect { { 0, 0 }, { 1280, 720 } });
         m_root->update(r);
+    }
+    void layoutPanel(std::shared_ptr<agui::Panel> p, glm::vec4 c1, glm::vec4 c2)
+    {
+        auto sub1 = std::make_shared<agui::Button>(u"こんにちは");
+        sub1->setBackground(c1);
+        auto sub2 = std::make_shared<agui::Panel>(nullptr);
+        sub2->setBackground(c2);
+        p->addComponent(sub1, std::make_shared<agui::BoxLayoutParameter>(1));
+        p->addComponent(sub2, std::make_shared<agui::BoxLayoutParameter>(3));
     }
 
 private:
