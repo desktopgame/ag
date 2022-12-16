@@ -19,7 +19,9 @@ protected:
     }
 
     Component::Instance getComponent(int i) const;
+    int getElementCount() const;
 
+private:
     std::vector<LayoutElement> m_elements;
 };
 }

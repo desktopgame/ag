@@ -23,4 +23,8 @@ Component::Instance LayoutManagerBase::getComponent(int i) const
 {
     return m_elements.at(i).component;
 }
+int LayoutManagerBase::getElementCount() const
+{
+    return static_cast<int>(m_elements.size());
+}
 }
