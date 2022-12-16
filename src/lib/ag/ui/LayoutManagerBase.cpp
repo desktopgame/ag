@@ -13,8 +13,8 @@ void LayoutManagerBase::addLayoutComponent(const std::shared_ptr<Component>& c, 
 }
 void LayoutManagerBase::removeLayoutComponent(const std::shared_ptr<Component>& c)
 {
-    auto iter = std::remove_if(m_elements.begin(), m_elements.end(), [c](auto e) -> bool {
-        return e == c;
+    auto iter = std::remove_if(m_elements.begin(), m_elements.end(), [c](LayoutElement e) -> bool {
+        return e.component == c;
     });
     m_elements.erase(iter, m_elements.end());
 }
