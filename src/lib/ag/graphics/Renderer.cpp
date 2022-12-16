@@ -128,19 +128,7 @@ glm::vec2 Renderer::measureString(int fontSize, const std::u16string& str)
     if (!m_fontMap) {
         return glm::vec2 { 0, 0 };
     }
-    auto sprites = m_fontMap->load(fontSize, str);
-    // get char height of baseline.
-    float maxY = -1.f;
-    for (auto sprite : sprites) {
-        if (maxY < sprite->metrics.size.y) {
-            maxY = sprite->metrics.size.y;
-        }
-    }
-    glm::vec2 offset { 0, maxY };
-    for (auto sprite : sprites) {
-        offset.x += sprite->metrics.advance.x >> 6;
-    }
-    return offset;
+    return m_fontMap->measureString(fontSize, str);
 }
 // matrix
 void Renderer::pushMatrix() { m_stack.emplace_back(MatrixStack()); }

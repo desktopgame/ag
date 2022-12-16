@@ -1,5 +1,6 @@
 #pragma once
 #include <ag/ImageIO.hpp>
+#include <ag/native/glm.hpp>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -16,6 +17,7 @@ public:
     std::vector<std::shared_ptr<FontSprite>> load(
         int size, const std::u16string& str);
     std::shared_ptr<FontSprite> load(int size, unsigned long charcode);
+    glm::vec2 measureString(int fontSize, const std::u16string& str);
     bool isOccurredError() const;
 
 private:

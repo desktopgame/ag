@@ -60,6 +60,22 @@ std::vector<std::shared_ptr<FontSprite>> FontMap::load(
     }
     return v;
 }
+glm::vec2 FontMap::measureString(int fontSize, const std::u16string& str)
+{
+    auto sprites = load(fontSize, str);
+    // get char height of baseline.
+    float maxY = -1.f;
+    for (auto sprite : sprites) {
+        if (maxY < sprite->metrics.size.y) {
+            maxY = sprite->metrics.size.y;
+        }
+    }
+    glm::vec2 offset { 0, maxY };
+    for (auto sprite : sprites) {
+        offset.x += sprite->metrics.advance.x >> 6;
+    }
+    return offset;
+}
 bool FontMap::isOccurredError() const { return m_font->isOccurredError(); }
 // private
 void FontMap::fontToPixel(const std::shared_ptr<FontInstance>& instance, std::vector<Pixel>& outPixels)
