@@ -1,5 +1,5 @@
 #include <ag/easy/App.hpp>
-#include <ag/ui/BoxLayoutManager.hpp>
+#include <ag/ui/BoxLayout.hpp>
 #include <ag/ui/BoxLayoutParameter.hpp>
 #include <ag/ui/Button.hpp>
 #include <ag/ui/Container.hpp>
@@ -16,15 +16,15 @@ public:
     {
         r->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"));
         loadTexture("testdata/textures/ghicon.png");
-        m_root = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Horizontal));
-        auto vbox = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Vertical));
-        auto h1 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Horizontal));
+        m_root = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
+        auto vbox = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
+        auto h1 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
         h1->setBackground(glm::vec4 { 1, 0, 0, 1 });
         layoutPanel(h1, { 1, 0, 0, 1 }, { 0, 1, 0, 1 });
-        auto h2 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Horizontal));
+        auto h2 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
         h2->setBackground(glm::vec4 { 0, 1, 0, 1 });
         layoutPanel(h2, { 1, 0, 1, 1 }, { 0, 1, 1, 1 });
-        auto h3 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayoutManager>(agui::Orientation::Horizontal));
+        auto h3 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
         h3->setBackground(glm::vec4 { 0, 0, 1, 1 });
         layoutPanel(h3, { 1, 0, 0, 1 }, { 1, 1, 0, 1 });
         vbox->addComponent(h1, std::make_shared<agui::BoxLayoutParameter>(0));

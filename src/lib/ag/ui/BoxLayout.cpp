@@ -1,14 +1,14 @@
-#include <ag/ui/BoxLayoutManager.hpp>
+#include <ag/ui/BoxLayout.hpp>
 #include <ag/ui/BoxLayoutParameter.hpp>
 #include <ag/ui/Container.hpp>
 
 namespace agui {
 
-BoxLayoutManager::BoxLayoutManager(Orientation orientation)
+BoxLayout::BoxLayout(Orientation orientation)
     : m_orientation(orientation)
 {
 }
-void BoxLayoutManager::layoutContainer(const std::shared_ptr<Container>& c)
+void BoxLayout::layoutContainer(const std::shared_ptr<Container>& c)
 {
     int total = 0;
     for (int i = 0; i < getElementCount(); i++) {

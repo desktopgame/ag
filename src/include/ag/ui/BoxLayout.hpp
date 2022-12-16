@@ -3,9 +3,9 @@
 #include <ag/ui/Orientation.hpp>
 
 namespace agui {
-class BoxLayoutManager : public LayoutManagerBase {
+class BoxLayout : public LayoutManagerBase {
 public:
-    explicit BoxLayoutManager(Orientation orientation);
+    explicit BoxLayout(Orientation orientation);
     void layoutContainer(const std::shared_ptr<Container>& c) override;
 
 private:
