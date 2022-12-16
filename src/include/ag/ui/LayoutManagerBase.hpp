@@ -1,5 +1,6 @@
 #include <ag/ui/Component.hpp>
 #include <ag/ui/ILayoutManager.hpp>
+#include <ag/ui/LayoutElement.hpp>
 #include <ag/ui/LayoutParameter.hpp>
 #include <unordered_map>
 
@@ -11,6 +12,6 @@ public:
     void removeLayoutComponent(const std::shared_ptr<Component>& c) override;
 
 protected:
-    std::unordered_map<Component::Instance, LayoutParameter::Instance> m_paramMap;
+    std::vector<LayoutElement> m_elements;
 };
 }
