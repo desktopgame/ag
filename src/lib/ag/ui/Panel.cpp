@@ -2,6 +2,7 @@
 
 namespace agui {
 Panel::Panel(const ILayoutManager::Instance& layoutManager)
+    : Container()
 {
     setLayoutManager(layoutManager);
 }
