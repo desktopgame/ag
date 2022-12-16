@@ -8,6 +8,7 @@ class Container;
 class LayoutParameter;
 class ILayoutManager {
 public:
+    using Instance = std::shared_ptr<ILayoutManager>;
     explicit ILayoutManager() = default;
     virtual ~ILayoutManager() = default;
 
