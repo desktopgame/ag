@@ -12,6 +12,14 @@ public:
     void removeLayoutComponent(const std::shared_ptr<Component>& c) override;
 
 protected:
+    template <typename T>
+    inline std::shared_ptr<T> getParameter(int i) const
+    {
+        return std::static_pointer_cast<T>(m_elements.at(i).param);
+    }
+
+    Component::Instance getComponent(int i) const;
+
     std::vector<LayoutElement> m_elements;
 };
 }

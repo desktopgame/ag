@@ -18,4 +18,9 @@ void LayoutManagerBase::removeLayoutComponent(const std::shared_ptr<Component>& 
     });
     m_elements.erase(iter, m_elements.end());
 }
+// protected
+Component::Instance LayoutManagerBase::getComponent(int i) const
+{
+    return m_elements.at(i).component;
+}
 }
