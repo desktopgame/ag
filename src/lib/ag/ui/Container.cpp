@@ -42,4 +42,10 @@ void Container::doLayoutTree(const Rect& bounds)
         }
     }
 }
+void Container::doLayout(const Rect& bounds)
+{
+    if (m_layoutManager) {
+        m_layoutManager->layoutContainer(std::static_pointer_cast<Container>(shared_from_this()));
+    }
+}
 }

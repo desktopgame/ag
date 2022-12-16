@@ -24,7 +24,7 @@ public:
     void doLayoutTree(const Rect& bounds);
 
 protected:
-    virtual void doLayout(const Rect& bounds) = 0;
+    virtual void doLayout(const Rect& bounds);
 
 private:
     std::vector<Component::Instance> m_components;
