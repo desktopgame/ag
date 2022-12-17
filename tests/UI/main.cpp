@@ -14,11 +14,17 @@ public:
     }
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        m_root = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
-        m_root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 12 });
-        m_root->addComponent(createHBox(), nullptr);
-        m_root->addComponent(createHBox(), nullptr);
-        m_root->addComponent(createHBox(), nullptr);
+        m_root = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
+        m_root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 20 });
+        auto tmp1 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
+        tmp1->addComponent(createHBox(), nullptr);
+        tmp1->addComponent(createHBox(), nullptr);
+        tmp1->addComponent(createHBox(), nullptr);
+        auto tmp2 = std::make_shared<agui::Panel>(nullptr);
+        tmp2->setBackground({ 1, 0, 0, 1 });
+        tmp2->setPreferredSize({ 400, 300 });
+        m_root->addComponent(tmp2, nullptr);
+        m_root->addComponent(tmp1, nullptr);
         m_root->setBounds(agui::Rect { { 0, 0 }, { w->getSize() } });
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
