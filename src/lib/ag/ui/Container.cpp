@@ -43,6 +43,7 @@ void Container::doLayoutTree()
         }
     }
 }
+// protected
 void Container::doLayout()
 {
     for (int i = 0; i < getComponentCount(); i++) {
