@@ -5,6 +5,7 @@
 #include <ag/ui/BoxLayoutParameter.hpp>
 #include <ag/ui/Button.hpp>
 #include <ag/ui/Container.hpp>
+#include <ag/ui/Frame.hpp>
 #include <ag/ui/Label.hpp>
 #include <ag/ui/Panel.hpp>
 
@@ -16,15 +17,17 @@ public:
     }
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        m_root = std::make_shared<agui::Panel>(std::make_shared<agui::BorderLayout>());
-        m_root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 16 });
-        setBorderLayout(m_root, 100, true);
-        m_root->setBounds(agui::Rect { { 0, 0 }, { w->getSize() } });
+        auto root = std::make_shared<agui::Panel>(std::make_shared<agui::BorderLayout>());
+        root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 16 });
+        setBorderLayout(root, 100, true);
+        // create window
+        m_frame = std::make_shared<agui::Frame>(w);
+        m_frame->addComponent(root, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Center));
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        m_root->validate();
-        m_root->update(r);
+        m_frame->validate();
+        m_frame->update(r);
     }
     void setBorderLayout(std::shared_ptr<agui::Container> parent, int prefSize, bool child)
     {
@@ -58,7 +61,7 @@ public:
     }
 
 private:
-    std::shared_ptr<agui::Container> m_root;
+    std::shared_ptr<agui::Frame> m_frame;
 };
 
 int main(int argc, char* argv[])
