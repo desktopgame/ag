@@ -5,7 +5,6 @@
 namespace agui {
 void BorderLayout::layoutContainer(const std::shared_ptr<Container>& c)
 {
-    //
     auto bounds = c->getBounds();
     auto top = lookup(BorderPosition::Top);
     auto left = lookup(BorderPosition::Left);
