@@ -66,6 +66,10 @@ void Component::invalidate()
 void Component::validate()
 {
     if (!m_valid) {
+        auto self = std::dynamic_pointer_cast<Container>(shared_from_this());
+        if (self) {
+            self->doLayoutTree();
+        }
         m_valid = true;
     }
 }
