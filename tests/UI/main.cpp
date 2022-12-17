@@ -18,7 +18,7 @@ public:
         m_root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 20 });
         m_root->setOpaque(true);
         auto tmp1 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
-        tmp1->setBackground({ 0, 0, 0, 1 });
+        tmp1->setBackground({ 1, 1, 1, 1 });
         tmp1->setOpaque(true);
         tmp1->addComponent(createHBox(), nullptr);
         tmp1->addComponent(createHBox(), nullptr);
@@ -41,9 +41,9 @@ public:
     std::shared_ptr<agui::Panel> createHBox()
     {
         auto hbox = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
-        hbox->addComponent(std::make_shared<agui::Label>(u"こんにちわ１"), nullptr);
-        hbox->addComponent(std::make_shared<agui::Label>(u"こんにちわ２"), nullptr);
-        hbox->addComponent(std::make_shared<agui::Label>(u"こんにちわ３"), nullptr);
+        hbox->addComponent(std::make_shared<agui::Button>(u"ボタン"), nullptr);
+        hbox->addComponent(std::make_shared<agui::Label>(u"テキスト１"), nullptr);
+        hbox->addComponent(std::make_shared<agui::Label>(u"テキスト２"), nullptr);
         return hbox;
     }
 
