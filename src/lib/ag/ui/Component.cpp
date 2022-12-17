@@ -1,5 +1,6 @@
 #include <ag/ui/Component.hpp>
 #include <ag/ui/Container.hpp>
+#include <cassert>
 
 namespace agui {
 Component::Component()
@@ -19,6 +20,8 @@ Component::Component()
 
 void Component::setLocation(const glm::ivec2& location)
 {
+    assert(location.x >= 0);
+    assert(location.y >= 0);
     m_location = location;
     invalidate();
 }
@@ -26,6 +29,8 @@ glm::ivec2 Component::getLocation() const { return m_location; }
 
 void Component::setSize(const glm::ivec2& size)
 {
+    assert(size.x >= 0);
+    assert(size.y >= 0);
     m_size = size;
     invalidate();
 }
