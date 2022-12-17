@@ -24,7 +24,7 @@ public:
         tmp1->addComponent(createHBox(), nullptr);
         tmp1->addComponent(createHBox(), nullptr);
         auto tmp2 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
-        tmp2->setBackground({ 1, 0, 0, 1 });
+        //tmp2->setBackground({ 1, 0, 0, 1 });
         tmp2->setOpaque(true);
         tmp2->addComponent(createHBox(), nullptr);
         tmp2->addComponent(createHBox(), nullptr);

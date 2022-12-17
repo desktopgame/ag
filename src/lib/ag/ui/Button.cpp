@@ -17,7 +17,7 @@ void Button::update(const std::shared_ptr<ag::Renderer>& r)
 {
     auto b = getBounds();
     const int thi = 3;
-    r->fillRect(b.position, getSize(), { 1, 1, 1, 1 });
+    r->fillRect(b.position, getSize(), { 0.1f, 0.1f, 0.1f, 1.f });
     r->fillRect(b.position, { thi, b.size.y }, { 0, 0, 1, 1 });
     r->fillRect(b.position, { b.size.x, thi }, { 0, 0, 1, 1 });
     r->fillRect({ b.right() - thi, b.top() }, { thi, b.size.y }, { 0, 0, 1, 1 });
