@@ -19,10 +19,10 @@ public:
         m_root->addComponent(createHBox(), nullptr);
         m_root->addComponent(createHBox(), nullptr);
         m_root->addComponent(createHBox(), nullptr);
+        m_root->setBounds(agui::Rect { { 0, 0 }, { w->getSize() } });
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        m_root->setBounds(agui::Rect { { 0, 0 }, { w->getSize() } });
         m_root->validate();
         m_root->update(r);
     }

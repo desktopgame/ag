@@ -16,10 +16,18 @@ Component::Component()
 {
 }
 
-void Component::setLocation(const glm::ivec2& location) { m_location = location; }
+void Component::setLocation(const glm::ivec2& location)
+{
+    m_location = location;
+    invalidate();
+}
 glm::ivec2 Component::getLocation() const { return m_location; }
 
-void Component::setSize(const glm::ivec2& size) { m_size = size; }
+void Component::setSize(const glm::ivec2& size)
+{
+    m_size = size;
+    invalidate();
+}
 glm::ivec2 Component::getSize() const { return m_size; }
 
 void Component::setBounds(const Rect& bounds)
