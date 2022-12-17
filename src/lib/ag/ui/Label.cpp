@@ -9,7 +9,7 @@ void Label::update(const std::shared_ptr<ag::Renderer>& r)
 {
     auto f = getFont();
     auto b = getBounds();
-    auto ms = r->measureString(20, m_text);
+    auto ms = r->measureString(f.size, m_text);
     if (b.size.x > ms.x) {
         b.position.x = b.position.x + (b.size.x - ms.x) / 2;
     }
