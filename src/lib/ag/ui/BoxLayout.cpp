@@ -11,7 +11,7 @@ BoxLayout::BoxLayout(Orientation orientation)
 void BoxLayout::layoutContainer(const std::shared_ptr<Container>& c)
 {
     auto bounds = c->getBounds();
-    auto mp = maxPreferredLayoutSize();
+    auto mp = c->getSize();
     if (m_orientation == Orientation::Horizontal) {
         auto offset = bounds.position;
         for (int i = 0; i < c->getComponentCount(); i++) {
