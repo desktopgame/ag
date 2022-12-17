@@ -26,7 +26,9 @@ void Container::profile()
 
 void Container::update(const std::shared_ptr<ag::Renderer>& r)
 {
-    r->fillRect(getLocation(), getSize(), getBackground());
+    if (isOpaque()) {
+        r->fillRect(getLocation(), getSize(), getBackground());
+    }
     for (auto c : m_components) {
         c->update(r);
     }
