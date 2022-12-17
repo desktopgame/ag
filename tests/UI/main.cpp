@@ -15,7 +15,7 @@ public:
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
         m_root = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
-        m_root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 20 });
+        m_root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 16 });
         m_root->setOpaque(true);
         auto tmp1 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
         tmp1->setBackground({ 1, 1, 1, 1 });
