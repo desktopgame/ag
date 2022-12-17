@@ -1,3 +1,4 @@
+#pragma once
 #include <ag/ui/Component.hpp>
 #include <ag/ui/ILayoutManager.hpp>
 #include <ag/ui/LayoutElement.hpp>
