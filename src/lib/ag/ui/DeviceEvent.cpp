@@ -1,8 +1,9 @@
 #include <ag/ui/DeviceEvent.hpp>
 
 namespace agui {
-DeviceEvent::DeviceEvent(DeviceEventType type)
-    : type(type)
+DeviceEvent::DeviceEvent(std::shared_ptr<Component> source, DeviceEventType type)
+    : source(source)
+    , type(type)
     , m_consumed()
 {
 }
