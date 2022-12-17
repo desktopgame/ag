@@ -14,9 +14,8 @@ public:
     }
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        r->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"));
-        loadTexture("testdata/textures/ghicon.png");
         m_root = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
+        m_root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 12 });
         auto vbox = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
         auto h1 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
         h1->setBackground(glm::vec4 { 1, 0, 0, 1 });

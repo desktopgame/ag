@@ -16,6 +16,7 @@ void Button::update(const std::shared_ptr<ag::Renderer>& r)
     r->fillRect(b.position, { b.size.x, thi }, { 0, 0, 1, 1 });
     r->fillRect({ b.right() - thi, b.top() }, { thi, b.size.y }, { 0, 0, 1, 1 });
     r->fillRect({ b.left(), b.bottom() - thi }, { b.size.x, thi }, { 0, 0, 1, 1 });
+    m_label->setFont(getFont());
     m_label->setBounds(getBounds());
     m_label->update(r);
 }

@@ -7,6 +7,7 @@ Label::Label(const std::u16string& text)
 }
 void Label::update(const std::shared_ptr<ag::Renderer>& r)
 {
+    auto f = getFont();
     auto b = getBounds();
     auto ms = r->measureString(20, m_text);
     if (b.size.x > ms.x) {
@@ -15,6 +16,7 @@ void Label::update(const std::shared_ptr<ag::Renderer>& r)
     if (b.size.y > ms.y) {
         b.position.y = b.position.y + (b.size.y - ms.y) / 2;
     }
-    r->drawString(b.position, 20, m_text, getForeground());
+    r->setFontMap(f.map);
+    r->drawString(b.position, f.size, m_text, getForeground());
 }
 }
