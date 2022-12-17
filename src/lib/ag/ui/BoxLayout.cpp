@@ -13,7 +13,7 @@ void BoxLayout::layoutContainer(const std::shared_ptr<Container>& c)
     auto bounds = c->getBounds();
     auto mp = maxPreferredLayoutSize();
     if (m_orientation == Orientation::Horizontal) {
-        auto offset = glm::ivec2 { 0, bounds.position.y };
+        auto offset = bounds.position;
         for (int i = 0; i < c->getComponentCount(); i++) {
             auto child = c->getComponent(i);
             auto pref = child->getPreferredSize();
@@ -22,7 +22,7 @@ void BoxLayout::layoutContainer(const std::shared_ptr<Container>& c)
             offset.x += pref.x;
         }
     } else {
-        auto offset = glm::ivec2 { bounds.position.x, 0 };
+        auto offset = bounds.position;
         for (int i = 0; i < c->getComponentCount(); i++) {
             auto child = c->getComponent(i);
             auto pref = child->getPreferredSize();
