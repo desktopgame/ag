@@ -1,6 +1,7 @@
 #pragma once
 #include <ag/graphics/Renderer.hpp>
 #include <ag/native/glm.hpp>
+#include <ag/ui/Font.hpp>
 #include <ag/ui/Rect.hpp>
 #include <memory>
 
@@ -38,6 +39,9 @@ public:
     void setBackground(const glm::vec4& background);
     glm::vec4 getBackground() const;
 
+    void setFont(const Font& font);
+    Font getFont() const;
+
     void setParent(const std::weak_ptr<Container>& parent);
     std::weak_ptr<Container> getParent() const;
 
@@ -49,6 +53,7 @@ private:
     glm::ivec2 m_maximumSize;
     glm::vec4 m_foreground;
     glm::vec4 m_background;
+    Font m_font;
     std::weak_ptr<Container> m_parent;
 };
 }

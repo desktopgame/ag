@@ -1,4 +1,5 @@
 #include <ag/ui/Component.hpp>
+#include <ag/ui/Container.hpp>
 
 namespace agui {
 Component::Component()
@@ -9,6 +10,7 @@ Component::Component()
     , m_maximumSize()
     , m_foreground(1.f, 1.f, 1.f, 1.f)
     , m_background(0.6f, 0.6f, 0.6f, 1.f)
+    , m_font(Font { nullptr, 12 })
     , m_parent()
 {
 }
@@ -40,6 +42,18 @@ glm::vec4 Component::getForeground() const { return m_foreground; }
 
 void Component::setBackground(const glm::vec4& background) { m_background = background; }
 glm::vec4 Component::getBackground() const { return m_background; }
+
+void Component::setFont(const Font& font) { m_font = font; }
+Font Component::getFont() const
+{
+    if (!m_font.map) {
+        auto pp = getParent().lock();
+        if (pp) {
+            return pp->getFont();
+        }
+    }
+    return m_font;
+}
 
 void Component::setParent(const std::weak_ptr<Container>& parent) { m_parent = parent; }
 std::weak_ptr<Container> Component::getParent() const { return m_parent; }
