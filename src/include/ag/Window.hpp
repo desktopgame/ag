@@ -17,6 +17,8 @@ using CursorPosCallback = std::function<void(double, double)>;
 using CursorEnterCallback = std::function<void(int)>;
 using ScrollCallback = std::function<void(double, double)>;
 using DropCallback = std::function<void(int, const char**)>;
+using WindowPosCallback = std::function<void(int, int)>;
+using WindowSizeCallback = std::function<void(int, int)>;
 class Window : public std::enable_shared_from_this<Window> {
 public:
     using Instance = std::shared_ptr<Window>;
@@ -61,6 +63,12 @@ public:
     void setDropCallback(DropCallback dropCallback);
     DropCallback getDropCallback() const;
 
+    void setWindowPosCallback(WindowPosCallback windowPosCallback);
+    WindowPosCallback getWindowPosCallback() const;
+
+    void setWindowSizeCallback(WindowSizeCallback windowSizeCallback);
+    WindowSizeCallback getWindowSizeCallback() const;
+
 #ifdef AG_METAL
     CA::MetalDrawable* nextDrawable();
 #endif
@@ -80,6 +88,8 @@ private:
     static void onCursorEnter(GLFWwindow* window, int entered);
     static void onScroll(GLFWwindow* window, double xoffset, double yoffset);
     static void onDrop(GLFWwindow* window, int path_count, const char* paths[]);
+    static void onWindowPos(GLFWwindow* window, int x, int y);
+    static void onWindowSize(GLFWwindow* window, int w, int h);
 
     static std::vector<Instance> s_windows;
     GLFWwindow* m_glfwWindow;
@@ -95,6 +105,8 @@ private:
     CursorEnterCallback m_cursorEnterCallback;
     ScrollCallback m_scrollCallback;
     DropCallback m_dropCallback;
+    WindowPosCallback m_windowPosCallback;
+    WindowSizeCallback m_windowSizeCallback;
 #if AG_METAL
     CA::MetalLayer* m_metalLayer;
 #endif

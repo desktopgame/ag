@@ -128,6 +128,13 @@ ScrollCallback Window::getScrollCallback() const { return m_scrollCallback; }
 
 void Window::setDropCallback(DropCallback dropCallback) { m_dropCallback = dropCallback; }
 DropCallback Window::getDropCallback() const { return m_dropCallback; }
+
+void Window::setWindowPosCallback(WindowPosCallback windowPosCallback) { m_windowPosCallback = windowPosCallback; }
+WindowPosCallback Window::getWindowPosCallback() const { return m_windowPosCallback; }
+
+void Window::setWindowSizeCallback(WindowSizeCallback windowSizeCallback) { m_windowSizeCallback = windowSizeCallback; }
+WindowSizeCallback Window::getWindowSizeCallback() const { return m_windowSizeCallback; }
+
 #ifdef AG_METAL
 CA::MetalDrawable* Window::nextDrawable()
 {
@@ -171,6 +178,8 @@ Window::Window(GLFWwindow* glfwWindow, const std::string& title)
     , m_cursorEnterCallback()
     , m_scrollCallback()
     , m_dropCallback()
+    , m_windowPosCallback()
+    , m_windowSizeCallback()
 #if AG_METAL
     , m_metalLayer(nullptr)
 #endif
@@ -239,4 +248,19 @@ void Window::onDrop(GLFWwindow* window, int path_count, const char* paths[])
         agWindow->m_dropCallback(path_count, paths);
     }
 }
+void Window::onWindowPos(GLFWwindow* window, int x, int y)
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_windowPosCallback) {
+        agWindow->m_windowPosCallback(x, y);
+    }
+}
+void Window::onWindowSize(GLFWwindow* window, int w, int h)
+{
+    Window* agWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (agWindow && agWindow->m_windowSizeCallback) {
+        agWindow->m_windowSizeCallback(w, h);
+    }
+}
+
 }
