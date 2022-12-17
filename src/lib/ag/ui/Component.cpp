@@ -29,8 +29,8 @@ glm::ivec2 Component::getLocation() const { return m_location; }
 
 void Component::setSize(const glm::ivec2& size)
 {
-    assert(size.x >= 0);
-    assert(size.y >= 0);
+    assert(size.x > 0);
+    assert(size.y > 0);
     m_size = size;
     invalidate();
 }

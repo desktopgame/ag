@@ -35,13 +35,13 @@ void BorderLayout::layoutContainer(const std::shared_ptr<Container>& c)
     }
     if (right) {
         auto rPref = right->getPreferredSize();
-        left->setLocation({ bounds.right() - rPref.x, toffs });
-        left->setSize({ rPref.x, boffs - toffs });
+        right->setLocation({ bounds.right() - rPref.x, toffs });
+        right->setSize({ rPref.x, boffs - toffs });
         roffs -= rPref.x;
     }
     if (center) {
         center->setLocation({ loffs, toffs });
-        center->setSize({ roffs - loffs, boffs - toffs });
+        center->setSize({ std::max(roffs - loffs, 1), boffs - toffs });
     }
 }
 glm::ivec2 BorderLayout::minimumLayoutSize(const std::shared_ptr<Container>& c) const { return preferredLayoutSize(c); }

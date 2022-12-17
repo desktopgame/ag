@@ -18,43 +18,43 @@ public:
     {
         m_root = std::make_shared<agui::Panel>(std::make_shared<agui::BorderLayout>());
         m_root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 16 });
-
-        auto center = std::make_shared<agui::Panel>(nullptr);
-        center->setOpaque(true);
-        m_root->addComponent(center, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Center));
-
-        int prefSize = 200;
-
-        auto top = std::make_shared<agui::Panel>(nullptr);
-        top->setPreferredSize({ 0, prefSize });
-        top->setBackground({ 1, 0, 0, 1 });
-        top->setOpaque(true);
-        m_root->addComponent(top, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Top));
-
-        auto bottom = std::make_shared<agui::Panel>(nullptr);
-        bottom->setPreferredSize({ 0, prefSize });
-        bottom->setBackground({ 1, 1, 0, 1 });
-        bottom->setOpaque(true);
-        m_root->addComponent(bottom, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Bottom));
-
-        auto left = std::make_shared<agui::Panel>(nullptr);
-        left->setPreferredSize({ prefSize, 0 });
-        left->setBackground({ 0, 1, 1, 1 });
-        left->setOpaque(true);
-        m_root->addComponent(left, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Left));
-
-        auto right = std::make_shared<agui::Panel>(nullptr);
-        right->setPreferredSize({ prefSize, 0 });
-        right->setBackground({ 1, 1, 1, 1 });
-        right->setOpaque(true);
-        m_root->addComponent(right, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Right));
-
+        setBorderLayout(m_root, 100, true);
         m_root->setBounds(agui::Rect { { 0, 0 }, { w->getSize() } });
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
         m_root->validate();
         m_root->update(r);
+    }
+    void setBorderLayout(std::shared_ptr<agui::Container> parent, int prefSize, bool child)
+    {
+        auto center = std::make_shared<agui::Panel>(nullptr);
+        center->setOpaque(true);
+        parent->addComponent(center, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Center));
+
+        auto top = std::make_shared<agui::Panel>(nullptr);
+        top->setPreferredSize({ prefSize, prefSize });
+        top->setBackground({ 1, 0, 0, 1 });
+        top->setOpaque(true);
+        parent->addComponent(top, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Top));
+
+        auto bottom = std::make_shared<agui::Panel>(nullptr);
+        bottom->setPreferredSize({ prefSize, prefSize });
+        bottom->setBackground({ 1, 1, 0, 1 });
+        bottom->setOpaque(true);
+        parent->addComponent(bottom, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Bottom));
+
+        auto left = std::make_shared<agui::Panel>(nullptr);
+        left->setPreferredSize({ prefSize, prefSize });
+        left->setBackground({ 0, 1, 1, 1 });
+        left->setOpaque(true);
+        parent->addComponent(left, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Left));
+
+        auto right = std::make_shared<agui::Panel>(nullptr);
+        right->setPreferredSize({ prefSize, prefSize });
+        right->setBackground({ 1, 1, 1, 1 });
+        right->setOpaque(true);
+        parent->addComponent(right, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Right));
     }
 
 private:
