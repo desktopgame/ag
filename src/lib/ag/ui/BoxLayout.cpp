@@ -74,4 +74,15 @@ glm::ivec2 BoxLayout::maxPreferredLayoutSize() const
     }
     return ret;
 }
+glm::ivec2 BoxLayout::sumPreferredLayoutSize() const
+{
+    glm::ivec2 ret { 0, 0 };
+    for (int i = 0; i < getElementCount(); i++) {
+        auto c = getComponent(i);
+        auto p = c->getPreferredSize();
+        ret.x += p.x;
+        ret.y += p.y;
+    }
+    return ret;
+}
 }
