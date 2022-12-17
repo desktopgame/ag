@@ -58,5 +58,5 @@ private:
 int main(int argc, char* argv[])
 {
     MyApp app(argc, argv);
-    return app.main(1280, 720, true, "Window");
+    return app.main(1280, 720, true, "UI");
 }
