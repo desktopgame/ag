@@ -19,12 +19,12 @@ public:
         auto vbox1 = createVBox();
         auto vbox2 = createVBox();
         vbox2->setBackground({ 1, 0, 0, 1 });
-        rootBox->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 16 });
         rootBox->setOpaque(true);
         rootBox->addComponent(vbox1, nullptr);
         rootBox->addComponent(vbox2, nullptr);
         // create window
         m_frame = std::make_shared<agui::Frame>(w);
+        m_frame->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 16 });
         m_frame->addComponent(rootBox, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Center));
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)

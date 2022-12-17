@@ -18,10 +18,10 @@ public:
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
         auto root = std::make_shared<agui::Panel>(std::make_shared<agui::BorderLayout>());
-        root->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 16 });
         setBorderLayout(root, 100, true);
         // create window
         m_frame = std::make_shared<agui::Frame>(w);
+        m_frame->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 16 });
         m_frame->addComponent(root, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Center));
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
