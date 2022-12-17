@@ -56,14 +56,6 @@ public:
         m_root->validate();
         m_root->update(r);
     }
-    std::shared_ptr<agui::Panel> createHBox()
-    {
-        auto hbox = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
-        hbox->addComponent(std::make_shared<agui::Button>(u"ボタン"), nullptr);
-        hbox->addComponent(std::make_shared<agui::Label>(u"テキスト１"), nullptr);
-        hbox->addComponent(std::make_shared<agui::Label>(u"テキスト２"), nullptr);
-        return hbox;
-    }
 
 private:
     std::shared_ptr<agui::Container> m_root;
