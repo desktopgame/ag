@@ -60,6 +60,8 @@ private:
     glm::vec4 m_background;
     Font m_font;
     std::weak_ptr<Container> m_parent;
+
+protected:
     bool m_valid;
 };
 }

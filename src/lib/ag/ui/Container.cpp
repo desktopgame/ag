@@ -12,6 +12,10 @@ Container::Container()
 
 void Container::profile()
 {
+    for (int i = 0; i < getComponentCount(); i++) {
+        auto c = getComponent(i);
+        c->profile();
+    }
     if (m_layoutManager) {
         auto self = std::static_pointer_cast<Container>(shared_from_this());
         setMinimumSize(m_layoutManager->minimumLayoutSize(self));
@@ -52,6 +56,7 @@ void Container::doLayoutTree()
             c->doLayoutTree();
         }
     }
+    m_valid = true;
 }
 // protected
 void Container::doLayout()
