@@ -15,6 +15,7 @@ public:
     void update(const std::shared_ptr<ag::Renderer>& r) override;
 
     void addComponent(const Component::Instance& component, const std::shared_ptr<LayoutParameter>& param);
+    void removeComponent(const Component::Instance& component);
     Component::Instance getComponent(int i) const;
     int getComponentCount() const;
     std::vector<Component::Instance> getComponents() const;

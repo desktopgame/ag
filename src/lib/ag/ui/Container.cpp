@@ -1,6 +1,7 @@
 #include <ag/ui/Container.hpp>
 #include <ag/ui/ILayoutManager.hpp>
 #include <ag/ui/Rect.hpp>
+#include <algorithm>
 
 namespace agui {
 Container::Container()
@@ -40,6 +41,16 @@ void Container::addComponent(const Component::Instance& component, const std::sh
     component->setParent(std::static_pointer_cast<Container>(shared_from_this()));
     if (m_layoutManager) {
         m_layoutManager->addLayoutComponent(component, param);
+    }
+}
+void Container::removeComponent(const Component::Instance& component)
+{
+    auto iter = std::remove_if(m_components.begin(), m_components.end(), [component](Component::Instance e) -> bool {
+        return e == component;
+    });
+    m_components.erase(iter, m_components.end());
+    if (m_layoutManager) {
+        m_layoutManager->removeLayoutComponent(component);
     }
 }
 Component::Instance Container::getComponent(int i) const { return m_components.at(i); }
