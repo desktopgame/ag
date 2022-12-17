@@ -43,7 +43,6 @@ void BorderLayout::layoutContainer(const std::shared_ptr<Container>& c)
         center->setLocation({ loffs, toffs });
         center->setSize({ roffs - loffs, boffs - toffs });
     }
-    //*/
 }
 glm::ivec2 BorderLayout::minimumLayoutSize(const std::shared_ptr<Container>& c) const { return preferredLayoutSize(c); }
 glm::ivec2 BorderLayout::preferredLayoutSize(const std::shared_ptr<Container>& c) const
