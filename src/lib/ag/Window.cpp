@@ -40,6 +40,8 @@ Window::Instance Window::create(int width, int height, bool resizable, const std
     glfwSetCursorEnterCallback(glfwWindow, Window::onCursorEnter);
     glfwSetScrollCallback(glfwWindow, Window::onScroll);
     glfwSetDropCallback(glfwWindow, Window::onDrop);
+    glfwSetWindowPosCallback(glfwWindow, Window::onWindowPos);
+    glfwSetWindowSizeCallback(glfwWindow, Window::onWindowSize);
     return window;
 }
 bool Window::shouldClose() const
