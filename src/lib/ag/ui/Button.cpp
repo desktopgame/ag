@@ -7,6 +7,12 @@ Button::Button(const std::u16string& text)
 {
 }
 
+void Button::profile()
+{
+    m_label->setFont(getFont());
+    m_label->profile();
+    setPreferredSize(m_label->getPreferredSize());
+}
 void Button::update(const std::shared_ptr<ag::Renderer>& r)
 {
     auto b = getBounds();

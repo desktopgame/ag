@@ -7,6 +7,7 @@ namespace agui {
 class Button : public Component {
 public:
     explicit Button(const std::u16string& text);
+    void profile() override;
     void update(const std::shared_ptr<ag::Renderer>& r) override;
 
 private:

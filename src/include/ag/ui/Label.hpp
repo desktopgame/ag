@@ -6,6 +6,7 @@ namespace agui {
 class Label : public Component {
 public:
     explicit Label(const std::u16string& text);
+    void profile() override;
     void update(const std::shared_ptr<ag::Renderer>& r) override;
 
 private:

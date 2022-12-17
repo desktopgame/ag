@@ -5,6 +5,11 @@ Label::Label(const std::u16string& text)
     : m_text(text)
 {
 }
+void Label::profile()
+{
+    auto f = getFont();
+    setPreferredSize(f.map->measureString(f.size, m_text));
+}
 void Label::update(const std::shared_ptr<ag::Renderer>& r)
 {
     auto f = getFont();
