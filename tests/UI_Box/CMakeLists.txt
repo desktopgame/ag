@@ -1,2 +1,2 @@
-set(T_APP_NAME "UI2")
+set(T_APP_NAME "UI_Box")
 include(${TEST_TEMPLATE_FILE})

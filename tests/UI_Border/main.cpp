@@ -72,5 +72,5 @@ private:
 int main(int argc, char* argv[])
 {
     MyApp app(argc, argv);
-    return app.main(1280, 720, true, "UI");
+    return app.main(1280, 720, true, "UI_Border");
 }
