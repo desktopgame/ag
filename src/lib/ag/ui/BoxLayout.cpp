@@ -10,64 +10,68 @@ BoxLayout::BoxLayout(Orientation orientation)
 }
 void BoxLayout::layoutContainer(const std::shared_ptr<Container>& c)
 {
-    int total = 0;
-    for (int i = 0; i < getElementCount(); i++) {
-        total += getParameter<BoxLayoutParameter>(i)->weight;
-    }
     auto bounds = c->getBounds();
-    int cc = c->getComponentCount();
+    auto mp = maxPreferredLayoutSize();
     if (m_orientation == Orientation::Horizontal) {
-        if (total == 0) {
-            int w = bounds.size.x / cc;
-            int h = bounds.size.y;
-            int offs = 0;
-            for (int i = 0; i < cc; i++) {
-                auto comp = getComponent(i);
-                comp->setSize({ w, h });
-                comp->setLocation(bounds.position + glm::ivec2 { offs, 0 });
-                offs += w;
-            }
-        } else {
-            if (getElementCount() != c->getComponentCount()) {
-                throw std::runtime_error("invalid component count.");
-            }
-            int h = bounds.size.y;
-            int offs = 0;
-            for (int i = 0; i < cc; i++) {
-                float scale = (float)getParameter<BoxLayoutParameter>(i)->weight / (float)total;
-                int w = static_cast<int>((float)bounds.size.x * scale);
-                auto comp = getComponent(i);
-                comp->setSize({ w, h });
-                comp->setLocation(bounds.position + glm::ivec2 { offs, 0 });
-                offs += w;
-            }
+        auto offset = glm::ivec2 { 0, bounds.position.y };
+        for (int i = 0; i < c->getComponentCount(); i++) {
+            auto child = c->getComponent(i);
+            auto pref = child->getPreferredSize();
+            child->setLocation(offset);
+            child->setSize({ pref.x, mp.y });
+            offset.x += pref.x;
         }
     } else {
-        if (total == 0) {
-            int w = bounds.size.x;
-            int h = bounds.size.y / cc;
-            int offs = 0;
-            for (int i = 0; i < cc; i++) {
-                auto comp = getComponent(i);
-                comp->setSize({ w, h });
-                comp->setLocation(bounds.position + glm::ivec2 { 0, offs });
-                offs += h;
-            }
-        } else {
-            if (getElementCount() != c->getComponentCount()) {
-                throw std::runtime_error("invalid component count.");
-            }
-            int w = bounds.size.x;
-            int offs = 0;
-            for (int i = 0; i < cc; i++) {
-                float scale = (float)getParameter<BoxLayoutParameter>(i)->weight / (float)total;
-                int h = static_cast<int>((float)bounds.size.y * scale);
-                auto comp = getComponent(i);
-                comp->setSize({ w, h });
-                comp->setLocation(bounds.position + glm::ivec2 { 0, offs });
-                offs += h;
-            }
+        auto offset = glm::ivec2 { bounds.position.x, 0 };
+        for (int i = 0; i < c->getComponentCount(); i++) {
+            auto child = c->getComponent(i);
+            auto pref = child->getPreferredSize();
+            child->setLocation(offset);
+            child->setSize({ mp.x, pref.y });
+            offset.y += pref.y;
         }
     }
+}
+
+glm::ivec2 BoxLayout::minimumLayoutSize(const std::shared_ptr<Container>& c) const { return preferredLayoutSize(c); }
+glm::ivec2 BoxLayout::preferredLayoutSize(const std::shared_ptr<Container>& c) const
+{
+    auto mp = maxPreferredLayoutSize();
+    int width = 0;
+    int height = 0;
+    if (m_orientation == Orientation::Horizontal) {
+        for (int i = 0; i < c->getComponentCount(); i++) {
+            auto child = c->getComponent(i);
+            auto pref = child->getPreferredSize();
+            width += pref.x;
+        }
+        height = mp.y;
+    } else {
+        for (int i = 0; i < c->getComponentCount(); i++) {
+            auto child = c->getComponent(i);
+            auto pref = child->getPreferredSize();
+            height += pref.y;
+        }
+        width = mp.x;
+    }
+    return { width, height };
+}
+glm::ivec2 BoxLayout::maximumLayoutSize(const std::shared_ptr<Container>& c) const { return preferredLayoutSize(c); }
+// private
+
+glm::ivec2 BoxLayout::maxPreferredLayoutSize() const
+{
+    glm::ivec2 ret { -1, -1 };
+    for (int i = 0; i < getElementCount(); i++) {
+        auto c = getComponent(i);
+        auto p = c->getPreferredSize();
+        if (ret.x < p.x) {
+            ret.x = p.x;
+        }
+        if (ret.y < p.y) {
+            ret.y = p.y;
+        }
+    }
+    return ret;
 }
 }
