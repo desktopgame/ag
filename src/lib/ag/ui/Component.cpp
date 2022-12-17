@@ -12,6 +12,7 @@ Component::Component()
     , m_background(0.6f, 0.6f, 0.6f, 1.f)
     , m_font(Font { nullptr, 12 })
     , m_parent()
+    , m_opaque(false)
     , m_valid(false)
 {
 }
@@ -100,4 +101,6 @@ void Component::revalidate()
 void Component::setParent(const std::weak_ptr<Container>& parent) { m_parent = parent; }
 std::weak_ptr<Container> Component::getParent() const { return m_parent; }
 
+void Component::setOpaque(bool opaque) { m_opaque = opaque; }
+bool Component::isOpaque() const { return m_opaque; }
 }

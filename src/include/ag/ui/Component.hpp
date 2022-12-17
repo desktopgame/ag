@@ -46,6 +46,9 @@ public:
     void setParent(const std::weak_ptr<Container>& parent);
     std::weak_ptr<Container> getParent() const;
 
+    void setOpaque(bool opaque);
+    bool isOpaque() const;
+
     void invalidate();
     void validate();
     void revalidate();
@@ -60,6 +63,7 @@ private:
     glm::vec4 m_background;
     Font m_font;
     std::weak_ptr<Container> m_parent;
+    bool m_opaque;
 
 protected:
     bool m_valid;
