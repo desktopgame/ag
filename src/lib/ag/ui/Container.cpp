@@ -21,6 +21,7 @@ void Container::update(const std::shared_ptr<ag::Renderer>& r)
 void Container::addComponent(const Component::Instance& component, const std::shared_ptr<LayoutParameter>& param)
 {
     m_components.push_back(component);
+    component->setParent(std::static_pointer_cast<Container>(shared_from_this()));
     if (m_layoutManager) {
         m_layoutManager->addLayoutComponent(component, param);
     }
