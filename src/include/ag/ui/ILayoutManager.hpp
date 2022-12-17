@@ -16,9 +16,9 @@ public:
     virtual void removeLayoutComponent(const std::shared_ptr<Component>& c) = 0;
     virtual void layoutContainer(const std::shared_ptr<Container>& c) = 0;
 
-    // virtual glm::ivec2 minimumLayoutSize(const std::shared_ptr<Container>& c) const = 0;
-    // virtual glm::ivec2 preferredLayoutSize(const std::shared_ptr<Container>& c) const = 0;
-    // virtual glm::ivec2 maximumLayoutSize(const std::shared_ptr<Container>& c) const = 0;
+    virtual glm::ivec2 minimumLayoutSize(const std::shared_ptr<Container>& c) const = 0;
+    virtual glm::ivec2 preferredLayoutSize(const std::shared_ptr<Container>& c) const = 0;
+    virtual glm::ivec2 maximumLayoutSize(const std::shared_ptr<Container>& c) const = 0;
 
 private:
 };

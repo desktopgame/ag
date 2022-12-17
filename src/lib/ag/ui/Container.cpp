@@ -10,6 +10,16 @@ Container::Container()
 {
 }
 
+void Container::profile()
+{
+    if (m_layoutManager) {
+        auto self = std::static_pointer_cast<Container>(shared_from_this());
+        setMinimumSize(m_layoutManager->minimumLayoutSize(self));
+        setPreferredSize(m_layoutManager->preferredLayoutSize(self));
+        setMaximumSize(m_layoutManager->maximumLayoutSize(self));
+    }
+}
+
 void Container::update(const std::shared_ptr<ag::Renderer>& r)
 {
     r->fillRect(getLocation(), getSize(), getBackground());
