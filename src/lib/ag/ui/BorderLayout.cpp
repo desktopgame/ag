@@ -11,7 +11,7 @@ void BorderLayout::layoutContainer(const std::shared_ptr<Container>& c)
     auto center = lookup(BorderPosition::Center);
     auto right = lookup(BorderPosition::Right);
     auto bottom = lookup(BorderPosition::Bottom);
-    int toffs = 0;
+    int toffs = bounds.top();
     int boffs = bounds.bottom();
     int loffs = bounds.left();
     int roffs = bounds.right();
