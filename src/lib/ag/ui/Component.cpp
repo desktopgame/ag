@@ -12,6 +12,7 @@ Component::Component()
     , m_background(0.6f, 0.6f, 0.6f, 1.f)
     , m_font(Font { nullptr, 12 })
     , m_parent()
+    , m_valid(false)
 {
 }
 
@@ -53,6 +54,35 @@ Font Component::getFont() const
         }
     }
     return m_font;
+}
+void Component::invalidate()
+{
+    auto pp = getParent().lock();
+    if (pp) {
+        pp->invalidate();
+    }
+    m_valid = false;
+}
+void Component::validate()
+{
+    if (!m_valid) {
+        m_valid = true;
+    }
+}
+void Component::revalidate()
+{
+    invalidate();
+    std::shared_ptr<Container> pp = getParent().lock();
+    while (pp) {
+        auto next = pp->getParent().lock();
+        if (next) {
+            pp = next;
+        } else
+            break;
+    }
+    if (pp) {
+        pp->validate();
+    }
 }
 
 void Component::setParent(const std::weak_ptr<Container>& parent) { m_parent = parent; }

@@ -45,6 +45,10 @@ public:
     void setParent(const std::weak_ptr<Container>& parent);
     std::weak_ptr<Container> getParent() const;
 
+    void invalidate();
+    void validate();
+    void revalidate();
+
 private:
     glm::ivec2 m_location;
     glm::ivec2 m_size;
@@ -55,5 +59,6 @@ private:
     glm::vec4 m_background;
     Font m_font;
     std::weak_ptr<Container> m_parent;
+    bool m_valid;
 };
 }
