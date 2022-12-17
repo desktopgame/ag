@@ -16,22 +16,14 @@ public:
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
         auto rootBox = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
+        auto vbox1 = createVBox();
+        auto vbox2 = createVBox();
+        vbox2->setBackground({ 1, 0, 0, 1 });
         rootBox->setFont(agui::Font { loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"), 16 });
         rootBox->setOpaque(true);
-        auto tmp1 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
-        tmp1->setBackground({ 1, 1, 1, 1 });
-        tmp1->setOpaque(true);
-        tmp1->addComponent(createHBox(), nullptr);
-        tmp1->addComponent(createHBox(), nullptr);
-        tmp1->addComponent(createHBox(), nullptr);
-        auto tmp2 = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
-        //tmp2->setBackground({ 1, 0, 0, 1 });
-        tmp2->setOpaque(true);
-        tmp2->addComponent(createHBox(), nullptr);
-        tmp2->addComponent(createHBox(), nullptr);
-        tmp2->addComponent(createHBox(), nullptr);
-        rootBox->addComponent(tmp2, nullptr);
-        rootBox->addComponent(tmp1, nullptr);
+        rootBox->addComponent(vbox1, nullptr);
+        rootBox->addComponent(vbox2, nullptr);
+        // create window
         m_frame = std::make_shared<agui::Frame>(w);
         m_frame->addComponent(rootBox, std::make_shared<agui::BorderLayoutParameter>(agui::BorderPosition::Center));
     }
@@ -39,6 +31,15 @@ public:
     {
         m_frame->validate();
         m_frame->update(r);
+    }
+    std::shared_ptr<agui::Panel> createVBox()
+    {
+        auto vbox = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Vertical));
+        vbox->setOpaque(true);
+        vbox->addComponent(createHBox(), nullptr);
+        vbox->addComponent(createHBox(), nullptr);
+        vbox->addComponent(createHBox(), nullptr);
+        return vbox;
     }
     std::shared_ptr<agui::Panel> createHBox()
     {
