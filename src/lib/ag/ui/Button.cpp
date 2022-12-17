@@ -11,13 +11,13 @@ void Button::profile()
 {
     m_label->setFont(getFont());
     m_label->profile();
-    setPreferredSize(m_label->getPreferredSize());
+    setPreferredSize(m_label->getPreferredSize() + glm::ivec2 { 9, 9 });
 }
 void Button::update(const std::shared_ptr<ag::Renderer>& r)
 {
     auto b = getBounds();
     const int thi = 3;
-    r->fillRect(b.position, getSize(), getBackground());
+    r->fillRect(b.position, getSize(), { 1, 1, 1, 1 });
     r->fillRect(b.position, { thi, b.size.y }, { 0, 0, 1, 1 });
     r->fillRect(b.position, { b.size.x, thi }, { 0, 0, 1, 1 });
     r->fillRect({ b.right() - thi, b.top() }, { thi, b.size.y }, { 0, 0, 1, 1 });
