@@ -1,0 +1,2 @@
+set(T_APP_NAME "UI2")
+include(${TEST_TEMPLATE_FILE})

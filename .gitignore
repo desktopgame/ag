@@ -73,3 +73,4 @@ tests/Window/Window
 tests/Image/Image
 tests/LowLevel/LowLevel
 tests/UI/UI
+tests/UI2/UI2

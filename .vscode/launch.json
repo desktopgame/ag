@@ -12,6 +12,14 @@
         {
             "type": "lldb",
             "request": "launch",
+            "name": "tests/UI2",
+            "program": "${workspaceFolder}/tests/UI2/UI2",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
             "name": "tests/Image",
             "program": "${workspaceFolder}/tests/Image/Image",
             "args": [],
