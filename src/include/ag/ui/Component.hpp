@@ -13,6 +13,7 @@ public:
     explicit Component();
     virtual ~Component() = default;
 
+    virtual void profile() = 0;
     virtual void update(const std::shared_ptr<ag::Renderer>& r) = 0;
 
     void setLocation(const glm::ivec2& location);

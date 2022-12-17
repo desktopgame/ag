@@ -45,6 +45,10 @@ void Container::doLayoutTree()
 }
 void Container::doLayout()
 {
+    for (int i = 0; i < getComponentCount(); i++) {
+        auto c = getComponent(i);
+        c->profile();
+    }
     if (m_layoutManager) {
         m_layoutManager->layoutContainer(std::static_pointer_cast<Container>(shared_from_this()));
     }
