@@ -53,6 +53,10 @@ public:
     void validate();
     void revalidate();
 
+protected:
+    void setEventMask(int eventMask);
+    int getEventMask() const;
+
 private:
     glm::ivec2 m_location;
     glm::ivec2 m_size;
@@ -64,6 +68,7 @@ private:
     Font m_font;
     std::weak_ptr<Container> m_parent;
     bool m_opaque;
+    int m_eventMask;
 
 protected:
     bool m_valid;

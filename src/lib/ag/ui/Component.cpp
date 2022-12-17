@@ -14,6 +14,7 @@ Component::Component()
     , m_font(Font { nullptr, 12 })
     , m_parent()
     , m_opaque(false)
+    , m_eventMask(0)
     , m_valid(false)
 {
 }
@@ -108,4 +109,7 @@ std::weak_ptr<Container> Component::getParent() const { return m_parent; }
 
 void Component::setOpaque(bool opaque) { m_opaque = opaque; }
 bool Component::isOpaque() const { return m_opaque; }
+// protected
+void Component::setEventMask(int eventMask) { m_eventMask = eventMask; }
+int Component::getEventMask() const { return m_eventMask; }
 }
