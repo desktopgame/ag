@@ -27,7 +27,7 @@ void TextField::update(const std::shared_ptr<ag::Renderer>& r)
     const glm::vec4 buttonEdge = { 0.f, 0.f, 0.f, 1.f };
     util.fillBorderedRect(bounds, k_edgeThickness, buttonBack, buttonEdge);
     r->setFontMap(f.map);
-    r->drawString(bounds.position + glm::ivec2 { k_edgeThickness, k_edgeThickness }, f.size, m_text, getForeground());
+    r->drawString(bounds.position + glm::ivec2 { k_edgeThickness, k_edgeThickness }, f.size, m_text, getForeground(), getSize().y - k_additionalSize);
     // draw caret
     glm::ivec2 caretOffset = bounds.position + glm::ivec2 { k_edgeThickness, k_edgeThickness };
     if (m_caretPosition > 0) {
