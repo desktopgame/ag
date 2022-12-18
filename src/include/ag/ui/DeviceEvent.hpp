@@ -11,7 +11,7 @@ namespace DeviceEventType {
 class DeviceEvent : public std::enable_shared_from_this<DeviceEvent> {
 public:
     using Instance = std::shared_ptr<DeviceEvent>;
-    explicit DeviceEvent(std::shared_ptr<Component> source, int type);
+    explicit DeviceEvent(const std::shared_ptr<Component>& source, int type);
     const std::shared_ptr<Component> source;
     const int type;
 
