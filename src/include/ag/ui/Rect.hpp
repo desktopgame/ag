@@ -13,5 +13,7 @@ public:
     int right() const;
     int top() const;
     int bottom() const;
+
+    bool contains(const glm::ivec2& p) const;
 };
 }
