@@ -1,5 +1,6 @@
 #include <ag/ui/EventQueue.hpp>
 #include <ag/ui/Frame.hpp>
+#include <ag/ui/KeyEvent.hpp>
 #include <ag/ui/MouseEvent.hpp>
 
 namespace agui {
@@ -21,6 +22,16 @@ Frame::Frame(const ag::Window::Instance& window)
             EventQueue::getInstance()->post(std::make_shared<MouseEvent>(shared_from_this(), pos, button, MouseAction::Press));
         } else {
             EventQueue::getInstance()->post(std::make_shared<MouseEvent>(shared_from_this(), pos, button, MouseAction::Release));
+        }
+    });
+    window->setCharCallback([&](unsigned int keyCode) -> void {
+        EventQueue::getInstance()->post(std::make_shared<KeyEvent>(shared_from_this(), keyCode, keyCode, KeyAction::Type));
+    });
+    window->setKeyCallback([&](int key, int scancode, int action, int mods) -> void {
+        if (action == ag::Window::k_eventKeyActionPress) {
+            EventQueue::getInstance()->post(std::make_shared<KeyEvent>(shared_from_this(), key, key, KeyAction::Press));
+        } else {
+            EventQueue::getInstance()->post(std::make_shared<KeyEvent>(shared_from_this(), key, key, KeyAction::Release));
         }
     });
     setBounds(Rect { { 0, 0 }, window->getSize() });

@@ -119,12 +119,18 @@ void Component::dispatchEvent(const std::shared_ptr<DeviceEvent>& e)
     if ((e->type & DeviceEventType::MouseEvent) > 0) {
         processMouseEvent(std::static_pointer_cast<MouseEvent>(e));
     }
+    if ((e->type & DeviceEventType::KeyEvent) > 0) {
+        processKeyEvent(std::static_pointer_cast<KeyEvent>(e));
+    }
 }
 
 // protected
 void Component::setEventMask(int eventMask) { m_eventMask = eventMask; }
 int Component::getEventMask() const { return m_eventMask; }
 void Component::processMouseEvent(const std::shared_ptr<MouseEvent>& e)
+{
+}
+void Component::processKeyEvent(const std::shared_ptr<KeyEvent>& e)
 {
 }
 }
