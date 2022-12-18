@@ -3,7 +3,7 @@
 #include <ag/ui/DeviceEvent.hpp>
 
 namespace agui {
-enum KeyAction {
+enum class KeyAction {
     None,
     Type,
     Press,

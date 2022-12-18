@@ -3,7 +3,7 @@
 #include <ag/ui/DeviceEvent.hpp>
 
 namespace agui {
-enum MouseAction {
+enum class MouseAction {
     None,
     Press,
     Release
