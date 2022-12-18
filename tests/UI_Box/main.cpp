@@ -7,6 +7,7 @@
 #include <ag/ui/Frame.hpp>
 #include <ag/ui/Label.hpp>
 #include <ag/ui/Panel.hpp>
+#include <ag/ui/TextField.hpp>
 
 class MyApp : public ag::easy::App {
 public:
@@ -47,7 +48,7 @@ public:
     {
         auto hbox = std::make_shared<agui::Panel>(std::make_shared<agui::BoxLayout>(agui::Orientation::Horizontal));
         hbox->addComponent(std::make_shared<agui::Button>(u"ボタン"), nullptr);
-        hbox->addComponent(std::make_shared<agui::Label>(u"テキスト１"), nullptr);
+        hbox->addComponent(std::make_shared<agui::TextField>(), nullptr);
         hbox->addComponent(std::make_shared<agui::Label>(u"テキスト２"), nullptr);
         return hbox;
     }
