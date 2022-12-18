@@ -8,6 +8,8 @@
 namespace ag {
 const int Window::k_eventMouseActionPress = GLFW_PRESS;
 const int Window::k_eventMouseActionRelease = GLFW_RELEASE;
+const int Window::k_eventKeyActionPress = GLFW_PRESS;
+const int Window::k_eventKeyActionRelease = GLFW_RELEASE;
 std::vector<Window::Instance> Window::s_windows;
 
 Window::Instance Window::create(int width, int height, bool resizable, const std::string& title)

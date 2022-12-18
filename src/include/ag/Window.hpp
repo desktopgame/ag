@@ -26,6 +26,8 @@ public:
     using Instance = std::shared_ptr<Window>;
     static const int k_eventMouseActionPress;
     static const int k_eventMouseActionRelease;
+    static const int k_eventKeyActionPress;
+    static const int k_eventKeyActionRelease;
 
     static Instance create(int width, int height, bool resizable, const std::string& title);
     bool shouldClose() const;
