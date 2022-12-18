@@ -17,6 +17,10 @@ TextField::TextField()
 
 void TextField::profile()
 {
+    auto f = getFont();
+    glm::ivec2 prefSize = getPreferredSize();
+    prefSize.y = f.map->measureString(f.size, u"V").y + k_additionalSize + 6;
+    setPreferredSize(prefSize);
 }
 void TextField::update(const std::shared_ptr<ag::Renderer>& r)
 {
