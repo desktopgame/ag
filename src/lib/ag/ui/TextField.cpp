@@ -1,3 +1,4 @@
+#include <ag/KeyCode.hpp>
 #include <ag/ui/MouseEvent.hpp>
 #include <ag/ui/RenderingUtil.hpp>
 #include <ag/ui/TextField.hpp>
@@ -69,6 +70,13 @@ void TextField::processKeyEvent(const std::shared_ptr<KeyEvent>& e)
     if (e->action == KeyAction::Type && m_focusOn) {
         m_text.push_back(e->keyChar);
         m_caretPosition++;
+    }
+    if (e->action == KeyAction::Press) {
+        if (e->keyCode == (int)ag::KeyCode::Left) {
+            m_caretPosition = std::max(m_caretPosition - 1, 0);
+        } else if (e->keyCode == (int)ag::KeyCode::Right) {
+            m_caretPosition = std::min(static_cast<int>(m_text.length()), m_caretPosition + 1);
+        }
     }
 }
 }
