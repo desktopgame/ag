@@ -3,6 +3,7 @@
 #include <ag/native/glm.hpp>
 #include <ag/ui/DeviceEvent.hpp>
 #include <ag/ui/Font.hpp>
+#include <ag/ui/MouseEvent.hpp>
 #include <ag/ui/Rect.hpp>
 #include <memory>
 
@@ -59,6 +60,7 @@ public:
 protected:
     void setEventMask(int eventMask);
     int getEventMask() const;
+    virtual void processMouseEvent(const std::shared_ptr<MouseEvent>& e);
 
 private:
     glm::ivec2 m_location;
