@@ -111,7 +111,7 @@ void Component::revalidate()
     }
 }
 
-void Component::dispatchEvent(const DeviceEvent& e)
+void Component::dispatchEvent(const std::shared_ptr<DeviceEvent>& e)
 {
 }
 
