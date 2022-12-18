@@ -9,6 +9,7 @@
 struct GLFWwindow;
 
 namespace ag {
+// callback
 using KeyCallback = std::function<void(int, int, int, int)>;
 using CharCallback = std::function<void(unsigned int)>;
 using CharModsCallback = std::function<void(unsigned int, int)>;
@@ -19,9 +20,12 @@ using ScrollCallback = std::function<void(double, double)>;
 using DropCallback = std::function<void(int, const char**)>;
 using WindowPosCallback = std::function<void(int, int)>;
 using WindowSizeCallback = std::function<void(int, int)>;
+// constant
 class Window : public std::enable_shared_from_this<Window> {
 public:
     using Instance = std::shared_ptr<Window>;
+    static const int k_eventMouseActionPress;
+    static const int k_eventMouseActionRelease;
 
     static Instance create(int width, int height, bool resizable, const std::string& title);
     bool shouldClose() const;
