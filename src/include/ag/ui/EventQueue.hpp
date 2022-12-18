@@ -14,6 +14,8 @@ public:
     DeviceEvent::Instance take();
     bool canTake() const;
 
+    void dispatch();
+
 private:
     EventQueue();
     static std::shared_ptr<EventQueue> s_instance;

@@ -1,3 +1,4 @@
+#include <ag/ui/Component.hpp>
 #include <ag/ui/EventQueue.hpp>
 
 namespace agui {
@@ -22,6 +23,13 @@ DeviceEvent::Instance EventQueue::take()
 }
 bool EventQueue::canTake() const { return !m_queue.empty(); }
 
+void EventQueue::dispatch()
+{
+    while (canTake()) {
+        auto e = take();
+        e->source->dispatchEvent(e);
+    }
+}
 // private
 EventQueue::EventQueue()
     : m_queue()
