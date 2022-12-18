@@ -59,7 +59,11 @@ glm::vec4 Component::getForeground() const { return m_foreground; }
 void Component::setBackground(const glm::vec4& background) { m_background = background; }
 glm::vec4 Component::getBackground() const { return m_background; }
 
-void Component::setFont(const Font& font) { m_font = font; }
+void Component::setFont(const Font& font)
+{
+    m_font = font;
+    invalidate();
+}
 Font Component::getFont() const
 {
     if (!m_font.map) {
