@@ -19,7 +19,7 @@ void TextField::profile()
 {
     auto f = getFont();
     glm::ivec2 prefSize = getPreferredSize();
-    prefSize.y = f.map->measureString(f.size, u"V").y + k_additionalSize + 6;
+    prefSize.y = f.map->measureString(f.size, u"V").y + k_additionalSize;
     setPreferredSize(prefSize);
 }
 void TextField::update(const std::shared_ptr<ag::Renderer>& r)
@@ -30,8 +30,14 @@ void TextField::update(const std::shared_ptr<ag::Renderer>& r)
     const glm::vec4 buttonBack = m_focusOn ? glm::vec4 { 0.3f, 0.3f, 0.3f, 1.f } : glm::vec4 { 0.2f, 0.2f, 0.2f, 1.f };
     const glm::vec4 buttonEdge = { 0.f, 0.f, 0.f, 1.f };
     util.fillBorderedRect(bounds, k_edgeThickness, buttonBack, buttonEdge);
+    // draw string
     r->setFontMap(f.map);
-    r->drawString(bounds.position + glm::ivec2 { k_edgeThickness, k_edgeThickness }, f.size, m_text, getForeground(), getSize().y - k_additionalSize);
+    r->drawString(
+        bounds.position + glm::ivec2 { k_edgeThickness, k_edgeThickness },
+        f.size,
+        m_text,
+        getForeground(),
+        getSize().y - k_additionalSize);
     // draw caret
     glm::ivec2 caretOffset = bounds.position + glm::ivec2 { k_edgeThickness, k_edgeThickness };
     if (m_caretPosition > 0) {
