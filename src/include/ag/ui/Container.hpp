@@ -25,6 +25,8 @@ public:
 
     void doLayoutTree();
 
+    void dispatchEvent(const std::shared_ptr<DeviceEvent>& e) override;
+
 protected:
     virtual void doLayout();
 

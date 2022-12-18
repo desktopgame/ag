@@ -55,7 +55,7 @@ public:
     void validate();
     void revalidate();
 
-    void dispatchEvent(const std::shared_ptr<DeviceEvent>& e);
+    virtual void dispatchEvent(const std::shared_ptr<DeviceEvent>& e);
 
 protected:
     void setEventMask(int eventMask);

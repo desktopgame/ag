@@ -71,6 +71,13 @@ void Container::doLayoutTree()
     }
     m_valid = true;
 }
+void Container::dispatchEvent(const std::shared_ptr<DeviceEvent>& e)
+{
+    Component::dispatchEvent(e);
+    for (int i = 0; i < getComponentCount() && !e->isConsumed(); i++) {
+        getComponent(i)->dispatchEvent(e);
+    }
+}
 // protected
 void Container::doLayout()
 {
