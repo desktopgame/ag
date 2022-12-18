@@ -14,11 +14,13 @@ public:
 
 protected:
     void processMouseEvent(const std::shared_ptr<MouseEvent>& e) override;
+    void processKeyEvent(const std::shared_ptr<KeyEvent>& e) override;
 
 private:
     bool m_focusOn;
     std::u16string m_text;
     int m_blinkOnWait;
     int m_blinkOffWait;
+    int m_caretPosition;
 };
 }

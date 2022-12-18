@@ -9,6 +9,7 @@ TextField::TextField()
     , m_text(u"")
     , m_blinkOnWait()
     , m_blinkOffWait(k_blinkOffLength)
+    , m_caretPosition(0)
 {
     setEventMask(DeviceEventType::MouseEvent | DeviceEventType::KeyEvent);
     setPreferredSize({ 200, 20 });
@@ -27,9 +28,16 @@ void TextField::update(const std::shared_ptr<ag::Renderer>& r)
     util.fillBorderedRect(bounds, k_edgeThickness, buttonBack, buttonEdge);
     r->setFontMap(f.map);
     r->drawString(bounds.position + glm::ivec2 { k_edgeThickness, k_edgeThickness }, f.size, m_text, getForeground());
+    // draw caret
+    glm::ivec2 caretOffset = bounds.position + glm::ivec2 { k_edgeThickness, k_edgeThickness };
+    if (m_caretPosition > 0) {
+        glm::ivec2 textSize = r->measureString(f.size, m_text.substr(0, m_caretPosition));
+        textSize.y = 0;
+        caretOffset += textSize;
+    }
     if (m_blinkOnWait < k_blinkOnLength) {
         if (m_focusOn) {
-            r->fillRect(bounds.position + glm::ivec2 { k_edgeThickness, k_edgeThickness }, glm::ivec2 { 2, bounds.size.y - k_edgeThickness * 2 }, glm::vec4 { 1, 1, 1, 1 });
+            r->fillRect(caretOffset, glm::ivec2 { 2, bounds.size.y - k_edgeThickness * 2 }, glm::vec4 { 1, 1, 1, 1 });
         }
         m_blinkOnWait++;
     } else {
@@ -44,6 +52,13 @@ void TextField::processMouseEvent(const std::shared_ptr<MouseEvent>& e)
 {
     if (e->action == MouseAction::Press) {
         m_focusOn = getBounds().contains(e->position);
+    }
+}
+void TextField::processKeyEvent(const std::shared_ptr<KeyEvent>& e)
+{
+    if (e->action == KeyAction::Type && m_focusOn) {
+        m_text.push_back(e->keyChar);
+        m_caretPosition++;
     }
 }
 }
