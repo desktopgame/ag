@@ -8,6 +8,7 @@ Button::Button(const std::u16string& text)
     , m_label(std::make_shared<Label>(text))
     , m_press(false)
 {
+    setEventMask(DeviceEventType::MouseEvent);
 }
 
 void Button::profile()

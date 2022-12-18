@@ -9,6 +9,7 @@ TextField::TextField()
     , m_blinkOnWait()
     , m_blinkOffWait(k_blinkOffLength)
 {
+    setEventMask(DeviceEventType::MouseEvent | DeviceEventType::KeyEvent);
     setPreferredSize({ 200, 20 });
 }
 

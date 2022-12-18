@@ -116,10 +116,10 @@ void Component::dispatchEvent(const std::shared_ptr<DeviceEvent>& e)
     if (e->isConsumed()) {
         return;
     }
-    if ((e->type & DeviceEventType::MouseEvent) > 0) {
+    if (e->type == DeviceEventType::MouseEvent && (getEventMask() & DeviceEventType::MouseEvent) > 0) {
         processMouseEvent(std::static_pointer_cast<MouseEvent>(e));
     }
-    if ((e->type & DeviceEventType::KeyEvent) > 0) {
+    if (e->type == DeviceEventType::KeyEvent && (getEventMask() & DeviceEventType::KeyEvent) > 0) {
         processKeyEvent(std::static_pointer_cast<KeyEvent>(e));
     }
 }
