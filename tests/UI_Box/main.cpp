@@ -22,6 +22,7 @@ public:
         formRoot->addComponent(createForm(u"名前"), nullptr);
         formRoot->addComponent(createForm(u"身長"), nullptr);
         formRoot->addComponent(createForm(u"体重"), nullptr);
+        formRoot->addComponent(std::make_shared<agui::Button>(u"送信"), nullptr);
         formRoot->setOpaque(true);
         // create window
         m_frame = std::make_shared<agui::Frame>(w);
