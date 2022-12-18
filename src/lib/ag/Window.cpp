@@ -102,7 +102,7 @@ glm::ivec2 Window::getFrameBufferSize() const
     glfwGetFramebufferSize(m_glfwWindow, &v.x, &v.y);
     return v;
 }
-glm::ivec2 Window::getMousePosition() const
+glm::ivec2 Window::getCursorPosition() const
 {
     double x, y;
     glfwGetCursorPos(m_glfwWindow, &x, &y);

@@ -16,7 +16,7 @@ Frame::Frame(const ag::Window::Instance& window)
         EventQueue::getInstance()->post(std::make_shared<MouseEvent>(shared_from_this(), glm::ivec2 { ix, iy }, -1, MouseAction::None));
     });
     window->setMouseButtonCallback([&](int button, int action, int mods) -> void {
-        glm::ivec2 pos = window->getMousePosition();
+        glm::ivec2 pos = window->getCursorPosition();
         if (action == ag::Window::k_eventMouseActionPress) {
             EventQueue::getInstance()->post(std::make_shared<MouseEvent>(shared_from_this(), pos, button, MouseAction::Press));
         } else {

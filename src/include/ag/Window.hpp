@@ -41,7 +41,7 @@ public:
     void setClearColor(const glm::vec3& clearColor);
     glm::vec3 getClearColor() const;
     glm::ivec2 getFrameBufferSize() const;
-    glm::ivec2 getMousePosition() const;
+    glm::ivec2 getCursorPosition() const;
 
     void setKeyCallback(KeyCallback keyCallback);
     KeyCallback getKeyCallback() const;
