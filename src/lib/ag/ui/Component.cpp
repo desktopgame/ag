@@ -111,6 +111,10 @@ void Component::revalidate()
     }
 }
 
+void Component::dispatchEvent(const DeviceEvent& e)
+{
+}
+
 // protected
 void Component::setEventMask(int eventMask) { m_eventMask = eventMask; }
 int Component::getEventMask() const { return m_eventMask; }

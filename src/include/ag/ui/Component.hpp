@@ -1,6 +1,7 @@
 #pragma once
 #include <ag/graphics/Renderer.hpp>
 #include <ag/native/glm.hpp>
+#include <ag/ui/DeviceEvent.hpp>
 #include <ag/ui/Font.hpp>
 #include <ag/ui/Rect.hpp>
 #include <memory>
@@ -52,6 +53,8 @@ public:
     void invalidate();
     void validate();
     void revalidate();
+
+    void dispatchEvent(const DeviceEvent& e);
 
 protected:
     void setEventMask(int eventMask);
