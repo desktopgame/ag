@@ -16,5 +16,6 @@ private:
     glm::ivec2 maxPreferredLayoutSize() const;
     glm::ivec2 sumPreferredLayoutSize() const;
     Orientation m_orientation;
+    int m_gap;
 };
 }

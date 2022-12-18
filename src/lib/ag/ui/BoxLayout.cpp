@@ -6,6 +6,7 @@ namespace agui {
 
 BoxLayout::BoxLayout(Orientation orientation)
     : m_orientation(orientation)
+    , m_gap(5)
 {
 }
 void BoxLayout::layoutContainer(const std::shared_ptr<Container>& c)
@@ -19,7 +20,7 @@ void BoxLayout::layoutContainer(const std::shared_ptr<Container>& c)
             auto pref = child->getPreferredSize();
             child->setLocation(offset);
             child->setSize({ pref.x, mp.y });
-            offset.x += pref.x;
+            offset.x += pref.x + m_gap;
         }
     } else {
         auto offset = bounds.position;
@@ -28,7 +29,7 @@ void BoxLayout::layoutContainer(const std::shared_ptr<Container>& c)
             auto pref = child->getPreferredSize();
             child->setLocation(offset);
             child->setSize({ mp.x, pref.y });
-            offset.y += pref.y;
+            offset.y += pref.y + m_gap;
         }
     }
 }
@@ -45,6 +46,7 @@ glm::ivec2 BoxLayout::preferredLayoutSize(const std::shared_ptr<Container>& c) c
             auto pref = child->getPreferredSize();
             width += pref.x;
         }
+        width += ((getElementCount() - 1) * m_gap);
         height = mp.y;
     } else {
         for (int i = 0; i < c->getComponentCount(); i++) {
@@ -52,6 +54,7 @@ glm::ivec2 BoxLayout::preferredLayoutSize(const std::shared_ptr<Container>& c) c
             auto pref = child->getPreferredSize();
             height += pref.y;
         }
+        height += ((getElementCount() - 1) * m_gap);
         width = mp.x;
     }
     return { width, height };
