@@ -12,7 +12,11 @@ public:
     void profile() override;
     void update(const std::shared_ptr<ag::Renderer>& r) override;
 
+protected:
+    void processMouseEvent(const std::shared_ptr<MouseEvent>& e) override;
+
 private:
     std::shared_ptr<Label> m_label;
+    bool m_press;
 };
 }

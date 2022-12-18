@@ -5,6 +5,7 @@
 #include <ag/ui/BoxLayoutParameter.hpp>
 #include <ag/ui/Button.hpp>
 #include <ag/ui/Container.hpp>
+#include <ag/ui/EventQueue.hpp>
 #include <ag/ui/Frame.hpp>
 #include <ag/ui/Label.hpp>
 #include <ag/ui/Panel.hpp>
@@ -28,6 +29,7 @@ public:
     {
         m_frame->validate();
         m_frame->update(r);
+        agui::EventQueue::getInstance()->dispatch();
     }
     void setBorderLayout(std::shared_ptr<agui::Container> parent, int prefSize, bool child)
     {
