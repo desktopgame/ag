@@ -93,7 +93,12 @@ void Renderer::drawChar(const glm::vec2& pos, int fontSize, unsigned long charco
     param->setColor1(color);
     draw(m_stringObject);
 }
+
 void Renderer::drawString(const glm::vec2& pos, int fontSize, const std::u16string& str, const glm::vec4& color)
+{
+    drawString(pos, fontSize, str, color, 0);
+}
+void Renderer::drawString(const glm::vec2& pos, int fontSize, const std::u16string& str, const glm::vec4& color, int baseHeight)
 {
     if (!m_fontMap) {
         return;
@@ -110,7 +115,7 @@ void Renderer::drawString(const glm::vec2& pos, int fontSize, const std::u16stri
     for (auto sprite : sprites) {
         float xpos = offset.x + sprite->metrics.bearing.x;
         float ypos = offset.y - sprite->metrics.bearing.y;
-        ypos += maxY;
+        ypos += baseHeight > 0 ? baseHeight : maxY;
         // draw
         auto param = m_stringObject->getContext()->getParameter();
         glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, 0));
