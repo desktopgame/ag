@@ -70,6 +70,13 @@ Font Component::getFont() const
     }
     return m_font;
 }
+
+void Component::setParent(const std::weak_ptr<Container>& parent) { m_parent = parent; }
+std::weak_ptr<Container> Component::getParent() const { return m_parent; }
+
+void Component::setOpaque(bool opaque) { m_opaque = opaque; }
+bool Component::isOpaque() const { return m_opaque; }
+
 void Component::invalidate()
 {
     auto pp = getParent().lock();
@@ -104,11 +111,6 @@ void Component::revalidate()
     }
 }
 
-void Component::setParent(const std::weak_ptr<Container>& parent) { m_parent = parent; }
-std::weak_ptr<Container> Component::getParent() const { return m_parent; }
-
-void Component::setOpaque(bool opaque) { m_opaque = opaque; }
-bool Component::isOpaque() const { return m_opaque; }
 // protected
 void Component::setEventMask(int eventMask) { m_eventMask = eventMask; }
 int Component::getEventMask() const { return m_eventMask; }
