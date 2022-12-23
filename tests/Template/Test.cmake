@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.25)
 project(${T_APP_NAME} CXX)
 
 set(CMAKE_MODULE_PATH "${TEST_TEMPLATE_MODS}")
