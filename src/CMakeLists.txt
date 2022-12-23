@@ -9,8 +9,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 option(AG_USE_OPEN_GL "use OpenGL" OFF)
 option(AG_USE_METAL "use Metal" OFF)
 if(AG_USE_OPEN_GL)
+    set(GLEW_USE_STATIC_LIBS ON)
     find_package(OpenGL REQUIRED)
-    find_package(GLEWEx REQUIRED)
+    find_package(GLEW REQUIRED)
 endif()
 #
 # Library Settings
@@ -18,7 +19,7 @@ endif()
 find_package(GLFW REQUIRED)
 find_package(GLM REQUIRED)
 find_package(FreeImage REQUIRED)
-find_package(FreeTypeEx REQUIRED)
+find_package(Freetype REQUIRED)
 set(AG_INCLUDE
     ${GLFW_INCLUDE_DIR}
     ${GLM_INCLUDE_DIR}
