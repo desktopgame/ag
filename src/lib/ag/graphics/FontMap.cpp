@@ -16,7 +16,7 @@ public:
     {
     }
     int size;
-    std::unordered_map<char, std::shared_ptr<FontSprite>> textureMap;
+    std::unordered_map<char16_t, std::shared_ptr<FontSprite>> textureMap;
 };
 // FontMap
 FontMap::FontMap(const std::shared_ptr<Font>& font)
