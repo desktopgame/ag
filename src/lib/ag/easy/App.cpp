@@ -33,6 +33,7 @@ int App::main(int width, int height, bool resizable, const std::string& title)
             looper->release();
         }
     }
+    m_renderer = nullptr;
     return 0;
 }
 // protected
