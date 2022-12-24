@@ -76,6 +76,10 @@ void TextField::processKeyEvent(const std::shared_ptr<KeyEvent>& e)
             m_caretPosition = std::max(m_caretPosition - 1, 0);
         } else if (e->keyCode == (int)ag::KeyCode::Right) {
             m_caretPosition = std::min(static_cast<int>(m_text.length()), m_caretPosition + 1);
+        } else if (e->keyCode == (int)ag::KeyCode::Backspace) {
+            if (m_text.size() > 0) {
+                m_text.pop_back();
+            }
         }
     }
 }
