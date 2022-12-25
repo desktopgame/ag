@@ -72,5 +72,3 @@ tests/Hello/Hello
 tests/Window/Window
 tests/Image/Image
 tests/LowLevel/LowLevel
-tests/UI_Box/UI_Box
-tests/UI_Border/UI_Border
