@@ -3,6 +3,7 @@
 #include <ag/Window.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/IRenderFunction.hpp>
+#include <ag/graphics/RenderPass.hpp>
 #include <ag/native/glfw.hpp>
 #include <algorithm>
 
@@ -24,14 +25,14 @@ std::shared_ptr<Window> Looper::acquire()
     m_use = true;
     m_cursor->makeContextCurrent();
     Engine::getInstance()->getGraphicsDriver()->useContextExtension();
-    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->begin(m_cursor);
+    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->begin(m_cursor, RenderPass {});
     return m_cursor;
 }
 
 void Looper::release()
 {
     Engine::require();
-    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->end(m_cursor);
+    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->end();
     m_cursor->swapBuffers();
     glfwPollEvents();
     m_use = false;

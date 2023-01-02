@@ -20,7 +20,7 @@ MtlRenderFunction::MtlRenderFunction(MtlUniformManager::Instance uniformManager)
 MtlRenderFunction::~MtlRenderFunction()
 {
 }
-void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
+void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const RenderPass& pass)
 {
     m_arPool = NS::AutoreleasePool::alloc()->init();
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
@@ -39,7 +39,7 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window)
     m_encoder->setFrontFacingWinding(MTL::Winding::WindingCounterClockwise);
     desc->release();
 }
-void MtlRenderFunction::end(const std::shared_ptr<Window>& window)
+void MtlRenderFunction::end()
 {
     m_uniformManager->releaseAll();
     m_encoder->endEncoding();

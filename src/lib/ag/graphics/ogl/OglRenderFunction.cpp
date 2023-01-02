@@ -8,7 +8,7 @@
 #include <ag/native/glfw.hpp>
 
 namespace ag {
-void OglRenderFunction::begin(const std::shared_ptr<Window>& window)
+void OglRenderFunction::begin(const std::shared_ptr<Window>& window, const RenderPass& pass)
 {
     glm::vec3 clearColor = window->getClearColor();
     glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
@@ -18,7 +18,7 @@ void OglRenderFunction::begin(const std::shared_ptr<Window>& window)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
-void OglRenderFunction::end(const std::shared_ptr<Window>& window)
+void OglRenderFunction::end()
 {
 }
 // private

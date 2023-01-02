@@ -8,8 +8,8 @@ namespace ag {
 class OglRenderFunction : public IRenderFunction {
 public:
     explicit OglRenderFunction() = default;
-    void begin(const std::shared_ptr<Window>& window) override;
-    void end(const std::shared_ptr<Window>& window) override;
+    void begin(const std::shared_ptr<Window>& window, const RenderPass& pass) override;
+    void end() override;
 
 private:
 };
