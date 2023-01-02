@@ -65,7 +65,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle(bool isFi
 #endif
     if (isFill) {
         const std::vector<glm::vec2> verts { { left, top }, { right, top }, { right, bottom }, { left, bottom } };
-        const std::vector<unsigned short> index { 1, 0, 3, 1, 3, 2 };
+        const std::vector<unsigned int> index { 1, 0, 3, 1, 3, 2 };
         context->updateVertex(verts);
         context->updateIndex(index);
         return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
@@ -160,7 +160,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle(const s
         { { left, bottom },
             { 0, 1 } }
     };
-    const std::vector<unsigned short> index { 1, 0, 3, 1, 3, 2 };
+    const std::vector<unsigned int> index { 1, 0, 3, 1, 3, 2 };
     context->updateVertex(verts);
     context->updateIndex(index);
     return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);

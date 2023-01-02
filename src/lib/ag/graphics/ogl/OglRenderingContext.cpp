@@ -22,7 +22,7 @@ void OglRenderingContext::draw(const std::shared_ptr<IShader>& shader, Primitive
     size_t indexLen = m_indexLength;
     beginVAO(shader);
     if (indexLen > 0) {
-        glDrawElements(primType, indexLen, GL_UNSIGNED_SHORT, nullptr);
+        glDrawElements(primType, indexLen, GL_UNSIGNED_INT, nullptr);
     } else {
         glDrawArrays(primType, 0, primCount);
     }

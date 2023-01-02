@@ -19,7 +19,7 @@ public:
 
     void updateVertex(const std::vector<glm::vec2>& data);
     void updateVertex(const std::vector<VertexData>& data);
-    void updateIndex(const std::vector<unsigned short>& data);
+    void updateIndex(const std::vector<unsigned int>& data);
 
     size_t getVertexLength() const;
     size_t getIndexLength() const;

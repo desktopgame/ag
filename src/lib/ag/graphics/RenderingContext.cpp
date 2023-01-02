@@ -28,9 +28,9 @@ void RenderingContext::updateVertex(const std::vector<VertexData>& data)
     m_vertexLength = data.size();
     m_isUsingTexCoord = true;
 }
-void RenderingContext::updateIndex(const std::vector<unsigned short>& data)
+void RenderingContext::updateIndex(const std::vector<unsigned int>& data)
 {
-    m_index->allocate(sizeof(unsigned short) * data.size());
+    m_index->allocate(sizeof(unsigned int) * data.size());
     m_index->update(&data.front());
     m_indexLength = data.size();
 }
