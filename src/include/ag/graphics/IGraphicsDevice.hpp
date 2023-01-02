@@ -5,6 +5,7 @@ namespace ag {
 class ITexture;
 class IBuffer;
 class IShaderParameter;
+class RenderingContext;
 class IGraphicsDevice {
 public:
     using Instance = std::shared_ptr<IGraphicsDevice>;
@@ -14,5 +15,6 @@ public:
     virtual std::shared_ptr<ITexture> newTexture(int width, int height, const uint8_t* data) const = 0;
     virtual std::shared_ptr<IBuffer> newVertexBuffer() const = 0;
     virtual std::shared_ptr<IBuffer> newIndexBuffer() const = 0;
+    virtual std::shared_ptr<RenderingContext> newRenderingContext() const = 0;
 };
 }

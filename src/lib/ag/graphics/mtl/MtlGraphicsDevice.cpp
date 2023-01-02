@@ -1,6 +1,7 @@
 #ifdef AG_METAL
 #include <ag/graphics/mtl/MtlBuffer.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
+#include <ag/graphics/mtl/MtlRenderingContext.hpp>
 #include <ag/graphics/mtl/MtlTexture.hpp>
 
 namespace ag {
@@ -29,6 +30,10 @@ std::shared_ptr<IBuffer> MtlGraphicsDevice::newVertexBuffer() const
 std::shared_ptr<IBuffer> MtlGraphicsDevice::newIndexBuffer() const
 {
     return std::make_shared<MtlBuffer>(m_device);
+}
+std::shared_ptr<RenderingContext> MtlGraphicsDevice::newRenderingContext() const
+{
+    return std::make_shared<MtlRenderingContext>();
 }
 MTL::RenderPipelineState* MtlGraphicsDevice::newRenderPipelineState(const MTL::RenderPipelineDescriptor* desc, NS::Error** err) const
 {

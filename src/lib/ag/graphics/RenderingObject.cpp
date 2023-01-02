@@ -1,4 +1,5 @@
 #include <ag/Engine.hpp>
+#include <ag/graphics/IGraphicsDevice.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/IShaderCompiler.hpp>
 #include <ag/graphics/RenderingContext.hpp>
@@ -167,12 +168,6 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle(const s
 }
 RenderingContext::Instance RenderingObject::createRenderingContext()
 {
-#if AG_OPEN_GL
-    return std::make_shared<OglRenderingContext>();
-#elif AG_METAL
-    return std::make_shared<MtlRenderingContext>();
-#else
-    return nullptr;
-#endif
+    return ag::Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->new
 }
 }

@@ -1,6 +1,7 @@
 #ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglBuffer.hpp>
 #include <ag/graphics/ogl/OglGraphicsDevice.hpp>
+#include <ag/graphics/ogl/OglRenderingContext.hpp>
 #include <ag/graphics/ogl/OglTexture.hpp>
 
 namespace ag {
@@ -19,6 +20,10 @@ std::shared_ptr<IBuffer> OglGraphicsDevice::newVertexBuffer() const
 std::shared_ptr<IBuffer> OglGraphicsDevice::newIndexBuffer() const
 {
     return std::make_shared<OglBuffer>(true);
+}
+std::shared_ptr<RenderingContext> OglGraphicsDevice::newRenderingContext() const
+{
+    return std::make_shared<OglRenderingContext>();
 }
 }
 #endif
