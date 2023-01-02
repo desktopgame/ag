@@ -168,6 +168,6 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle(const s
 }
 RenderingContext::Instance RenderingObject::createRenderingContext()
 {
-    return ag::Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->new
+    return ag::Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newRenderingContext();
 }
 }
