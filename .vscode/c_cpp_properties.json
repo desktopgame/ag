@@ -3,7 +3,7 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/submodules/assimp/include",
                 "src/include",
                 "/opt/homebrew/include",
                 "/opt/homebrew/include/freetype2"
