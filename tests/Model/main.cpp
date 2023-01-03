@@ -10,22 +10,18 @@ int main(int argc, char* argv[])
     auto window = ag::Window::create(1280, 720, false, "LowLevel");
     window->makeContextCurrent();
     // create rectangle.
+    ag::IShader::Instance shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelVertexShader, ag::internal::GL_ModelFragmentShader);
     ag::Model::Instance model = ag::Model::loadFromFile("testdata/models/Cube.fbx");
-    ag::RenderingObject::Instance rect = ag::RenderingObject::createColorRectangle(true);
     // start main loop.
     while (looper->nextLoop()) {
         while (looper->nextWindow()) {
             auto window = looper->acquire();
-            glm::vec2 pos = glm::vec2(0, 0);
-            glm::vec2 size = glm::vec2(100, 100);
-            glm::mat4 m_projMat = glm::ortho(0.0f, 1280.f, 720.f, 0.0f /* lrbt*/, -1.0f, 1.0f);
-            glm::vec4 color = glm::vec4(1, 0, 0, 1);
-            auto param = rect->getContext()->getParameter();
-            glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
-                glm::vec3(size, 1));
-            param->setTransform(m_projMat * transform);
-            param->setColor1(color);
-            rect->draw();
+            glm::mat4 proj = glm::perspective(30.f, 1280.0f / 720.0f, 1.f, 1000.f);
+            glm::mat4 view = glm::lookAt(glm::vec3(0, 0, -2), glm::vec3(0, 0, 0), glm::vec3(0, -1, 0));
+            glm::mat4 transform = glm::mat4(1.0f);
+            transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3(0, 1, 0));
+            transform = glm::scale(transform, glm::vec3(0.001f, 0.001f, 0.001f));
+            model->getRootNode()->draw(shader, proj * view * transform);
             looper->release();
         }
     }
