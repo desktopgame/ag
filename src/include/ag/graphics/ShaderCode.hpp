@@ -68,11 +68,11 @@ namespace internal {
     )";
     static constexpr inline const char* GL_ModelVertexShader = R"(
         #version 120
-        attribute vec2 aVertex;
+        attribute vec3 aVertex;
         uniform mat4 uTransformMatrix;
 
         void main(void) {
-            gl_Position = uTransformMatrix * vec4(aVertex, 0, 1);
+            gl_Position = uTransformMatrix * vec4(aVertex, 1);
         }
     )";
     static constexpr inline const char* GL_ModelFragmentShader = R"(
