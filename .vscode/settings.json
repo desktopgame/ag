@@ -105,6 +105,9 @@
         "semaphore": "cpp",
         "*.ipp": "cpp",
         "codecvt": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "csignal": "cpp",
+        "ranges": "cpp",
+        "regex": "cpp"
     }
 }
