@@ -1,5 +1,6 @@
 #ifdef AG_OPEN_GL
 #include <ag/Window.hpp>
+#include <ag/graphics/RenderPass.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/graphics/ogl/OglBuffer.hpp>
@@ -15,9 +16,14 @@ void OglRenderFunction::begin(const std::shared_ptr<Window>& window, const Rende
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_DEPTH_TEST);
+    if (pass.renderMode == RenderMode::Render2D) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_DEPTH_TEST);
+    } else if (pass.renderMode == RenderMode::Render3D) {
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
+    }
 }
 void OglRenderFunction::end()
 {
