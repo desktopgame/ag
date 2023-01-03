@@ -13,6 +13,8 @@ Model::Instance Model::loadFromFile(const std::string& file)
     ret->m_rootNode = Model::loadNode(nullptr, aScene, nullptr, aScene->mRootNode);
     return ret;
 }
+
+Node::Instance Model::getRootNode() const { return m_rootNode; }
 // private
 Model::Model()
     : m_rootNode(nullptr)
