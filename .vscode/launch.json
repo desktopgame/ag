@@ -4,14 +4,6 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "tests/UI_Box",
-            "program": "${workspaceFolder}/tests/UI_Box/UI_Box",
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
             "name": "tests/Image",
             "program": "${workspaceFolder}/tests/Image/Image",
             "args": [],
@@ -28,8 +20,8 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "tests/UI_Border",
-            "program": "${workspaceFolder}/tests/UI_Border/UI_Border",
+            "name": "tests/Model",
+            "program": "${workspaceFolder}/tests/Model/Model",
             "args": [],
             "cwd": "${workspaceFolder}"
         },
