@@ -32,6 +32,7 @@ protected:
     std::shared_ptr<ShaderParameter> m_parameter;
     std::shared_ptr<IBuffer> m_vertex;
     std::shared_ptr<IBuffer> m_index;
+    int m_vertexComponent;
     size_t m_vertexLength;
     size_t m_indexLength;
     bool m_isUsingTexCoord;

@@ -9,6 +9,7 @@ RenderingContext::RenderingContext()
     : m_parameter(std::make_shared<ShaderParameter>())
     , m_vertex(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newVertexBuffer())
     , m_index(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newIndexBuffer())
+    , m_vertexComponent(0)
     , m_vertexLength()
     , m_indexLength()
     , m_isUsingTexCoord(false)
@@ -18,6 +19,7 @@ void RenderingContext::updateVertex(const glm::vec2* data, int len)
 {
     m_vertex->allocate(sizeof(glm::vec2) * len);
     m_vertex->update(data);
+    m_vertexComponent = 2;
     m_vertexLength = len;
 }
 
@@ -25,6 +27,7 @@ void RenderingContext::updateVertex(const VertexData2D* data, int len)
 {
     m_vertex->allocate(sizeof(VertexData2D) * len);
     m_vertex->update(data);
+    m_vertexComponent = 2;
     m_vertexLength = len;
     m_isUsingTexCoord = true;
 }
@@ -32,12 +35,14 @@ void RenderingContext::updateVertex(const glm::vec3* data, int len)
 {
     m_vertex->allocate(sizeof(glm::vec3) * len);
     m_vertex->update(data);
+    m_vertexComponent = 3;
     m_vertexLength = len;
 }
 void RenderingContext::updateVertex(const VertexData3D* data, int len)
 {
     m_vertex->allocate(sizeof(VertexData3D) * len);
     m_vertex->update(data);
+    m_vertexComponent = 3;
     m_vertexLength = len;
     m_isUsingTexCoord = true;
 }
