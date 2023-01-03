@@ -14,25 +14,25 @@ RenderingContext::RenderingContext()
     , m_isUsingTexCoord(false)
 {
 }
-void RenderingContext::updateVertex(const std::vector<glm::vec2>& data)
+void RenderingContext::updateVertex(const glm::vec2* data, int len)
 {
-    m_vertex->allocate(sizeof(glm::vec2) * data.size());
-    m_vertex->update(&data.front().x);
-    m_vertexLength = data.size();
+    m_vertex->allocate(sizeof(glm::vec2) * len);
+    m_vertex->update(data);
+    m_vertexLength = len;
 }
 
-void RenderingContext::updateVertex(const std::vector<VertexData>& data)
+void RenderingContext::updateVertex(const VertexData* data, int len)
 {
-    m_vertex->allocate(sizeof(VertexData) * data.size());
-    m_vertex->update(&data.front().position.x);
-    m_vertexLength = data.size();
+    m_vertex->allocate(sizeof(VertexData) * len);
+    m_vertex->update(data);
+    m_vertexLength = len;
     m_isUsingTexCoord = true;
 }
-void RenderingContext::updateIndex(const std::vector<unsigned int>& data)
+void RenderingContext::updateIndex(const unsigned int* data, int len)
 {
-    m_index->allocate(sizeof(unsigned int) * data.size());
-    m_index->update(&data.front());
-    m_indexLength = data.size();
+    m_index->allocate(sizeof(unsigned int) * len);
+    m_index->update(data);
+    m_indexLength = len;
 }
 
 size_t RenderingContext::getVertexLength() const

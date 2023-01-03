@@ -17,9 +17,9 @@ public:
 
     virtual void draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount) = 0;
 
-    void updateVertex(const std::vector<glm::vec2>& data);
-    void updateVertex(const std::vector<VertexData>& data);
-    void updateIndex(const std::vector<unsigned int>& data);
+    void updateVertex(const glm::vec2* data, int len);
+    void updateVertex(const VertexData* data, int len);
+    void updateIndex(const unsigned int* data, int len);
 
     size_t getVertexLength() const;
     size_t getIndexLength() const;
