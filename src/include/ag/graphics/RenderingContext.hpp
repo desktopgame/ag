@@ -1,7 +1,7 @@
 #pragma once
 #include <ag/graphics/PrimitiveType.hpp>
 #include <ag/graphics/ShaderParameter.hpp>
-#include <ag/graphics/VertexData.hpp>
+#include <ag/graphics/VertexData2D.hpp>
 #include <ag/native/glm.hpp>
 #include <memory>
 #include <vector>
@@ -18,7 +18,7 @@ public:
     virtual void draw(const std::shared_ptr<IShader>& shader, PrimitiveType primitiveType, int primCount) = 0;
 
     void updateVertex(const glm::vec2* data, int len);
-    void updateVertex(const VertexData* data, int len);
+    void updateVertex(const VertexData2D* data, int len);
     void updateIndex(const unsigned int* data, int len);
 
     size_t getVertexLength() const;

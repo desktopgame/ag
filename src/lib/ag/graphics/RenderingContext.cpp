@@ -21,9 +21,9 @@ void RenderingContext::updateVertex(const glm::vec2* data, int len)
     m_vertexLength = len;
 }
 
-void RenderingContext::updateVertex(const VertexData* data, int len)
+void RenderingContext::updateVertex(const VertexData2D* data, int len)
 {
-    m_vertex->allocate(sizeof(VertexData) * len);
+    m_vertex->allocate(sizeof(VertexData2D) * len);
     m_vertex->update(data);
     m_vertexLength = len;
     m_isUsingTexCoord = true;

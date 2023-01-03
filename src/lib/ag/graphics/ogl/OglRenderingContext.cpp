@@ -47,8 +47,8 @@ void OglRenderingContext::beginVAO(const std::shared_ptr<IShader>& shader)
         }
         if (m_isUsingTexCoord) {
             auto oglTexture = std::static_pointer_cast<OglTexture>(m_parameter->getTexture());
-            oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, 2, sizeof(VertexData), nullptr);
-            oglVertex->bindAsVertex(OglShaderLayout::k_attribTexCoordIndex, 2, sizeof(VertexData), (const void*)sizeof(glm::vec2));
+            oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, 2, sizeof(VertexData2D), nullptr);
+            oglVertex->bindAsVertex(OglShaderLayout::k_attribTexCoordIndex, 2, sizeof(VertexData2D), (const void*)sizeof(glm::vec2));
             oglTexture->use();
         } else {
             oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, 2, 0, nullptr);

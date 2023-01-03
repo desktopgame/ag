@@ -5,7 +5,7 @@
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/graphics/ShaderCode.hpp>
-#include <ag/graphics/VertexData.hpp>
+#include <ag/graphics/VertexData2D.hpp>
 #include <ag/native/glm.hpp>
 #include <cmath>
 
@@ -151,7 +151,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle(const s
     const float top = 0;
     const float bottom = 1;
     auto context = createRenderingContext();
-    const std::vector<VertexData> verts {
+    const std::vector<VertexData2D> verts {
         { { left, top },
             { 0, 0 } },
         { { right, top },
