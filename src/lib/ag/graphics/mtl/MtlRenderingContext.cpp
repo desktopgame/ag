@@ -28,7 +28,7 @@ void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, Primitive
     beginBuffer(shader);
     // draw
     if (m_indexLength > 0) {
-        mtlIndex->drawWithIndex(encoder, convPrimitiveType(primitiveType));
+        mtlIndex->drawWithIndex(encoder, convPrimitiveType(primitiveType), m_indexLength);
     } else {
         NS::UInteger nsOffs = static_cast<NS::UInteger>(0);
         NS::UInteger nsPrimCount = static_cast<NS::UInteger>(primCount);
@@ -82,7 +82,7 @@ void MtlRenderingContext::createRenderPipelineState(const std::shared_ptr<IShade
         colorDesc->setSourceAlphaBlendFactor(MTL::BlendFactor::BlendFactorSourceAlpha);
         colorDesc->setDestinationRGBBlendFactor(MTL::BlendFactor::BlendFactorOneMinusSourceAlpha);
         colorDesc->setDestinationAlphaBlendFactor(MTL::BlendFactor::BlendFactorOneMinusSourceAlpha);
-        desc->setDepthAttachmentPixelFormat(MTL::PixelFormat::PixelFormatInvalid);
+        desc->setDepthAttachmentPixelFormat(MTL::PixelFormat::PixelFormatDepth16Unorm);
         // initialize pipline
         NS::Error* err = nullptr;
         m_renderPipelineState = mtlDevice->newRenderPipelineState(desc, &err);

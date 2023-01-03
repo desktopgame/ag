@@ -16,7 +16,7 @@ public:
 
     void attachAsVertex(MTL::RenderCommandEncoder* encoder, int offset, int index);
     void attachAsFragment(MTL::RenderCommandEncoder* encoder, int offset, int index);
-    void drawWithIndex(MTL::RenderCommandEncoder* encoder, MTL::PrimitiveType primitiveType);
+    void drawWithIndex(MTL::RenderCommandEncoder* encoder, MTL::PrimitiveType primitiveType, int indexLength);
 
 private:
     MTL::Device* m_device;

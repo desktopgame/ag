@@ -40,9 +40,9 @@ void MtlBuffer::attachAsFragment(MTL::RenderCommandEncoder* encoder, int offset,
 {
     encoder->setFragmentBuffer(m_buffer, offset, index);
 }
-void MtlBuffer::drawWithIndex(MTL::RenderCommandEncoder* encoder, MTL::PrimitiveType primitiveType)
+void MtlBuffer::drawWithIndex(MTL::RenderCommandEncoder* encoder, MTL::PrimitiveType primitiveType, int indexLength)
 {
-    encoder->drawIndexedPrimitives(primitiveType, 6,
+    encoder->drawIndexedPrimitives(primitiveType, indexLength,
         MTL::IndexType::IndexTypeUInt32, m_buffer,
         0);
 }
