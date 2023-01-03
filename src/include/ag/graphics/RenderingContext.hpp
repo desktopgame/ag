@@ -2,6 +2,7 @@
 #include <ag/graphics/PrimitiveType.hpp>
 #include <ag/graphics/ShaderParameter.hpp>
 #include <ag/graphics/VertexData2D.hpp>
+#include <ag/graphics/VertexData3D.hpp>
 #include <ag/native/glm.hpp>
 #include <memory>
 #include <vector>
@@ -19,6 +20,8 @@ public:
 
     void updateVertex(const glm::vec2* data, int len);
     void updateVertex(const VertexData2D* data, int len);
+    void updateVertex(const glm::vec3* data, int len);
+    void updateVertex(const VertexData3D* data, int len);
     void updateIndex(const unsigned int* data, int len);
 
     size_t getVertexLength() const;

@@ -28,6 +28,19 @@ void RenderingContext::updateVertex(const VertexData2D* data, int len)
     m_vertexLength = len;
     m_isUsingTexCoord = true;
 }
+void RenderingContext::updateVertex(const glm::vec3* data, int len)
+{
+    m_vertex->allocate(sizeof(glm::vec3) * len);
+    m_vertex->update(data);
+    m_vertexLength = len;
+}
+void RenderingContext::updateVertex(const VertexData3D* data, int len)
+{
+    m_vertex->allocate(sizeof(VertexData3D) * len);
+    m_vertex->update(data);
+    m_vertexLength = len;
+    m_isUsingTexCoord = true;
+}
 void RenderingContext::updateIndex(const unsigned int* data, int len)
 {
     m_index->allocate(sizeof(unsigned int) * len);
