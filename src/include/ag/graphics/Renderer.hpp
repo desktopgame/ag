@@ -1,6 +1,7 @@
 #pragma once
 #include <ag/graphics/FontMap.hpp>
 #include <ag/graphics/MatrixStack.hpp>
+#include <ag/graphics/RenderPass.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/native/glm.hpp>
@@ -13,6 +14,9 @@ class FontMap;
 class Renderer {
 public:
     explicit Renderer();
+
+    void begin(const std::shared_ptr<Window>& window, const RenderPass& pass);
+    void end();
 
     void resize(int width, int height);
     void resize(const glm::ivec2& size);

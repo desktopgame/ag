@@ -14,6 +14,7 @@ int main(int argc, char* argv[])
     while (looper->nextLoop()) {
         while (looper->nextWindow()) {
             auto window = looper->acquire();
+            engine->getGraphicsDriver()->getRenderFunction()->begin(window, ag::RenderPass {});
             glm::vec2 pos = glm::vec2(0, 0);
             glm::vec2 size = glm::vec2(100, 100);
             glm::mat4 m_projMat = glm::ortho(0.0f, 1280.f, 720.f, 0.0f /* lrbt*/, -1.0f, 1.0f);
@@ -24,6 +25,7 @@ int main(int argc, char* argv[])
             param->setTransform(m_projMat * transform);
             param->setColor1(color);
             rect->draw();
+            engine->getGraphicsDriver()->getRenderFunction()->end();
             looper->release();
         }
     }

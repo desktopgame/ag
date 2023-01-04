@@ -13,6 +13,7 @@ public:
     }
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
+        r->begin(w, ag::RenderPass {});
         r->fillCircle(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
         r->fillRect(glm::vec2(0, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
         r->drawRect(glm::vec2(100, 0), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
@@ -25,6 +26,7 @@ public:
         r->drawString(helloTextPos, 20, u"こんにちは世界", glm::vec4(1, 1, 1, 1));
         helloTextPos.x += r->measureString(20, u"こんにちは世界").x;
         r->drawString(helloTextPos, 20, u"さようなら", glm::vec4(1, 0, 1, 1));
+        r->end();
     }
 
 private:

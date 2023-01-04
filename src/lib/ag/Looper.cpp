@@ -27,14 +27,13 @@ std::shared_ptr<Window> Looper::acquire()
     m_use = true;
     m_cursor->makeContextCurrent();
     Engine::getInstance()->getGraphicsDriver()->useContextExtension();
-    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->begin(m_cursor, RenderPass {});
+    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->clear(m_cursor);
     return m_cursor;
 }
 
 void Looper::release()
 {
     Engine::require();
-    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->end();
     m_cursor->swapBuffers();
     glfwPollEvents();
     m_use = false;

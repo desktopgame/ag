@@ -19,6 +19,14 @@ Renderer::Renderer()
 {
 }
 
+void Renderer::begin(const std::shared_ptr<Window>& window, const RenderPass& pass)
+{
+    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->begin(window, pass);
+}
+void Renderer::end()
+{
+    ag::Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->end();
+}
 void Renderer::resize(int width, int height)
 {
     float fWidth = static_cast<float>(width);
