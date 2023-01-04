@@ -108,6 +108,9 @@
         "filesystem": "cpp",
         "csignal": "cpp",
         "ranges": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "forward_list": "cpp",
+        "unordered_set": "cpp",
+        "any": "cpp"
     }
 }
