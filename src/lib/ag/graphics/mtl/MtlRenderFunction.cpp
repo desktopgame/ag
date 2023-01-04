@@ -2,6 +2,7 @@
 #include <ag/Engine.hpp>
 #include <ag/Window.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/RenderPass.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
@@ -36,8 +37,16 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const Rende
     // create encoder
     auto desc = allocRenderPassDescriptor(window);
     m_encoder = m_commandBuffer->renderCommandEncoder(desc);
+    if (pass.renderMode == ag::RenderMode::Render3D) {
+        auto ddesc = MTL::DepthStencilDescriptor::alloc()->init();
+        ddesc->setDepthCompareFunction(MTL::CompareFunctionLess);
+        ddesc->setDepthWriteEnabled(true);
+        auto depthStencilState = mtlDevice->newDepthStencilState(ddesc);
+        m_encoder->setDepthStencilState(depthStencilState);
+        ddesc->release();
+    }
     m_encoder->setCullMode(MTL::CullMode::CullModeBack);
-    m_encoder->setFrontFacingWinding(MTL::Winding::WindingCounterClockwise);
+    m_encoder->setFrontFacingWinding(MTL::Winding::WindingClockwise);
     desc->release();
 }
 void MtlRenderFunction::end()
