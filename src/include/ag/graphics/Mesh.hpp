@@ -8,7 +8,7 @@ namespace ag {
 class Mesh {
 public:
     using Instance = std::shared_ptr<Mesh>;
-    explicit Mesh(const std::string& name);
+    explicit Mesh(const std::string& name, int primCount);
     void updateVertex(const glm::vec3* data, int len);
     void updateVertex(const VertexData3D* data, int len);
     void updateIndex(const unsigned int* data, int len);
@@ -17,6 +17,7 @@ public:
 
 private:
     std::string m_name;
+    int m_primCount;
     std::shared_ptr<Material> m_material;
     RenderingContext::Instance m_renderingContext;
 };

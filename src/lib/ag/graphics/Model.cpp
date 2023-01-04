@@ -58,7 +58,7 @@ std::shared_ptr<Node> Model::loadNode(std::shared_ptr<Node> parent,
         unsigned int meshIndex = aNode->mMeshes[i];
         aiMesh* aMesh = aScene->mMeshes[meshIndex];
         aiMaterial* aMaterial = aScene->mMaterials[aMesh->mMaterialIndex];
-        auto mesh = std::make_shared<Mesh>(std::string(aMesh->mName.C_Str()));
+        auto mesh = std::make_shared<Mesh>(std::string(aMesh->mName.C_Str()), aMesh->mNumFaces);
         auto material = mesh->getMaterial();
         // マテリアルを設定
         loadMaterial(aMaterial, material);

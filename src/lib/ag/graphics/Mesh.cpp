@@ -4,8 +4,9 @@
 #include <ag/graphics/Mesh.hpp>
 
 namespace ag {
-Mesh::Mesh(const std::string& name)
+Mesh::Mesh(const std::string& name, int primCount)
     : m_name(name)
+    , m_primCount(primCount)
     , m_material(std::make_shared<Material>())
     , m_renderingContext(ag::Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newRenderingContext())
 {
@@ -19,7 +20,7 @@ void Mesh::draw(const std::shared_ptr<IShader>& shader, const glm::mat4& transfo
     auto param = m_renderingContext->getParameter();
     param->setTransform(transform);
     param->setColor1(m_material->diffuse);
-    m_renderingContext->draw(shader, ag::PrimitiveType::Triangles, m_renderingContext->getVertexLength() / 3);
+    m_renderingContext->draw(shader, ag::PrimitiveType::Triangles, m_primCount);
 }
 std::shared_ptr<Material> Mesh::getMaterial() const { return m_material; }
 }
