@@ -10,8 +10,7 @@ OglShader::OglShader(GLuint program)
     : m_program(program)
     , m_uniformTransformMatrix()
     , m_uniformTexture()
-    , m_uniformColor1()
-    , m_uniformColor2()
+    , m_uniformColor()
 {
 }
 
@@ -32,11 +31,8 @@ void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
     if (!m_uniformTexture) {
         m_uniformTexture = glGetUniformLocation(m_program, OglShaderLayout::k_uniformTextureName);
     }
-    if (!m_uniformColor1) {
-        m_uniformColor1 = glGetUniformLocation(m_program, OglShaderLayout::k_uniformColor1Name);
-    }
-    if (!m_uniformColor2) {
-        m_uniformColor2 = glGetUniformLocation(m_program, OglShaderLayout::k_uniformColor2Name);
+    if (!m_uniformColor) {
+        m_uniformColor = glGetUniformLocation(m_program, OglShaderLayout::k_uniformColor1Name);
     }
     // apply values
     glUniformMatrix4fv(m_uniformTransformMatrix, 1, GL_FALSE, glm::value_ptr(parameter->getTransform()));
@@ -47,11 +43,7 @@ void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
     }
     if (parameter->useColor1()) {
         glm::vec4 color1 = parameter->getColor1();
-        glUniform4fv(m_uniformColor1, 1, &color1.x);
-    }
-    if (parameter->useColor2()) {
-        glm::vec4 color2 = parameter->getColor1();
-        glUniform4fv(m_uniformColor2, 1, &color2.x);
+        glUniform4fv(m_uniformColor, 1, &color1.x);
     }
 }
 void OglShader::use() { glUseProgram(m_program); }
