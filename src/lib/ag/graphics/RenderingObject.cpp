@@ -92,7 +92,11 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     auto compiler = Engine::getInstance()->getGraphicsDriver()->getShaderCompiler();
     auto context = createRenderingContext();
     std::vector<glm::vec2> verts;
+#if AG_OPEN_GL
     float degree = 0.0f;
+#elif AG_METAL
+    float degree = 360.0f;
+#endif
     float applyScale = 1.0f;
     float half = applyScale;
     int points = 0;
@@ -103,8 +107,16 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     verts.push_back({ half + ::cosf(0.f), half + ::sinf(0.f) });
     points++;
     // connect points
+#if AG_OPEN_GL
     while (degree < 360.0f) {
+#elif AG_METAL
+    while (degree > 0.0f) {
+#endif
+#if AG_OPEN_GL
         degree += 360.0f / static_cast<float>(100 /* split count */);
+#elif AG_METAL
+        degree -= 360.0f / static_cast<float>(100 /* split count */);
+#endif
         float radian = degree * (3.14f / 180.0f);
         float x = ::cosf(radian);
         float y = ::sinf(radian);
