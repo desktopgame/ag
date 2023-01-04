@@ -26,8 +26,9 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const Rende
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
     m_uniformManager->next();
     m_commandBuffer = mtlDevice->newCommandBuffer();
-    m_uniformManager->waitSync();
+    // sync buffer
     MtlRenderFunction* self = this;
+    m_uniformManager->waitSync();
     m_commandBuffer->addCompletedHandler([self](auto _) -> void {
         self->m_uniformManager->signal();
     });
