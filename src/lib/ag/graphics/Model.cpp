@@ -14,6 +14,18 @@ Model::Instance Model::loadFromFile(const std::string& file)
     return ret;
 }
 
+Model::Instance Model::loadFromMemory(const void* buf, size_t len, const std::string& hint)
+{
+    Model::Instance ret = std::shared_ptr<Model>(new Model());
+    Assimp::Importer importer;
+    const aiScene* aScene = importer.ReadFileFromMemory(buf, len, getPostProcessFlags(), hint.c_str());
+    if (!aScene) {
+        throw std::runtime_error("invalid format.");
+    }
+    ret->m_rootNode = Model::loadNode(nullptr, aScene, nullptr, aScene->mRootNode);
+    return ret;
+}
+
 Node::Instance Model::getRootNode() const { return m_rootNode; }
 // private
 Model::Model()
