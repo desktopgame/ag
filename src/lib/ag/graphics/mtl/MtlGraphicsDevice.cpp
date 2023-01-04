@@ -39,6 +39,10 @@ MTL::RenderPipelineState* MtlGraphicsDevice::newRenderPipelineState(const MTL::R
 {
     return m_device->newRenderPipelineState(desc, err);
 }
+MTL::DepthStencilState* MtlGraphicsDevice::newDepthStencilState(const MTL::DepthStencilDescriptor* desc) const
+{
+    return m_device->newDepthStencilState(desc);
+}
 MTL::CommandBuffer* MtlGraphicsDevice::newCommandBuffer() const
 {
     return m_commandQueue->commandBuffer();

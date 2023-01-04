@@ -13,6 +13,7 @@ public:
     std::shared_ptr<IBuffer> newIndexBuffer() const override;
     std::shared_ptr<RenderingContext> newRenderingContext() const override;
     MTL::RenderPipelineState* newRenderPipelineState(const MTL::RenderPipelineDescriptor* desc, NS::Error** err) const;
+    MTL::DepthStencilState* newDepthStencilState(const MTL::DepthStencilDescriptor* desc) const;
     MTL::CommandBuffer* newCommandBuffer() const;
 
 private:
