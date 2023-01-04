@@ -37,7 +37,7 @@ void MtlShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
     if (!m_colorBuf) {
         m_colorBuf = m_uniformManager->rentColorBuffer();
     }
-    m_colorBuf->update(glm::value_ptr(parameter->getColor1()));
+    m_colorBuf->update(glm::value_ptr(parameter->getColor()));
 }
 void MtlShader::attachFunction(MTL::RenderPipelineDescriptor* desc)
 {

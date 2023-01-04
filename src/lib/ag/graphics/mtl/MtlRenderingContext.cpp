@@ -52,7 +52,7 @@ void MtlRenderingContext::beginBuffer(const std::shared_ptr<IShader>& shader)
     encoder->setRenderPipelineState(m_renderPipelineState);
     mtlVertex->attachAsVertex(encoder, 0, 0);
     mtlShader->attachTransform(encoder, 0, 1);
-    if (m_parameter->useColor1()) {
+    if (m_parameter->useColor()) {
         mtlShader->attachColor(encoder, 0, 2);
     }
     if (m_parameter->useTexture()) {

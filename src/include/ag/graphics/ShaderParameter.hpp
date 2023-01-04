@@ -17,23 +17,16 @@ public:
     std::shared_ptr<ITexture> getTexture();
     bool useTexture() const;
 
-    void setColor1(const glm::vec4& color1);
-    glm::vec4 getColor1() const;
-    bool useColor1() const;
-
-    void setColor2(const glm::vec4& color2);
-    glm::vec4 getColor2() const;
-    bool useColor2() const;
+    void setColor(const glm::vec4& color);
+    glm::vec4 getColor() const;
+    bool useColor() const;
 
 private:
     glm::mat4 m_transform;
     std::shared_ptr<ITexture> m_texture;
     bool m_useTexture;
 
-    glm::vec4 m_color1;
-    bool m_useColor1;
-
-    glm::vec4 m_color2;
-    bool m_useColor2;
+    glm::vec4 m_color;
+    bool m_useColor;
 };
 }

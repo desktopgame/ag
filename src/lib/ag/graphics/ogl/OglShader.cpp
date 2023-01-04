@@ -41,8 +41,8 @@ void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
         oglTexture->use();
         glUniform1i(m_uniformTexture, 0);
     }
-    if (parameter->useColor1()) {
-        glm::vec4 color1 = parameter->getColor1();
+    if (parameter->useColor()) {
+        glm::vec4 color1 = parameter->getColor();
         glUniform4fv(m_uniformColor, 1, &color1.x);
     }
 }

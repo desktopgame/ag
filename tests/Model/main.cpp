@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
                 glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
                     glm::vec3(size, 1));
                 param->setTransform(m_projMat * transform);
-                param->setColor1(color);
+                param->setColor(color);
                 rect->draw();
             }
             engine->getGraphicsDriver()->getRenderFunction()->end();

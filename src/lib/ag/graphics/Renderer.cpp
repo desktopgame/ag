@@ -44,7 +44,7 @@ void Renderer::drawTexture(const glm::vec2& pos, const glm::vec2& size, const st
         glm::vec3(size, 1));
     param->setTransform(m_orthoMat * (getModelMatrix() * transform));
     param->setTexture(texture);
-    param->setColor1(color);
+    param->setColor(color);
     draw(m_textureObject);
 }
 void Renderer::drawTexture(const glm::vec2& pos, const std::shared_ptr<ITexture>& texture, const glm::vec4& color)
@@ -57,7 +57,7 @@ void Renderer::drawRect(const glm::vec2& pos, const glm::vec2& size, const glm::
     glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
         glm::vec3(size, 1));
     param->setTransform(m_orthoMat * (getModelMatrix() * transform));
-    param->setColor1(color);
+    param->setColor(color);
     draw(m_colorDrawRectObject);
 }
 void Renderer::fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
@@ -66,7 +66,7 @@ void Renderer::fillRect(const glm::vec2& pos, const glm::vec2& size, const glm::
     glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
         glm::vec3(size, 1));
     param->setTransform(m_orthoMat * (getModelMatrix() * transform));
-    param->setColor1(color);
+    param->setColor(color);
     draw(m_colorFillRectObject);
 }
 void Renderer::drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
@@ -75,7 +75,7 @@ void Renderer::drawCircle(const glm::vec2& pos, const glm::vec2& size, const glm
     glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
         glm::vec3(size / 2.f, 1));
     param->setTransform(m_orthoMat * (getModelMatrix() * transform));
-    param->setColor1(color);
+    param->setColor(color);
     draw(m_colorDrawCircleObject);
 }
 void Renderer::fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color)
@@ -84,7 +84,7 @@ void Renderer::fillCircle(const glm::vec2& pos, const glm::vec2& size, const glm
     glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(pos, 0)),
         glm::vec3(size / 2.f, 1));
     param->setTransform(m_orthoMat * (getModelMatrix() * transform));
-    param->setColor1(color);
+    param->setColor(color);
     draw(m_colorFillCircleObject);
 }
 void Renderer::drawChar(const glm::vec2& pos, int fontSize, unsigned long charcode, const glm::vec4& color)
@@ -98,7 +98,7 @@ void Renderer::drawChar(const glm::vec2& pos, int fontSize, unsigned long charco
         glm::vec3(sprite->metrics.size, 1));
     param->setTransform(m_orthoMat * (getModelMatrix() * transform));
     param->setTexture(sprite->texture);
-    param->setColor1(color);
+    param->setColor(color);
     draw(m_stringObject);
 }
 
@@ -130,7 +130,7 @@ void Renderer::drawString(const glm::vec2& pos, int fontSize, const std::u16stri
         glm::mat4 transform = glm::scale(translate, glm::vec3(sprite->metrics.size, 1));
         param->setTransform(m_orthoMat * (getModelMatrix() * transform));
         param->setTexture(sprite->texture);
-        param->setColor1(color);
+        param->setColor(color);
         draw(m_stringObject);
         // move to next char.
         offset.x += sprite->metrics.advance.x >> 6;
