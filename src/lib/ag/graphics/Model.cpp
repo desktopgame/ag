@@ -6,7 +6,11 @@ Model::Instance Model::loadFromFile(const std::string& file)
 {
     Model::Instance ret = std::shared_ptr<Model>(new Model());
     Assimp::Importer importer;
-    const aiScene* aScene = importer.ReadFile(file, aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_GenUVCoords | aiProcess_ConvertToLeftHanded);
+    unsigned int flags = aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_GenUVCoords;
+#if AG_METAL
+    flags |= aiProcess_MakeLeftHanded;
+#endif
+    const aiScene* aScene = importer.ReadFile(file, flags);
     if (!aScene) {
         throw std::runtime_error("invalid format.");
     }
