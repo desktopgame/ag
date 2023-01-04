@@ -11,9 +11,6 @@
 namespace ag {
 void OglRenderFunction::begin(const std::shared_ptr<Window>& window, const RenderPass& pass)
 {
-    glm::vec3 clearColor = window->getClearColor();
-    glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     if (pass.renderMode == RenderMode::Render2D) {
@@ -27,6 +24,12 @@ void OglRenderFunction::begin(const std::shared_ptr<Window>& window, const Rende
 }
 void OglRenderFunction::end()
 {
+}
+void OglRenderFunction::clear(const std::shared_ptr<Window>& window)
+{
+    glm::vec3 clearColor = window->getClearColor();
+    glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 // private
 }
