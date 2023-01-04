@@ -15,7 +15,7 @@ public:
     void apply(const std::shared_ptr<ShaderParameter>& parameter) override;
     void attachFunction(MTL::RenderPipelineDescriptor* desc);
     void attachTransform(MTL::RenderCommandEncoder* encoder, int offset, int index);
-    void attachColor1(MTL::RenderCommandEncoder* encoder, int offset, int index);
+    void attachColor(MTL::RenderCommandEncoder* encoder, int offset, int index);
     void detach();
 
 private:

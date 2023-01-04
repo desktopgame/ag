@@ -53,7 +53,7 @@ void MtlRenderingContext::beginBuffer(const std::shared_ptr<IShader>& shader)
     mtlVertex->attachAsVertex(encoder, 0, 0);
     mtlShader->attachTransform(encoder, 0, 1);
     if (m_parameter->useColor1()) {
-        mtlShader->attachColor1(encoder, 0, 2);
+        mtlShader->attachColor(encoder, 0, 2);
     }
     if (m_parameter->useTexture()) {
         auto mtlTexture = std::static_pointer_cast<MtlTexture>(m_parameter->getTexture());

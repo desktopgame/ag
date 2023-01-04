@@ -51,7 +51,7 @@ void MtlShader::attachTransform(MTL::RenderCommandEncoder* encoder, int offset, 
     auto mtlTransformMatrixBuf = std::static_pointer_cast<MtlBuffer>(m_transformMatrixBuf);
     mtlTransformMatrixBuf->attachAsVertex(encoder, offset, index);
 }
-void MtlShader::attachColor1(MTL::RenderCommandEncoder* encoder, int offset, int index)
+void MtlShader::attachColor(MTL::RenderCommandEncoder* encoder, int offset, int index)
 {
     auto mtlColor1Buf = std::static_pointer_cast<MtlBuffer>(m_color1Buf);
     mtlColor1Buf->attachAsFragment(encoder, offset, index);
