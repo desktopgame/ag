@@ -14,6 +14,7 @@ public:
     ~MtlRenderFunction();
     void begin(const std::shared_ptr<Window>& window, const RenderPass& pass) override;
     void end() override;
+    void clear(const std::shared_ptr<Window>& window) override;
     MTL::RenderCommandEncoder* getRenderCommandEncoder() const;
 
 private:
@@ -23,6 +24,7 @@ private:
     CA::MetalDrawable* m_surface;
     MTL::RenderCommandEncoder* m_encoder;
     NS::AutoreleasePool* m_arPool;
+    bool m_shouldClear;
 };
 }
 #endif

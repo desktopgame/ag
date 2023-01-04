@@ -50,6 +50,11 @@ void MtlRenderFunction::end()
     //m_commandBuffer->release();
     m_arPool->release();
 }
+
+void MtlRenderFunction::clear(const std::shared_ptr<Window>& window)
+{
+    m_shouldClear = true;
+}
 MTL::RenderCommandEncoder* MtlRenderFunction::getRenderCommandEncoder() const
 {
     return m_encoder;
