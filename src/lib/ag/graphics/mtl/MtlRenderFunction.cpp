@@ -33,26 +33,22 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const Rende
         self->m_uniformManager->signal();
     });
     // create encoder
-    auto desc = newRenderPassDescriptor(window);
-    m_encoder = m_commandBuffer->renderCommandEncoder(desc);
-    if (pass.renderMode == ag::RenderMode::Render3D) {
-        auto ddesc = MTL::DepthStencilDescriptor::alloc()->init();
-        ddesc->setDepthCompareFunction(MTL::CompareFunctionLess);
-        ddesc->setDepthWriteEnabled(true);
-        auto depthStencilState = mtlDevice->newDepthStencilState(ddesc);
-        m_encoder->setDepthStencilState(depthStencilState);
-        ddesc->release();
-    }
+    auto renderPassDesc = newRenderPassDescriptor(window);
+    auto depthStencilDesc = newDepthStencilDescriptor(pass);
+    auto depthStencilState = mtlDevice->newDepthStencilState(depthStencilDesc);
+    m_encoder = m_commandBuffer->renderCommandEncoder(renderPassDesc);
+    m_encoder->setDepthStencilState(depthStencilState);
     m_encoder->setCullMode(MTL::CullMode::CullModeBack);
     m_encoder->setFrontFacingWinding(MTL::Winding::WindingClockwise);
-    desc->release();
+    renderPassDesc->release();
+    depthStencilDesc->release();
+    depthStencilState->release();
 }
 void MtlRenderFunction::end()
 {
     m_uniformManager->releaseAll();
     m_encoder->endEncoding();
     //m_encoder->release();
-    //m_commandBuffer->release();
     m_arPool->release();
 }
 
@@ -97,6 +93,20 @@ MTL::RenderPassDescriptor* MtlRenderFunction::newRenderPassDescriptor(const std:
         desc->depthAttachment()->setClearDepth(1.0f);
         desc->depthAttachment()->setLoadAction(MTL::LoadActionLoad);
         desc->depthAttachment()->setStoreAction(MTL::StoreAction::StoreActionStore);
+    }
+    return desc;
+}
+
+MTL::DepthStencilDescriptor* MtlRenderFunction::newDepthStencilDescriptor(const RenderPass& renderPass)
+{
+    auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
+    auto desc = MTL::DepthStencilDescriptor::alloc()->init();
+    if (renderPass.renderMode == RenderMode::Render2D) {
+        desc->setDepthCompareFunction(MTL::CompareFunctionAlways);
+        desc->setDepthWriteEnabled(false);
+    } else if (renderPass.renderMode == RenderMode::Render3D) {
+        desc->setDepthCompareFunction(MTL::CompareFunctionLess);
+        desc->setDepthWriteEnabled(true);
     }
     return desc;
 }

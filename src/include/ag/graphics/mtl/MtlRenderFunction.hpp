@@ -20,6 +20,7 @@ public:
 
 private:
     MTL::RenderPassDescriptor* newRenderPassDescriptor(const std::shared_ptr<Window>& window);
+    MTL::DepthStencilDescriptor* newDepthStencilDescriptor(const RenderPass& renderPass);
     MtlUniformManager::Instance m_uniformManager;
     MTL::CommandBuffer* m_commandBuffer;
     CA::MetalDrawable* m_surface;
