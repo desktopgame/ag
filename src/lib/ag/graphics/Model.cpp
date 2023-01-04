@@ -6,11 +6,7 @@ Model::Instance Model::loadFromFile(const std::string& file)
 {
     Model::Instance ret = std::shared_ptr<Model>(new Model());
     Assimp::Importer importer;
-    unsigned int flags = aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_GenUVCoords;
-#if AG_METAL
-    flags |= aiProcess_MakeLeftHanded;
-#endif
-    const aiScene* aScene = importer.ReadFile(file, flags);
+    const aiScene* aScene = importer.ReadFile(file, getPostProcessFlags());
     if (!aScene) {
         throw std::runtime_error("invalid format.");
     }
@@ -24,7 +20,14 @@ Model::Model()
     : m_rootNode(nullptr)
 {
 }
-
+unsigned int Model::getPostProcessFlags()
+{
+    unsigned int flags = aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_GenUVCoords;
+#if AG_METAL
+    flags |= aiProcess_MakeLeftHanded;
+#endif
+    return flags;
+}
 std::shared_ptr<Node> Model::loadNode(std::shared_ptr<Node> parent,
     const aiScene* aScene,
     aiNode* aParent,

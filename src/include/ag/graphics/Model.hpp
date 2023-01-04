@@ -17,6 +17,7 @@ public:
 
 private:
     Model();
+    static unsigned int getPostProcessFlags();
     static std::shared_ptr<Node> loadNode(std::shared_ptr<Node> root,
         const struct aiScene* aScene,
         struct aiNode* aParent, struct aiNode* aNode);
