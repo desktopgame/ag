@@ -83,6 +83,27 @@ namespace internal {
             gl_FragColor = uColor;
         }
     )";
+    static constexpr inline const char* GL_ModelTextureNoLightVertexShader = R"(
+        #version 120
+        attribute vec3 aVertex;
+        attribute vec2 aTexCoord;
+        uniform mat4 uTransformMatrix;
+        varying vec2 fragTexCoord;
+
+        void main(void) {
+            fragTexCoord = aTexCoord;
+            gl_Position = uTransformMatrix * vec4(aVertex, 1);
+        }
+    )";
+    static constexpr inline const char* GL_ModelTextureNoLightFragmentShader = R"(
+        #version 120
+        uniform sampler2D uTexture;
+        varying vec2 fragTexCoord;
+
+        void main() {
+            gl_FragColor = texture2D(uTexture, fragTexCoord);
+        }
+    )";
     static constexpr inline const char* Metal_ColorVFShader = R"(
         #include <metal_stdlib>
         #include <simd/simd.h>
@@ -221,6 +242,44 @@ namespace internal {
                 [[buffer(2)]])
         {
             return color;
+        }
+    )";
+    static constexpr inline const char* Metal_ModelTextureNoLightVFShader = R"(
+        #include <metal_stdlib>
+        #include <simd/simd.h>
+        using namespace metal;
+
+        typedef struct {
+            packed_float3 position;
+            float2 texcoord;
+        } VertexData;
+
+        typedef struct {
+            float4 position [[position]];
+            float2 texcoord;
+        } RasterizerData;
+
+        vertex RasterizerData vertexShader(
+           uint vertexID [[vertex_id]],
+           device const VertexData *vertices
+                [[buffer(0)]],
+           device const simd::float4x4& transformMatrix
+                [[buffer(1)]])
+        {
+            const device VertexData& vd = vertices[vertexID];
+            RasterizerData result = {};
+        	result.position = transformMatrix * float4(vd.position, 0, 1);
+            result.texcoord = vd.texcoord;
+            return result;
+        }
+
+        fragment half4 fragmentShader(
+            RasterizerData in [[stage_in]],
+            texture2d<half, access::sample> tex
+                [[texture(10)]])
+        {
+            constexpr sampler s(address::repeat, filter::linear);
+            return (half4)tex.sample(s, in.texcoord);
         }
     )";
 }
