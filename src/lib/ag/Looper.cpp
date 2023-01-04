@@ -13,6 +13,8 @@ Looper::Looper()
     , m_cursor()
     , m_use(false)
     , m_at(-1)
+    , m_timeNow(0.0)
+    , m_timeLast(0.0)
 {
 }
 
@@ -43,6 +45,7 @@ bool Looper::nextLoop()
     Engine::require();
     m_windows = Window::getWindows();
     m_at = 0;
+    m_timeNow = glfwGetTime();
     return !m_windows.empty();
 }
 
@@ -61,7 +64,17 @@ bool Looper::nextWindow()
         }
         m_at = -1;
         m_cursor = nullptr;
+        m_timeLast = m_timeNow;
     }
     return ret;
+}
+
+float Looper::deltaTime() const
+{
+    double diff = m_timeNow - m_timeLast;
+    if (diff < 0.0f) {
+        diff = 0.0f;
+    }
+    return static_cast<float>(diff);
 }
 }
