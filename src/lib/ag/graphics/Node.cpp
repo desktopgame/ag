@@ -12,14 +12,25 @@ Node::Node(const std::weak_ptr<Node> parent, const std::string& name)
 
 void Node::addMesh(const std::shared_ptr<Mesh>& mesh) { m_meshes.push_back(mesh); }
 void Node::addNode(const std::shared_ptr<Node>& node) { m_children.push_back(node); }
-void Node::draw(const std::shared_ptr<IShader>& shader, const glm::mat4& transform)
+void Node::draw(const std::shared_ptr<IShader>& shader, const Camera& camera, const glm::mat4& transform)
 {
     glm::mat4 newTransform = transform * m_transform;
     for (auto msh : m_meshes) {
-        msh->draw(shader, newTransform);
+        msh->draw(shader, camera, newTransform);
     }
     for (auto child : m_children) {
-        child->draw(shader, newTransform);
+        child->draw(shader, camera, newTransform);
+    }
+}
+
+void Node::drawWithLight(const std::shared_ptr<IShader>& shader, const Camera& camera, const glm::mat4& transform)
+{
+    glm::mat4 newTransform = transform * m_transform;
+    for (auto msh : m_meshes) {
+        msh->drawWithLight(shader, camera, newTransform);
+    }
+    for (auto child : m_children) {
+        child->drawWithLight(shader, camera, newTransform);
     }
 }
 

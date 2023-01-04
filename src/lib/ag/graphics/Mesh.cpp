@@ -15,10 +15,18 @@ Mesh::Mesh(const std::string& name, int primCount)
 void Mesh::updateVertex(const glm::vec3* data, int len) { m_renderingContext->updateVertex(data, len); }
 void Mesh::updateVertex(const VertexData3D* data, int len) { m_renderingContext->updateVertex(data, len); }
 void Mesh::updateIndex(const unsigned int* data, int len) { m_renderingContext->updateIndex(data, len); }
-void Mesh::draw(const std::shared_ptr<IShader>& shader, const glm::mat4& transform)
+void Mesh::draw(const std::shared_ptr<IShader>& shader, const Camera& camera, const glm::mat4& transform)
 {
     auto param = m_renderingContext->getParameter();
-    param->setTransform(transform);
+    param->setTransform(camera.getProjectionMatrix() * camera.getViewMatrix() * transform);
+    param->setColor1(m_material->diffuse);
+    m_renderingContext->draw(shader, ag::PrimitiveType::Triangles, m_primCount);
+}
+
+void Mesh::drawWithLight(const std::shared_ptr<IShader>& shader, const Camera& camera, const glm::mat4& transform)
+{
+    auto param = m_renderingContext->getParameter();
+    param->setTransform(camera.getProjectionMatrix() * camera.getViewMatrix() * transform);
     param->setColor1(m_material->diffuse);
     m_renderingContext->draw(shader, ag::PrimitiveType::Triangles, m_primCount);
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include <ag/graphics/Camera.hpp>
 #include <ag/graphics/IShader.hpp>
 #include <ag/graphics/Mesh.hpp>
 #include <ag/native/glm.hpp>
@@ -14,7 +15,8 @@ public:
 
     void addMesh(const std::shared_ptr<Mesh>& mesh);
     void addNode(const std::shared_ptr<Node>& node);
-    void draw(const std::shared_ptr<IShader>& shader, const glm::mat4& transform);
+    void draw(const std::shared_ptr<IShader>& shader, const Camera& camera, const glm::mat4& transform);
+    void drawWithLight(const std::shared_ptr<IShader>& shader, const Camera& camera, const glm::mat4& transform);
 
     std::string getName() const;
 
