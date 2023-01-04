@@ -19,7 +19,7 @@ public:
     MTL::RenderCommandEncoder* getRenderCommandEncoder() const;
 
 private:
-    MTL::RenderPassDescriptor* allocRenderPassDescriptor(const std::shared_ptr<Window>& window);
+    MTL::RenderPassDescriptor* newRenderPassDescriptor(const std::shared_ptr<Window>& window);
     MtlUniformManager::Instance m_uniformManager;
     MTL::CommandBuffer* m_commandBuffer;
     CA::MetalDrawable* m_surface;

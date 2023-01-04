@@ -33,7 +33,7 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const Rende
         self->m_uniformManager->signal();
     });
     // create encoder
-    auto desc = allocRenderPassDescriptor(window);
+    auto desc = newRenderPassDescriptor(window);
     m_encoder = m_commandBuffer->renderCommandEncoder(desc);
     if (pass.renderMode == ag::RenderMode::Render3D) {
         auto ddesc = MTL::DepthStencilDescriptor::alloc()->init();
@@ -75,7 +75,7 @@ MTL::RenderCommandEncoder* MtlRenderFunction::getRenderCommandEncoder() const
     return m_encoder;
 }
 // private
-MTL::RenderPassDescriptor* MtlRenderFunction::allocRenderPassDescriptor(const std::shared_ptr<Window>& window)
+MTL::RenderPassDescriptor* MtlRenderFunction::newRenderPassDescriptor(const std::shared_ptr<Window>& window)
 {
     auto clearColor = window->getClearColor();
     auto desc = MTL::RenderPassDescriptor::alloc()->init();
