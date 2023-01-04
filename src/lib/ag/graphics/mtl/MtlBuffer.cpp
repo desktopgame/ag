@@ -1,5 +1,6 @@
 #ifdef AG_METAL
 #include <ag/graphics/mtl/MtlBuffer.hpp>
+#include <stdexcept>
 
 namespace ag {
 MtlBuffer::MtlBuffer(MTL::Device* device)
@@ -18,6 +19,8 @@ void MtlBuffer::allocate(size_t size)
     if (!m_buffer) {
         m_buffer = m_device->newBuffer(size, MTL::ResourceStorageModeManaged);
         m_size = size;
+    } else {
+        throw std::runtime_error("already allocated.");
     }
 }
 void MtlBuffer::update(const void* data)

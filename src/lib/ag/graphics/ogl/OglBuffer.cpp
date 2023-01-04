@@ -1,5 +1,6 @@
 #ifdef AG_OPEN_GL
 #include <ag/graphics/ogl/OglBuffer.hpp>
+#include <stdexcept>
 
 namespace ag {
 
@@ -17,6 +18,8 @@ void OglBuffer::allocate(size_t size)
 {
     if (!m_res) {
         glGenBuffers(1, &m_res);
+    } else {
+        throw std::runtime_error("already allocated.");
     }
     m_size = size;
 }
