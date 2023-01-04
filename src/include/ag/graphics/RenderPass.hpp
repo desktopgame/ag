@@ -10,6 +10,9 @@ public:
     explicit RenderPass();
     RenderMode renderMode;
 
+    static RenderPass default2D();
+    static RenderPass default3D();
+
 private:
 };
 }
