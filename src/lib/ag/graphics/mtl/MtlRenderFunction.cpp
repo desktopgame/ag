@@ -23,17 +23,15 @@ MtlRenderFunction::~MtlRenderFunction()
 }
 void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const RenderPass& pass)
 {
-    m_arPool = NS::AutoreleasePool::alloc()->init();
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
+    m_arPool = NS::AutoreleasePool::alloc()->init();
     m_uniformManager->next();
-    m_commandBuffer = mtlDevice->newCommandBuffer();
     // sync buffer
     MtlRenderFunction* self = this;
     m_uniformManager->waitSync();
     m_commandBuffer->addCompletedHandler([self](auto _) -> void {
         self->m_uniformManager->signal();
     });
-    m_surface = window->nextDrawable();
     // create encoder
     auto desc = allocRenderPassDescriptor(window);
     m_encoder = m_commandBuffer->renderCommandEncoder(desc);
@@ -53,8 +51,6 @@ void MtlRenderFunction::end()
 {
     m_uniformManager->releaseAll();
     m_encoder->endEncoding();
-    m_commandBuffer->presentDrawable(m_surface);
-    m_commandBuffer->commit();
     //m_encoder->release();
     //m_commandBuffer->release();
     m_arPool->release();
@@ -62,7 +58,17 @@ void MtlRenderFunction::end()
 
 void MtlRenderFunction::clear(const std::shared_ptr<Window>& window)
 {
+    auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
     m_shouldClear = true;
+    m_commandBuffer = mtlDevice->newCommandBuffer();
+    m_surface = window->nextDrawable();
+}
+
+void MtlRenderFunction::present(const std::shared_ptr<Window>& window)
+{
+    m_commandBuffer->presentDrawable(m_surface);
+    m_commandBuffer->commit();
+    m_commandBuffer->release();
 }
 MTL::RenderCommandEncoder* MtlRenderFunction::getRenderCommandEncoder() const
 {
@@ -74,13 +80,24 @@ MTL::RenderPassDescriptor* MtlRenderFunction::allocRenderPassDescriptor(const st
     auto clearColor = window->getClearColor();
     auto desc = MTL::RenderPassDescriptor::alloc()->init();
     MTL::RenderPassColorAttachmentDescriptor* colorAttachmentDesc = desc->colorAttachments()->object(0);
-    colorAttachmentDesc->setClearColor(MTL::ClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0));
-    colorAttachmentDesc->setLoadAction(MTL::LoadAction::LoadActionClear);
-    colorAttachmentDesc->setStoreAction(MTL::StoreAction::StoreActionStore);
-    colorAttachmentDesc->setTexture(m_surface->texture());
-    desc->depthAttachment()->setClearDepth(1.0f);
-    desc->depthAttachment()->setLoadAction(MTL::LoadActionClear);
-    desc->depthAttachment()->setStoreAction(MTL::StoreAction::StoreActionStore);
+    if (m_shouldClear) {
+        m_shouldClear = false;
+        colorAttachmentDesc->setClearColor(MTL::ClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0));
+        colorAttachmentDesc->setLoadAction(MTL::LoadAction::LoadActionClear);
+        colorAttachmentDesc->setStoreAction(MTL::StoreAction::StoreActionStore);
+        colorAttachmentDesc->setTexture(m_surface->texture());
+        desc->depthAttachment()->setClearDepth(1.0f);
+        desc->depthAttachment()->setLoadAction(MTL::LoadActionClear);
+        desc->depthAttachment()->setStoreAction(MTL::StoreAction::StoreActionStore);
+    } else {
+        colorAttachmentDesc->setClearColor(MTL::ClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0));
+        colorAttachmentDesc->setLoadAction(MTL::LoadAction::LoadActionLoad);
+        colorAttachmentDesc->setStoreAction(MTL::StoreAction::StoreActionStore);
+        colorAttachmentDesc->setTexture(m_surface->texture());
+        desc->depthAttachment()->setClearDepth(1.0f);
+        desc->depthAttachment()->setLoadAction(MTL::LoadActionLoad);
+        desc->depthAttachment()->setStoreAction(MTL::StoreAction::StoreActionStore);
+    }
     return desc;
 }
 }

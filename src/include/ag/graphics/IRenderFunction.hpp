@@ -14,5 +14,6 @@ public:
     virtual void begin(const std::shared_ptr<Window>& window, const RenderPass& pass) = 0;
     virtual void end() = 0;
     virtual void clear(const std::shared_ptr<Window>& window) = 0;
+    virtual void present(const std::shared_ptr<Window>& window) = 0;
 };
 }

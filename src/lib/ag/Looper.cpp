@@ -34,6 +34,7 @@ std::shared_ptr<Window> Looper::acquire()
 void Looper::release()
 {
     Engine::require();
+    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->present(m_cursor);
     m_cursor->swapBuffers();
     glfwPollEvents();
     m_use = false;

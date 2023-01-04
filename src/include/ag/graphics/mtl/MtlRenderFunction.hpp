@@ -15,6 +15,7 @@ public:
     void begin(const std::shared_ptr<Window>& window, const RenderPass& pass) override;
     void end() override;
     void clear(const std::shared_ptr<Window>& window) override;
+    void present(const std::shared_ptr<Window>& window) override;
     MTL::RenderCommandEncoder* getRenderCommandEncoder() const;
 
 private:
