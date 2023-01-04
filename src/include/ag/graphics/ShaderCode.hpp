@@ -14,10 +14,10 @@ namespace internal {
     )";
     static constexpr inline const char* GL_ColorFragmentShader = R"(
         #version 120
-        uniform vec4 uColor1;
+        uniform vec4 uColor;
 
         void main() {
-            gl_FragColor = uColor1;
+            gl_FragColor = uColor;
         }
     )";
     static constexpr inline const char* GL_TextureVertexShader = R"(
@@ -35,11 +35,11 @@ namespace internal {
     static constexpr inline const char* GL_TextureFragmentShader = R"(
         #version 120
         uniform sampler2D uTexture;
-        uniform vec4 uColor1;
+        uniform vec4 uColor;
         varying vec2 fragTexCoord;
 
         void main() {
-            gl_FragColor = texture2D(uTexture, fragTexCoord) * uColor1;
+            gl_FragColor = texture2D(uTexture, fragTexCoord) * uColor;
         }
     )";
     static constexpr inline const char* GL_StringVertexShader = R"(
@@ -58,10 +58,10 @@ namespace internal {
         #version 120
         uniform sampler2D uTexture;
         varying vec2 fragTexCoord;
-        uniform vec4 uColor1;
+        uniform vec4 uColor;
 
         void main() {
-            vec4 col = uColor1;
+            vec4 col = uColor;
             col.a = texture2D(uTexture, fragTexCoord).a;
             gl_FragColor = col;
         }
@@ -77,10 +77,10 @@ namespace internal {
     )";
     static constexpr inline const char* GL_ModelFragmentShader = R"(
         #version 120
-        uniform vec4 uColor1;
+        uniform vec4 uColor;
 
         void main() {
-            gl_FragColor = uColor1;
+            gl_FragColor = uColor;
         }
     )";
     static constexpr inline const char* Metal_ColorVFShader = R"(
