@@ -11,8 +11,8 @@ int main(int argc, char* argv[])
     window->makeContextCurrent();
     // create rectangle.
     ag::RenderingObject::Instance rect = ag::RenderingObject::createColorRectangle(true);
-    //ag::IShader::Instance shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelVertexShader, ag::internal::GL_ModelFragmentShader);
-    ag::IShader::Instance shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromSingleSource(ag::internal::Metal_ModelVFShader);
+    //ag::IShader::Instance shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelColorNoLightVertexShader, ag::internal::GL_ModelColorNoLightFragmentShader);
+    ag::IShader::Instance shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromSingleSource(ag::internal::Metal_ModelColorNoLightVFShader);
     ag::Model::Instance model = ag::Model::loadFromFile("testdata/models/IronMan.obj");
     // start main loop.
     ag::Camera cam;

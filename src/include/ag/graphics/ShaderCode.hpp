@@ -66,7 +66,7 @@ namespace internal {
             gl_FragColor = col;
         }
     )";
-    static constexpr inline const char* GL_ModelVertexShader = R"(
+    static constexpr inline const char* GL_ModelColorNoLightVertexShader = R"(
         #version 120
         attribute vec3 aVertex;
         uniform mat4 uTransformMatrix;
@@ -75,7 +75,7 @@ namespace internal {
             gl_Position = uTransformMatrix * vec4(aVertex, 1);
         }
     )";
-    static constexpr inline const char* GL_ModelFragmentShader = R"(
+    static constexpr inline const char* GL_ModelColorNoLightFragmentShader = R"(
         #version 120
         uniform vec4 uColor;
 
@@ -194,7 +194,7 @@ namespace internal {
             return hcolor;
         }
     )";
-    static constexpr inline const char* Metal_ModelVFShader = R"(
+    static constexpr inline const char* Metal_ModelColorNoLightVFShader = R"(
         #include <metal_stdlib>
         #include <simd/simd.h>
         using namespace metal;
