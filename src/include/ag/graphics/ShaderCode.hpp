@@ -77,9 +77,10 @@ namespace internal {
     )";
     static constexpr inline const char* GL_ModelFragmentShader = R"(
         #version 120
+        uniform vec4 uColor1;
 
         void main() {
-            gl_FragColor = vec4(1, 0, 0, 1);
+            gl_FragColor = uColor1;
         }
     )";
     static constexpr inline const char* Metal_ColorVFShader = R"(
@@ -215,9 +216,11 @@ namespace internal {
         }
 
         fragment float4 fragmentShader(
-            RasterizerData in [[stage_in]])
+            RasterizerData in [[stage_in]],
+            device const simd::float4& color
+                [[buffer(2)]])
         {
-            return float4(1, 0, 0, 1);
+            return color;
         }
     )";
 }

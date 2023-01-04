@@ -18,6 +18,7 @@ void Mesh::draw(const std::shared_ptr<IShader>& shader, const glm::mat4& transfo
 {
     auto param = m_renderingContext->getParameter();
     param->setTransform(transform);
+    param->setColor1(m_material->diffuse);
     m_renderingContext->draw(shader, ag::PrimitiveType::Triangles, m_renderingContext->getVertexLength() / 3);
 }
 std::shared_ptr<Material> Mesh::getMaterial() const { return m_material; }
