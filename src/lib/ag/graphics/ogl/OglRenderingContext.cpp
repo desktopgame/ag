@@ -47,8 +47,15 @@ void OglRenderingContext::beginVAO(const std::shared_ptr<IShader>& shader)
         }
         if (m_isUsingTexCoord) {
             auto oglTexture = std::static_pointer_cast<OglTexture>(m_parameter->getTexture());
-            oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, m_vertexComponent, sizeof(VertexData2D), nullptr);
-            oglVertex->bindAsVertex(OglShaderLayout::k_attribTexCoordIndex, 2, sizeof(VertexData2D), (const void*)sizeof(glm::vec2));
+            if (m_vertexComponent == 2) {
+                oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, m_vertexComponent, sizeof(VertexData2D), nullptr);
+                oglVertex->bindAsVertex(OglShaderLayout::k_attribTexCoordIndex, 2, sizeof(VertexData2D), (const void*)sizeof(glm::vec2));
+            } else if (m_vertexComponent == 3) {
+                oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, m_vertexComponent, sizeof(VertexData3D), nullptr);
+                oglVertex->bindAsVertex(OglShaderLayout::k_attribTexCoordIndex, 2, sizeof(VertexData3D), (const void*)sizeof(glm::vec3));
+            } else {
+                throw std::runtime_error("unsupported component.");
+            }
             oglTexture->use();
         } else {
             oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, m_vertexComponent, 0, nullptr);
