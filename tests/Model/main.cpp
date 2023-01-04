@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
 {
     auto engine = ag::Engine::getInstance()->startup(argc, argv);
     auto looper = engine->getLooper();
-    auto window = ag::Window::create(1280, 720, false, "LowLevel");
+    auto window = ag::Window::create(1280, 720, false, "Model");
     window->makeContextCurrent();
     // create rectangle.
     ag::IShader::Instance shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelVertexShader, ag::internal::GL_ModelFragmentShader);
