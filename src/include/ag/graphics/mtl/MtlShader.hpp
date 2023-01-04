@@ -24,8 +24,7 @@ private:
     MTL::Function* m_fFunc;
     IBuffer::Instance m_transformMatrixBuf;
     IBuffer::Instance m_textureBuf;
-    IBuffer::Instance m_color1Buf;
-    IBuffer::Instance m_color2Buf;
+    IBuffer::Instance m_colorBuf;
     MtlUniformManager::Instance m_uniformManager;
 };
 }

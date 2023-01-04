@@ -14,8 +14,7 @@ MtlShader::MtlShader(MTL::Library* lib, MTL::Function* vFunc, MTL::Function* fFu
     , m_fFunc(fFunc)
     , m_transformMatrixBuf(nullptr)
     , m_textureBuf(nullptr)
-    , m_color1Buf(nullptr)
-    , m_color2Buf(nullptr)
+    , m_colorBuf(nullptr)
     , m_uniformManager(uniformManager)
 {
 }
@@ -35,10 +34,10 @@ void MtlShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
     }
     m_transformMatrixBuf->update(glm::value_ptr(parameter->getTransform()));
     // color buffer
-    if (!m_color1Buf) {
-        m_color1Buf = m_uniformManager->rentColorBuffer();
+    if (!m_colorBuf) {
+        m_colorBuf = m_uniformManager->rentColorBuffer();
     }
-    m_color1Buf->update(glm::value_ptr(parameter->getColor1()));
+    m_colorBuf->update(glm::value_ptr(parameter->getColor1()));
 }
 void MtlShader::attachFunction(MTL::RenderPipelineDescriptor* desc)
 {
@@ -53,15 +52,14 @@ void MtlShader::attachTransform(MTL::RenderCommandEncoder* encoder, int offset, 
 }
 void MtlShader::attachColor(MTL::RenderCommandEncoder* encoder, int offset, int index)
 {
-    auto mtlColor1Buf = std::static_pointer_cast<MtlBuffer>(m_color1Buf);
-    mtlColor1Buf->attachAsFragment(encoder, offset, index);
+    auto mtlColorBuf = std::static_pointer_cast<MtlBuffer>(m_colorBuf);
+    mtlColorBuf->attachAsFragment(encoder, offset, index);
 }
 
 void MtlShader::detach()
 {
     m_transformMatrixBuf = nullptr;
-    m_color1Buf = nullptr;
-    m_color2Buf = nullptr;
+    m_colorBuf = nullptr;
 }
 }
 #endif
