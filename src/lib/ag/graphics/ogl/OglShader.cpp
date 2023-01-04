@@ -32,7 +32,7 @@ void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
         m_uniformTexture = glGetUniformLocation(m_program, OglShaderLayout::k_uniformTextureName);
     }
     if (!m_uniformColor) {
-        m_uniformColor = glGetUniformLocation(m_program, OglShaderLayout::k_uniformColor1Name);
+        m_uniformColor = glGetUniformLocation(m_program, OglShaderLayout::k_uniformColorName);
     }
     // apply values
     glUniformMatrix4fv(m_uniformTransformMatrix, 1, GL_FALSE, glm::value_ptr(parameter->getTransform()));
