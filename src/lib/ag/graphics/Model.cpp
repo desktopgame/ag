@@ -85,7 +85,6 @@ std::shared_ptr<Node> Model::loadNode(std::shared_ptr<Node> parent,
             mesh->updateVertex(verts.data(), verts.size());
         } else {
             mesh->updateVertex(reinterpret_cast<glm::vec3*>(aMesh->mVertices), aMesh->mNumVertices);
-            //mesh->updateNormal(aMesh->mNormals, aMesh->mNumVertices);
         }
         mesh->updateIndex(iV.data(), iV.size());
     }
