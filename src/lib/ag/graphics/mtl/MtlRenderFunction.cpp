@@ -35,7 +35,7 @@ void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const Rende
     // create encoder
     auto desc = allocRenderPassDescriptor(window);
     m_encoder = m_commandBuffer->renderCommandEncoder(desc);
-    //m_encoder->setCullMode(MTL::CullMode::CullModeBack);
+    m_encoder->setCullMode(MTL::CullMode::CullModeBack);
     m_encoder->setFrontFacingWinding(MTL::Winding::WindingCounterClockwise);
     desc->release();
 }
