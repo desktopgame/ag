@@ -2,7 +2,7 @@
 
 namespace ag {
 
-bool Build::isBuiltOnOpenGL()
+bool isBuiltOnOpenGL()
 {
 #ifdef AG_OPEN_GL
     return true;
@@ -10,7 +10,7 @@ bool Build::isBuiltOnOpenGL()
     return false;
 #endif
 }
-bool Build::isBuiltOnMetal()
+bool isBuiltOnMetal()
 {
 #ifdef AG_METAL
     return true;
@@ -18,11 +18,11 @@ bool Build::isBuiltOnMetal()
     return false;
 #endif
 }
-bool Build::isBuiltOnDirectX()
+bool isBuiltOnDirectX()
 {
     return false;
 }
-bool Build::isBuiltOnVulkan()
+bool isBuiltOnVulkan()
 {
     return false;
 }
