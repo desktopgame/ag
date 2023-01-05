@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     ag::IShader::Instance shader;
     ag::RenderingObject::Instance rect = ag::RenderingObject::createColorRectangle(true);
     if (ag::isBuiltOnOpenGL()) {
-        shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelColorNoLightVertexShader, ag::internal::GL_ModelColorNoLightFragmentShader);
+        shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelTextureNoLightVertexShader, ag::internal::GL_ModelTextureNoLightFragmentShader);
     } else if (ag::isBuiltOnMetal()) {
         shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromSingleSource(ag::internal::Metal_ModelTextureNoLightVFShader);
     }
