@@ -15,7 +15,6 @@ Pixel::Pixel()
 Image::Image()
     : width(0)
     , height(0)
-    , bpp(0)
     , pixels()
 {
 }
@@ -80,14 +79,21 @@ void ImageIO::loadImpl(void* vdib, Image& outImage)
     uint8_t* bits = FreeImage_GetBits(dib);
     int width = static_cast<int>(FreeImage_GetWidth(dib));
     int height = static_cast<int>(FreeImage_GetHeight(dib));
-    int bpp = static_cast<int>(FreeImage_GetBPP(dib));
     int colorType = static_cast<int>(FreeImage_GetColorType(dib));
-
+    // determine components.
+    int components = -1;
+    if (colorType == FIC_RGB) {
+        components = 3;
+    } else if (colorType == FIC_RGBALPHA) {
+        components = 4;
+    } else {
+        throw std::runtime_error("invald components.");
+    }
+    // construct image data.
     outImage.width = width;
     outImage.height = height;
-    outImage.bpp = bpp;
     Pixel pix;
-    int max = width * height * (bpp / 8);
+    int max = width * height * components;
     for (int i = 0; i < max;) {
         pix.b = bits[i++];
         pix.g = bits[i++];
