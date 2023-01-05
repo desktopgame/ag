@@ -268,7 +268,7 @@ namespace internal {
         {
             const device VertexData& vd = vertices[vertexID];
             RasterizerData result = {};
-        	result.position = transformMatrix * float4(vd.position, 0, 1);
+        	result.position = transformMatrix * float4(vd.position, 1);
             result.texcoord = vd.texcoord;
             return result;
         }
