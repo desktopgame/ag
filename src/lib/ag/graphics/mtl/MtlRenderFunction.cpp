@@ -24,7 +24,6 @@ MtlRenderFunction::~MtlRenderFunction()
 void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const RenderPass& pass)
 {
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
-    m_arPool = NS::AutoreleasePool::alloc()->init();
     m_uniformManager->next();
     // sync buffer
     MtlRenderFunction* self = this;
@@ -49,12 +48,12 @@ void MtlRenderFunction::end()
     m_uniformManager->releaseAll();
     m_encoder->endEncoding();
     //m_encoder->release();
-    m_arPool->release();
 }
 
 void MtlRenderFunction::clear(const std::shared_ptr<Window>& window)
 {
     auto mtlDevice = std::static_pointer_cast<MtlGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
+    m_arPool = NS::AutoreleasePool::alloc()->init();
     m_shouldClear = true;
     m_commandBuffer = mtlDevice->newCommandBuffer();
     m_surface = window->nextDrawable();
@@ -64,7 +63,7 @@ void MtlRenderFunction::present(const std::shared_ptr<Window>& window)
 {
     m_commandBuffer->presentDrawable(m_surface);
     m_commandBuffer->commit();
-    m_commandBuffer->release();
+    m_arPool->release();
 }
 MTL::RenderCommandEncoder* MtlRenderFunction::getRenderCommandEncoder() const
 {
