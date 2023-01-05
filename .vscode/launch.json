@@ -28,6 +28,14 @@
         {
             "type": "lldb",
             "request": "launch",
+            "name": "tests/TextureModel",
+            "program": "${workspaceFolder}/tests/TextureModel/TextureModel",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
             "name": "tests/LowLevel",
             "program": "${workspaceFolder}/tests/LowLevel/LowLevel",
             "args": [],
