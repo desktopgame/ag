@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
         shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromSingleSource(ag::internal::Metal_ModelColorNoLightVFShader);
     }
     ag::Model::Instance model
-        = ag::Model::loadFromFile("testdata/models/IronMan.obj");
+        = ag::Model::loadFromFile("testdata/models/Cube.fbx");
     // start main loop.
     ag::Camera cam;
     cam.resize(1280, 720);
