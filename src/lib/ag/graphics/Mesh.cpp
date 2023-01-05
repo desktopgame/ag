@@ -19,7 +19,11 @@ void Mesh::draw(const std::shared_ptr<IShader>& shader, const Camera& camera, co
 {
     auto param = m_renderingContext->getParameter();
     param->setTransform(camera.getProjectionMatrix() * camera.getViewMatrix() * transform);
-    param->setColor(m_material->diffuse);
+    if (m_material->texture) {
+        param->setTexture(m_material->texture);
+    } else {
+        param->setColor(m_material->diffuse);
+    }
     m_renderingContext->draw(shader, ag::PrimitiveType::Triangles, m_primCount);
 }
 
