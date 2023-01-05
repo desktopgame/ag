@@ -75,11 +75,11 @@ std::shared_ptr<Node> Model::loadNode(const std::string& modelFile, std::shared_
                 vert.texcoord = glm::vec2 { texCoords[i].x, texCoords[i].y };
                 verts.push_back(vert);
             }
-            mesh->updateVertex(verts.data(), verts.size());
+            mesh->updateVertex(verts.data(), static_cast<int>(verts.size()));
         } else {
             mesh->updateVertex(reinterpret_cast<glm::vec3*>(aMesh->mVertices), aMesh->mNumVertices);
         }
-        mesh->updateIndex(iV.data(), iV.size());
+        mesh->updateIndex(iV.data(), static_cast<int>(iV.size()));
     }
     // 子階層の読み込み
     for (int i = 0; i < aNode->mNumChildren; i++) {

@@ -29,7 +29,7 @@ void MtlRenderingContext::draw(const std::shared_ptr<IShader>& shader, Primitive
     beginBuffer(shader);
     // draw
     if (m_indexLength > 0) {
-        mtlIndex->drawWithIndex(encoder, convPrimitiveType(primitiveType), m_indexLength);
+        mtlIndex->drawWithIndex(encoder, convPrimitiveType(primitiveType), static_cast<int>(m_indexLength));
     } else {
         NS::UInteger nsOffs = static_cast<NS::UInteger>(0);
         NS::UInteger nsPrimCount = static_cast<NS::UInteger>(primCount);

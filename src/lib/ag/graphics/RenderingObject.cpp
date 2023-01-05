@@ -72,8 +72,8 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle(bool isFi
 #elif AG_METAL
         const std::vector<unsigned int> index { 1, 2, 3, 0, 1, 3 };
 #endif
-        context->updateVertex(verts.data(), verts.size());
-        context->updateIndex(index.data(), index.size());
+        context->updateVertex(verts.data(), static_cast<int>(verts.size()));
+        context->updateIndex(index.data(), static_cast<int>(index.size()));
         return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
     } else {
         const std::vector<glm::vec2> verts {
@@ -83,7 +83,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle(bool isFi
             { right, top },
             { left, top },
         };
-        context->updateVertex(verts.data(), verts.size());
+        context->updateVertex(verts.data(), static_cast<int>(verts.size()));
         return std::make_shared<RenderingObject>(PrimitiveType::LineStrip, 5, shader, context);
     }
 }
@@ -142,7 +142,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
             verts.push_back({ half, half });
         }
     }
-    context->updateVertex(verts.data(), verts.size());
+    context->updateVertex(verts.data(), static_cast<int>(verts.size()));
 #if AG_OPEN_GL
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
 #elif AG_METAL
@@ -183,8 +183,8 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle(const s
 #elif AG_METAL
     const std::vector<unsigned int> index { 1, 2, 3, 0, 1, 3 };
 #endif
-    context->updateVertex(verts.data(), verts.size());
-    context->updateIndex(index.data(), index.size());
+    context->updateVertex(verts.data(), static_cast<int>(verts.size()));
+    context->updateIndex(index.data(), static_cast<int>(index.size()));
     return std::make_shared<RenderingObject>(PrimitiveType::Triangles, 0, shader, context);
 }
 RenderingContext::Instance RenderingObject::createRenderingContext()
