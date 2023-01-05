@@ -7,6 +7,7 @@
 #include <ag/graphics/mtl/MtlRenderFunction.hpp>
 #include <ag/graphics/mtl/MtlRenderingContext.hpp>
 #include <ag/graphics/mtl/MtlShader.hpp>
+#include <ag/graphics/mtl/MtlShaderLayout.hpp>
 #include <ag/graphics/mtl/MtlTexture.hpp>
 
 namespace ag {
@@ -50,14 +51,14 @@ void MtlRenderingContext::beginBuffer(const std::shared_ptr<IShader>& shader)
     auto mtlVertex = std::static_pointer_cast<MtlBuffer>(m_vertex);
     auto mtlIndex = std::static_pointer_cast<MtlBuffer>(m_index);
     encoder->setRenderPipelineState(m_renderPipelineState);
-    mtlVertex->attachAsVertex(encoder, 0, 0);
-    mtlShader->attachTransform(encoder, 0, 1);
+    mtlVertex->attachAsVertex(encoder, 0, MtlShaderLayout::k_vertexIndex);
+    mtlShader->attachTransform(encoder, 0, MtlShaderLayout::k_transformIndex);
     if (m_parameter->useColor()) {
-        mtlShader->attachColor(encoder, 0, 2);
+        mtlShader->attachColor(encoder, 0, MtlShaderLayout::k_colorIndex);
     }
     if (m_parameter->useTexture()) {
         auto mtlTexture = std::static_pointer_cast<MtlTexture>(m_parameter->getTexture());
-        mtlTexture->attach(encoder, 10);
+        mtlTexture->attach(encoder, MtlShaderLayout::k_textureIndex);
     }
 }
 void MtlRenderingContext::endBuffer(const std::shared_ptr<IShader>& shader)
