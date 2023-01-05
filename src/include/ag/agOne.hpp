@@ -1,5 +1,6 @@
 #pragma once
 #include <ag/Engine.hpp>
+#include <ag/Build.hpp>
 #include <ag/ImageIO.hpp>
 #include <ag/Window.hpp>
 #include <ag/Looper.hpp>
@@ -32,3 +33,4 @@
 #include <ag/graphics/ImageLoader.hpp>
 #include <ag/graphics/ITexture.hpp>
 #include <ag/graphics/RenderingObject.hpp>
+#include <ag/graphics/Camera.hpp>
