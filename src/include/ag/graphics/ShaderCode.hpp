@@ -115,7 +115,7 @@ namespace internal {
 
         vertex RasterizerData vertexShader(
            uint vertexID [[vertex_id]],
-           device const float2 *vertices
+           device const packed_float2 *vertices
                 [[buffer(0)]],
            device const simd::float4x4& transformMatrix
                 [[buffer(1)]])
@@ -139,8 +139,8 @@ namespace internal {
         using namespace metal;
 
         typedef struct {
-            float2 position;
-            float2 texcoord;
+            packed_float2 position;
+            packed_float2 texcoord;
         } VertexData;
 
         typedef struct {
@@ -179,8 +179,8 @@ namespace internal {
         using namespace metal;
 
         typedef struct {
-            float2 position;
-            float2 texcoord;
+            packed_float2 position;
+            packed_float2 texcoord;
         } VertexData;
 
         typedef struct {
@@ -251,7 +251,7 @@ namespace internal {
 
         typedef struct {
             packed_float3 position;
-            float2 texcoord;
+            packed_float2 texcoord;
         } VertexData;
 
         typedef struct {
