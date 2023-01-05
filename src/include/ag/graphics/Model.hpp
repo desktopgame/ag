@@ -19,10 +19,10 @@ public:
 private:
     Model();
     static unsigned int getPostProcessFlags();
-    static std::shared_ptr<Node> loadNode(std::shared_ptr<Node> root,
+    static std::shared_ptr<Node> loadNode(const std::string& modelFile, std::shared_ptr<Node> root,
         const struct aiScene* aScene,
         struct aiNode* aParent, struct aiNode* aNode);
-    static void loadMaterial(const struct aiMaterial* aMaterial,
+    static void loadMaterial(const std::string& modelFile, const struct aiMaterial* aMaterial,
         const std::shared_ptr<Material> material);
     Node::Instance m_rootNode;
 };

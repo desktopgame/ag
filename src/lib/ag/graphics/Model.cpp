@@ -1,5 +1,10 @@
+#include <ag/Engine.hpp>
+#include <ag/graphics/IGraphicsDevice.hpp>
+#include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/ImageLoader.hpp>
 #include <ag/graphics/Model.hpp>
 #include <ag/native/assimp.hpp>
+#include <filesystem>
 
 namespace ag {
 Model::Instance Model::loadFromFile(const std::string& file)
@@ -10,7 +15,7 @@ Model::Instance Model::loadFromFile(const std::string& file)
     if (!aScene) {
         throw std::runtime_error("invalid format.");
     }
-    ret->m_rootNode = Model::loadNode(nullptr, aScene, nullptr, aScene->mRootNode);
+    ret->m_rootNode = Model::loadNode(file, nullptr, aScene, nullptr, aScene->mRootNode);
     return ret;
 }
 
@@ -22,7 +27,7 @@ Model::Instance Model::loadFromMemory(const void* buf, size_t len, const std::st
     if (!aScene) {
         throw std::runtime_error("invalid format.");
     }
-    ret->m_rootNode = Model::loadNode(nullptr, aScene, nullptr, aScene->mRootNode);
+    ret->m_rootNode = Model::loadNode("", nullptr, aScene, nullptr, aScene->mRootNode);
     return ret;
 }
 
@@ -40,7 +45,7 @@ unsigned int Model::getPostProcessFlags()
 #endif
     return flags;
 }
-std::shared_ptr<Node> Model::loadNode(std::shared_ptr<Node> parent,
+std::shared_ptr<Node> Model::loadNode(const std::string& modelFile, std::shared_ptr<Node> parent,
     const aiScene* aScene,
     aiNode* aParent,
     aiNode* aNode)
@@ -61,7 +66,7 @@ std::shared_ptr<Node> Model::loadNode(std::shared_ptr<Node> parent,
         auto mesh = std::make_shared<Mesh>(std::string(aMesh->mName.C_Str()), aMesh->mNumFaces);
         auto material = mesh->getMaterial();
         // マテリアルを設定
-        loadMaterial(aMaterial, material);
+        loadMaterial(modelFile, aMaterial, material);
         node->addMesh(mesh);
         // メッシュの全ての面
         std::vector<unsigned int> iV;
@@ -90,13 +95,13 @@ std::shared_ptr<Node> Model::loadNode(std::shared_ptr<Node> parent,
     }
     // 子階層の読み込み
     for (int i = 0; i < aNode->mNumChildren; i++) {
-        auto cc = loadNode(node, aScene, aNode, aNode->mChildren[i]);
+        auto cc = loadNode(modelFile, node, aScene, aNode, aNode->mChildren[i]);
         node->addNode(cc);
     }
     return node;
 }
 
-void Model::loadMaterial(const aiMaterial* aMaterial,
+void Model::loadMaterial(const std::string& modelFile, const aiMaterial* aMaterial,
     const std::shared_ptr<Material> material)
 {
     // テクスチャ情報の取得
@@ -114,8 +119,15 @@ void Model::loadMaterial(const aiMaterial* aMaterial,
                 static_cast<aiTextureType>(aTexType), j, &aPath, &aTexMap,
                 &aTexCoordIndex, &aBlend, &aTexOp, &aTexMapMode);
             if (aTexFound == AI_SUCCESS && aTexType == aiTextureType_DIFFUSE) {
-                //material->texture = std::make_shared<Texture>(aPath.data, aTexCoordIndex);
-                material->texCoordIndex = aTexCoordIndex;
+                std::filesystem::path modelFilePath(modelFile);
+                std::filesystem::path modelDir = modelFilePath.parent_path();
+                std::filesystem::path textureFile = modelDir.append(std::string(aPath.data));
+                std::string textureFileStr = textureFile.string();
+                Image img;
+                if (ImageLoader::load(textureFile, img)) {
+                    material->texture = Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newTexture(img.width, img.height, img.getData());
+                    material->texCoordIndex = aTexCoordIndex;
+                }
             }
         }
         aTexType++;
