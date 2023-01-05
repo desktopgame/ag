@@ -20,7 +20,6 @@ struct Pixel {
 struct Image {
     int width;
     int height;
-    int bpp;
     std::vector<Pixel> pixels;
 
     explicit Image();
