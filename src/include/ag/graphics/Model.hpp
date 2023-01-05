@@ -12,7 +12,6 @@ class Model {
 public:
     using Instance = std::shared_ptr<Model>;
     static Instance loadFromFile(const std::string& file);
-    static Instance loadFromMemory(const void* buf, size_t len, const std::string& hint);
 
     Node::Instance getRootNode() const;
 
