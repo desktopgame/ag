@@ -10,9 +10,13 @@ int main(int argc, char* argv[])
     auto window = ag::Window::create(1280, 720, false, "Model");
     window->makeContextCurrent();
     // create rectangle.
+    ag::IShader::Instance shader;
     ag::RenderingObject::Instance rect = ag::RenderingObject::createColorRectangle(true);
-    //ag::IShader::Instance shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelColorNoLightVertexShader, ag::internal::GL_ModelColorNoLightFragmentShader);
-    ag::IShader::Instance shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromSingleSource(ag::internal::Metal_ModelTextureNoLightVFShader);
+    if (ag::isBuiltOnOpenGL()) {
+        shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelColorNoLightVertexShader, ag::internal::GL_ModelColorNoLightFragmentShader);
+    } else if (ag::isBuiltOnMetal()) {
+        shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromSingleSource(ag::internal::Metal_ModelTextureNoLightVFShader);
+    }
     ag::Model::Instance model = ag::Model::loadFromFile("testdata/models/TextureCube.fbx");
     // start main loop.
     ag::Camera cam;
