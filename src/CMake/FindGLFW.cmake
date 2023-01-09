@@ -28,6 +28,7 @@ if (WIN32)
         NAMES
             glfw3
         PATHS
+            "${GLFW_ROOTDIR}/lib-vc2022"
             "${GLFW_ROOTDIR}/lib-mingw-w64"
         DOCS
             "The GLFW library"
