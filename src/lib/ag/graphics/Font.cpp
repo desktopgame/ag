@@ -1,6 +1,7 @@
 #include <ag/graphics/Font.hpp>
 #include <ag/native/ft.hpp>
 #include <cstdlib>
+#include <stdexcept>
 
 namespace ag {
 // FontInstance
