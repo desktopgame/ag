@@ -16,6 +16,23 @@
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "macos-clang-arm64"
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/submodules/assimp/include",
+                "src/include",
+                "${workspaceFolder}/external/FreeImage/Source",
+                "${workspaceFolder}/external/freetype-2.12.1/include",
+                "${workspaceFolder}/external/glew-2.1.0/include",
+                "${workspaceFolder}/external/glfw-3.3.8.bin.WIN64/include",
+                "${workspaceFolder}/external/glm"
+            ],
+            "defines": ["AG_OPEN_GL"],
+            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-clang-x64"
         }
     ],
     "version": 4
