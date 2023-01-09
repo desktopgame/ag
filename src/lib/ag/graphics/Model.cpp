@@ -112,7 +112,7 @@ void Model::loadMaterial(const std::string& modelFile, const aiMaterial* aMateri
                 std::filesystem::path textureFile = modelDir.append(std::string(aPath.data));
                 std::string textureFileStr = textureFile.string();
                 Image img;
-                if (ImageLoader::load(textureFile, img)) {
+                if (ImageLoader::load(textureFileStr, img)) {
                     material->texture = Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice()->newTexture(img.width, img.height, img.getData());
                     material->texCoordIndex = aTexCoordIndex;
                 }
