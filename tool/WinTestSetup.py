@@ -7,7 +7,7 @@ test: str
 external_d: str = os.path.join(os.getcwd(), 'external')
 testdata_d: str = os.path.join(os.getcwd(), 'testdata')
 freeimage_dll: str = os.path.join(external_d, 'FreeImage', 'Dist', 'x64', 'FreeImage.dll')
-freetype_dll: str = os.path.join(external_d, 'freetype-2.12.1', 'objs', 'x64', 'Debug', 'freetype.dll')
+freetype_dll: str = os.path.join(external_d, 'freetype-2.12.1', 'objs', 'freetype.dll')
 glew_dll: str = os.path.join(external_d, 'glew-2.1.0', 'bin', 'Release', 'x64', 'glew32.dll')
 
 if not os.path.exists(freeimage_dll):
