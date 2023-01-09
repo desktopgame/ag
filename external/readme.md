@@ -1,11 +1,11 @@
-# ビルド
-Mac では Homebrew から各種ライブラリを入れればあとは CMake に任せてうまくビルドできます。  
-しかし Windows では homebrew に相当するライブラリ管理ツールがありません。  
-そこでこのプロジェクトではあらかじめ external フォルダに同梱しておくことにしました。  
-CMakeが検索する対象のパスもここになっており、 external 以下のライブラリを展開してビルドすれば CMake もうまく動作するはずです。  
-ただいくつか注意点があります。
-
-## 注意点
-* Win32/x64の両形式で提供されているライブラリがありますが、全てx64を使用します。
-* 予めバイナリが同梱されていない場合はVisualStudioなどから自分でビルドする必要がありますが、このときもx64を指定します。
-* Freetypeの出力先がobjsになっていますが、FindFreetypeはルート直下を検索するので自分でobjsから直下に移動する必要があります。
+# Windows用ビルド手順
+* 全てのライブラリを7zipなどで展開する。（ここに展開）
+* freetype
+    * `cd builds\windows\vc2010`を実行
+    * `msbuild freetype.sln /t:build /p:Configuration=Release;Platform="x64"` を実行
+    * `freetype.lib` が `objs` に生成されるが、これを親階層へ移動
+* FreeImage
+    * `WindowsTargetPlatformVersion` を正しいWindowsSDKバージョンに変更する(Windows11なら10.0.22000.0)
+    * `PlatformToolset` を正しいVisualStudioバージョンに変更(2022ならv143)
+    * `msbuild FreeImage.2017.sln /t:build /p:Configuration=Release;Platform="x64"` を実行
+* リポジトリ直下の `readme.md` を参考に `cmake` 及び `make` を実行する
