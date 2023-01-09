@@ -5,6 +5,7 @@
 #include <ag/graphics/ogl/OglShader.hpp>
 #include <ag/graphics/ogl/OglShaderLayout.hpp>
 #include <ag/graphics/ogl/OglTexture.hpp>
+#include <stdexcept>
 
 namespace ag {
 OglRenderingContext::OglRenderingContext()
