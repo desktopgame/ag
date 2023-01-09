@@ -11,6 +11,8 @@ OglShader::OglShader(GLuint program)
     , m_uniformTransformMatrix()
     , m_uniformTexture()
     , m_uniformColor()
+    , m_attribVertex()
+    , m_attribTexCoord()
 {
 }
 
@@ -22,8 +24,12 @@ OglShader::~OglShader()
 void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 {
     // bind attribute location
-    glBindAttribLocation(m_program, OglShaderLayout::k_attribVertexIndex, OglShaderLayout::k_attribVertexName);
-    glBindAttribLocation(m_program, OglShaderLayout::k_attribTexCoordIndex, OglShaderLayout::k_attribTexCoordName);
+    if (!m_attribVertex) {
+        m_attribVertex = glGetAttribLocation(m_program, OglShaderLayout::k_attribVertexName);
+    }
+    if (!m_attribTexCoord) {
+        m_attribTexCoord = glGetAttribLocation(m_program, OglShaderLayout::k_attribTexCoordName);
+    }
     // get variable location
     if (!m_uniformTransformMatrix) {
         m_uniformTransformMatrix = glGetUniformLocation(m_program, OglShaderLayout::k_uniformTransformName);
@@ -48,5 +54,7 @@ void OglShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 }
 void OglShader::use() { glUseProgram(m_program); }
 void OglShader::unuse() { glUseProgram(0); }
+GLuint OglShader::getAttribVertex() const { return m_attribVertex; }
+GLuint OglShader::getAttribTexCoord() const { return m_attribTexCoord; }
 }
 #endif

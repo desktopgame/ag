@@ -35,6 +35,8 @@ void OglRenderingContext::beginVAO(const std::shared_ptr<IShader>& shader)
     auto oglShader = std::static_pointer_cast<OglShader>(shader);
     auto oglVertex = std::static_pointer_cast<OglBuffer>(m_vertex);
     auto oglIndex = std::static_pointer_cast<OglBuffer>(m_index);
+    oglShader->use();
+    oglShader->apply(m_parameter);
     if (!m_vao) {
 #if __APPLE__
         if (GLEW_APPLE_vertex_array_object) {
@@ -46,20 +48,22 @@ void OglRenderingContext::beginVAO(const std::shared_ptr<IShader>& shader)
             glGenVertexArrays(1, &m_vao);
             glBindVertexArray(m_vao);
         }
+        GLuint attribVertex = oglShader->getAttribVertex();
+        GLuint attribTexCoord = oglShader->getAttribTexCoord();
         if (m_isUsingTexCoord) {
             auto oglTexture = std::static_pointer_cast<OglTexture>(m_parameter->getTexture());
             if (m_vertexComponent == 2) {
-                oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, m_vertexComponent, sizeof(VertexData2D), nullptr);
-                oglVertex->bindAsVertex(OglShaderLayout::k_attribTexCoordIndex, 2, sizeof(VertexData2D), (const void*)sizeof(glm::vec2));
+                oglVertex->bindAsVertex(attribVertex, m_vertexComponent, sizeof(VertexData2D), nullptr);
+                oglVertex->bindAsVertex(attribTexCoord, 2, sizeof(VertexData2D), (const void*)sizeof(glm::vec2));
             } else if (m_vertexComponent == 3) {
-                oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, m_vertexComponent, sizeof(VertexData3D), nullptr);
-                oglVertex->bindAsVertex(OglShaderLayout::k_attribTexCoordIndex, 2, sizeof(VertexData3D), (const void*)sizeof(glm::vec3));
+                oglVertex->bindAsVertex(attribVertex, m_vertexComponent, sizeof(VertexData3D), nullptr);
+                oglVertex->bindAsVertex(attribTexCoord, 2, sizeof(VertexData3D), (const void*)sizeof(glm::vec3));
             } else {
                 throw std::runtime_error("unsupported component.");
             }
             oglTexture->use();
         } else {
-            oglVertex->bindAsVertex(OglShaderLayout::k_attribVertexIndex, m_vertexComponent, 0, nullptr);
+            oglVertex->bindAsVertex(attribVertex, m_vertexComponent, 0, nullptr);
         }
         oglIndex->bindAsIndex();
     } else {
@@ -73,8 +77,6 @@ void OglRenderingContext::beginVAO(const std::shared_ptr<IShader>& shader)
         }
         oglIndex->bindAsIndex();
     }
-    oglShader->use();
-    oglShader->apply(m_parameter);
 }
 void OglRenderingContext::endVAO(const std::shared_ptr<IShader>& shader)
 {
