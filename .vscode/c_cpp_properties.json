@@ -3,7 +3,7 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/submodules/assimp/include",
+                "submodules/assimp/include",
                 "src/include",
                 "/opt/homebrew/include",
                 "/opt/homebrew/include/freetype2"
@@ -20,13 +20,13 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/submodules/assimp/include",
+                "submodules/assimp/include",
                 "src/include",
-                "${workspaceFolder}/external/FreeImage/Source",
-                "${workspaceFolder}/external/freetype-2.12.1/include",
-                "${workspaceFolder}/external/glew-2.1.0/include",
-                "${workspaceFolder}/external/glfw-3.3.8.bin.WIN64/include",
-                "${workspaceFolder}/external/glm"
+                "external/FreeImage/Source",
+                "external/freetype-2.12.1/include",
+                "external/glew-2.1.0/include",
+                "external/glfw-3.3.8.bin.WIN64/include",
+                "external/glm"
             ],
             "defines": ["AG_OPEN_GL"],
             "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang.exe",
