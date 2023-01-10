@@ -1,6 +1,8 @@
 #ifdef AG_DIRECT_X
 #include <ag/graphics/dx/DxGraphicsDriver.hpp>
+#include <ag/native/glfw.hpp>
 #include <string>
+
 
 namespace ag {
 DxGraphicsDriver::DxGraphicsDriver()
@@ -14,6 +16,15 @@ DxGraphicsDriver::DxGraphicsDriver()
     initAdaptor();
     initFeatureLevel();
 }
+DxGraphicsDriver::~DxGraphicsDriver() { }
+void DxGraphicsDriver::useWindowHint() { }
+void DxGraphicsDriver::useContextExtension()
+{
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+}
+std::shared_ptr<IGraphicsDevice> DxGraphicsDriver::getGraphicsDevice() const { return nullptr; }
+std::shared_ptr<IShaderCompiler> DxGraphicsDriver::getShaderCompiler() const { return nullptr; }
+std::shared_ptr<IRenderFunction> DxGraphicsDriver::getRenderFunction() const { return nullptr; }
 IDXGIFactory6* DxGraphicsDriver::getDXGIFactory() const { return m_dxgiFactory; }
 // private
 void DxGraphicsDriver::initFactory()
