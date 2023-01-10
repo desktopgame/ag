@@ -9,10 +9,18 @@
 #endif
 #include <GLFW/glfw3.h>
 
+#ifdef AG_DIRECT_X
+#include <Windows.h>
+#endif
+
 struct GLFWwindow;
 
 namespace ag {
 #if __APPLE__
 void* getCocoaWindow(GLFWwindow* window);
+#endif
+
+#ifdef _WIN32
+HWND getWin32Window(GLFWwindow* window);
 #endif
 }
