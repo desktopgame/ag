@@ -1,5 +1,6 @@
 #pragma once
 #ifdef AG_DIRECT_X
+#include <ag/graphics/IGraphicsDevice.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/native/dx.hpp>
 #include <vector>
@@ -26,6 +27,7 @@ private:
     std::vector<IDXGIAdapter*> m_adaptors;
     IDXGIAdapter* m_mainAdaptor;
     ID3D12Device* m_nativeDevice;
+    std::shared_ptr<IGraphicsDevice> m_device;
 };
 }
 #endif
