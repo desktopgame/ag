@@ -9,6 +9,7 @@
 #include <ag/native/glfw.hpp>
 
 namespace ag {
+void OglRenderFunction::link(const std::shared_ptr<Window>& window) { }
 void OglRenderFunction::begin(const std::shared_ptr<Window>& window, const RenderPass& pass)
 {
     glEnable(GL_CULL_FACE);

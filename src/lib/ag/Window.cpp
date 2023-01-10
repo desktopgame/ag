@@ -1,6 +1,7 @@
 #include <ag/Engine.hpp>
 #include <ag/Window.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/IRenderFunction.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDriver.hpp>
 #include <ag/native/glfw.hpp>
 #include <algorithm>
@@ -24,16 +25,7 @@ Window::Instance Window::create(int width, int height, bool resizable, const std
     Window::Instance window = Window::Instance(windowPtr);
     Window::s_windows.emplace_back(window);
     // link metal layer.
-#if AG_METAL
-    window->m_metalLayer = CA::MetalLayer::alloc()->init();
-    //window->m_metalLayer->setDevice(m_device);
-    std::static_pointer_cast<MtlGraphicsDriver>(Engine::getInstance()->getGraphicsDriver())->useDevice(window->m_metalLayer);
-    window->m_metalLayer->setOpaque(true);
-    NS::Window* nsWindow = NS::Window::bridgingCast(getCocoaWindow(glfwWindow));
-    NS::View* contentView = nsWindow->contentView();
-    contentView->setLayer(window->m_metalLayer);
-    contentView->setWantsLayer(true);
-#endif
+    Engine::getInstance()->getGraphicsDriver()->getRenderFunction()->link(window);
     // event
     glfwSetWindowUserPointer(glfwWindow, windowPtr);
     glfwSetKeyCallback(glfwWindow, Window::onKey);

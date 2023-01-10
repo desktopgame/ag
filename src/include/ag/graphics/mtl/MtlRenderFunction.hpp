@@ -12,6 +12,7 @@ class MtlRenderFunction : public IRenderFunction {
 public:
     explicit MtlRenderFunction(MtlUniformManager::Instance uniformManager);
     ~MtlRenderFunction();
+    void link(const std::shared_ptr<Window>& window) override;
     void begin(const std::shared_ptr<Window>& window, const RenderPass& pass) override;
     void end() override;
     void clear(const std::shared_ptr<Window>& window) override;

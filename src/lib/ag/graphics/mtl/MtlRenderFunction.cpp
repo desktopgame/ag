@@ -2,10 +2,12 @@
 #include <ag/Engine.hpp>
 #include <ag/Window.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/IRenderFunction.hpp>
 #include <ag/graphics/RenderPass.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
 #include <ag/graphics/mtl/MtlGraphicsDevice.hpp>
+#include <ag/graphics/mtl/MtlGraphicsDriver.hpp>
 #include <ag/graphics/mtl/MtlRenderFunction.hpp>
 #include <ag/graphics/mtl/MtlRenderingContext.hpp>
 #include <ag/graphics/mtl/MtlShader.hpp>
@@ -20,6 +22,16 @@ MtlRenderFunction::MtlRenderFunction(MtlUniformManager::Instance uniformManager)
 }
 MtlRenderFunction::~MtlRenderFunction()
 {
+}
+void MtlRenderFunction::link(const std::shared_ptr<Window>& window)
+{
+    CA::MetalLayer* layer = CA::MetalLayer::alloc()->init();
+    layer->setOpaque(true);
+    std::static_pointer_cast<MtlGraphicsDriver>(Engine::getInstance()->getGraphicsDriver())->useDevice(layer);
+    NS::Window* nsWindow = NS::Window::bridgingCast(getCocoaWindow(window->getNativeWindow()));
+    NS::View* contentView = nsWindow->contentView();
+    contentView->setLayer(layer);
+    contentView->setWantsLayer(true);
 }
 void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const RenderPass& pass)
 {
