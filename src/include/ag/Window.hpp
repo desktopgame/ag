@@ -47,6 +47,7 @@ public:
     glm::ivec2 getCursorPosition() const;
     void setSurfaceObject(const std::any surfaceObject);
     std::any getSurfaceObject() const;
+    GLFWwindow* getNativeWindow() const;
 
     void setKeyCallback(KeyCallback keyCallback);
     KeyCallback getKeyCallback() const;

@@ -112,6 +112,7 @@ glm::ivec2 Window::getCursorPosition() const
 }
 void Window::setSurfaceObject(const std::any surfaceObject) { m_surfaceObject = surfaceObject; }
 std::any Window::getSurfaceObject() const { return m_surfaceObject; }
+GLFWwindow* Window::getNativeWindow() const { return m_glfwWindow; }
 
 void Window::setKeyCallback(KeyCallback keyCallback) { m_keyCallback = keyCallback; }
 KeyCallback Window::getKeyCallback() const { return m_keyCallback; }
