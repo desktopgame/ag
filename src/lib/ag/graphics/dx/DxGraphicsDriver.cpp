@@ -1,3 +1,4 @@
+#ifdef AG_DIRECT_X
 #include <ag/graphics/dx/DxGraphicsDriver.hpp>
 #include <string>
 
@@ -67,3 +68,4 @@ void DxGraphicsDriver::initFeatureLevel()
     }
 }
 }
+#endif
