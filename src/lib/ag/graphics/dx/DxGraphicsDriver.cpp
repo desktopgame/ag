@@ -14,8 +14,6 @@ DxGraphicsDriver::DxGraphicsDriver()
     initAdaptor();
     initFeatureLevel();
 }
-IDXGIFactory6* DxGraphicsDriver::getDXGIFactory() const { return m_dxgiFactory; }
-ID3D12Device* DxGraphicsDriver::getDevice() const { return m_device; }
 // private
 void DxGraphicsDriver::initFactory()
 {
