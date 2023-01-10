@@ -45,6 +45,8 @@ public:
     glm::vec3 getClearColor() const;
     glm::ivec2 getFrameBufferSize() const;
     glm::ivec2 getCursorPosition() const;
+    void setSurfaceObject(const std::any surfaceObject);
+    std::any getSurfaceObject() const;
 
     void setKeyCallback(KeyCallback keyCallback);
     KeyCallback getKeyCallback() const;
