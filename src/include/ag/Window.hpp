@@ -1,6 +1,7 @@
 #pragma once
 #include <ag/native/glm.hpp>
 #include <ag/native/metal.hpp>
+#include <any>
 #include <functional>
 #include <memory>
 #include <string>
@@ -102,6 +103,7 @@ private:
     std::string m_title;
     glm::vec3 m_clearColor;
     bool m_disposed;
+    std::any m_surfaceObject;
 
     KeyCallback m_keyCallback;
     CharCallback m_charCallback;
