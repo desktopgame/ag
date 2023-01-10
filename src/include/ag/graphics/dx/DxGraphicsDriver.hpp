@@ -25,7 +25,7 @@ private:
     IDXGIFactory6* m_dxgiFactory;
     std::vector<IDXGIAdapter*> m_adaptors;
     IDXGIAdapter* m_mainAdaptor;
-    ID3D12Device* m_device;
+    ID3D12Device* m_nativeDevice;
 };
 }
 #endif

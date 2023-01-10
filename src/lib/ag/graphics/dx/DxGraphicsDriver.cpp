@@ -8,7 +8,7 @@ DxGraphicsDriver::DxGraphicsDriver()
     , m_dxgiFactory(nullptr)
     , m_adaptors()
     , m_mainAdaptor(nullptr)
-    , m_device(nullptr)
+    , m_nativeDevice(nullptr)
 {
     initFactory();
     initAdaptor();
@@ -60,7 +60,7 @@ void DxGraphicsDriver::initFeatureLevel()
     };
     D3D_FEATURE_LEVEL featureLevel;
     for (auto l : levels) {
-        if (D3D12CreateDevice(m_mainAdaptor, l, IID_PPV_ARGS(&m_device)) == S_OK) {
+        if (D3D12CreateDevice(m_mainAdaptor, l, IID_PPV_ARGS(&m_nativeDevice)) == S_OK) {
             featureLevel = l;
             break;
         }
