@@ -15,7 +15,6 @@ public:
     std::shared_ptr<IShaderCompiler> getShaderCompiler() const override;
     std::shared_ptr<IRenderFunction> getRenderFunction() const override;
     IDXGIFactory6* getDXGIFactory() const;
-    ID3D12Device* getDevice() const;
 
 private:
     void initFactory();
