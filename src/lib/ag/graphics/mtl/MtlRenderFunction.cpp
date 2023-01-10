@@ -25,6 +25,9 @@ MtlRenderFunction::~MtlRenderFunction()
 }
 void MtlRenderFunction::link(const std::shared_ptr<Window>& window)
 {
+    if (window->getSurfaceObject().has_value()) {
+        return;
+    }
     CA::MetalLayer* layer = CA::MetalLayer::alloc()->init();
     layer->setOpaque(true);
     std::static_pointer_cast<MtlGraphicsDriver>(Engine::getInstance()->getGraphicsDriver())->useDevice(layer);
@@ -32,6 +35,7 @@ void MtlRenderFunction::link(const std::shared_ptr<Window>& window)
     NS::View* contentView = nsWindow->contentView();
     contentView->setLayer(layer);
     contentView->setWantsLayer(true);
+    window->setSurfaceObject(layer);
 }
 void MtlRenderFunction::begin(const std::shared_ptr<Window>& window, const RenderPass& pass)
 {
@@ -68,7 +72,7 @@ void MtlRenderFunction::clear(const std::shared_ptr<Window>& window)
     m_arPool = NS::AutoreleasePool::alloc()->init();
     m_shouldClear = true;
     m_commandBuffer = mtlDevice->newCommandBuffer();
-    m_surface = window->nextDrawable();
+    m_surface = std::any_cast<CA::MetalLayer*>(window->getSurfaceObject())->nextDrawable();
 }
 
 void MtlRenderFunction::present(const std::shared_ptr<Window>& window)

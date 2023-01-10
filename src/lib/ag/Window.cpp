@@ -136,12 +136,6 @@ WindowPosCallback Window::getWindowPosCallback() const { return m_windowPosCallb
 void Window::setWindowSizeCallback(WindowSizeCallback windowSizeCallback) { m_windowSizeCallback = windowSizeCallback; }
 WindowSizeCallback Window::getWindowSizeCallback() const { return m_windowSizeCallback; }
 
-#ifdef AG_METAL
-CA::MetalDrawable* Window::nextDrawable()
-{
-    return m_metalLayer->nextDrawable();
-}
-#endif
 void Window::dispose()
 {
     if (m_disposed) {
@@ -182,9 +176,6 @@ Window::Window(GLFWwindow* glfwWindow, const std::string& title)
     , m_dropCallback()
     , m_windowPosCallback()
     , m_windowSizeCallback()
-#if AG_METAL
-    , m_metalLayer(nullptr)
-#endif
 {
 }
 GLFWwindow* Window::getSharedWindow()

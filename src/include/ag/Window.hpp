@@ -79,10 +79,6 @@ public:
     void setWindowSizeCallback(WindowSizeCallback windowSizeCallback);
     WindowSizeCallback getWindowSizeCallback() const;
 
-#ifdef AG_METAL
-    CA::MetalDrawable* nextDrawable();
-#endif
-
     void dispose();
     bool isDisposed() const;
     static const std::vector<Instance>& getWindows();
@@ -118,8 +114,5 @@ private:
     DropCallback m_dropCallback;
     WindowPosCallback m_windowPosCallback;
     WindowSizeCallback m_windowSizeCallback;
-#if AG_METAL
-    CA::MetalLayer* m_metalLayer;
-#endif
 };
 }
