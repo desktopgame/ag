@@ -14,7 +14,6 @@ public:
 
 private:
     static std::shared_ptr<DxGraphicsDevice> getDevice();
-    HRESULT m_result;
     ID3D12CommandAllocator* m_cmdAllocator;
     ID3D12GraphicsCommandList* m_cmdList;
     ID3D12CommandQueue* m_cmdQueue;

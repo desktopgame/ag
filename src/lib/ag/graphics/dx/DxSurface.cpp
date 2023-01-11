@@ -6,8 +6,7 @@
 
 namespace ag {
 DxSurface::DxSurface(const Window::Instance& window)
-    : m_result(S_OK)
-    , m_cmdAllocator(nullptr)
+    : m_cmdAllocator(nullptr)
     , m_cmdList(nullptr)
     , m_cmdQueue(nullptr)
     , m_swapChain(nullptr)
