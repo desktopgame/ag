@@ -22,7 +22,6 @@ private:
     void initAdaptor();
     void initFeatureLevel();
 
-    HRESULT m_result;
     IDXGIFactory6* m_dxgiFactory;
     std::vector<IDXGIAdapter*> m_adaptors;
     IDXGIAdapter* m_mainAdaptor;

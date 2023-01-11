@@ -2,12 +2,12 @@
 #include <ag/graphics/dx/DxGraphicsDevice.hpp>
 #include <ag/graphics/dx/DxGraphicsDriver.hpp>
 #include <ag/native/glfw.hpp>
+#include <stdexcept>
 #include <string>
 
 namespace ag {
 DxGraphicsDriver::DxGraphicsDriver()
-    : m_result(S_OK)
-    , m_dxgiFactory(nullptr)
+    : m_dxgiFactory(nullptr)
     , m_adaptors()
     , m_mainAdaptor(nullptr)
     , m_nativeDevice(nullptr)
@@ -31,20 +31,16 @@ IDXGIFactory6* DxGraphicsDriver::getDXGIFactory() const { return m_dxgiFactory; 
 // private
 void DxGraphicsDriver::initFactory()
 {
-    if (FAILED(m_result)) {
-        return;
-    }
     UINT flags = 0;
 #ifdef _DEBUG
     flags = DXGI_CREATE_FACTORY_DEBUG;
 #endif
-    m_result = CreateDXGIFactory2(flags, IID_PPV_ARGS(&m_dxgiFactory));
+    if (FAILED(CreateDXGIFactory2(flags, IID_PPV_ARGS(&m_dxgiFactory)))) {
+        throw std::runtime_error("failed CreateDXGIFactory2()");
+    }
 }
 void DxGraphicsDriver::initAdaptor()
 {
-    if (FAILED(m_result)) {
-        return;
-    }
     for (int i = 0;
          m_dxgiFactory->EnumAdapters(i, &m_mainAdaptor) != DXGI_ERROR_NOT_FOUND;
          ++i) {
@@ -62,9 +58,6 @@ void DxGraphicsDriver::initAdaptor()
 }
 void DxGraphicsDriver::initFeatureLevel()
 {
-    if (FAILED(m_result)) {
-        return;
-    }
     D3D_FEATURE_LEVEL levels[] = {
         D3D_FEATURE_LEVEL_12_1,
         D3D_FEATURE_LEVEL_12_0,
