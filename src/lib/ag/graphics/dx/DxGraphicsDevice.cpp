@@ -31,7 +31,6 @@ ID3D12GraphicsCommandList* DxGraphicsDevice::newCommandList(ID3D12CommandAllocat
     }
     return ret;
 }
-
 ID3D12CommandQueue* DxGraphicsDevice::newCommandQueue() const
 {
     ID3D12CommandQueue* ret;
@@ -45,7 +44,6 @@ ID3D12CommandQueue* DxGraphicsDevice::newCommandQueue() const
     }
     return ret;
 }
-
 IDXGISwapChain4* DxGraphicsDevice::newSwapChain(ID3D12CommandQueue* queue, const Window::Instance& window) const
 {
     IDXGISwapChain4* ret;
@@ -70,7 +68,6 @@ IDXGISwapChain4* DxGraphicsDevice::newSwapChain(ID3D12CommandQueue* queue, const
     }
     return ret;
 }
-
 ID3D12DescriptorHeap* DxGraphicsDevice::newRenderTargetViewHeap() const
 {
     ID3D12DescriptorHeap* ret;
@@ -84,7 +81,6 @@ ID3D12DescriptorHeap* DxGraphicsDevice::newRenderTargetViewHeap() const
     }
     return ret;
 }
-
 std::vector<ID3D12Resource*> DxGraphicsDevice::newRenderTargetView(IDXGISwapChain4* swapChain, ID3D12DescriptorHeap* descHeap) const
 {
     std::vector<ID3D12Resource*> ret;
@@ -103,7 +99,6 @@ std::vector<ID3D12Resource*> DxGraphicsDevice::newRenderTargetView(IDXGISwapChai
         handle.ptr += m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     }
 }
-
 ID3D12Fence* DxGraphicsDevice::newFence(UINT fenceVal) const
 {
     ID3D12Fence* ret;
