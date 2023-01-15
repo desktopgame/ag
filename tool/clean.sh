@@ -3,6 +3,9 @@ find . -name 'CMakeCache.txt' -o -name 'Makefile' -o -name 'CMakeFiles' | xargs 
 find . -name '*.xcodeproj' | xargs rm -rf
 find . -name '*.make' | xargs rm -rf
 find . -name '*.build' | xargs rm -rf
+find ./tests -name '*.dll' | xargs rm -rf
+find ./tests -name '*.exe' | xargs rm -rf
+find ./tests -name '*.pdb' | xargs rm -rf
 find ./build/XCBuildData -name '*.build' | xargs rm -rf
 find ./build/XCBuildData -name '*.xcbuild' | xargs rm -rf
 find ./build/XCBuildData -name '*.json' | xargs rm -rf
