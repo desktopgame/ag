@@ -19,9 +19,11 @@ void* getCocoaWindow(GLFWwindow* window)
 #endif
 
 #ifdef _WIN32
+#ifdef AG_DIRECT_X
 HWND getWin32Window(GLFWwindow* window)
 {
     return glfwGetWin32Window(window);
 }
+#endif
 #endif
 }
