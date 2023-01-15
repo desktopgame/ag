@@ -64,10 +64,10 @@ void DxGraphicsDriver::initFeatureLevel()
         D3D_FEATURE_LEVEL_11_1,
         D3D_FEATURE_LEVEL_11_0,
     };
-    D3D_FEATURE_LEVEL featureLevel;
+    // D3D_FEATURE_LEVEL featureLevel;
     for (auto l : levels) {
         if (D3D12CreateDevice(m_mainAdaptor, l, IID_PPV_ARGS(&m_nativeDevice)) == S_OK) {
-            featureLevel = l;
+            // featureLevel = l;
             break;
         }
     }
