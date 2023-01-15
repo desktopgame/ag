@@ -110,5 +110,10 @@ ID3D12Fence* DxGraphicsDevice::newFence(UINT fenceVal) const
     }
     return ret;
 }
+
+UINT DxGraphicsDevice::GetRenderTargetViewHeapIncrementSize()
+{
+    return m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+}
 }
 #endif

@@ -20,6 +20,7 @@ public:
     ID3D12DescriptorHeap* newRenderTargetViewHeap() const;
     std::vector<ID3D12Resource*> newRenderTargetView(IDXGISwapChain4* swapChain, ID3D12DescriptorHeap* descHeap) const;
     ID3D12Fence* newFence(UINT fenceVal) const;
+    UINT GetRenderTargetViewHeapIncrementSize();
 
 private:
     ID3D12Device* m_device;
