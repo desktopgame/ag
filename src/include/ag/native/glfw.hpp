@@ -1,8 +1,10 @@
 #pragma once
 
 // GLEW
+#ifdef AG_OPEN_GL
 #define GLEW_STATIC
 #include <GL/glew.h>
+#endif
 
 #ifndef AG_OPEN_GL
 #define GLFW_INCLUDE_NONE
