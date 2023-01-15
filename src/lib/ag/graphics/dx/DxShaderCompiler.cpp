@@ -1,3 +1,4 @@
+#ifdef AG_DIRECT_X
 #include <ag/graphics/dx/DxShaderCompiler.hpp>
 
 namespace ag {
@@ -29,3 +30,4 @@ bool DxShaderCompiler::isCompilableFromSingleFile() const
     return false;
 }
 }
+#endif
