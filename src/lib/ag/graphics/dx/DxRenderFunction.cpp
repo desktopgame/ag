@@ -20,13 +20,13 @@ void DxRenderFunction::begin(const std::shared_ptr<Window>& window, const Render
 void DxRenderFunction::end() { }
 void DxRenderFunction::clear(const std::shared_ptr<Window>& window)
 {
-    auto surface = std::make_shared<DxSurface>(window);
+    auto surface = std::any_cast<std::shared_ptr<DxSurface>>(window->getSurfaceObject());
     surface->transitionPresentToRender();
     surface->clear(window->getClearColor());
 }
 void DxRenderFunction::present(const std::shared_ptr<Window>& window)
 {
-    auto surface = std::make_shared<DxSurface>(window);
+    auto surface = std::any_cast<std::shared_ptr<DxSurface>>(window->getSurfaceObject());
     surface->transitionRenderToPresent();
     surface->execute();
     surface->waitSync();
