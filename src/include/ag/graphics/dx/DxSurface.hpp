@@ -12,6 +12,8 @@ public:
     using Instance = std::shared_ptr<Window>;
     explicit DxSurface(const Window::Instance& window);
 
+    void waitSync();
+
 private:
     static std::shared_ptr<DxGraphicsDevice> getDevice();
     ID3D12CommandAllocator* m_cmdAllocator;

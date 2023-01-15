@@ -24,7 +24,17 @@ DxSurface::DxSurface(const Window::Instance& window)
     m_backBuffers = getDevice()->newRenderTargetView(m_swapChain, m_rtvHeap);
     m_fence = getDevice()->newFence(0);
 }
-
+void DxSurface::waitSync()
+{
+    m_cmdQueue->Signal(m_fence, ++m_fenceVal);
+    if (m_fence->GetCompletedValue() != m_fenceVal) {
+        auto event = CreateEvent(nullptr, false, false, nullptr);
+        m_fence->SetEventOnCompletion(m_fenceVal, event);
+        WaitForSingleObject(event, INFINITE);
+        CloseHandle(event);
+    }
+}
+// private
 std::shared_ptr<DxGraphicsDevice> DxSurface::getDevice()
 {
     return std::static_pointer_cast<DxGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
