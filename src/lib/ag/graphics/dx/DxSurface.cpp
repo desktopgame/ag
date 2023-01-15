@@ -24,6 +24,31 @@ DxSurface::DxSurface(const Window::Instance& window)
     m_backBuffers = getDevice()->newRenderTargetView(m_swapChain, m_rtvHeap);
     m_fence = getDevice()->newFence(0);
 }
+
+void DxSurface::transitionPresentToRender()
+{
+    int bbIdx = m_swapChain->GetCurrentBackBufferIndex();
+    D3D12_RESOURCE_BARRIER barrierDesc = {};
+    barrierDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+    barrierDesc.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+    barrierDesc.Transition.pResource = m_backBuffers[bbIdx];
+    barrierDesc.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+    barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+    barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    m_cmdList->ResourceBarrier(1, &barrierDesc);
+}
+void DxSurface::transitionRenderToPresent()
+{
+    int bbIdx = m_swapChain->GetCurrentBackBufferIndex();
+    D3D12_RESOURCE_BARRIER barrierDesc = {};
+    barrierDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+    barrierDesc.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+    barrierDesc.Transition.pResource = m_backBuffers[bbIdx];
+    barrierDesc.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+    barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+    m_cmdList->ResourceBarrier(1, &barrierDesc);
+}
 void DxSurface::waitSync()
 {
     m_cmdQueue->Signal(m_fence, ++m_fenceVal);

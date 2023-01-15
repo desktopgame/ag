@@ -12,6 +12,8 @@ public:
     using Instance = std::shared_ptr<Window>;
     explicit DxSurface(const Window::Instance& window);
 
+    void transitionPresentToRender();
+    void transitionRenderToPresent();
     void waitSync();
 
 private:
