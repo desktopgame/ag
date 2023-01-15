@@ -15,6 +15,10 @@
 #include <ag/graphics/mtl/MtlGraphicsDriver.hpp>
 #endif
 
+#ifdef AG_DIRECT_X
+#include <ag/graphics/dx/DxGraphicsDriver.hpp>
+#endif
+
 namespace ag {
 std::mutex Engine::s_mutex;
 Engine::Instance Engine::s_instance = nullptr;
@@ -90,6 +94,8 @@ Engine::Engine()
     m_graphicsDriver = std::make_shared<OglGraphicsDriver>();
 #elif AG_METAL
     m_graphicsDriver = std::make_shared<MtlGraphicsDriver>();
+#elif AG_DIRECT_X
+    m_graphicsDriver = std::make_shared<DxGraphicsDriver>();
 #endif
 }
 }
