@@ -1,6 +1,8 @@
 #ifdef AG_DIRECT_X
 #include <ag/graphics/dx/DxGraphicsDevice.hpp>
 #include <ag/graphics/dx/DxGraphicsDriver.hpp>
+#include <ag/graphics/dx/DxRenderFunction.hpp>
+#include <ag/graphics/dx/DxShaderCompiler.hpp>
 #include <ag/native/glfw.hpp>
 #include <stdexcept>
 #include <string>
@@ -12,11 +14,15 @@ DxGraphicsDriver::DxGraphicsDriver()
     , m_mainAdaptor(nullptr)
     , m_nativeDevice(nullptr)
     , m_device(nullptr)
+    , m_shaderCompiler(nullptr)
+    , m_renderFunction(nullptr)
 {
     initFactory();
     initAdaptor();
     initFeatureLevel();
     m_device = std::make_shared<DxGraphicsDevice>(m_nativeDevice);
+    m_shaderCompiler = std::make_shared<DxShaderCompiler>();
+    m_renderFunction = std::make_shared<DxRenderFunction>();
 }
 DxGraphicsDriver::~DxGraphicsDriver() { }
 void DxGraphicsDriver::useWindowHint() { }
@@ -25,8 +31,8 @@ void DxGraphicsDriver::useContextExtension()
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 }
 std::shared_ptr<IGraphicsDevice> DxGraphicsDriver::getGraphicsDevice() const { return m_device; }
-std::shared_ptr<IShaderCompiler> DxGraphicsDriver::getShaderCompiler() const { return nullptr; }
-std::shared_ptr<IRenderFunction> DxGraphicsDriver::getRenderFunction() const { return nullptr; }
+std::shared_ptr<IShaderCompiler> DxGraphicsDriver::getShaderCompiler() const { return m_shaderCompiler; }
+std::shared_ptr<IRenderFunction> DxGraphicsDriver::getRenderFunction() const { return m_renderFunction; }
 IDXGIFactory6* DxGraphicsDriver::getDXGIFactory() const { return m_dxgiFactory; }
 // private
 void DxGraphicsDriver::initFactory()

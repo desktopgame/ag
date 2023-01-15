@@ -27,6 +27,8 @@ private:
     IDXGIAdapter* m_mainAdaptor;
     ID3D12Device* m_nativeDevice;
     std::shared_ptr<IGraphicsDevice> m_device;
+    std::shared_ptr<IShaderCompiler> m_shaderCompiler;
+    std::shared_ptr<IRenderFunction> m_renderFunction;
 };
 }
 #endif
