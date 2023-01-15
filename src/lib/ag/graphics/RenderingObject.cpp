@@ -38,6 +38,8 @@ std::shared_ptr<RenderingObject> RenderingObject::createString()
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_StringVertexShader, ag::internal::GL_StringFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_StringVFShader);
+#else
+    std::shared_ptr<IShader> shader = nullptr;
 #endif
     return createTextureRectangle(shader);
 }
@@ -48,6 +50,8 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle()
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_TextureVertexShader, ag::internal::GL_TextureFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_TextureVFShader);
+#else
+    std::shared_ptr<IShader> shader = nullptr;
 #endif
     return createTextureRectangle(shader);
 }
@@ -63,14 +67,18 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorRectangle(bool isFi
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_ColorVFShader);
+#else
+    std::shared_ptr<IShader> shader = nullptr;
 #endif
     if (isFill) {
         const std::vector<glm::vec2> verts { { left, top }, { right, top }, { right, bottom }, { left, bottom } };
 
 #if AG_OPEN_GL
         const std::vector<unsigned int> index { 1, 0, 3, 1, 3, 2 };
-#elif AG_METAL
+#elif AG_METAL || AG_DIRECT_X
         const std::vector<unsigned int> index { 1, 2, 3, 0, 1, 3 };
+#else
+        std::shared_ptr<IShader> shader = nullptr;
 #endif
         context->updateVertex(verts.data(), static_cast<int>(verts.size()));
         context->updateIndex(index.data(), static_cast<int>(index.size()));
@@ -94,7 +102,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     std::vector<glm::vec2> verts;
 #if AG_OPEN_GL
     float degree = 0.0f;
-#elif AG_METAL
+#elif AG_METAL || AG_DIRECT_X
     float degree = 360.0f;
 #endif
     float applyScale = 1.0f;
@@ -109,12 +117,12 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     // connect points
 #if AG_OPEN_GL
     while (degree < 360.0f) {
-#elif AG_METAL
+#elif AG_METAL || AG_DIRECT_X
     while (degree > 0.0f) {
 #endif
 #if AG_OPEN_GL
         degree += 360.0f / static_cast<float>(100 /* split count */);
-#elif AG_METAL
+#elif AG_METAL || AG_DIRECT_X
         degree -= 360.0f / static_cast<float>(100 /* split count */);
 #endif
         float radian = degree * (3.14f / 180.0f);
@@ -147,6 +155,8 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_ColorVFShader);
+#else
+std::shared_ptr<IShader> shader = nullptr;
 #endif
     return std::make_shared<RenderingObject>(isFill ? PrimitiveType::Triangles : PrimitiveType::LineStrip, verts.size(), shader, context);
 }
@@ -180,7 +190,7 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle(const s
     };
 #if AG_OPEN_GL
     const std::vector<unsigned int> index { 1, 0, 3, 1, 3, 2 };
-#elif AG_METAL
+#elif AG_METAL || AG_DIRECT_X
     const std::vector<unsigned int> index { 1, 2, 3, 0, 1, 3 };
 #endif
     context->updateVertex(verts.data(), static_cast<int>(verts.size()));
