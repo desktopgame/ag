@@ -49,6 +49,32 @@ void DxSurface::transitionRenderToPresent()
     barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
     m_cmdList->ResourceBarrier(1, &barrierDesc);
 }
+void DxSurface::clear(const glm::vec3& color)
+{
+    int bbIdx = m_swapChain->GetCurrentBackBufferIndex();
+    // レンダーターゲットを指定
+    auto rtvH = m_rtvHeap->GetCPUDescriptorHandleForHeapStart();
+    rtvH.ptr += static_cast<ULONG_PTR>(bbIdx * getDevice()->GetRenderTargetViewHeapIncrementSize());
+    m_cmdList->OMSetRenderTargets(1, &rtvH, false, nullptr);
+
+    // 画面クリア
+    float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f }; // 黄色
+    m_cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+}
+void DxSurface::execute()
+{
+    // 命令のクローズ
+    m_cmdList->Close();
+
+    // コマンドリストの実行
+    ID3D12CommandList* cmdlists[] = { m_cmdList };
+    m_cmdQueue->ExecuteCommandLists(1, cmdlists);
+}
+void DxSurface::reset()
+{
+    m_cmdAllocator->Reset(); // キューをクリア
+    m_cmdList->Reset(m_cmdAllocator, nullptr); // 再びコマンドリストをためる準備
+}
 void DxSurface::waitSync()
 {
     m_cmdQueue->Signal(m_fence, ++m_fenceVal);
@@ -58,6 +84,10 @@ void DxSurface::waitSync()
         WaitForSingleObject(event, INFINITE);
         CloseHandle(event);
     }
+}
+void DxSurface::present()
+{
+    m_swapChain->Present(1, 0);
 }
 // private
 std::shared_ptr<DxGraphicsDevice> DxSurface::getDevice()

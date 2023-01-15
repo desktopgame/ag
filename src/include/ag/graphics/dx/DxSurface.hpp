@@ -14,7 +14,11 @@ public:
 
     void transitionPresentToRender();
     void transitionRenderToPresent();
+    void clear(const glm::vec3& color);
+    void execute();
+    void reset();
     void waitSync();
+    void present();
 
 private:
     static std::shared_ptr<DxGraphicsDevice> getDevice();
