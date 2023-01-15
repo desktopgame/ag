@@ -1,3 +1,4 @@
+#ifdef AG_DIRECT_X
 #include <ag/Engine.hpp>
 #include <ag/graphics/IGraphicsDevice.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
@@ -29,3 +30,4 @@ std::shared_ptr<DxGraphicsDevice> DxSurface::getDevice()
     return std::static_pointer_cast<DxGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
 }
 }
+#endif

@@ -1,3 +1,4 @@
+#ifdef AG_DIRECT_X
 #include <ag/Engine.hpp>
 #include <ag/graphics/dx/DxGraphicsDevice.hpp>
 #include <ag/graphics/dx/DxGraphicsDriver.hpp>
@@ -109,3 +110,4 @@ ID3D12Fence* DxGraphicsDevice::newFence(UINT fenceVal) const
     return ret;
 }
 }
+#endif
