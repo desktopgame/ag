@@ -99,6 +99,7 @@ std::vector<ID3D12Resource*> DxGraphicsDevice::newRenderTargetView(IDXGISwapChai
         m_device->CreateRenderTargetView(ret.at(i), nullptr, handle);
         handle.ptr += m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     }
+    return ret;
 }
 ID3D12Fence* DxGraphicsDevice::newFence(UINT fenceVal) const
 {
