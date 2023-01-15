@@ -1,5 +1,6 @@
 #ifdef AG_DIRECT_X
 #include <ag/Engine.hpp>
+#include <ag/graphics/dx/DxBuffer.hpp>
 #include <ag/graphics/dx/DxGraphicsDevice.hpp>
 #include <ag/graphics/dx/DxGraphicsDriver.hpp>
 #include <ag/native/glfw.hpp>
@@ -11,8 +12,8 @@ DxGraphicsDevice::DxGraphicsDevice(ID3D12Device* device)
 {
 }
 std::shared_ptr<ITexture> DxGraphicsDevice::newTexture(int width, int height, const uint8_t* data) const { return nullptr; }
-std::shared_ptr<IBuffer> DxGraphicsDevice::newVertexBuffer() const { return nullptr; }
-std::shared_ptr<IBuffer> DxGraphicsDevice::newIndexBuffer() const { return nullptr; }
+std::shared_ptr<IBuffer> DxGraphicsDevice::newVertexBuffer() const { return std::make_shared<DxBuffer>(); }
+std::shared_ptr<IBuffer> DxGraphicsDevice::newIndexBuffer() const { return std::make_shared<DxBuffer>(); }
 std::shared_ptr<RenderingContext> DxGraphicsDevice::newRenderingContext() const { return nullptr; }
 ID3D12CommandAllocator* DxGraphicsDevice::newCommandAllocator() const
 {
