@@ -1,5 +1,8 @@
 #ifdef AG_DIRECT_X
+#include <ag/Engine.hpp>
 #include <ag/Window.hpp>
+#include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/dx/DxGraphicsDevice.hpp>
 #include <ag/graphics/dx/DxRenderFunction.hpp>
 #include <ag/graphics/dx/DxSurface.hpp>
 
@@ -13,7 +16,7 @@ void DxRenderFunction::link(const std::shared_ptr<Window>& window)
     if (window->getSurfaceObject().has_value()) {
         return;
     }
-    auto surface = std::make_shared<DxSurface>(window);
+    auto surface = std::static_pointer_cast<DxGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice())->newSurface(window);
     window->setSurfaceObject(surface);
 }
 void DxRenderFunction::begin(const std::shared_ptr<Window>& window, const RenderPass& pass) { }
