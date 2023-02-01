@@ -61,8 +61,7 @@ void DxSurface::clear(const glm::vec3& color)
     m_cmdList->OMSetRenderTargets(1, &rtvH, false, nullptr);
 
     // 画面クリア
-    float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f }; // 黄色
-    m_cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+    m_cmdList->ClearRenderTargetView(rtvH, &color.r, 0, nullptr);
 }
 void DxSurface::execute()
 {
