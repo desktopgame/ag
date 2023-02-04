@@ -42,7 +42,7 @@ std::shared_ptr<IShader> DxShaderCompiler::compileFromPartedSource(const std::st
             "ps_5_0",
             flags,
             0,
-            &vsBlob,
+            &psBlob,
             &errorBlob))) {
         return nullptr;
     }
