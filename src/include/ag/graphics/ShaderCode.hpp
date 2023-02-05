@@ -282,5 +282,30 @@ namespace internal {
             return (half4)tex.sample(s, in.texcoord);
         }
     )";
+    static constexpr inline const char* DX_ColorVertexShader = R"(
+        struct Output {
+            float4 svpos : SV_POSITION;
+            float4 color : COLOR;
+        };
+        cbuffer cbuff0 : register(b0) { matrix mat; }
+        cbuffer cbuff1 : register(b1) { float4 color; }
+
+        Output BasicVS(float4 pos : POSITION) {
+            Output output;
+            output.svpos = mul(mat, pos);
+            output.color = color;
+            return output;
+        }
+    )";
+    static constexpr inline const char* DX_ColorFragmentShader = R"(
+        struct Output {
+            float4 svpos : SV_POSITION;
+            float4 color : COLOR;
+        };
+
+        float4 BasicPS(Output input) : SV_TARGET {
+            return input.color;
+        }
+    )";
 }
 }
