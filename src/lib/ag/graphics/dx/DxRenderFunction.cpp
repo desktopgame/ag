@@ -7,7 +7,8 @@
 #include <ag/graphics/dx/DxSurface.hpp>
 
 namespace ag {
-DxRenderFunction::DxRenderFunction()
+DxRenderFunction::DxRenderFunction(ID3D12Device* device)
+    : m_psoCache(std::make_shared<DxPsoCache>(device))
 {
 }
 
@@ -42,6 +43,7 @@ void DxRenderFunction::present(const std::shared_ptr<Window>& window)
     surface->reset();
     surface->present();
 }
+std::shared_ptr<DxPsoCache> DxRenderFunction::getPsoCache() const { return m_psoCache; }
 std::shared_ptr<DxSurface> DxRenderFunction::getSurface() const { return m_surface; }
 }
 #endif
