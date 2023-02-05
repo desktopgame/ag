@@ -12,7 +12,10 @@ public:
     void clear(const std::shared_ptr<Window>& window) override;
     void present(const std::shared_ptr<Window>& window) override;
 
+    std::shared_ptr<DxSurface> getSurface() const;
+
 private:
+    std::shared_ptr<DxSurface> m_surface;
 };
 }
 #endif
