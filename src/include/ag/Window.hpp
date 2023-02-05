@@ -39,6 +39,8 @@ public:
     std::string getTitle() const;
     void setSize(const glm::ivec2& size);
     glm::ivec2 getSize() const;
+    int getWidth() const;
+    int getHeight() const;
     void setPosition(const glm::ivec2& position);
     glm::ivec2 getPosition() const;
     void setClearColor(const glm::vec3& clearColor);

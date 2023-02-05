@@ -75,6 +75,8 @@ glm::ivec2 Window::getSize() const
     glfwGetWindowSize(m_glfwWindow, &v.x, &v.y);
     return v;
 }
+int Window::getWidth() const { return getSize().x; }
+int Window::getHeight() const { return getSize().y; }
 void Window::setPosition(const glm::ivec2& position)
 {
     glfwSetWindowPos(m_glfwWindow, position.x, position.y);
