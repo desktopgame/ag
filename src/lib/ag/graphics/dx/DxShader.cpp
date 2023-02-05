@@ -15,5 +15,8 @@ DxShader::~DxShader()
 void DxShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 {
 }
+
+ID3DBlob* DxShader::getVSBlob() const { return m_vsBlob; }
+ID3DBlob* DxShader::getPSBlob() const { return m_psBlob; }
 }
 #endif
