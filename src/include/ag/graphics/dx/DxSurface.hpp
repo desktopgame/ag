@@ -14,6 +14,7 @@ public:
     void transitionPresentToRender();
     void transitionRenderToPresent();
     void clear(const glm::vec3& color);
+    void resolution(const glm::ivec2& size);
     void execute();
     void reset();
     void waitSync();

@@ -33,6 +33,7 @@ void DxRenderFunction::clear(const std::shared_ptr<Window>& window)
     auto surface = std::any_cast<std::shared_ptr<DxSurface>>(window->getSurfaceObject());
     surface->transitionPresentToRender();
     surface->clear(window->getClearColor());
+    surface->resolution(window->getSize());
 }
 void DxRenderFunction::present(const std::shared_ptr<Window>& window)
 {

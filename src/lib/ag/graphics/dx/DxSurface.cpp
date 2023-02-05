@@ -63,6 +63,25 @@ void DxSurface::clear(const glm::vec3& color)
     // 画面クリア
     m_cmdList->ClearRenderTargetView(rtvH, &color.r, 0, nullptr);
 }
+void DxSurface::resolution(const glm::ivec2& size)
+{
+    // viewport
+    D3D12_VIEWPORT viewport = {};
+    viewport.Width = size.x;
+    viewport.Height = size.y;
+    viewport.TopLeftX = 0;
+    viewport.TopLeftY = 0;
+    viewport.MaxDepth = 1.0f;
+    viewport.MinDepth = 0.0f;
+    m_cmdList->RSSetViewports(1, &viewport);
+    // scissor
+    D3D12_RECT scissorRect = {};
+    scissorRect.top = 0;
+    scissorRect.left = 0;
+    scissorRect.right = scissorRect.left + size.x;
+    scissorRect.bottom = scissorRect.top + size.y;
+    m_cmdList->RSSetScissorRects(1, &scissorRect);
+}
 void DxSurface::execute()
 {
     // 命令のクローズ
