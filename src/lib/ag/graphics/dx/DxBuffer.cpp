@@ -65,5 +65,10 @@ void DxBuffer::release()
         m_resource = nullptr;
     }
 }
+
+D3D12_GPU_VIRTUAL_ADDRESS DxBuffer::getGPUVirtualAddress() const
+{
+    return m_resource->GetGPUVirtualAddress();
+}
 }
 #endif
