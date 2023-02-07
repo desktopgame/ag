@@ -114,8 +114,8 @@ void DxSurface::present()
 ID3D12CommandAllocator* DxSurface::newCommandAllocator(ID3D12Device* device)
 {
     ID3D12CommandAllocator* ret;
-    if (device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
-            IID_PPV_ARGS(&ret))) {
+    if (FAILED(device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
+            IID_PPV_ARGS(&ret)))) {
         throw std::runtime_error("failed CreateCommandAllocator()");
     }
     return ret;
@@ -123,8 +123,8 @@ ID3D12CommandAllocator* DxSurface::newCommandAllocator(ID3D12Device* device)
 ID3D12GraphicsCommandList* DxSurface::newCommandList(ID3D12Device* device, ID3D12CommandAllocator* allocator)
 {
     ID3D12GraphicsCommandList* ret;
-    if (device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator,
-            nullptr, IID_PPV_ARGS(&ret))) {
+    if (FAILED(device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator,
+            nullptr, IID_PPV_ARGS(&ret)))) {
         throw std::runtime_error("failed CreateCommandList()");
     }
     return ret;
