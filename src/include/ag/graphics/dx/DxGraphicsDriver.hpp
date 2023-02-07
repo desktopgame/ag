@@ -18,10 +18,10 @@ public:
     IDXGIFactory6* getDXGIFactory() const;
 
 private:
+    void initDebugLayer();
     void initFactory();
     void initAdaptor();
     void initFeatureLevel();
-    void initDebugLayer();
 
     IDXGIFactory6* m_dxgiFactory;
     std::vector<IDXGIAdapter*> m_adaptors;
