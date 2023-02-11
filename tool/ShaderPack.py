@@ -33,6 +33,15 @@ with open('shader/Build.txt', 'r', encoding='UTF-8') as fp:
             part = part.rstrip()
             if len(part) == 0:
                 body.append('')
+            elif part.startswith('!include'):
+                parts: List[str] = part.split(' ')
+                with open(f'shader/{parts[1]}', 'r', encoding='UTF-8') as ifp:
+                    for ipart in ifp.readlines():
+                        ipart = ipart.rstrip()
+                        if len(ipart) == 0:
+                            body.append('')
+                        else:
+                            body.append(f'        {ipart}')
             else:
                 body.append(f'        {part}')
         body.append(f'    )";')

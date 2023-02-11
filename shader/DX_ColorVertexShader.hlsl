@@ -1,7 +1,4 @@
-struct Output {
-    float4 svpos : SV_POSITION;
-    float4 color : COLOR;
-};
+!include DX_ColorInclude.hlsl
 cbuffer cbuff0 : register(b0) { matrix mat; }
 cbuffer cbuff1 : register(b1) { float4 color; }
 
