@@ -26,6 +26,7 @@ public:
     PrimitiveType getPrimitiveType() const;
     int getVertexComponent() const;
     bool isUsingTexCoord() const;
+    bool isDirty() const;
 
 private:
     static D3D_PRIMITIVE_TOPOLOGY convPrimitiveTopology(PrimitiveType primitiveType);
@@ -39,6 +40,8 @@ private:
     PrimitiveType m_primitiveType;
     int m_vertexComponent;
     bool m_isUsingTexCoord;
+    // Pool
+    bool m_isDirty;
     // PSO
     ID3D12PipelineState* m_pipelineState;
     ID3D12RootSignature* m_rootSignature;

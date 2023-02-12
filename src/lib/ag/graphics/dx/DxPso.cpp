@@ -16,6 +16,7 @@ DxPso::DxPso(
     , m_primitiveType(primitiveType)
     , m_vertexComponent(vertexComponent)
     , m_isUsingTexCoord(isUsingTexCoord)
+    , m_isDirty(false)
     , m_pipelineState(nullptr)
     , m_rootSignature(nullptr)
     , m_descriptorHeap(nullptr)
@@ -63,6 +64,15 @@ void DxPso::init(ID3D12Device* device)
     rtBlendDesc.BlendEnable = false;
     rtBlendDesc.LogicOpEnable = false;
     rtBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+    rtBlendDesc.BlendEnable = true;
+    rtBlendDesc.LogicOpEnable = false;
+    rtBlendDesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+    rtBlendDesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+    rtBlendDesc.BlendOp = D3D12_BLEND_OP_ADD;
+    rtBlendDesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+    rtBlendDesc.DestBlendAlpha = D3D12_BLEND_ZERO;
+    rtBlendDesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+    rtBlendDesc.LogicOp = D3D12_LOGIC_OP_NOOP;
     psoDesc.BlendState.RenderTarget[0] = rtBlendDesc;
     psoDesc.IBStripCutValue = D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
     psoDesc.PrimitiveTopologyType = convPrimitiveTopologyType(m_primitiveType);
@@ -157,6 +167,7 @@ void DxPso::init(ID3D12Device* device)
         }
     }
     update();
+    this->m_isDirty = false;
     // constant buffer
     auto basicHeapHandle = m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
     // constant buffer(matrix)
@@ -177,6 +188,7 @@ void DxPso::update()
 {
     updateTransform();
     updateColor();
+    this->m_isDirty = true;
 }
 
 void DxPso::command(ID3D12GraphicsCommandList* cmdList)
@@ -197,6 +209,7 @@ std::shared_ptr<ShaderParameter> DxPso::getShaderParameter() const { return m_sh
 PrimitiveType DxPso::getPrimitiveType() const { return m_primitiveType; }
 int DxPso::getVertexComponent() const { return m_vertexComponent; }
 bool DxPso::isUsingTexCoord() const { return m_isUsingTexCoord; }
+bool DxPso::isDirty() const { return m_isDirty; }
 // private
 D3D_PRIMITIVE_TOPOLOGY DxPso::convPrimitiveTopology(PrimitiveType primitiveType)
 {
