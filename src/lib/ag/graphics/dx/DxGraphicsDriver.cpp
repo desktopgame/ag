@@ -82,7 +82,9 @@ void DxGraphicsDriver::initFeatureLevel()
 void DxGraphicsDriver::initDebugLayer()
 {
     ID3D12Debug* debugLayer = nullptr;
-    D3D12GetDebugInterface(IID_PPV_ARGS(&debugLayer));
+    if (FAILED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugLayer)))) {
+        throw std::runtime_error("failed D3D12GetDebugInterface()");
+    }
     debugLayer->EnableDebugLayer();
     debugLayer->Release();
 }
