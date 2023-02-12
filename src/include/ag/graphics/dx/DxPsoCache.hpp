@@ -14,6 +14,7 @@ public:
         PrimitiveType primitiveType,
         int vertexComponent,
         bool isUsingTexCoord);
+    void clear();
 
 private:
     ID3D12Device* m_device;

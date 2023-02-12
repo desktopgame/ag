@@ -19,6 +19,7 @@ public:
         bool isUsingTexCoord);
     void init(ID3D12Device* device);
     void update();
+    void clear();
     void command(ID3D12GraphicsCommandList* cmdList);
 
     std::shared_ptr<DxShader> getShader() const;

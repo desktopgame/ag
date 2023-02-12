@@ -43,6 +43,7 @@ void DxRenderFunction::present(const std::shared_ptr<Window>& window)
     surface->waitSync();
     surface->reset();
     surface->present();
+    m_psoCache->clear();
 }
 std::shared_ptr<DxPsoCache> DxRenderFunction::getPsoCache() const { return m_psoCache; }
 std::shared_ptr<DxSurface> DxRenderFunction::getSurface() const { return m_surface; }

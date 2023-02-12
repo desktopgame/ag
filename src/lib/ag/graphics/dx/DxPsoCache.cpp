@@ -24,5 +24,11 @@ DxPso::Instance DxPsoCache::fetch(
     m_psoVec.push_back(newPso);
     return newPso;
 }
+void DxPsoCache::clear()
+{
+    for (auto pso : m_psoVec) {
+        pso->clear();
+    }
+}
 }
 #endif

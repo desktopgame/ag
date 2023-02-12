@@ -204,6 +204,8 @@ void DxPso::command(ID3D12GraphicsCommandList* cmdList)
     cmdList->IASetPrimitiveTopology(convPrimitiveTopology(m_primitiveType));
 }
 
+void DxPso::clear() { m_isDirty = false; }
+
 std::shared_ptr<DxShader> DxPso::getShader() const { return m_shader; }
 std::shared_ptr<ShaderParameter> DxPso::getShaderParameter() const { return m_shaderParameter; }
 PrimitiveType DxPso::getPrimitiveType() const { return m_primitiveType; }
