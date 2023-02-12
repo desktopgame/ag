@@ -9,6 +9,12 @@
 #endif
 #endif
 
+#if _WIN32
+#if AG_DIRECT_X
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE 1
+#endif
+#endif
+
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
