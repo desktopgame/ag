@@ -21,6 +21,7 @@ void DxRenderingContext::draw(const std::shared_ptr<IShader>& shader, PrimitiveT
     auto dxVertex = std::static_pointer_cast<DxBuffer>(m_vertex);
     auto dxIndex = std::static_pointer_cast<DxBuffer>(m_index);
     auto pso = dxPsoCache->fetch(dxShader, m_parameter, primitiveType, m_vertexComponent, m_isUsingTexCoord); // std::static_pointer_cast<DxGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice())->newPso(dxShader, m_parameter, primitiveType, m_vertexComponent, m_isUsingTexCoord);
+    pso->update();
     if (m_indexLength > 0) {
         dxSurface->draw(pso, dxVertex, dxIndex, static_cast<int>(m_indexLength));
     } else {

@@ -130,30 +130,8 @@ void DxPso::init(ID3D12Device* device)
         throw std::runtime_error("failed CreateDescriptorHeap()");
     }
     m_descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-    // color
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Waddress-of-temporary"
-    if (m_shaderParameter->useColor()) {
-        if (!m_colorBuff) {
-            if (FAILED(device->CreateCommittedResource(
-                    &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
-                    D3D12_HEAP_FLAG_NONE,
-                    &CD3DX12_RESOURCE_DESC::Buffer((sizeof(glm::vec4) + 0xff) & ~0xff),
-                    D3D12_RESOURCE_STATE_GENERIC_READ,
-                    nullptr,
-                    IID_PPV_ARGS(&m_colorBuff)))) {
-                throw std::runtime_error("failed CreateCommittedResource()");
-            }
-        }
-        void* mapColor = nullptr;
-        if (FAILED(m_colorBuff->Map(0, nullptr, (void**)&mapColor))) {
-            throw std::runtime_error("failed Map()");
-        } else {
-            auto color = m_shaderParameter->getColor();
-            ::memcpy(mapColor, &color.x, sizeof(glm::vec4));
-            m_colorBuff->Unmap(0, nullptr);
-        }
-    }
     // transform
     if (!m_matrixBuff) {
         if (FAILED(device->CreateCommittedResource(
@@ -166,14 +144,21 @@ void DxPso::init(ID3D12Device* device)
             throw std::runtime_error("failed CreateCommittedResource()");
         }
     }
-    void* mapMatrix = nullptr;
-    if (FAILED(m_matrixBuff->Map(0, nullptr, (void**)&mapMatrix))) {
-        throw std::runtime_error("failed Map()");
-    } else {
-        auto matrix = m_shaderParameter->getTransform();
-        ::memcpy(mapMatrix, glm::value_ptr(matrix), sizeof(glm::mat4));
-        m_matrixBuff->Unmap(0, nullptr);
+    // color
+    if (m_shaderParameter->useColor()) {
+        if (!m_colorBuff) {
+            if (FAILED(device->CreateCommittedResource(
+                    &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+                    D3D12_HEAP_FLAG_NONE,
+                    &CD3DX12_RESOURCE_DESC::Buffer((sizeof(glm::vec4) + 0xff) & ~0xff),
+                    D3D12_RESOURCE_STATE_GENERIC_READ,
+                    nullptr,
+                    IID_PPV_ARGS(&m_colorBuff)))) {
+                throw std::runtime_error("failed CreateCommittedResource()");
+            }
+        }
     }
+    update();
     // constant buffer
     auto basicHeapHandle = m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
     // constant buffer(matrix)
@@ -188,6 +173,12 @@ void DxPso::init(ID3D12Device* device)
     cbvColorDesc.SizeInBytes = m_colorBuff->GetDesc().Width;
     device->CreateConstantBufferView(&cbvColorDesc, basicHeapHandle);
 #pragma clang diagnostic pop
+}
+
+void DxPso::update()
+{
+    updateTransform();
+    updateColor();
 }
 
 void DxPso::command(ID3D12GraphicsCommandList* cmdList)
@@ -234,6 +225,29 @@ D3D12_PRIMITIVE_TOPOLOGY_TYPE DxPso::convPrimitiveTopologyType(PrimitiveType pri
     }
 #pragma clang diagnostic pop
     return D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
+}
+
+void DxPso::updateTransform()
+{
+    void* mapMatrix = nullptr;
+    if (FAILED(m_matrixBuff->Map(0, nullptr, (void**)&mapMatrix))) {
+        throw std::runtime_error("failed Map()");
+    } else {
+        auto matrix = m_shaderParameter->getTransform();
+        ::memcpy(mapMatrix, glm::value_ptr(matrix), sizeof(glm::mat4));
+        m_matrixBuff->Unmap(0, nullptr);
+    }
+}
+void DxPso::updateColor()
+{
+    void* mapColor = nullptr;
+    if (FAILED(m_colorBuff->Map(0, nullptr, (void**)&mapColor))) {
+        throw std::runtime_error("failed Map()");
+    } else {
+        auto color = m_shaderParameter->getColor();
+        ::memcpy(mapColor, &color.x, sizeof(glm::vec4));
+        m_colorBuff->Unmap(0, nullptr);
+    }
 }
 }
 #endif

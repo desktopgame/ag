@@ -18,6 +18,7 @@ public:
         int vertexComponent,
         bool isUsingTexCoord);
     void init(ID3D12Device* device);
+    void update();
     void command(ID3D12GraphicsCommandList* cmdList);
 
     std::shared_ptr<DxShader> getShader() const;
@@ -29,6 +30,9 @@ public:
 private:
     static D3D_PRIMITIVE_TOPOLOGY convPrimitiveTopology(PrimitiveType primitiveType);
     static D3D12_PRIMITIVE_TOPOLOGY_TYPE convPrimitiveTopologyType(PrimitiveType primitiveType);
+
+    void updateTransform();
+    void updateColor();
 
     std::shared_ptr<DxShader> m_shader;
     std::shared_ptr<ShaderParameter> m_shaderParameter;
