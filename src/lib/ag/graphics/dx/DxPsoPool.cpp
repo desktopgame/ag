@@ -1,13 +1,13 @@
 #ifdef AG_DIRECT_X
-#include <ag/graphics/dx/DxPsoCache.hpp>
+#include <ag/graphics/dx/DxPsoPool.hpp>
 
 namespace ag {
-DxPsoCache::DxPsoCache(ID3D12Device* device)
+DxPsoPool::DxPsoPool(ID3D12Device* device)
     : m_device(device)
     , m_psoVec()
 {
 }
-DxPso::Instance DxPsoCache::fetch(
+DxPso::Instance DxPsoPool::rent(
     const std::shared_ptr<DxShader>& shader,
     const std::shared_ptr<ShaderParameter>& shaderParameter,
     PrimitiveType primitiveType,
@@ -16,6 +16,7 @@ DxPso::Instance DxPsoCache::fetch(
 {
     for (auto pso : m_psoVec) {
         if (pso->getShader() == shader && pso->getShaderParameter() == shaderParameter && pso->getPrimitiveType() == primitiveType && pso->getVertexComponent() == vertexComponent && pso->isUsingTexCoord() == isUsingTexCoord && !pso->isDirty()) {
+            pso->update();
             return pso;
         }
     }
@@ -24,7 +25,7 @@ DxPso::Instance DxPsoCache::fetch(
     m_psoVec.push_back(newPso);
     return newPso;
 }
-void DxPsoCache::clear()
+void DxPsoPool::releaseAll()
 {
     for (auto pso : m_psoVec) {
         pso->clear();
