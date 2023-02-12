@@ -30,7 +30,6 @@ void DxPso::init(ID3D12Device* device)
     if (m_pipelineState) {
         return;
     }
-    //*
     D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
     // input layout
     std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout;
@@ -119,7 +118,6 @@ void DxPso::init(ID3D12Device* device)
     if (FAILED(device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState)))) {
         throw std::runtime_error("failed CreateGraphicsPipelineState()");
     }
-    //*/
     // descriptor heap
     D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
     descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
