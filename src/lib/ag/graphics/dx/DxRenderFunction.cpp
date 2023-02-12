@@ -7,8 +7,8 @@
 #include <ag/graphics/dx/DxSurface.hpp>
 
 namespace ag {
-DxRenderFunction::DxRenderFunction(ID3D12Device* device)
-    : m_psoCache(std::make_shared<DxPsoPool>(device))
+DxRenderFunction::DxRenderFunction()
+    : m_psoPool(std::make_shared<DxPsoPool>())
 {
 }
 
@@ -43,9 +43,9 @@ void DxRenderFunction::present(const std::shared_ptr<Window>& window)
     surface->waitSync();
     surface->reset();
     surface->present();
-    m_psoCache->releaseAll();
+    m_psoPool->releaseAll();
 }
-std::shared_ptr<DxPsoPool> DxRenderFunction::getPsoCache() const { return m_psoCache; }
+std::shared_ptr<DxPsoPool> DxRenderFunction::getPsoPool() const { return m_psoPool; }
 std::shared_ptr<DxSurface> DxRenderFunction::getSurface() const { return m_surface; }
 }
 #endif

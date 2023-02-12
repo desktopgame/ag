@@ -7,7 +7,7 @@
 namespace ag {
 class DxPsoPool {
 public:
-    explicit DxPsoPool(ID3D12Device* device);
+    explicit DxPsoPool();
     DxPso::Instance rent(
         const std::shared_ptr<DxShader>& shader,
         const std::shared_ptr<ShaderParameter>& shaderParameter,
@@ -17,7 +17,6 @@ public:
     void releaseAll();
 
 private:
-    ID3D12Device* m_device;
     std::vector<DxPso::Instance> m_psoVec;
 };
 }

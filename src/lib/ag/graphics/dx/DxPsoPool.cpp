@@ -1,10 +1,12 @@
 #ifdef AG_DIRECT_X
+#include <ag/Engine.hpp>
+#include <ag/graphics/dx/DxGraphicsDevice.hpp>
+#include <ag/graphics/dx/DxGraphicsDriver.hpp>
 #include <ag/graphics/dx/DxPsoPool.hpp>
 
 namespace ag {
-DxPsoPool::DxPsoPool(ID3D12Device* device)
-    : m_device(device)
-    , m_psoVec()
+DxPsoPool::DxPsoPool()
+    : m_psoVec()
 {
 }
 DxPso::Instance DxPsoPool::rent(
@@ -20,8 +22,8 @@ DxPso::Instance DxPsoPool::rent(
             return pso;
         }
     }
-    auto newPso = std::make_shared<DxPso>(shader, shaderParameter, primitiveType, vertexComponent, isUsingTexCoord);
-    newPso->init(m_device);
+    auto dxGraphicsDevice = std::static_pointer_cast<DxGraphicsDevice>(Engine::getInstance()->getGraphicsDriver()->getGraphicsDevice());
+    auto newPso = dxGraphicsDevice->newPso(shader, shaderParameter, primitiveType, vertexComponent, isUsingTexCoord);
     m_psoVec.push_back(newPso);
     return newPso;
 }

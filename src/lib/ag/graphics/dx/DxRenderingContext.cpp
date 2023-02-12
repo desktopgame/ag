@@ -16,7 +16,7 @@ void DxRenderingContext::draw(const std::shared_ptr<IShader>& shader, PrimitiveT
     }
     auto dxRenderFunction = std::static_pointer_cast<DxRenderFunction>(Engine::getInstance()->getGraphicsDriver()->getRenderFunction());
     auto dxSurface = dxRenderFunction->getSurface();
-    auto dxPsoPool = dxRenderFunction->getPsoCache();
+    auto dxPsoPool = dxRenderFunction->getPsoPool();
     auto dxShader = std::static_pointer_cast<DxShader>(shader);
     auto dxVertex = std::static_pointer_cast<DxBuffer>(m_vertex);
     auto dxIndex = std::static_pointer_cast<DxBuffer>(m_index);

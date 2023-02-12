@@ -23,7 +23,7 @@ DxGraphicsDriver::DxGraphicsDriver()
     initFeatureLevel();
     m_device = std::make_shared<DxGraphicsDevice>(m_nativeDevice);
     m_shaderCompiler = std::make_shared<DxShaderCompiler>();
-    m_renderFunction = std::make_shared<DxRenderFunction>(m_nativeDevice);
+    m_renderFunction = std::make_shared<DxRenderFunction>();
 }
 DxGraphicsDriver::~DxGraphicsDriver() { }
 void DxGraphicsDriver::useWindowHint() { }
