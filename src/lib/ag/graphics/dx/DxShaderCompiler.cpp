@@ -1,7 +1,9 @@
 #ifdef AG_DIRECT_X
 #include <ag/graphics/dx/DxShader.hpp>
 #include <ag/graphics/dx/DxShaderCompiler.hpp>
+#include <ag/graphics/dx/DxUtil.hpp>
 #include <ag/native/dx.hpp>
+#include <iostream>
 
 namespace ag {
 
@@ -29,6 +31,7 @@ std::shared_ptr<IShader> DxShaderCompiler::compileFromPartedSource(const std::st
             0,
             &vsBlob,
             &errorBlob))) {
+        std::cerr << DxUtil::getString(errorBlob) << std::endl;
         return nullptr;
     }
 
@@ -44,6 +47,7 @@ std::shared_ptr<IShader> DxShaderCompiler::compileFromPartedSource(const std::st
             0,
             &psBlob,
             &errorBlob))) {
+        std::cerr << DxUtil::getString(errorBlob) << std::endl;
         return nullptr;
     }
     return std::make_shared<DxShader>(vsBlob, psBlob);
