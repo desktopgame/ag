@@ -17,7 +17,6 @@ public:
         PrimitiveType primitiveType,
         int vertexComponent,
         bool isUsingTexCoord);
-    void initCall(ID3D12Device* device);
     void init(ID3D12Device* device);
     void command(ID3D12GraphicsCommandList* cmdList);
 
