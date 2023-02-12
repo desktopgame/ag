@@ -157,6 +157,8 @@ std::shared_ptr<RenderingObject> RenderingObject::createColorCircle(bool isFill)
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_ColorVertexShader, ag::internal::GL_ColorFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_ColorVFShader);
+#elif AG_DIRECT_X
+auto shader = compiler->compileFromPartedSource(ag::internal::DX_ColorVertexShader, ag::internal::DX_ColorFragmentShader);
 #else
 std::shared_ptr<IShader> shader = nullptr;
 #endif
