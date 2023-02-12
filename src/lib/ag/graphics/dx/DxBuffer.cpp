@@ -66,9 +66,21 @@ void DxBuffer::release()
     }
 }
 
-D3D12_GPU_VIRTUAL_ADDRESS DxBuffer::getGPUVirtualAddress() const
+D3D12_VERTEX_BUFFER_VIEW DxBuffer::vertexView(unsigned int stride)
 {
-    return m_resource->GetGPUVirtualAddress();
+    D3D12_VERTEX_BUFFER_VIEW ret = {};
+    ret.BufferLocation = m_resource->GetGPUVirtualAddress();
+    ret.SizeInBytes = m_size;
+    ret.StrideInBytes = stride;
+    return ret;
+}
+D3D12_INDEX_BUFFER_VIEW DxBuffer::indexView()
+{
+    D3D12_INDEX_BUFFER_VIEW ret = {};
+    ret.BufferLocation = m_resource->GetGPUVirtualAddress();
+    ret.Format = DXGI_FORMAT_R32_UINT;
+    ret.SizeInBytes = m_size;
+    return ret;
 }
 }
 #endif

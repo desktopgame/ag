@@ -12,7 +12,8 @@ public:
     void allocate(size_t size) override;
     void update(const void* data) override;
     void release() override;
-    D3D12_GPU_VIRTUAL_ADDRESS getGPUVirtualAddress() const;
+    D3D12_VERTEX_BUFFER_VIEW vertexView(unsigned int stride);
+    D3D12_INDEX_BUFFER_VIEW indexView();
 
 private:
     ID3D12Device* m_device;
