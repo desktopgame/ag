@@ -9,14 +9,6 @@
 #include <ag/native/glm.hpp>
 #include <cmath>
 
-#ifdef AG_OPEN_GL
-#include <ag/graphics/ogl/OglRenderingContext.hpp>
-#endif
-
-#ifdef AG_METAL
-#include <ag/graphics/mtl/MtlRenderingContext.hpp>
-#endif
-
 namespace ag {
 
 RenderingObject::RenderingObject(
