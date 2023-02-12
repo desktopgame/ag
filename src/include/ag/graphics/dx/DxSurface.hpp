@@ -1,6 +1,8 @@
 #pragma once
 #ifdef AG_DIRECT_X
 #include <ag/Window.hpp>
+#include <ag/graphics/dx/DxBuffer.hpp>
+#include <ag/graphics/dx/DxPso.hpp>
 #include <ag/native/dx.hpp>
 #include <memory>
 #include <vector>
@@ -15,6 +17,8 @@ public:
     void transitionRenderToPresent();
     void clear(const glm::vec3& color);
     void resolution(const glm::ivec2& size);
+    void draw(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, int vertexCount);
+    void draw(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, const std::shared_ptr<DxBuffer> index, int indexCount);
     void execute();
     void reset();
     void waitSync();
@@ -28,6 +32,7 @@ private:
     static ID3D12DescriptorHeap* newRenderTargetViewHeap(ID3D12Device* device);
     static std::vector<ID3D12Resource*> newRenderTargetView(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12DescriptorHeap* descHeap);
     static ID3D12Fence* newFence(ID3D12Device* device, UINT fenceVal);
+    void command(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, const std::shared_ptr<DxBuffer> index);
     ID3D12Device* m_device;
     ID3D12CommandAllocator* m_cmdAllocator;
     ID3D12GraphicsCommandList* m_cmdList;

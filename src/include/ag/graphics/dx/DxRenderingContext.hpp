@@ -1,6 +1,7 @@
 #pragma once
 #ifdef AG_DIRECT_X
 #include <ag/graphics/RenderingContext.hpp>
+#include <ag/native/dx.hpp>
 
 namespace ag {
 class DxRenderingContext : public RenderingContext {

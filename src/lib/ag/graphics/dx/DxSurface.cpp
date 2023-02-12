@@ -2,6 +2,8 @@
 #include <ag/Engine.hpp>
 #include <ag/graphics/IGraphicsDevice.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
+#include <ag/graphics/VertexData2D.hpp>
+#include <ag/graphics/VertexData3D.hpp>
 #include <ag/graphics/dx/DxGraphicsDevice.hpp>
 #include <ag/graphics/dx/DxGraphicsDriver.hpp>
 #include <ag/graphics/dx/DxSurface.hpp>
@@ -81,6 +83,17 @@ void DxSurface::resolution(const glm::ivec2& size)
     scissorRect.right = scissorRect.left + size.x;
     scissorRect.bottom = scissorRect.top + size.y;
     m_cmdList->RSSetScissorRects(1, &scissorRect);
+}
+
+void DxSurface::draw(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, int vertexCount)
+{
+    command(pso, vertex, nullptr);
+    m_cmdList->DrawInstanced(vertexCount, 1, 0, 0);
+}
+void DxSurface::draw(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, const std::shared_ptr<DxBuffer> index, int indexCount)
+{
+    command(pso, vertex, index);
+    m_cmdList->DrawIndexedInstanced(indexCount, 1, 0, 0, 0);
 }
 void DxSurface::execute()
 {
@@ -206,6 +219,31 @@ ID3D12Fence* DxSurface::newFence(ID3D12Device* device, UINT fenceVal)
         throw std::runtime_error("failed CreateFence()");
     }
     return ret;
+}
+void DxSurface::command(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, const std::shared_ptr<DxBuffer> index)
+{
+    pso->command(m_cmdList);
+    int vc = pso->getVertexComponent();
+    unsigned int stride = 0;
+    if (vc == 2) {
+        if (pso->isUsingTexCoord()) {
+            stride = sizeof(VertexData2D);
+        } else {
+            stride = sizeof(glm::vec2);
+        }
+    } else if (vc == 3) {
+        if (pso->isUsingTexCoord()) {
+            stride = sizeof(VertexData3D);
+        } else {
+            stride = sizeof(glm::vec3);
+        }
+    }
+    D3D12_VERTEX_BUFFER_VIEW vbView = vertex->vertexView(stride);
+    m_cmdList->IASetVertexBuffers(0, 1, &vbView);
+    if (index) {
+        D3D12_INDEX_BUFFER_VIEW ibView = index->indexView();
+        m_cmdList->IASetIndexBuffer(&ibView);
+    }
 }
 }
 
