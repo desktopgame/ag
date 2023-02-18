@@ -1,5 +1,6 @@
 #ifdef AG_DIRECT_X
 #include <ag/graphics/dx/DxPso.hpp>
+#include <ag/graphics/dx/DxTexture.hpp>
 #include <ag/graphics/dx/DxUtil.hpp>
 #include <iostream>
 #include <stdexcept>
@@ -93,6 +94,12 @@ void DxPso::init(ID3D12Device* device)
         descTableRange.at(1).RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
         descTableRange.at(1).BaseShaderRegister = 1;
         descTableRange.at(1).OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+    } else if (m_shaderParameter->useTexture()) {
+        descTableRange.push_back({});
+        descTableRange.at(1).NumDescriptors = 1;
+        descTableRange.at(1).RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+        descTableRange.at(1).BaseShaderRegister = 0;
+        descTableRange.at(1).OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
     }
     std::vector<D3D12_ROOT_PARAMETER> rootParam;
     rootParam.push_back({});
@@ -104,6 +111,12 @@ void DxPso::init(ID3D12Device* device)
         rootParam.push_back({});
         rootParam.at(1).ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
         rootParam.at(1).ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        rootParam.at(1).DescriptorTable.pDescriptorRanges = &descTableRange.at(1);
+        rootParam.at(1).DescriptorTable.NumDescriptorRanges = 1;
+    } else if (m_shaderParameter->useTexture()) {
+        rootParam.push_back({});
+        rootParam.at(1).ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+        rootParam.at(1).ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         rootParam.at(1).DescriptorTable.pDescriptorRanges = &descTableRange.at(1);
         rootParam.at(1).DescriptorTable.NumDescriptorRanges = 1;
     }
@@ -184,11 +197,22 @@ void DxPso::init(ID3D12Device* device)
     cbvMatrixDesc.SizeInBytes = m_matrixBuff->GetDesc().Width;
     device->CreateConstantBufferView(&cbvMatrixDesc, basicHeapHandle);
     // constant buffer(color)
-    basicHeapHandle.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-    D3D12_CONSTANT_BUFFER_VIEW_DESC cbvColorDesc = {};
-    cbvColorDesc.BufferLocation = m_colorBuff->GetGPUVirtualAddress();
-    cbvColorDesc.SizeInBytes = m_colorBuff->GetDesc().Width;
-    device->CreateConstantBufferView(&cbvColorDesc, basicHeapHandle);
+    if (m_shaderParameter->useColor()) {
+        basicHeapHandle.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        D3D12_CONSTANT_BUFFER_VIEW_DESC cbvColorDesc = {};
+        cbvColorDesc.BufferLocation = m_colorBuff->GetGPUVirtualAddress();
+        cbvColorDesc.SizeInBytes = m_colorBuff->GetDesc().Width;
+        device->CreateConstantBufferView(&cbvColorDesc, basicHeapHandle);
+    } else if (m_shaderParameter->useTexture()) {
+        basicHeapHandle.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+        srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MipLevels = 1;
+        auto texBuff = std::static_pointer_cast<DxTexture>(m_shaderParameter->getTexture())->getResource();
+        device->CreateShaderResourceView(texBuff, &srvDesc, basicHeapHandle);
+    }
 #pragma clang diagnostic pop
 }
 
@@ -261,6 +285,9 @@ void DxPso::updateTransform()
 }
 void DxPso::updateColor()
 {
+    if (!m_shaderParameter->useColor()) {
+        return;
+    }
     void* mapColor = nullptr;
     if (FAILED(m_colorBuff->Map(0, nullptr, (void**)&mapColor))) {
         throw std::runtime_error("failed Map()");
