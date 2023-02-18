@@ -40,5 +40,6 @@ void DxTexture::update(int width, int height, const uint8_t* pixels)
 }
 size_t DxTexture::getWidth() const { return m_width; }
 size_t DxTexture::getHeight() const { return m_height; }
+ID3D12Resource* DxTexture::getResource() const { return m_resource; }
 }
 #endif

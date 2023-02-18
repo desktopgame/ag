@@ -11,6 +11,7 @@ public:
     void update(int width, int height, const uint8_t* pixels) override;
     size_t getWidth() const override;
     size_t getHeight() const override;
+    ID3D12Resource* getResource() const;
 
 private:
     int m_width;
