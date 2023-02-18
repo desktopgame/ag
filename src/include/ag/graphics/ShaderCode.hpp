@@ -332,8 +332,6 @@ namespace internal {
 
         float4 BasicPS(Output input) : SV_TARGET {
             float4 col = float4(tex.Sample(smp, input.uv));
-            col.r = 1;
-            col.a = 1;
             return col;
         }
     )";

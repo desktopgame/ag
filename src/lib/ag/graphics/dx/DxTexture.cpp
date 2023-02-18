@@ -21,8 +21,8 @@ void DxTexture::update(int width, int height, const uint8_t* pixels)
     texHeapProps.VisibleNodeMask = 0;
     D3D12_RESOURCE_DESC texResDesc = {};
     texResDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    texResDesc.Width = width;
-    texResDesc.Height = height;
+    texResDesc.Width = m_width = width;
+    texResDesc.Height = m_height = height;
     texResDesc.DepthOrArraySize = 1;
     texResDesc.SampleDesc.Count = 1;
     texResDesc.SampleDesc.Quality = 0;
