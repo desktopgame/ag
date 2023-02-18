@@ -15,3 +15,5 @@ Metal_ModelColorNoLightVFShader.metal
 Metal_ModelTextureNoLightVFShader.metal
 DX_ColorVertexShader.hlsl
 DX_ColorFragmentShader.hlsl
+DX_TextureVertexShader.hlsl
+DX_TextureFragmentShader.hlsl

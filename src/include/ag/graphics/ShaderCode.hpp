@@ -307,5 +307,32 @@ namespace internal {
             return input.color;
         }
     )";
+    static constexpr inline const char* DX_TextureVertexShader = R"(
+        struct Output {
+            float4 svpos : SV_POSITION;
+            float2 uv : TEXCOORD;
+        };
+        cbuffer cbuff0 : register(b0) { matrix mat; }
+
+        Output BasicVS(float4 pos : POSITION, float2 uv : TEXCOORD) {
+            Output output;
+            output.svpos = mul(mat, pos);
+            output.uv = uv;
+            return output;
+        }
+    )";
+    static constexpr inline const char* DX_TextureFragmentShader = R"(
+        struct Output {
+            float4 svpos : SV_POSITION;
+            float2 uv : TEXCOORD;
+        };
+
+        Texture2D<float4> tex : register(t0);
+        SamplerState smp : register(s0);
+
+        float4 BasicPS(Output input) : SV_TARGET {
+            return float4(tex.Sample(smp, input.uv));
+        }
+    )";
 }
 }
