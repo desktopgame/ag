@@ -121,8 +121,8 @@ void DxPso::init(ID3D12Device* device)
     rootSignatureDesc.pParameters = rootParam.data();
     rootSignatureDesc.NumParameters = rootParam.size();
     rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-    // rootSignatureDesc.pStaticSamplers = &samplerDesc;
-    // rootSignatureDesc.NumStaticSamplers = 1;
+    rootSignatureDesc.pStaticSamplers = &samplerDesc;
+    rootSignatureDesc.NumStaticSamplers = 1;
     ID3DBlob* rootSigBlob = nullptr;
     ID3DBlob* errorBlob = nullptr;
     if (FAILED(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob))) {
