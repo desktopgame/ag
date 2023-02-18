@@ -81,24 +81,32 @@ void DxPso::init(ID3D12Device* device)
     psoDesc.SampleDesc.Count = 1;
     psoDesc.SampleDesc.Quality = 0;
     // root signature
-    D3D12_DESCRIPTOR_RANGE descTableRange[2] = {};
-    descTableRange[0].NumDescriptors = 1;
-    descTableRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
-    descTableRange[0].BaseShaderRegister = 0;
-    descTableRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-    descTableRange[1].NumDescriptors = 1;
-    descTableRange[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
-    descTableRange[1].BaseShaderRegister = 1;
-    descTableRange[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-    D3D12_ROOT_PARAMETER rootParam[2] = {};
-    rootParam[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-    rootParam[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-    rootParam[0].DescriptorTable.pDescriptorRanges = &descTableRange[0];
-    rootParam[0].DescriptorTable.NumDescriptorRanges = 1;
-    rootParam[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-    rootParam[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-    rootParam[1].DescriptorTable.pDescriptorRanges = &descTableRange[1];
-    rootParam[1].DescriptorTable.NumDescriptorRanges = 1;
+    std::vector<D3D12_DESCRIPTOR_RANGE> descTableRange;
+    descTableRange.push_back({});
+    descTableRange.at(0).NumDescriptors = 1;
+    descTableRange.at(0).RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
+    descTableRange.at(0).BaseShaderRegister = 0;
+    descTableRange.at(0).OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+    if (m_shaderParameter->useColor()) {
+        descTableRange.push_back({});
+        descTableRange.at(1).NumDescriptors = 1;
+        descTableRange.at(1).RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
+        descTableRange.at(1).BaseShaderRegister = 1;
+        descTableRange.at(1).OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+    }
+    std::vector<D3D12_ROOT_PARAMETER> rootParam;
+    rootParam.push_back({});
+    rootParam.at(0).ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+    rootParam.at(0).ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+    rootParam.at(0).DescriptorTable.pDescriptorRanges = &descTableRange.at(0);
+    rootParam.at(0).DescriptorTable.NumDescriptorRanges = 1;
+    if (m_shaderParameter->useColor()) {
+        rootParam.push_back({});
+        rootParam.at(1).ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+        rootParam.at(1).ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        rootParam.at(1).DescriptorTable.pDescriptorRanges = &descTableRange.at(1);
+        rootParam.at(1).DescriptorTable.NumDescriptorRanges = 1;
+    }
     D3D12_STATIC_SAMPLER_DESC samplerDesc = {};
     samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
     samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
@@ -110,8 +118,8 @@ void DxPso::init(ID3D12Device* device)
     samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
     samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
     D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc = {};
-    rootSignatureDesc.pParameters = rootParam;
-    rootSignatureDesc.NumParameters = 2;
+    rootSignatureDesc.pParameters = rootParam.data();
+    rootSignatureDesc.NumParameters = rootParam.size();
     rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
     // rootSignatureDesc.pStaticSamplers = &samplerDesc;
     // rootSignatureDesc.NumStaticSamplers = 1;
