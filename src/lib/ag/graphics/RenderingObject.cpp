@@ -42,6 +42,8 @@ std::shared_ptr<RenderingObject> RenderingObject::createTextureRectangle()
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_TextureVertexShader, ag::internal::GL_TextureFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_TextureVFShader);
+#elif AG_DIRECT_X
+    auto shader = compiler->compileFromPartedSource(ag::internal::DX_TextureVertexShader, ag::internal::DX_TextureFragmentShader);
 #else
     std::shared_ptr<IShader> shader = nullptr;
 #endif
