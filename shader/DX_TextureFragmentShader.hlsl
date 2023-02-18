@@ -4,5 +4,8 @@ Texture2D<float4> tex : register(t0);
 SamplerState smp : register(s0);
 
 float4 BasicPS(Output input) : SV_TARGET {
-    return float4(tex.Sample(smp, input.uv));
+    float4 col = float4(tex.Sample(smp, input.uv));
+    col.r = 1;
+    col.a = 1;
+    return col;
 }

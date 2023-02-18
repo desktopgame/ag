@@ -314,9 +314,9 @@ namespace internal {
         };
         cbuffer cbuff0 : register(b0) { matrix mat; }
 
-        Output BasicVS(float4 pos : POSITION, float2 uv : TEXCOORD) {
+        Output BasicVS(float2 pos : POSITION, float2 uv : TEXCOORD) {
             Output output;
-            output.svpos = mul(mat, pos);
+            output.svpos = mul(mat, float4(pos, 0, 1));
             output.uv = uv;
             return output;
         }
@@ -331,7 +331,10 @@ namespace internal {
         SamplerState smp : register(s0);
 
         float4 BasicPS(Output input) : SV_TARGET {
-            return float4(tex.Sample(smp, input.uv));
+            float4 col = float4(tex.Sample(smp, input.uv));
+            col.r = 1;
+            col.a = 1;
+            return col;
         }
     )";
 }
