@@ -268,8 +268,17 @@ void DxPso::command(ID3D12GraphicsCommandList* cmdList)
     auto heapHandle = m_descriptorHeap->GetGPUDescriptorHandleForHeapStart();
     cmdList->SetDescriptorHeaps(1, &m_descriptorHeap);
     cmdList->SetGraphicsRootDescriptorTable(0, heapHandle);
-    heapHandle.ptr += m_descriptorHandleIncrementSize;
-    cmdList->SetGraphicsRootDescriptorTable(1, heapHandle);
+    if (m_shaderParameter->useTexture()) {
+        heapHandle.ptr += m_descriptorHandleIncrementSize;
+        cmdList->SetGraphicsRootDescriptorTable(1, heapHandle);
+        if (m_shaderParameter->useColor()) {
+            heapHandle.ptr += m_descriptorHandleIncrementSize;
+            cmdList->SetGraphicsRootDescriptorTable(2, heapHandle);
+        }
+    } else if (m_shaderParameter->useColor()) {
+        heapHandle.ptr += m_descriptorHandleIncrementSize;
+        cmdList->SetGraphicsRootDescriptorTable(1, heapHandle);
+    }
     cmdList->IASetPrimitiveTopology(convPrimitiveTopology(m_primitiveType));
 }
 
