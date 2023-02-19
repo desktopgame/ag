@@ -17,3 +17,5 @@ DX_ColorVertexShader.hlsl
 DX_ColorFragmentShader.hlsl
 DX_TextureVertexShader.hlsl
 DX_TextureFragmentShader.hlsl
+DX_StringVertexShader.hlsl
+DX_StringFragmentShader.hlsl

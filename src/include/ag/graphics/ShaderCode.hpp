@@ -336,7 +336,38 @@ namespace internal {
 
         float4 BasicPS(Output input) : SV_TARGET {
             float4 col = float4(tex.Sample(smp, input.uv)) * input.color;
-            col.a = 1;
+            return col;
+        }
+    )";
+    static constexpr inline const char* DX_StringVertexShader = R"(
+        struct Output {
+            float4 svpos : SV_POSITION;
+            float2 uv : TEXCOORD;
+            float4 color : COLOR;
+        };
+        cbuffer cbuff0 : register(b0) { matrix mat; }
+        cbuffer cbuff1 : register(b1) { float4 color; }
+
+        Output BasicVS(float2 pos : POSITION, float2 uv : TEXCOORD) {
+            Output output;
+            output.svpos = mul(mat, float4(pos, 0, 1));
+            output.uv = uv;
+            output.color = color;
+            return output;
+        }
+    )";
+    static constexpr inline const char* DX_StringFragmentShader = R"(
+        struct Output {
+            float4 svpos : SV_POSITION;
+            float2 uv : TEXCOORD;
+            float4 color : COLOR;
+        };
+
+        Texture2D<float4> tex : register(t0);
+        SamplerState smp : register(s0);
+
+        float4 BasicPS(Output input) : SV_TARGET {
+            float4 col = float4(tex.Sample(smp, input.uv)) * input.color;
             return col;
         }
     )";
