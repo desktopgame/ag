@@ -3,6 +3,10 @@ find . -name 'CMakeCache.txt' -o -name 'Makefile' -o -name 'CMakeFiles' | xargs 
 find . -name '*.xcodeproj' | xargs rm -rf
 find . -name '*.make' | xargs rm -rf
 find . -name '*.build' | xargs rm -rf
+find . -name '*.vcxproj' | xargs rm -rf
+find . -name '*.vcxproj.filters' | xargs rm -rf
+find . -name '*.vcxproj.user' | xargs rm -rf
+find . -name '*.sln' | xargs rm -rf
 find ./tests -name '*.dll' | xargs rm -rf
 find ./tests -name '*.exe' | xargs rm -rf
 find ./tests -name '*.pdb' | xargs rm -rf
