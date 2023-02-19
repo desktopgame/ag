@@ -34,7 +34,7 @@ void DxTexture::update(int width, int height, const uint8_t* pixels)
     if (FAILED(m_device->CreateCommittedResource(&texHeapProps, D3D12_HEAP_FLAG_NONE, &texResDesc, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, nullptr, IID_PPV_ARGS(&m_resource)))) {
         throw std::runtime_error("failed CreateCommittedResource()");
     }
-    if (FAILED(m_resource->WriteToSubresource(0, nullptr, pixels, sizeof(Pixel), sizeof(Pixel) * (width * height)))) {
+    if (FAILED(m_resource->WriteToSubresource(0, nullptr, pixels, sizeof(Pixel) * width, sizeof(Pixel) * (width * height)))) {
         throw std::runtime_error("failed WriteToSubresource()");
     }
 }
