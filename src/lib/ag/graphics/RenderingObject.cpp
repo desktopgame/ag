@@ -30,6 +30,8 @@ std::shared_ptr<RenderingObject> RenderingObject::createString()
     auto shader = compiler->compileFromPartedSource(ag::internal::GL_StringVertexShader, ag::internal::GL_StringFragmentShader);
 #elif AG_METAL
     auto shader = compiler->compileFromSingleSource(ag::internal::Metal_StringVFShader);
+#elif AG_DIRECT_X
+    auto shader = compiler->compileFromPartedSource(ag::internal::DX_StringVertexShader, ag::internal::DX_StringFragmentShader);
 #else
     std::shared_ptr<IShader> shader = nullptr;
 #endif
