@@ -17,7 +17,7 @@ DxPso::Instance DxPsoPool::rent(
     bool isUsingTexCoord)
 {
     for (auto pso : m_psoVec) {
-        if (pso->getShader() == shader && pso->getShaderParameter() == shaderParameter && pso->getPrimitiveType() == primitiveType && pso->getVertexComponent() == vertexComponent && pso->isUsingTexCoord() == isUsingTexCoord && !pso->isDirty()) {
+        if (pso->getShader() == shader && pso->getShaderParameter() == shaderParameter && pso->getPrimitiveType() == primitiveType && pso->getVertexComponent() == vertexComponent && pso->isUsingTexCoord() == isUsingTexCoord && pso->getTexture() == shaderParameter->getTexture() && !pso->isDirty()) {
             pso->update();
             return pso;
         }
