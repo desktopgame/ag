@@ -1,10 +1,10 @@
 #ifdef AG_DIRECT_X
+#include <DirectXMath.h>
 #include <ag/graphics/dx/DxPso.hpp>
 #include <ag/graphics/dx/DxTexture.hpp>
 #include <ag/graphics/dx/DxUtil.hpp>
 #include <iostream>
 #include <stdexcept>
-#include <DirectXMath.h>
 
 namespace ag {
 DxPso::DxPso(
@@ -18,6 +18,7 @@ DxPso::DxPso(
     , m_primitiveType(primitiveType)
     , m_vertexComponent(vertexComponent)
     , m_isUsingTexCoord(isUsingTexCoord)
+    , m_texture(nullptr)
     , m_isDirty(false)
     , m_pipelineState(nullptr)
     , m_rootSignature(nullptr)
@@ -251,6 +252,7 @@ void DxPso::init(ID3D12Device* device)
         }
     }
 #pragma clang diagnostic pop
+    m_texture = m_shaderParameter->getTexture();
 }
 
 void DxPso::update()
@@ -289,6 +291,7 @@ std::shared_ptr<ShaderParameter> DxPso::getShaderParameter() const { return m_sh
 PrimitiveType DxPso::getPrimitiveType() const { return m_primitiveType; }
 int DxPso::getVertexComponent() const { return m_vertexComponent; }
 bool DxPso::isUsingTexCoord() const { return m_isUsingTexCoord; }
+std::shared_ptr<ITexture> DxPso::getTexture() const { return m_texture; }
 bool DxPso::isDirty() const { return m_isDirty; }
 // private
 D3D_PRIMITIVE_TOPOLOGY DxPso::convPrimitiveTopology(PrimitiveType primitiveType)

@@ -27,6 +27,8 @@ public:
     PrimitiveType getPrimitiveType() const;
     int getVertexComponent() const;
     bool isUsingTexCoord() const;
+
+    std::shared_ptr<ITexture> getTexture() const;
     bool isDirty() const;
 
 private:
@@ -42,6 +44,7 @@ private:
     int m_vertexComponent;
     bool m_isUsingTexCoord;
     // Pool
+    std::shared_ptr<ITexture> m_texture;
     bool m_isDirty;
     // PSO
     ID3D12PipelineState* m_pipelineState;
