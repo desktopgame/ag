@@ -19,3 +19,7 @@ DX_TextureVertexShader.hlsl
 DX_TextureFragmentShader.hlsl
 DX_StringVertexShader.hlsl
 DX_StringFragmentShader.hlsl
+DX_ModelColorNoLightVertexShader.hlsl
+DX_ModelColorNoLightFragmentShader.hlsl
+DX_ModelTextureNoLightVertexShader.hlsl
+DX_ModelTextureNoLightFragmentShader.hlsl
