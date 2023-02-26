@@ -16,6 +16,8 @@ int main(int argc, char* argv[])
         shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelColorNoLightVertexShader, ag::internal::GL_ModelColorNoLightFragmentShader);
     } else if (ag::isBuiltOnMetal()) {
         shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromSingleSource(ag::internal::Metal_ModelColorNoLightVFShader);
+    } else if (ag::isBuiltOnDirectX()) {
+        shader = ag::Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::DX_ModelColorNoLightVertexShader, ag::internal::DX_ModelColorNoLightFragmentShader);
     }
     ag::Model::Instance model
         = ag::Model::loadFromFile("testdata/models/Cube.fbx");
