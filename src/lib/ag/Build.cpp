@@ -20,7 +20,11 @@ bool isBuiltOnMetal()
 }
 bool isBuiltOnDirectX()
 {
+#ifdef AG_DIRECT_X
+    return true;
+#else
     return false;
+#endif
 }
 bool isBuiltOnVulkan()
 {
