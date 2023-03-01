@@ -178,7 +178,7 @@ IDXGISwapChain4* DxSurface::newSwapChain(ID3D12Device* device, ID3D12CommandQueu
     swapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
     swapchainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
     swapchainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-    IDXGIFactory6* dxgiFactory = std::static_pointer_cast<DxGraphicsDriver>(Engine::getInstance()->getGraphicsDriver())->getDXGIFactory();
+    ComPtr<IDXGIFactory6> dxgiFactory = std::static_pointer_cast<DxGraphicsDriver>(Engine::getInstance()->getGraphicsDriver())->getDXGIFactory();
     if (FAILED(dxgiFactory->CreateSwapChainForHwnd(
             queue, getWin32Window(window->getNativeWindow()), &swapchainDesc, nullptr, nullptr,
             (IDXGISwapChain1**)&ret))) {

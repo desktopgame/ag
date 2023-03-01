@@ -15,7 +15,7 @@ public:
     std::shared_ptr<IGraphicsDevice> getGraphicsDevice() const override;
     std::shared_ptr<IShaderCompiler> getShaderCompiler() const override;
     std::shared_ptr<IRenderFunction> getRenderFunction() const override;
-    IDXGIFactory6* getDXGIFactory() const;
+    ComPtr<IDXGIFactory6> getDXGIFactory() const;
 
 private:
     void initDebugLayer();
@@ -23,10 +23,10 @@ private:
     void initAdaptor();
     void initFeatureLevel();
 
-    IDXGIFactory6* m_dxgiFactory;
-    std::vector<IDXGIAdapter*> m_adaptors;
-    IDXGIAdapter* m_mainAdaptor;
-    ID3D12Device* m_nativeDevice;
+    ComPtr<IDXGIFactory6> m_dxgiFactory;
+    std::vector<ComPtr<IDXGIAdapter>> m_adaptors;
+    ComPtr<IDXGIAdapter> m_mainAdaptor;
+    ComPtr<ID3D12Device> m_nativeDevice;
     std::shared_ptr<IGraphicsDevice> m_device;
     std::shared_ptr<IShaderCompiler> m_shaderCompiler;
     std::shared_ptr<IRenderFunction> m_renderFunction;

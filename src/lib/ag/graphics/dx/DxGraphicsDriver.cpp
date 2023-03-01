@@ -21,7 +21,7 @@ DxGraphicsDriver::DxGraphicsDriver()
     initFactory();
     initAdaptor();
     initFeatureLevel();
-    m_device = std::make_shared<DxGraphicsDevice>(m_nativeDevice);
+    m_device = std::make_shared<DxGraphicsDevice>(m_nativeDevice.Get());
     m_shaderCompiler = std::make_shared<DxShaderCompiler>();
     m_renderFunction = std::make_shared<DxRenderFunction>();
 }
@@ -34,7 +34,7 @@ void DxGraphicsDriver::useContextExtension()
 std::shared_ptr<IGraphicsDevice> DxGraphicsDriver::getGraphicsDevice() const { return m_device; }
 std::shared_ptr<IShaderCompiler> DxGraphicsDriver::getShaderCompiler() const { return m_shaderCompiler; }
 std::shared_ptr<IRenderFunction> DxGraphicsDriver::getRenderFunction() const { return m_renderFunction; }
-IDXGIFactory6* DxGraphicsDriver::getDXGIFactory() const { return m_dxgiFactory; }
+ComPtr<IDXGIFactory6> DxGraphicsDriver::getDXGIFactory() const { return m_dxgiFactory; }
 // private
 void DxGraphicsDriver::initFactory()
 {
@@ -42,14 +42,14 @@ void DxGraphicsDriver::initFactory()
 #ifdef _DEBUG
     flags = DXGI_CREATE_FACTORY_DEBUG;
 #endif
-    if (FAILED(CreateDXGIFactory2(flags, IID_PPV_ARGS(&m_dxgiFactory)))) {
+    if (FAILED(CreateDXGIFactory2(flags, IID_PPV_ARGS(m_dxgiFactory.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateDXGIFactory2()");
     }
 }
 void DxGraphicsDriver::initAdaptor()
 {
     for (int i = 0;
-         m_dxgiFactory->EnumAdapters(i, &m_mainAdaptor) != DXGI_ERROR_NOT_FOUND;
+         m_dxgiFactory->EnumAdapters(i, m_mainAdaptor.ReleaseAndGetAddressOf()) != DXGI_ERROR_NOT_FOUND;
          ++i) {
         m_adaptors.push_back(m_mainAdaptor);
     }
@@ -73,7 +73,7 @@ void DxGraphicsDriver::initFeatureLevel()
     };
     // D3D_FEATURE_LEVEL featureLevel;
     for (auto l : levels) {
-        if (D3D12CreateDevice(m_mainAdaptor, l, IID_PPV_ARGS(&m_nativeDevice)) == S_OK) {
+        if (D3D12CreateDevice(m_mainAdaptor.Get(), l, IID_PPV_ARGS(m_nativeDevice.ReleaseAndGetAddressOf())) == S_OK) {
             // featureLevel = l;
             break;
         }
