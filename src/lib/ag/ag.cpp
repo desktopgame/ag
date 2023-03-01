@@ -11,5 +11,8 @@ void hello()
 #ifdef AG_METAL
     std::cout << " #AG_METAL=" << AG_METAL << std::endl;
 #endif
+#ifdef AG_DIRECT_X
+    std::cout << " #AG_DIRECT_X=" << AG_DIRECT_X << std::endl;
+#endif
 }
 } // namespace ag
