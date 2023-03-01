@@ -64,7 +64,7 @@ void DxPso::init(ID3D12Device* device)
     // rasterize
     psoDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
     psoDesc.RasterizerState.MultisampleEnable = false;
-    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
     psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
     psoDesc.RasterizerState.DepthClipEnable = true;
     // depth

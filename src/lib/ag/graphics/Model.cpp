@@ -28,7 +28,7 @@ Model::Model()
 unsigned int Model::getPostProcessFlags()
 {
     unsigned int flags = aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_GenUVCoords;
-#if AG_METAL
+#if AG_METAL || AG_DIRECT_X
     flags |= aiProcess_FlipWindingOrder;
 #endif
     return flags;
