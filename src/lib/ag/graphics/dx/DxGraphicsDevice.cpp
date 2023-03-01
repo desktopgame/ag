@@ -9,20 +9,20 @@
 #include <stdexcept>
 
 namespace ag {
-DxGraphicsDevice::DxGraphicsDevice(ID3D12Device* device)
+DxGraphicsDevice::DxGraphicsDevice(ComPtr<ID3D12Device> device)
     : m_device(device)
 {
 }
 std::shared_ptr<ITexture> DxGraphicsDevice::newTexture(int width, int height, const uint8_t* data) const
 {
-    auto dxTex = std::make_shared<DxTexture>(m_device);
+    auto dxTex = std::make_shared<DxTexture>(m_device.Get());
     dxTex->update(width, height, data);
     return dxTex;
 }
-std::shared_ptr<IBuffer> DxGraphicsDevice::newVertexBuffer() const { return std::make_shared<DxBuffer>(m_device); }
-std::shared_ptr<IBuffer> DxGraphicsDevice::newIndexBuffer() const { return std::make_shared<DxBuffer>(m_device); }
+std::shared_ptr<IBuffer> DxGraphicsDevice::newVertexBuffer() const { return std::make_shared<DxBuffer>(m_device.Get()); }
+std::shared_ptr<IBuffer> DxGraphicsDevice::newIndexBuffer() const { return std::make_shared<DxBuffer>(m_device.Get()); }
 std::shared_ptr<RenderingContext> DxGraphicsDevice::newRenderingContext() const { return std::make_shared<DxRenderingContext>(); }
-std::shared_ptr<DxSurface> DxGraphicsDevice::newSurface(const Window::Instance& window) const { return std::make_shared<DxSurface>(window, m_device); }
+std::shared_ptr<DxSurface> DxGraphicsDevice::newSurface(const Window::Instance& window) const { return std::make_shared<DxSurface>(window, m_device.Get()); }
 std::shared_ptr<DxPso> DxGraphicsDevice::newPso(const std::shared_ptr<DxShader>& shader,
     const std::shared_ptr<ShaderParameter>& shaderParameter,
     PrimitiveType primitiveType,

@@ -29,7 +29,7 @@ DxPso::DxPso(
 {
 }
 
-void DxPso::init(ID3D12Device* device)
+void DxPso::init(ComPtr<ID3D12Device> device)
 {
     if (m_pipelineState) {
         return;
@@ -173,11 +173,11 @@ void DxPso::init(ID3D12Device* device)
         std::cerr << DxUtil::getString(errorBlob) << std::endl;
         throw std::runtime_error("failed D3D12SerializeRootSignature()");
     }
-    if (FAILED(device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&m_rootSignature)))) {
+    if (FAILED(device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(m_rootSignature.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateRootSignature()");
     }
-    psoDesc.pRootSignature = m_rootSignature;
-    if (FAILED(device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState)))) {
+    psoDesc.pRootSignature = m_rootSignature.Get();
+    if (FAILED(device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(m_pipelineState.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateGraphicsPipelineState()");
     }
     // descriptor heap
@@ -192,7 +192,7 @@ void DxPso::init(ID3D12Device* device)
         descHeapDesc.NumDescriptors++;
     }
     descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-    if (FAILED(device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&m_descriptorHeap)))) {
+    if (FAILED(device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(m_descriptorHeap.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateDescriptorHeap()");
     }
     m_descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -206,7 +206,7 @@ void DxPso::init(ID3D12Device* device)
                 &CD3DX12_RESOURCE_DESC::Buffer((sizeof(glm::mat4) + 0xff) & ~0xff),
                 D3D12_RESOURCE_STATE_GENERIC_READ,
                 nullptr,
-                IID_PPV_ARGS(&m_matrixBuff)))) {
+                IID_PPV_ARGS(m_matrixBuff.ReleaseAndGetAddressOf())))) {
             throw std::runtime_error("failed CreateCommittedResource()");
         }
     }
@@ -219,7 +219,7 @@ void DxPso::init(ID3D12Device* device)
                     &CD3DX12_RESOURCE_DESC::Buffer((sizeof(glm::vec4) + 0xff) & ~0xff),
                     D3D12_RESOURCE_STATE_GENERIC_READ,
                     nullptr,
-                    IID_PPV_ARGS(&m_colorBuff)))) {
+                    IID_PPV_ARGS(m_colorBuff.ReleaseAndGetAddressOf())))) {
                 throw std::runtime_error("failed CreateCommittedResource()");
             }
         }
@@ -272,11 +272,11 @@ void DxPso::update()
 
 void DxPso::command(ID3D12GraphicsCommandList* cmdList)
 {
-    cmdList->SetPipelineState(m_pipelineState);
-    cmdList->SetGraphicsRootSignature(m_rootSignature);
+    cmdList->SetPipelineState(m_pipelineState.Get());
+    cmdList->SetGraphicsRootSignature(m_rootSignature.Get());
 
     auto heapHandle = m_descriptorHeap->GetGPUDescriptorHandleForHeapStart();
-    cmdList->SetDescriptorHeaps(1, &m_descriptorHeap);
+    cmdList->SetDescriptorHeaps(1, m_descriptorHeap.GetAddressOf());
     cmdList->SetGraphicsRootDescriptorTable(0, heapHandle);
     if (m_shaderParameter->useTexture()) {
         heapHandle.ptr += m_descriptorHandleIncrementSize;

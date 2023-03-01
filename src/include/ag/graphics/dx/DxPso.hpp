@@ -17,7 +17,7 @@ public:
         PrimitiveType primitiveType,
         int vertexComponent,
         bool isUsingTexCoord);
-    void init(ID3D12Device* device);
+    void init(ComPtr<ID3D12Device> device);
     void update();
     void clear();
     void command(ID3D12GraphicsCommandList* cmdList);
@@ -47,11 +47,11 @@ private:
     std::shared_ptr<ITexture> m_texture;
     bool m_isDirty;
     // PSO
-    ID3D12PipelineState* m_pipelineState;
-    ID3D12RootSignature* m_rootSignature;
-    ID3D12DescriptorHeap* m_descriptorHeap;
-    ID3D12Resource* m_matrixBuff;
-    ID3D12Resource* m_colorBuff;
+    ComPtr<ID3D12PipelineState> m_pipelineState;
+    ComPtr<ID3D12RootSignature> m_rootSignature;
+    ComPtr<ID3D12DescriptorHeap> m_descriptorHeap;
+    ComPtr<ID3D12Resource> m_matrixBuff;
+    ComPtr<ID3D12Resource> m_colorBuff;
     int m_descriptorHandleIncrementSize;
 };
 }

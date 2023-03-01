@@ -9,7 +9,7 @@
 namespace ag {
 class DxGraphicsDevice : public IGraphicsDevice {
 public:
-    explicit DxGraphicsDevice(ID3D12Device* device);
+    explicit DxGraphicsDevice(ComPtr<ID3D12Device> device);
 
     std::shared_ptr<ITexture> newTexture(int width, int height, const uint8_t* data) const override;
     std::shared_ptr<IBuffer> newVertexBuffer() const override;
@@ -23,7 +23,7 @@ public:
         bool isUsingTexCoord);
 
 private:
-    ID3D12Device* m_device;
+    ComPtr<ID3D12Device> m_device;
 };
 }
 #endif
