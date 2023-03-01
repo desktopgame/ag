@@ -19,6 +19,8 @@ DxSurface::DxSurface(const Window::Instance& window, ID3D12Device* device)
     , m_rtvHeap(nullptr)
     , m_backBuffers()
     , m_fence(nullptr)
+    , m_depthBuffer(nullptr)
+    , m_depthStencilViewHeap(nullptr)
     , m_fenceVal(0)
 {
     m_cmdAllocator = newCommandAllocator(device);
@@ -28,6 +30,9 @@ DxSurface::DxSurface(const Window::Instance& window, ID3D12Device* device)
     m_rtvHeap = newRenderTargetViewHeap(device);
     m_backBuffers = newRenderTargetView(device, m_swapChain, m_rtvHeap);
     m_fence = newFence(device, 0);
+    m_depthBuffer = newDepthBuffer(device, window);
+    m_depthStencilViewHeap = newDepthStencilViewHeap(device);
+    newDepthStencilView(device, m_depthBuffer, m_depthStencilViewHeap);
 }
 
 void DxSurface::transitionPresentToRender()
@@ -60,10 +65,12 @@ void DxSurface::clear(const glm::vec3& color)
     // レンダーターゲットを指定
     auto rtvH = m_rtvHeap->GetCPUDescriptorHandleForHeapStart();
     rtvH.ptr += static_cast<ULONG_PTR>(bbIdx * m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-    m_cmdList->OMSetRenderTargets(1, &rtvH, false, nullptr);
+    auto dsvH = m_depthStencilViewHeap->GetCPUDescriptorHandleForHeapStart();
+    m_cmdList->OMSetRenderTargets(1, &rtvH, false, &dsvH);
 
     // 画面クリア
     m_cmdList->ClearRenderTargetView(rtvH, &color.r, 0, nullptr);
+    m_cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 void DxSurface::resolution(const glm::ivec2& size)
 {
@@ -219,6 +226,49 @@ ID3D12Fence* DxSurface::newFence(ID3D12Device* device, UINT fenceVal)
         throw std::runtime_error("failed CreateFence()");
     }
     return ret;
+}
+
+ID3D12Resource* DxSurface::newDepthBuffer(ID3D12Device* device, const Window::Instance& window)
+{
+    D3D12_RESOURCE_DESC depthResDesc = {};
+    depthResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+    depthResDesc.Width = window->getWidth();
+    depthResDesc.Height = window->getHeight();
+    depthResDesc.DepthOrArraySize = 1;
+    depthResDesc.Format = DXGI_FORMAT_D32_FLOAT;
+    depthResDesc.SampleDesc.Count = 1;
+    depthResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+    D3D12_HEAP_PROPERTIES depthHeapProps = {};
+    depthHeapProps.Type = D3D12_HEAP_TYPE_DEFAULT;
+    depthHeapProps.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+    depthHeapProps.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+    D3D12_CLEAR_VALUE depthClearValue = {};
+    depthClearValue.DepthStencil.Depth = 1.0f;
+    depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
+    ID3D12Resource* depthBuffer = nullptr;
+    if (FAILED(device->CreateCommittedResource(&depthHeapProps, D3D12_HEAP_FLAG_NONE, &depthResDesc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &depthClearValue, IID_PPV_ARGS(&depthBuffer)))) {
+        throw std::runtime_error("failed CreateCommittedResource()");
+    }
+    return depthBuffer;
+}
+ID3D12DescriptorHeap* DxSurface::newDepthStencilViewHeap(ID3D12Device* device)
+{
+    D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
+    dsvHeapDesc.NumDescriptors = 1;
+    dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+    ID3D12DescriptorHeap* dsvHeap = nullptr;
+    if (FAILED(device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap)))) {
+        throw std::runtime_error("failed CreateDescriptorHeap()");
+    }
+    return dsvHeap;
+}
+void DxSurface::newDepthStencilView(ID3D12Device* device, ID3D12Resource* depthBuffer, ID3D12DescriptorHeap* descHeap)
+{
+    D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+    dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+    dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+    dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+    device->CreateDepthStencilView(depthBuffer, &dsvDesc, descHeap->GetCPUDescriptorHandleForHeapStart());
 }
 void DxSurface::command(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, const std::shared_ptr<DxBuffer> index)
 {

@@ -32,6 +32,9 @@ private:
     static ID3D12DescriptorHeap* newRenderTargetViewHeap(ID3D12Device* device);
     static std::vector<ID3D12Resource*> newRenderTargetView(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12DescriptorHeap* descHeap);
     static ID3D12Fence* newFence(ID3D12Device* device, UINT fenceVal);
+    static ID3D12Resource* newDepthBuffer(ID3D12Device* device, const Window::Instance& window);
+    static ID3D12DescriptorHeap* newDepthStencilViewHeap(ID3D12Device* device);
+    static void newDepthStencilView(ID3D12Device* device, ID3D12Resource* depthBuffer, ID3D12DescriptorHeap* descHeap);
     void command(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, const std::shared_ptr<DxBuffer> index);
     ID3D12Device* m_device;
     ID3D12CommandAllocator* m_cmdAllocator;
@@ -41,6 +44,8 @@ private:
     ID3D12DescriptorHeap* m_rtvHeap;
     std::vector<ID3D12Resource*> m_backBuffers;
     ID3D12Fence* m_fence;
+    ID3D12Resource* m_depthBuffer;
+    ID3D12DescriptorHeap* m_depthStencilViewHeap;
     UINT m_fenceVal;
 };
 }

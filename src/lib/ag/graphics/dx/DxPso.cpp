@@ -67,6 +67,11 @@ void DxPso::init(ID3D12Device* device)
     psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
     psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
     psoDesc.RasterizerState.DepthClipEnable = true;
+    // depth
+    psoDesc.DepthStencilState.DepthEnable = m_vertexComponent == 3;
+    psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+    psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
+    psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
     // blend
     psoDesc.BlendState.AlphaToCoverageEnable = false;
     psoDesc.BlendState.IndependentBlendEnable = false;
@@ -74,7 +79,7 @@ void DxPso::init(ID3D12Device* device)
     rtBlendDesc.BlendEnable = false;
     rtBlendDesc.LogicOpEnable = false;
     rtBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-    rtBlendDesc.BlendEnable = true;
+    rtBlendDesc.BlendEnable = m_vertexComponent == 2;
     rtBlendDesc.LogicOpEnable = false;
     rtBlendDesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
     rtBlendDesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
