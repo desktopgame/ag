@@ -10,7 +10,7 @@
 #include <ag/native/glfw.hpp>
 
 namespace ag {
-DxSurface::DxSurface(const Window::Instance& window, ID3D12Device* device)
+DxSurface::DxSurface(const Window::Instance& window, ComPtr<ID3D12Device> device)
     : m_device(device)
     , m_cmdAllocator(nullptr)
     , m_cmdList(nullptr)
@@ -41,7 +41,7 @@ void DxSurface::transitionPresentToRender()
     D3D12_RESOURCE_BARRIER barrierDesc = {};
     barrierDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
     barrierDesc.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-    barrierDesc.Transition.pResource = m_backBuffers[bbIdx];
+    barrierDesc.Transition.pResource = m_backBuffers[bbIdx].Get();
     barrierDesc.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
     barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
     barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
@@ -53,7 +53,7 @@ void DxSurface::transitionRenderToPresent()
     D3D12_RESOURCE_BARRIER barrierDesc = {};
     barrierDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
     barrierDesc.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-    barrierDesc.Transition.pResource = m_backBuffers[bbIdx];
+    barrierDesc.Transition.pResource = m_backBuffers[bbIdx].Get();
     barrierDesc.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
     barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
@@ -108,17 +108,17 @@ void DxSurface::execute()
     m_cmdList->Close();
 
     // コマンドリストの実行
-    ID3D12CommandList* cmdlists[] = { m_cmdList };
+    ID3D12CommandList* cmdlists[] = { m_cmdList.Get() };
     m_cmdQueue->ExecuteCommandLists(1, cmdlists);
 }
 void DxSurface::reset()
 {
     m_cmdAllocator->Reset(); // キューをクリア
-    m_cmdList->Reset(m_cmdAllocator, nullptr); // 再びコマンドリストをためる準備
+    m_cmdList->Reset(m_cmdAllocator.Get(), nullptr); // 再びコマンドリストをためる準備
 }
 void DxSurface::waitSync()
 {
-    m_cmdQueue->Signal(m_fence, ++m_fenceVal);
+    m_cmdQueue->Signal(m_fence.Get(), ++m_fenceVal);
     if (m_fence->GetCompletedValue() != m_fenceVal) {
         auto event = CreateEvent(nullptr, false, false, nullptr);
         m_fence->SetEventOnCompletion(m_fenceVal, event);
@@ -131,40 +131,40 @@ void DxSurface::present()
     m_swapChain->Present(1, 0);
 }
 // private
-ID3D12CommandAllocator* DxSurface::newCommandAllocator(ID3D12Device* device)
+ComPtr<ID3D12CommandAllocator> DxSurface::newCommandAllocator(ComPtr<ID3D12Device> device)
 {
-    ID3D12CommandAllocator* ret;
+    ComPtr<ID3D12CommandAllocator> ret;
     if (FAILED(device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
-            IID_PPV_ARGS(&ret)))) {
+            IID_PPV_ARGS(ret.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateCommandAllocator()");
     }
     return ret;
 }
-ID3D12GraphicsCommandList* DxSurface::newCommandList(ID3D12Device* device, ID3D12CommandAllocator* allocator)
+ComPtr<ID3D12GraphicsCommandList> DxSurface::newCommandList(ComPtr<ID3D12Device> device, ComPtr<ID3D12CommandAllocator> allocator)
 {
-    ID3D12GraphicsCommandList* ret;
-    if (FAILED(device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator,
-            nullptr, IID_PPV_ARGS(&ret)))) {
+    ComPtr<ID3D12GraphicsCommandList> ret;
+    if (FAILED(device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator.Get(),
+            nullptr, IID_PPV_ARGS(ret.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateCommandList()");
     }
     return ret;
 }
-ID3D12CommandQueue* DxSurface::newCommandQueue(ID3D12Device* device)
+ComPtr<ID3D12CommandQueue> DxSurface::newCommandQueue(ComPtr<ID3D12Device> device)
 {
-    ID3D12CommandQueue* ret;
+    ComPtr<ID3D12CommandQueue> ret;
     D3D12_COMMAND_QUEUE_DESC desc = {};
     desc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
     desc.NodeMask = 0;
     desc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
     desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-    if (FAILED(device->CreateCommandQueue(&desc, IID_PPV_ARGS(&ret)))) {
+    if (FAILED(device->CreateCommandQueue(&desc, IID_PPV_ARGS(ret.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateCommandQueue()");
     }
     return ret;
 }
-IDXGISwapChain4* DxSurface::newSwapChain(ID3D12Device* device, ID3D12CommandQueue* queue, const Window::Instance& window)
+ComPtr<IDXGISwapChain4> DxSurface::newSwapChain(ComPtr<ID3D12Device> device, ComPtr<ID3D12CommandQueue> queue, const Window::Instance& window)
 {
-    IDXGISwapChain4* ret;
+    ComPtr<IDXGISwapChain4> ret;
     DXGI_SWAP_CHAIN_DESC1 swapchainDesc = {};
     swapchainDesc.Width = 1280;
     swapchainDesc.Height = 720;
@@ -180,28 +180,28 @@ IDXGISwapChain4* DxSurface::newSwapChain(ID3D12Device* device, ID3D12CommandQueu
     swapchainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
     ComPtr<IDXGIFactory6> dxgiFactory = std::static_pointer_cast<DxGraphicsDriver>(Engine::getInstance()->getGraphicsDriver())->getDXGIFactory();
     if (FAILED(dxgiFactory->CreateSwapChainForHwnd(
-            queue, getWin32Window(window->getNativeWindow()), &swapchainDesc, nullptr, nullptr,
-            (IDXGISwapChain1**)&ret))) {
+            queue.Get(), getWin32Window(window->getNativeWindow()), &swapchainDesc, nullptr, nullptr,
+            (IDXGISwapChain1**)ret.ReleaseAndGetAddressOf()))) {
         throw std::runtime_error("failed CreateSwapChainForHwnd()");
     }
     return ret;
 }
-ID3D12DescriptorHeap* DxSurface::newRenderTargetViewHeap(ID3D12Device* device)
+ComPtr<ID3D12DescriptorHeap> DxSurface::newRenderTargetViewHeap(ComPtr<ID3D12Device> device)
 {
-    ID3D12DescriptorHeap* ret;
+    ComPtr<ID3D12DescriptorHeap> ret;
     D3D12_DESCRIPTOR_HEAP_DESC desc = {};
     desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
     desc.NodeMask = 0;
     desc.NumDescriptors = 2;
     desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-    if (FAILED(device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&ret)))) {
+    if (FAILED(device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(ret.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateDescriptorHeap()");
     }
     return ret;
 }
-std::vector<ID3D12Resource*> DxSurface::newRenderTargetView(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12DescriptorHeap* descHeap)
+std::vector<ComPtr<ID3D12Resource>> DxSurface::newRenderTargetView(ComPtr<ID3D12Device> device, ComPtr<IDXGISwapChain4> swapChain, ComPtr<ID3D12DescriptorHeap> descHeap)
 {
-    std::vector<ID3D12Resource*> ret;
+    std::vector<ComPtr<ID3D12Resource>> ret;
     DXGI_SWAP_CHAIN_DESC swcDesc = {};
     if (FAILED(swapChain->GetDesc(&swcDesc))) {
         throw std::runtime_error("failed GetDesc()");
@@ -210,25 +210,25 @@ std::vector<ID3D12Resource*> DxSurface::newRenderTargetView(ID3D12Device* device
     for (size_t i = 0; i < swcDesc.BufferCount; ++i) {
         ret.push_back(nullptr);
         if (FAILED(swapChain->GetBuffer(static_cast<UINT>(i),
-                IID_PPV_ARGS(&ret.at(i))))) {
+                IID_PPV_ARGS(ret.at(i).ReleaseAndGetAddressOf())))) {
             throw std::runtime_error("failed GetBuffer()");
         }
-        device->CreateRenderTargetView(ret.at(i), nullptr, handle);
+        device->CreateRenderTargetView(ret.at(i).Get(), nullptr, handle);
         handle.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     }
     return ret;
 }
-ID3D12Fence* DxSurface::newFence(ID3D12Device* device, UINT fenceVal)
+ComPtr<ID3D12Fence> DxSurface::newFence(ComPtr<ID3D12Device> device, UINT fenceVal)
 {
-    ID3D12Fence* ret;
+    ComPtr<ID3D12Fence> ret;
     if (FAILED(device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE,
-            IID_PPV_ARGS(&ret)))) {
+            IID_PPV_ARGS(ret.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateFence()");
     }
     return ret;
 }
 
-ID3D12Resource* DxSurface::newDepthBuffer(ID3D12Device* device, const Window::Instance& window)
+ComPtr<ID3D12Resource> DxSurface::newDepthBuffer(ComPtr<ID3D12Device> device, const Window::Instance& window)
 {
     D3D12_RESOURCE_DESC depthResDesc = {};
     depthResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -245,34 +245,34 @@ ID3D12Resource* DxSurface::newDepthBuffer(ID3D12Device* device, const Window::In
     D3D12_CLEAR_VALUE depthClearValue = {};
     depthClearValue.DepthStencil.Depth = 1.0f;
     depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
-    ID3D12Resource* depthBuffer = nullptr;
-    if (FAILED(device->CreateCommittedResource(&depthHeapProps, D3D12_HEAP_FLAG_NONE, &depthResDesc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &depthClearValue, IID_PPV_ARGS(&depthBuffer)))) {
+    ComPtr<ID3D12Resource> depthBuffer = nullptr;
+    if (FAILED(device->CreateCommittedResource(&depthHeapProps, D3D12_HEAP_FLAG_NONE, &depthResDesc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &depthClearValue, IID_PPV_ARGS(depthBuffer.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateCommittedResource()");
     }
     return depthBuffer;
 }
-ID3D12DescriptorHeap* DxSurface::newDepthStencilViewHeap(ID3D12Device* device)
+ComPtr<ID3D12DescriptorHeap> DxSurface::newDepthStencilViewHeap(ComPtr<ID3D12Device> device)
 {
     D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
     dsvHeapDesc.NumDescriptors = 1;
     dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-    ID3D12DescriptorHeap* dsvHeap = nullptr;
-    if (FAILED(device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap)))) {
+    ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
+    if (FAILED(device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(dsvHeap.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateDescriptorHeap()");
     }
     return dsvHeap;
 }
-void DxSurface::newDepthStencilView(ID3D12Device* device, ID3D12Resource* depthBuffer, ID3D12DescriptorHeap* descHeap)
+void DxSurface::newDepthStencilView(ComPtr<ID3D12Device> device, ComPtr<ID3D12Resource> depthBuffer, ComPtr<ID3D12DescriptorHeap> descHeap)
 {
     D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
     dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
     dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
     dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
-    device->CreateDepthStencilView(depthBuffer, &dsvDesc, descHeap->GetCPUDescriptorHandleForHeapStart());
+    device->CreateDepthStencilView(depthBuffer.Get(), &dsvDesc, descHeap->GetCPUDescriptorHandleForHeapStart());
 }
 void DxSurface::command(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, const std::shared_ptr<DxBuffer> index)
 {
-    pso->command(m_cmdList);
+    pso->command(m_cmdList.Get());
     int vc = pso->getVertexComponent();
     unsigned int stride = 0;
     if (vc == 2) {

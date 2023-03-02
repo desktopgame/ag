@@ -22,7 +22,7 @@ std::shared_ptr<ITexture> DxGraphicsDevice::newTexture(int width, int height, co
 std::shared_ptr<IBuffer> DxGraphicsDevice::newVertexBuffer() const { return std::make_shared<DxBuffer>(m_device); }
 std::shared_ptr<IBuffer> DxGraphicsDevice::newIndexBuffer() const { return std::make_shared<DxBuffer>(m_device); }
 std::shared_ptr<RenderingContext> DxGraphicsDevice::newRenderingContext() const { return std::make_shared<DxRenderingContext>(); }
-std::shared_ptr<DxSurface> DxGraphicsDevice::newSurface(const Window::Instance& window) const { return std::make_shared<DxSurface>(window, m_device.Get()); }
+std::shared_ptr<DxSurface> DxGraphicsDevice::newSurface(const Window::Instance& window) const { return std::make_shared<DxSurface>(window, m_device); }
 std::shared_ptr<DxPso> DxGraphicsDevice::newPso(const std::shared_ptr<DxShader>& shader,
     const std::shared_ptr<ShaderParameter>& shaderParameter,
     PrimitiveType primitiveType,

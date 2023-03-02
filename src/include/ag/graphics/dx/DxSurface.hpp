@@ -11,7 +11,7 @@ namespace ag {
 class DxSurface {
 public:
     using Instance = std::shared_ptr<DxSurface>;
-    explicit DxSurface(const Window::Instance& window, ID3D12Device* device);
+    explicit DxSurface(const Window::Instance& window, ComPtr<ID3D12Device> device);
 
     void transitionPresentToRender();
     void transitionRenderToPresent();
@@ -25,27 +25,27 @@ public:
     void present();
 
 private:
-    static ID3D12CommandAllocator* newCommandAllocator(ID3D12Device* device);
-    static ID3D12GraphicsCommandList* newCommandList(ID3D12Device* device, ID3D12CommandAllocator* allocator);
-    static ID3D12CommandQueue* newCommandQueue(ID3D12Device* device);
-    static IDXGISwapChain4* newSwapChain(ID3D12Device* device, ID3D12CommandQueue* queue, const Window::Instance& window);
-    static ID3D12DescriptorHeap* newRenderTargetViewHeap(ID3D12Device* device);
-    static std::vector<ID3D12Resource*> newRenderTargetView(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12DescriptorHeap* descHeap);
-    static ID3D12Fence* newFence(ID3D12Device* device, UINT fenceVal);
-    static ID3D12Resource* newDepthBuffer(ID3D12Device* device, const Window::Instance& window);
-    static ID3D12DescriptorHeap* newDepthStencilViewHeap(ID3D12Device* device);
-    static void newDepthStencilView(ID3D12Device* device, ID3D12Resource* depthBuffer, ID3D12DescriptorHeap* descHeap);
+    static ComPtr<ID3D12CommandAllocator> newCommandAllocator(ComPtr<ID3D12Device> device);
+    static ComPtr<ID3D12GraphicsCommandList> newCommandList(ComPtr<ID3D12Device> device, ComPtr<ID3D12CommandAllocator> allocator);
+    static ComPtr<ID3D12CommandQueue> newCommandQueue(ComPtr<ID3D12Device> device);
+    static ComPtr<IDXGISwapChain4> newSwapChain(ComPtr<ID3D12Device> device, ComPtr<ID3D12CommandQueue> queue, const Window::Instance& window);
+    static ComPtr<ID3D12DescriptorHeap> newRenderTargetViewHeap(ComPtr<ID3D12Device> device);
+    static std::vector<ComPtr<ID3D12Resource>> newRenderTargetView(ComPtr<ID3D12Device> device, ComPtr<IDXGISwapChain4> swapChain, ComPtr<ID3D12DescriptorHeap> descHeap);
+    static ComPtr<ID3D12Fence> newFence(ComPtr<ID3D12Device> device, UINT fenceVal);
+    static ComPtr<ID3D12Resource> newDepthBuffer(ComPtr<ID3D12Device> device, const Window::Instance& window);
+    static ComPtr<ID3D12DescriptorHeap> newDepthStencilViewHeap(ComPtr<ID3D12Device> device);
+    static void newDepthStencilView(ComPtr<ID3D12Device> device, ComPtr<ID3D12Resource> depthBuffer, ComPtr<ID3D12DescriptorHeap> descHeap);
     void command(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer> vertex, const std::shared_ptr<DxBuffer> index);
-    ID3D12Device* m_device;
-    ID3D12CommandAllocator* m_cmdAllocator;
-    ID3D12GraphicsCommandList* m_cmdList;
-    ID3D12CommandQueue* m_cmdQueue;
-    IDXGISwapChain4* m_swapChain;
-    ID3D12DescriptorHeap* m_rtvHeap;
-    std::vector<ID3D12Resource*> m_backBuffers;
-    ID3D12Fence* m_fence;
-    ID3D12Resource* m_depthBuffer;
-    ID3D12DescriptorHeap* m_depthStencilViewHeap;
+    ComPtr<ID3D12Device> m_device;
+    ComPtr<ID3D12CommandAllocator> m_cmdAllocator;
+    ComPtr<ID3D12GraphicsCommandList> m_cmdList;
+    ComPtr<ID3D12CommandQueue> m_cmdQueue;
+    ComPtr<IDXGISwapChain4> m_swapChain;
+    ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
+    std::vector<ComPtr<ID3D12Resource>> m_backBuffers;
+    ComPtr<ID3D12Fence> m_fence;
+    ComPtr<ID3D12Resource> m_depthBuffer;
+    ComPtr<ID3D12DescriptorHeap> m_depthStencilViewHeap;
     UINT m_fenceVal;
 };
 }
