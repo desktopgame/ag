@@ -243,7 +243,7 @@ void DxPso::init(ComPtr<ID3D12Device> device)
         srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = 1;
         auto texBuff = std::static_pointer_cast<DxTexture>(m_shaderParameter->getTexture())->getResource();
-        device->CreateShaderResourceView(texBuff, &srvDesc, basicHeapHandle);
+        device->CreateShaderResourceView(texBuff.Get(), &srvDesc, basicHeapHandle);
 
         if (m_shaderParameter->useColor()) {
             basicHeapHandle.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);

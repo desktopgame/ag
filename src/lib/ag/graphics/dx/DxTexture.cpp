@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 namespace ag {
-DxTexture::DxTexture(ID3D12Device* device)
+DxTexture::DxTexture(ComPtr<ID3D12Device> device)
     : m_width(0)
     , m_height(0)
     , m_device(device)
@@ -31,7 +31,7 @@ void DxTexture::update(int width, int height, const uint8_t* pixels)
     texResDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
     texResDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
     // ID3D12Resource* texBuff = nullptr;
-    if (FAILED(m_device->CreateCommittedResource(&texHeapProps, D3D12_HEAP_FLAG_NONE, &texResDesc, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, nullptr, IID_PPV_ARGS(&m_resource)))) {
+    if (FAILED(m_device->CreateCommittedResource(&texHeapProps, D3D12_HEAP_FLAG_NONE, &texResDesc, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, nullptr, IID_PPV_ARGS(m_resource.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateCommittedResource()");
     }
     if (FAILED(m_resource->WriteToSubresource(0, nullptr, pixels, sizeof(Pixel) * width, sizeof(Pixel) * (width * height)))) {
@@ -40,6 +40,6 @@ void DxTexture::update(int width, int height, const uint8_t* pixels)
 }
 size_t DxTexture::getWidth() const { return m_width; }
 size_t DxTexture::getHeight() const { return m_height; }
-ID3D12Resource* DxTexture::getResource() const { return m_resource; }
+ComPtr<ID3D12Resource> DxTexture::getResource() const { return m_resource; }
 }
 #endif

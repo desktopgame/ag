@@ -6,18 +6,18 @@
 namespace ag {
 class DxTexture : public ITexture {
 public:
-    explicit DxTexture(ID3D12Device* device);
+    explicit DxTexture(ComPtr<ID3D12Device> device);
 
     void update(int width, int height, const uint8_t* pixels) override;
     size_t getWidth() const override;
     size_t getHeight() const override;
-    ID3D12Resource* getResource() const;
+    ComPtr<ID3D12Resource> getResource() const;
 
 private:
     int m_width;
     int m_height;
-    ID3D12Device* m_device;
-    ID3D12Resource* m_resource;
+    ComPtr<ID3D12Device> m_device;
+    ComPtr<ID3D12Resource> m_resource;
 };
 }
 #endif
