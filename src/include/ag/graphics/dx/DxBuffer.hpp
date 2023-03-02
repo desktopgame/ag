@@ -6,7 +6,7 @@
 namespace ag {
 class DxBuffer : public IBuffer {
 public:
-    explicit DxBuffer(ID3D12Device* device);
+    explicit DxBuffer(ComPtr<ID3D12Device> device);
     ~DxBuffer();
 
     void allocate(size_t size) override;
@@ -16,8 +16,8 @@ public:
     D3D12_INDEX_BUFFER_VIEW indexView();
 
 private:
-    ID3D12Device* m_device;
-    ID3D12Resource* m_resource;
+    ComPtr<ID3D12Device> m_device;
+    ComPtr<ID3D12Resource> m_resource;
     size_t m_size;
 };
 }

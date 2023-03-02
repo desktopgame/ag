@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 namespace ag {
-DxBuffer::DxBuffer(ID3D12Device* device)
+DxBuffer::DxBuffer(ComPtr<ID3D12Device> device)
     : m_device(device)
     , m_resource(nullptr)
     , m_size(0)
@@ -39,7 +39,7 @@ void DxBuffer::allocate(size_t size)
                 &resDesc,
                 D3D12_RESOURCE_STATE_GENERIC_READ,
                 nullptr,
-                IID_PPV_ARGS(&m_resource)))) {
+                IID_PPV_ARGS(m_resource.ReleaseAndGetAddressOf())))) {
             throw std::runtime_error("failed CreateCommittedResource()");
         }
         m_size = size;
@@ -60,10 +60,7 @@ void DxBuffer::update(const void* data)
 
 void DxBuffer::release()
 {
-    if (m_resource) {
-        m_resource->Release();
-        m_resource = nullptr;
-    }
+    m_resource = nullptr;
 }
 
 D3D12_VERTEX_BUFFER_VIEW DxBuffer::vertexView(unsigned int stride)
