@@ -6,15 +6,15 @@
 namespace ag {
 class DxShader : public IShader {
 public:
-    explicit DxShader(ID3DBlob* vsBlob, ID3DBlob* psBlob);
+    explicit DxShader(ComPtr<ID3DBlob> vsBlob, ComPtr<ID3DBlob> psBlob);
     ~DxShader();
     void apply(const std::shared_ptr<ShaderParameter>& parameter) override;
-    ID3DBlob* getVSBlob() const;
-    ID3DBlob* getPSBlob() const;
+    ComPtr<ID3DBlob> getVSBlob() const;
+    ComPtr<ID3DBlob> getPSBlob() const;
 
 private:
-    ID3DBlob* m_vsBlob;
-    ID3DBlob* m_psBlob;
+    ComPtr<ID3DBlob> m_vsBlob;
+    ComPtr<ID3DBlob> m_psBlob;
 };
 }
 #endif

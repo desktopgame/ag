@@ -2,7 +2,7 @@
 #include <ag/graphics/dx/DxShader.hpp>
 
 namespace ag {
-DxShader::DxShader(ID3DBlob* vsBlob, ID3DBlob* psBlob)
+DxShader::DxShader(ComPtr<ID3DBlob> vsBlob, ComPtr<ID3DBlob> psBlob)
     : m_vsBlob(vsBlob)
     , m_psBlob(psBlob)
 {
@@ -16,7 +16,7 @@ void DxShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
 {
 }
 
-ID3DBlob* DxShader::getVSBlob() const { return m_vsBlob; }
-ID3DBlob* DxShader::getPSBlob() const { return m_psBlob; }
+ComPtr<ID3DBlob> DxShader::getVSBlob() const { return m_vsBlob; }
+ComPtr<ID3DBlob> DxShader::getPSBlob() const { return m_psBlob; }
 }
 #endif

@@ -9,9 +9,9 @@ namespace ag {
 
 std::shared_ptr<IShader> DxShaderCompiler::compileFromPartedSource(const std::string& vSource, const std::string& fSource)
 {
-    ID3DBlob* vsBlob = nullptr;
-    ID3DBlob* psBlob = nullptr;
-    ID3DBlob* errorBlob = nullptr;
+    ComPtr<ID3DBlob> vsBlob = nullptr;
+    ComPtr<ID3DBlob> psBlob = nullptr;
+    ComPtr<ID3DBlob> errorBlob = nullptr;
     // make flags
     UINT flags = 0;
 #ifdef AG_DEBUG
@@ -29,9 +29,9 @@ std::shared_ptr<IShader> DxShaderCompiler::compileFromPartedSource(const std::st
             "vs_5_0",
             flags,
             0,
-            &vsBlob,
-            &errorBlob))) {
-        std::cerr << DxUtil::getString(errorBlob) << std::endl;
+            vsBlob.ReleaseAndGetAddressOf(),
+            errorBlob.ReleaseAndGetAddressOf()))) {
+        std::cerr << DxUtil::getString(errorBlob.Get()) << std::endl;
         return nullptr;
     }
 
@@ -45,9 +45,9 @@ std::shared_ptr<IShader> DxShaderCompiler::compileFromPartedSource(const std::st
             "ps_5_0",
             flags,
             0,
-            &psBlob,
-            &errorBlob))) {
-        std::cerr << DxUtil::getString(errorBlob) << std::endl;
+            psBlob.ReleaseAndGetAddressOf(),
+            errorBlob.ReleaseAndGetAddressOf()))) {
+        std::cerr << DxUtil::getString(errorBlob.Get()) << std::endl;
         return nullptr;
     }
     return std::make_shared<DxShader>(vsBlob, psBlob);
