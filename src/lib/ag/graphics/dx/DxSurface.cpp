@@ -214,6 +214,7 @@ std::vector<ComPtr<ID3D12Resource>> DxSurface::newRenderTargetView(ComPtr<ID3D12
             throw std::runtime_error("failed GetBuffer()");
         }
         device->CreateRenderTargetView(ret.at(i).Get(), nullptr, handle);
+        ret.at(i).Get()->SetName(L"RenderTarget");
         handle.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     }
     return ret;
@@ -249,6 +250,7 @@ ComPtr<ID3D12Resource> DxSurface::newDepthBuffer(ComPtr<ID3D12Device> device, co
     if (FAILED(device->CreateCommittedResource(&depthHeapProps, D3D12_HEAP_FLAG_NONE, &depthResDesc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &depthClearValue, IID_PPV_ARGS(depthBuffer.ReleaseAndGetAddressOf())))) {
         throw std::runtime_error("failed CreateCommittedResource()");
     }
+    depthBuffer->SetName(L"DepthBuffer");
     return depthBuffer;
 }
 ComPtr<ID3D12DescriptorHeap> DxSurface::newDepthStencilViewHeap(ComPtr<ID3D12Device> device)
