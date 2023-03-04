@@ -119,7 +119,7 @@ void DxSurface::reset()
 void DxSurface::waitSync()
 {
     m_cmdQueue->Signal(m_fence.Get(), ++m_fenceVal);
-    if (m_fence->GetCompletedValue() != m_fenceVal) {
+    if (m_fence->GetCompletedValue() < m_fenceVal) {
         auto event = CreateEvent(nullptr, false, false, nullptr);
         m_fence->SetEventOnCompletion(m_fenceVal, event);
         WaitForSingleObject(event, INFINITE);
