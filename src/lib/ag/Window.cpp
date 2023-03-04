@@ -157,6 +157,11 @@ bool Window::isDisposed() const
 {
     return m_disposed;
 }
+void Window::disposeAll()
+{
+    std::for_each(s_windows.begin(), s_windows.end(), std::bind(&Window::dispose, std::placeholders::_1));
+    s_windows.clear();
+}
 const std::vector<Window::Instance>& Window::getWindows()
 {
     return s_windows;

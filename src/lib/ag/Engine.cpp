@@ -67,8 +67,7 @@ void Engine::shutdown()
         return;
     }
     // destroy all window.
-    std::vector<Window::Instance> windows = Window::getWindows();
-    std::for_each(windows.begin(), windows.end(), std::bind(&Window::dispose, std::placeholders::_1));
+    Window::disposeAll();
     // terminalte glfw.
     glfwTerminate();
     s_instance = nullptr;

@@ -83,6 +83,7 @@ public:
 
     void dispose();
     bool isDisposed() const;
+    static void disposeAll();
     static const std::vector<Instance>& getWindows();
 
 private:
