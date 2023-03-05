@@ -35,6 +35,9 @@ void OglRenderFunction::clear(const std::shared_ptr<Window>& window)
 void OglRenderFunction::present(const std::shared_ptr<Window>& window)
 {
 }
+void OglRenderFunction::waitSync(const std::shared_ptr<Window>& window)
+{
+}
 // private
 }
 #endif

@@ -45,6 +45,11 @@ void DxRenderFunction::present(const std::shared_ptr<Window>& window)
     surface->present();
     m_psoPool->releaseAll();
 }
+void DxRenderFunction::waitSync(const std::shared_ptr<Window>& window)
+{
+    auto surface = std::any_cast<std::shared_ptr<DxSurface>>(window->getSurfaceObject());
+    surface->waitSync();
+}
 std::shared_ptr<DxPsoPool> DxRenderFunction::getPsoPool() const { return m_psoPool; }
 std::shared_ptr<DxSurface> DxRenderFunction::getSurface() const { return m_surface; }
 }

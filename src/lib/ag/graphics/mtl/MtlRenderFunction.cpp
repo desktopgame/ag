@@ -63,7 +63,7 @@ void MtlRenderFunction::end()
 {
     m_uniformManager->releaseAll();
     m_encoder->endEncoding();
-    //m_encoder->release();
+    // m_encoder->release();
 }
 
 void MtlRenderFunction::clear(const std::shared_ptr<Window>& window)
@@ -80,6 +80,9 @@ void MtlRenderFunction::present(const std::shared_ptr<Window>& window)
     m_commandBuffer->presentDrawable(m_surface);
     m_commandBuffer->commit();
     m_arPool->release();
+}
+void MtlRenderFunction::waitSync(const std::shared_ptr<Window>& window)
+{
 }
 MTL::RenderCommandEncoder* MtlRenderFunction::getRenderCommandEncoder() const
 {

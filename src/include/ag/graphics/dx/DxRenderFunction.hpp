@@ -14,6 +14,7 @@ public:
     void end() override;
     void clear(const std::shared_ptr<Window>& window) override;
     void present(const std::shared_ptr<Window>& window) override;
+    void waitSync(const std::shared_ptr<Window>& window) override;
 
     std::shared_ptr<DxPsoPool> getPsoPool() const;
     std::shared_ptr<DxSurface> getSurface() const;
