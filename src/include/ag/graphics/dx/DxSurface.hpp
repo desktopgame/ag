@@ -12,6 +12,7 @@ class DxSurface {
 public:
     using Instance = std::shared_ptr<DxSurface>;
     explicit DxSurface(const Window::Instance& window, ComPtr<ID3D12Device> device);
+    ~DxSurface();
 
     void transitionPresentToRender();
     void transitionRenderToPresent();
@@ -46,7 +47,8 @@ private:
     ComPtr<ID3D12Fence> m_fence;
     ComPtr<ID3D12Resource> m_depthBuffer;
     ComPtr<ID3D12DescriptorHeap> m_depthStencilViewHeap;
-    UINT m_fenceVal;
+    UINT64 m_fenceVal;
+    HANDLE m_fenceEvent;
 };
 }
 #endif

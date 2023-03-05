@@ -6,6 +6,10 @@
 #include <ag/native/glfw.hpp>
 #include <algorithm>
 
+#if AG_DIRECT_X
+#include <ag/graphics/dx/DxSurface.hpp>
+#endif
+
 namespace ag {
 const int Window::k_eventMouseActionPress = GLFW_PRESS;
 const int Window::k_eventMouseActionRelease = GLFW_RELEASE;
@@ -143,6 +147,10 @@ void Window::dispose()
     if (m_disposed) {
         return;
     }
+#if AG_DIRECT_X
+    auto surface = std::any_cast<DxSurface::Instance>(m_surfaceObject);
+    surface->waitSync();
+#endif
     glfwDestroyWindow(m_glfwWindow);
     m_glfwWindow = nullptr;
     m_disposed = true;

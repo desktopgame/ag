@@ -22,6 +22,7 @@ DxSurface::DxSurface(const Window::Instance& window, ComPtr<ID3D12Device> device
     , m_depthBuffer(nullptr)
     , m_depthStencilViewHeap(nullptr)
     , m_fenceVal(0)
+    , m_fenceEvent(nullptr)
 {
     m_cmdAllocator = newCommandAllocator(device);
     m_cmdList = newCommandList(device, m_cmdAllocator);
@@ -33,6 +34,13 @@ DxSurface::DxSurface(const Window::Instance& window, ComPtr<ID3D12Device> device
     m_depthBuffer = newDepthBuffer(device, window);
     m_depthStencilViewHeap = newDepthStencilViewHeap(device);
     newDepthStencilView(device, m_depthBuffer, m_depthStencilViewHeap);
+}
+DxSurface::~DxSurface()
+{
+    if (m_fenceEvent) {
+        CloseHandle(m_fenceEvent);
+        m_fenceEvent = nullptr;
+    }
 }
 
 void DxSurface::transitionPresentToRender()
@@ -118,12 +126,18 @@ void DxSurface::reset()
 }
 void DxSurface::waitSync()
 {
-    m_cmdQueue->Signal(m_fence.Get(), ++m_fenceVal);
-    if (m_fence->GetCompletedValue() < m_fenceVal) {
-        auto event = CreateEvent(nullptr, false, false, nullptr);
-        m_fence->SetEventOnCompletion(m_fenceVal, event);
-        WaitForSingleObject(event, INFINITE);
-        CloseHandle(event);
+    if (!m_fenceEvent) {
+        m_fenceVal = 1;
+        m_fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+    }
+    const UINT64 fence = m_fenceVal;
+    m_cmdQueue->Signal(m_fence.Get(), fence);
+    m_fenceVal++;
+
+    // Wait until the previous frame is finished.
+    if (m_fence->GetCompletedValue() < fence) {
+        m_fence->SetEventOnCompletion(fence, m_fenceEvent);
+        WaitForSingleObject(m_fenceEvent, INFINITE);
     }
 }
 void DxSurface::present()
