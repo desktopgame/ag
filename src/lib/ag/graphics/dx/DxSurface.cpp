@@ -180,8 +180,8 @@ ComPtr<IDXGISwapChain4> DxSurface::newSwapChain(ComPtr<ID3D12Device> device, Com
 {
     ComPtr<IDXGISwapChain4> ret;
     DXGI_SWAP_CHAIN_DESC1 swapchainDesc = {};
-    swapchainDesc.Width = 1280;
-    swapchainDesc.Height = 720;
+    swapchainDesc.Width = window->getWidth();
+    swapchainDesc.Height = window->getHeight();
     swapchainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     swapchainDesc.Stereo = false;
     swapchainDesc.SampleDesc.Count = 1;
@@ -198,6 +198,9 @@ ComPtr<IDXGISwapChain4> DxSurface::newSwapChain(ComPtr<ID3D12Device> device, Com
             (IDXGISwapChain1**)ret.ReleaseAndGetAddressOf()))) {
         throw std::runtime_error("failed CreateSwapChainForHwnd()");
     }
+    window->setWindowSizeCallback([ret](int w, int h) -> void {
+        ret->ResizeBuffers(2, w, h, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+    });
     return ret;
 }
 ComPtr<ID3D12DescriptorHeap> DxSurface::newRenderTargetViewHeap(ComPtr<ID3D12Device> device)
