@@ -44,7 +44,7 @@ void MtlRenderingContext::beginBuffer(const std::shared_ptr<IShader>& shader)
     auto mtlFunc = std::static_pointer_cast<MtlRenderFunction>(Engine::getInstance()->getGraphicsDriver()->getRenderFunction());
     // setup shader
     createRenderPipelineState(shader);
-    shader->apply(m_parameter);
+    mtlShader->apply(m_parameter);
     // get encoder
     auto encoder = mtlFunc->getRenderCommandEncoder();
     // update vertex, uniform
