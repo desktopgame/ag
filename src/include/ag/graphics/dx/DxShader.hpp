@@ -8,7 +8,6 @@ class DxShader : public IShader {
 public:
     explicit DxShader(ComPtr<ID3DBlob> vsBlob, ComPtr<ID3DBlob> psBlob);
     ~DxShader();
-    void apply(const std::shared_ptr<ShaderParameter>& parameter) override;
     ComPtr<ID3DBlob> getVSBlob() const;
     ComPtr<ID3DBlob> getPSBlob() const;
 

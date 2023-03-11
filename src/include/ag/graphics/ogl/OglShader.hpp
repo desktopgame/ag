@@ -8,7 +8,7 @@ class OglShader : public IShader {
 public:
     explicit OglShader(GLuint program);
     ~OglShader();
-    void apply(const std::shared_ptr<ShaderParameter>& parameter) override;
+    void apply(const std::shared_ptr<ShaderParameter>& parameter);
 
     void use();
     void unuse();

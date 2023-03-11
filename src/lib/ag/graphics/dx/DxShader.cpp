@@ -10,9 +10,6 @@ DxShader::DxShader(ComPtr<ID3DBlob> vsBlob, ComPtr<ID3DBlob> psBlob)
 DxShader::~DxShader()
 {
 }
-void DxShader::apply(const std::shared_ptr<ShaderParameter>& parameter)
-{
-}
 
 ComPtr<ID3DBlob> DxShader::getVSBlob() const { return m_vsBlob; }
 ComPtr<ID3DBlob> DxShader::getPSBlob() const { return m_psBlob; }

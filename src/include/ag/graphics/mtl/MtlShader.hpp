@@ -12,7 +12,7 @@ class MtlShader : public IShader {
 public:
     explicit MtlShader(MTL::Library* lib, MTL::Function* vFunc, MTL::Function* fFunc, MtlUniformManager::Instance uniformManager);
     ~MtlShader();
-    void apply(const std::shared_ptr<ShaderParameter>& parameter) override;
+    void apply(const std::shared_ptr<ShaderParameter>& parameter);
     void attachFunction(MTL::RenderPipelineDescriptor* desc);
     void attachTransform(MTL::RenderCommandEncoder* encoder, int offset, int index);
     void attachColor(MTL::RenderCommandEncoder* encoder, int offset, int index);
