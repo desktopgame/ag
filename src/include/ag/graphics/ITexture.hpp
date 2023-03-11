@@ -9,8 +9,7 @@ public:
     ITexture() = default;
     virtual ~ITexture() = default;
 
-    virtual void update(int width, int height, const uint8_t* pixels) = 0;
-    virtual size_t getWidth() const = 0;
-    virtual size_t getHeight() const = 0;
+    virtual int getWidth() const = 0;
+    virtual int getHeight() const = 0;
 };
 }

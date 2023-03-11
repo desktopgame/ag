@@ -19,7 +19,7 @@ MtlTexture::~MtlTexture()
     }
 }
 
-void MtlTexture::update(int width, int height, const uint8_t* pixels)
+void MtlTexture::init(int width, int height, const uint8_t* pixels)
 {
     if (m_nativeTexture) {
         m_nativeTexture->release();
@@ -43,7 +43,7 @@ void MtlTexture::update(int width, int height, const uint8_t* pixels)
         uint8_t g = pixels[i++];
         uint8_t b = pixels[i++];
         uint8_t a = 255;
-        //if (colorType == ImageIO::COLOR_TYPE_A) {
+        // if (colorType == ImageIO::COLOR_TYPE_A) {
         a = pixels[i++];
         //}
         tdata.emplace_back(r);
@@ -55,8 +55,8 @@ void MtlTexture::update(int width, int height, const uint8_t* pixels)
         tdata.data(), width * 4);
     desc->release();
 }
-size_t MtlTexture::getWidth() const { return m_width; }
-size_t MtlTexture::getHeight() const { return m_height; }
+int MtlTexture::getWidth() const { return m_width; }
+int MtlTexture::getHeight() const { return m_height; }
 void MtlTexture::attach(MTL::RenderCommandEncoder* encoder, int index)
 {
     encoder->setFragmentTexture(m_nativeTexture, index);

@@ -10,7 +10,7 @@ OglGraphicsDevice::OglGraphicsDevice() { }
 std::shared_ptr<ITexture> OglGraphicsDevice::newTexture(int width, int height, const uint8_t* data) const
 {
     auto tex = std::make_shared<OglTexture>();
-    tex->update(width, height, data);
+    tex->init(width, height, data);
     return tex;
 }
 std::shared_ptr<IBuffer> OglGraphicsDevice::newVertexBuffer() const

@@ -9,9 +9,9 @@ public:
     explicit MtlTexture(MTL::Device* device);
     ~MtlTexture();
 
-    void update(int width, int height, const uint8_t* pixels) override;
-    size_t getWidth() const override;
-    size_t getHeight() const override;
+    void init(int width, int height, const uint8_t* pixels);
+    int getWidth() const override;
+    int getHeight() const override;
 
     void attach(MTL::RenderCommandEncoder* encoder, int index);
 

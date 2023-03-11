@@ -16,7 +16,7 @@ DxGraphicsDevice::DxGraphicsDevice(ComPtr<ID3D12Device> device)
 std::shared_ptr<ITexture> DxGraphicsDevice::newTexture(int width, int height, const uint8_t* data) const
 {
     auto dxTex = std::make_shared<DxTexture>(m_device);
-    dxTex->update(width, height, data);
+    dxTex->init(width, height, data);
     return dxTex;
 }
 std::shared_ptr<IBuffer> DxGraphicsDevice::newVertexBuffer() const { return std::make_shared<DxBuffer>(m_device); }

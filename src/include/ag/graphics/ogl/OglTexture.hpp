@@ -9,9 +9,9 @@ public:
     explicit OglTexture();
     ~OglTexture();
 
-    void update(int width, int height, const uint8_t* pixels) override;
-    size_t getWidth() const override;
-    size_t getHeight() const override;
+    void init(int width, int height, const uint8_t* pixels);
+    int getWidth() const override;
+    int getHeight() const override;
 
     void use();
     void unuse();

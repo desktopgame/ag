@@ -20,7 +20,7 @@ MtlGraphicsDevice::~MtlGraphicsDevice()
 std::shared_ptr<ITexture> MtlGraphicsDevice::newTexture(int width, int height, const uint8_t* data) const
 {
     auto tex = std::make_shared<MtlTexture>(m_device);
-    tex->update(width, height, data);
+    tex->init(width, height, data);
     return tex;
 }
 std::shared_ptr<IBuffer> MtlGraphicsDevice::newVertexBuffer() const

@@ -11,7 +11,7 @@ DxTexture::DxTexture(ComPtr<ID3D12Device> device)
     , m_resource(nullptr)
 {
 }
-void DxTexture::update(int width, int height, const uint8_t* pixels)
+void DxTexture::init(int width, int height, const uint8_t* pixels)
 {
     D3D12_HEAP_PROPERTIES texHeapProps = {};
     texHeapProps.Type = D3D12_HEAP_TYPE_CUSTOM;
@@ -38,8 +38,8 @@ void DxTexture::update(int width, int height, const uint8_t* pixels)
         throw std::runtime_error("failed WriteToSubresource()");
     }
 }
-size_t DxTexture::getWidth() const { return m_width; }
-size_t DxTexture::getHeight() const { return m_height; }
+int DxTexture::getWidth() const { return m_width; }
+int DxTexture::getHeight() const { return m_height; }
 ComPtr<ID3D12Resource> DxTexture::getResource() const { return m_resource; }
 }
 #endif

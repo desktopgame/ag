@@ -8,9 +8,9 @@ class DxTexture : public ITexture {
 public:
     explicit DxTexture(ComPtr<ID3D12Device> device);
 
-    void update(int width, int height, const uint8_t* pixels) override;
-    size_t getWidth() const override;
-    size_t getHeight() const override;
+    void init(int width, int height, const uint8_t* pixels);
+    int getWidth() const override;
+    int getHeight() const override;
     ComPtr<ID3D12Resource> getResource() const;
 
 private:

@@ -27,7 +27,7 @@ OglTexture::~OglTexture()
         m_res = 0;
     }
 }
-void OglTexture::update(int width, int height, const uint8_t* pixels)
+void OglTexture::init(int width, int height, const uint8_t* pixels)
 {
 
     unsigned int size = GL_UNSIGNED_BYTE;
@@ -39,8 +39,8 @@ void OglTexture::update(int width, int height, const uint8_t* pixels)
     m_width = width;
     m_height = height;
 }
-size_t OglTexture::getWidth() const { return m_width; }
-size_t OglTexture::getHeight() const { return m_height; }
+int OglTexture::getWidth() const { return m_width; }
+int OglTexture::getHeight() const { return m_height; }
 
 void OglTexture::use()
 {
