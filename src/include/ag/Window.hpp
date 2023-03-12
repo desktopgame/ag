@@ -1,4 +1,5 @@
 #pragma once
+#include <ag/KeyCode.hpp>
 #include <ag/native/glm.hpp>
 #include <ag/native/metal.hpp>
 #include <any>
@@ -80,6 +81,9 @@ public:
 
     void setWindowSizeCallback(WindowSizeCallback windowSizeCallback);
     WindowSizeCallback getWindowSizeCallback() const;
+
+    bool isKeyPress(KeyCode kc) const;
+    bool isKeyRelease(KeyCode kc) const;
 
     void dispose();
     bool isDisposed() const;

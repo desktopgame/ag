@@ -138,6 +138,9 @@ WindowPosCallback Window::getWindowPosCallback() const { return m_windowPosCallb
 void Window::setWindowSizeCallback(WindowSizeCallback windowSizeCallback) { m_windowSizeCallback = windowSizeCallback; }
 WindowSizeCallback Window::getWindowSizeCallback() const { return m_windowSizeCallback; }
 
+bool Window::isKeyPress(KeyCode kc) const { return glfwGetKey(m_glfwWindow, static_cast<int>(kc)) == GLFW_PRESS; }
+bool Window::isKeyRelease(KeyCode kc) const { return glfwGetKey(m_glfwWindow, static_cast<int>(kc)) == GLFW_RELEASE; }
+
 void Window::dispose()
 {
     if (m_disposed) {
