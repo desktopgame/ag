@@ -48,6 +48,14 @@
             "program": "${workspaceFolder}/tests/Hello/Hello",
             "args": [],
             "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "tests/SpaceShooter",
+            "program": "${workspaceFolder}/tests/SpaceShooter/SpaceShooter",
+            "args": [],
+            "cwd": "${workspaceFolder}"
         }
     ]
 }
