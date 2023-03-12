@@ -75,4 +75,4 @@ tests/Image/Image
 tests/LowLevel/LowLevel
 tests/Model/Model
 tests/TextureModel/TextureModel
-tests/TextureModel/SpaceShooter
+tests/SpaceShooter/SpaceShooter
