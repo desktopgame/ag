@@ -2,18 +2,23 @@
 #include <ag/graphics/FontSprite.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/IRenderFunction.hpp>
+#include <ag/graphics/IShaderCompiler.hpp>
 #include <ag/graphics/ITexture.hpp>
 #include <ag/graphics/Renderer.hpp>
+#include <ag/graphics/ShaderCode.hpp>
 
 namespace ag {
 Renderer::Renderer()
-    : m_orthoMat()
+    : m_camera()
+    , m_orthoMat()
     , m_colorDrawRectObject(RenderingObject::createColorRectangle(false))
     , m_colorFillRectObject(RenderingObject::createColorRectangle(true))
     , m_colorDrawCircleObject(RenderingObject::createColorCircle(false))
     , m_colorFillCircleObject(RenderingObject::createColorCircle(true))
     , m_textureObject(RenderingObject::createTextureRectangle())
     , m_stringObject(RenderingObject::createString())
+    , m_meshColorNoLightShader(createColorNoLightShader())
+    , m_meshTextureNoLightShader(createTextureNoLightShader())
     , m_fontMap()
     , m_stack()
 {
@@ -31,11 +36,16 @@ void Renderer::resize(int width, int height)
 {
     float fWidth = static_cast<float>(width);
     float fHeight = static_cast<float>(height);
+    m_camera.resize(width, height);
     m_orthoMat = glm::ortho(0.0f, fWidth, fHeight, 0.0f /* lrbt*/, -1.0f, 1.0f);
 }
 void Renderer::resize(const glm::ivec2& size)
 {
     resize(size.x, size.y);
+}
+void Renderer::lookAt(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up)
+{
+    m_camera.lookAt(eye, center, up);
 }
 void Renderer::drawTexture(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<ITexture>& texture, const glm::vec4& color)
 {
@@ -143,6 +153,24 @@ glm::vec2 Renderer::measureString(int fontSize, const std::u16string& str)
     }
     return m_fontMap->measureString(fontSize, str);
 }
+void Renderer::drawModel(const glm::vec3& pos, const Model::Instance& model, MeshDrawMode mode)
+{
+    IShader::Instance shader = nullptr;
+    switch (mode) {
+    case MeshDrawMode::None:
+        break;
+    case MeshDrawMode::ColorNoLight:
+        shader = m_meshColorNoLightShader;
+        break;
+    case MeshDrawMode::TextureNoLight:
+        shader = m_meshTextureNoLightShader;
+        break;
+    }
+    if (shader) {
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
+        model->getRootNode()->draw(shader, m_camera, getModelMatrix() * transform);
+    }
+}
 // matrix
 void Renderer::pushMatrix() { m_stack.emplace_back(MatrixStack()); }
 void Renderer::translate(const glm::vec3& pos) { m_stack.back().push(glm::translate(glm::mat4(1.0f), pos)); }
@@ -169,5 +197,29 @@ std::shared_ptr<FontMap> Renderer::getFontMap() const { return m_fontMap; }
 void Renderer::draw(const RenderingObject::Instance& obj)
 {
     obj->draw();
+}
+std::shared_ptr<IShader> Renderer::createColorNoLightShader()
+{
+#if AG_OPEN_GL
+    return Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelColorNoLightVertexShader, ag::internal::GL_ModelColorNoLightFragmentShader);
+#elif AG_METAL
+    return Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromSingleSource(ag::internal::Metal_ModelColorNoLightVFShader);
+#elif AG_DIRECT_X
+    return Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::DX_ModelColorNoLightVertexShader, ag::internal::DX_ModelColorNoLightFragmentShader);
+#else
+    return nullptr;
+#endif
+}
+std::shared_ptr<IShader> Renderer::createTextureNoLightShader()
+{
+#if AG_OPEN_GL
+    return Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::GL_ModelTextureNoLightVertexShader, ag::internal::GL_ModelTextureNoLightFragmentShader);
+#elif AG_METAL
+    return Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromSingleSource(ag::internal::Metal_ModelTextureNoLightVFShader);
+#elif AG_DIRECT_X
+    return Engine::getInstance()->getGraphicsDriver()->getShaderCompiler()->compileFromPartedSource(ag::internal::DX_ModelTextureNoLightVertexShader, ag::internal::DX_ModelTextureNoLightFragmentShader);
+#else
+    return nullptr;
+#endif
 }
 }

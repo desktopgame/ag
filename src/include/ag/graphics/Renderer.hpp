@@ -1,6 +1,9 @@
 #pragma once
+#include <ag/graphics/Camera.hpp>
 #include <ag/graphics/FontMap.hpp>
 #include <ag/graphics/MatrixStack.hpp>
+#include <ag/graphics/MeshDrawMode.hpp>
+#include <ag/graphics/Model.hpp>
 #include <ag/graphics/RenderPass.hpp>
 #include <ag/graphics/RenderingContext.hpp>
 #include <ag/graphics/RenderingObject.hpp>
@@ -21,6 +24,7 @@ public:
 
     void resize(int width, int height);
     void resize(const glm::ivec2& size);
+    void lookAt(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up);
     void drawTexture(const glm::vec2& pos, const glm::vec2& size, const std::shared_ptr<ITexture>& texture, const glm::vec4& color);
     void drawTexture(const glm::vec2& pos, const std::shared_ptr<ITexture>& texture, const glm::vec4& color);
     void drawRect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);
@@ -31,6 +35,7 @@ public:
     void drawString(const glm::vec2& pos, int fontSize, const std::u16string& str, const glm::vec4& color);
     void drawString(const glm::vec2& pos, int fontSize, const std::u16string& str, const glm::vec4& color, int baseHeight);
     glm::vec2 measureString(int fontSize, const std::u16string& str);
+    void drawModel(const glm::vec3& pos, const Model::Instance& model, MeshDrawMode mode);
 
     void pushMatrix();
     void translate(const glm::vec3& pos);
@@ -46,6 +51,9 @@ public:
 
 private:
     static void draw(const RenderingObject::Instance& obj);
+    static std::shared_ptr<IShader> createColorNoLightShader();
+    static std::shared_ptr<IShader> createTextureNoLightShader();
+    Camera m_camera;
     glm::mat4 m_orthoMat;
     RenderingObject::Instance m_colorDrawRectObject;
     RenderingObject::Instance m_colorFillRectObject;
@@ -53,6 +61,8 @@ private:
     RenderingObject::Instance m_colorFillCircleObject;
     RenderingObject::Instance m_textureObject;
     RenderingObject::Instance m_stringObject;
+    std::shared_ptr<IShader> m_meshColorNoLightShader;
+    std::shared_ptr<IShader> m_meshTextureNoLightShader;
     std::shared_ptr<FontMap> m_fontMap;
     std::vector<MatrixStack> m_stack;
 };
