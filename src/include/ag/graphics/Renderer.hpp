@@ -11,6 +11,7 @@ namespace ag {
 class IShader;
 class ITexture;
 class FontMap;
+class Window;
 class Renderer {
 public:
     explicit Renderer();
