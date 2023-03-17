@@ -8,6 +8,7 @@
 namespace ag {
 class Engine;
 class ITexture;
+class Model;
 class FontMap;
 }
 
@@ -25,11 +26,13 @@ public:
 protected:
     std::shared_ptr<ITexture> loadTexture(const std::string& file);
     std::shared_ptr<FontMap> loadFontMap(const std::string& file);
+    std::shared_ptr<Model> loadModel(const std::string& file);
 
 private:
     std::shared_ptr<ag::Engine> m_engine;
     std::shared_ptr<ag::Renderer> m_renderer;
     std::unordered_map<std::string, std::shared_ptr<ITexture>> m_textureMap;
     std::unordered_map<std::string, std::shared_ptr<FontMap>> m_fontMap;
+    std::unordered_map<std::string, std::shared_ptr<Model>> m_modelMap;
 };
 }

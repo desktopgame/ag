@@ -6,6 +6,7 @@
 #include <ag/graphics/IGraphicsDevice.hpp>
 #include <ag/graphics/IGraphicsDriver.hpp>
 #include <ag/graphics/ImageLoader.hpp>
+#include <ag/graphics/Model.hpp>
 
 namespace ag::easy {
 App::App(int argc, char* argv[])
@@ -52,5 +53,12 @@ std::shared_ptr<FontMap> App::loadFontMap(const std::string& file)
         m_fontMap.insert_or_assign(file, ag::FontFactory::getInstance()->load(file));
     }
     return m_fontMap.at(file);
+}
+std::shared_ptr<Model> App::loadModel(const std::string& file)
+{
+    if (!m_modelMap.count(file)) {
+        m_modelMap.insert_or_assign(file, Model::loadFromFile(file));
+    }
+    return m_modelMap.at(file);
 }
 }
