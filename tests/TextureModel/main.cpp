@@ -12,7 +12,6 @@ public:
     }
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        m_model = ag::Model::loadFromFile("testdata/models/TextureCube.fbx");
         m_angle = 0.0f;
     }
 
@@ -26,7 +25,7 @@ public:
         r->pushMatrix();
         r->rotateY(glm::radians(m_angle += (100.0f * looper->deltaTime())));
         r->scale(glm::vec3(0.01f, 0.01f, 0.01f));
-        r->drawModel(glm::vec3(), m_model, ag::MeshDrawMode::TextureNoLight);
+        r->drawModel(glm::vec3(), loadModel("testdata/models/TextureCube.fbx"), ag::MeshDrawMode::TextureNoLight);
         r->popMatrix();
         r->end();
         // 2D rendering
@@ -36,7 +35,6 @@ public:
     }
 
 private:
-    ag::Model::Instance m_model;
     float m_angle;
 };
 
