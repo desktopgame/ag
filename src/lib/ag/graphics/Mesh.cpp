@@ -27,12 +27,5 @@ void Mesh::draw(const std::shared_ptr<IShader>& shader, const Camera& camera, co
     m_renderingContext->draw(shader, ag::PrimitiveType::Triangles, m_primCount);
 }
 
-void Mesh::drawWithLight(const std::shared_ptr<IShader>& shader, const Camera& camera, const glm::mat4& transform)
-{
-    auto param = m_renderingContext->getParameter();
-    param->setTransform(camera.getProjectionMatrix() * camera.getViewMatrix() * transform);
-    param->setColor(m_material->diffuse);
-    m_renderingContext->draw(shader, ag::PrimitiveType::Triangles, m_primCount);
-}
 std::shared_ptr<Material> Mesh::getMaterial() const { return m_material; }
 }

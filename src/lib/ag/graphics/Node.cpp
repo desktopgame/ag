@@ -23,17 +23,6 @@ void Node::draw(const std::shared_ptr<IShader>& shader, const Camera& camera, co
     }
 }
 
-void Node::drawWithLight(const std::shared_ptr<IShader>& shader, const Camera& camera, const glm::mat4& transform)
-{
-    glm::mat4 newTransform = transform * m_transform;
-    for (auto msh : m_meshes) {
-        msh->drawWithLight(shader, camera, newTransform);
-    }
-    for (auto child : m_children) {
-        child->drawWithLight(shader, camera, newTransform);
-    }
-}
-
 std::string Node::getName() const { return m_name; }
 void Node::setTransform(const glm::mat4& transform) { m_transform = transform; }
 glm::mat4 Node::getTransform() const { return m_transform; }
