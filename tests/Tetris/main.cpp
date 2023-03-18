@@ -50,6 +50,9 @@ const std::vector<PieceTable> k_pieceTables = {
     }
 };
 
+const int k_rowMax = 20;
+const int k_columnMax = 10;
+
 class MyApp : public ag::easy::App {
 public:
     MyApp(int argc, char* argv[])
@@ -62,9 +65,9 @@ public:
     }
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < k_rowMax; i++) {
             PieceLine line;
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < k_columnMax; j++) {
                 line.push_back(PieceColor::None);
             }
             m_table.push_back(line);
@@ -79,7 +82,7 @@ public:
             m_currentPos.y += 1;
             m_time = 0.0f;
         }
-        if (m_currentPos.y + getPieceHeight(m_current) == 20) {
+        if (m_currentPos.y + getPieceHeight(m_current) == k_rowMax) {
             putPiece(m_currentPos.y, m_currentPos.x, m_current);
             initFall();
         }
@@ -92,16 +95,16 @@ private:
     void drawGame(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
         r->begin(w, ag::RenderPass::default2D());
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < k_rowMax; i++) {
+            for (int j = 0; j < k_columnMax; j++) {
                 drawPiece(r, i, j, m_table.at(i).at(j));
             }
         }
         if (!m_current.empty()) {
             drawPiece(r, m_currentPos.y, m_currentPos.x, m_current);
         }
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < k_rowMax; i++) {
+            for (int j = 0; j < k_columnMax; j++) {
                 glm::vec2 pos = glm::vec2(1 + (j * 32), (i * 32));
                 glm::vec2 size = glm::vec2(32, 32);
                 r->drawRect(pos, size, glm::vec4(1, 1, 1, 1));
