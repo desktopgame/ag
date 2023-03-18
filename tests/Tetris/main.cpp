@@ -82,6 +82,15 @@ public:
             m_currentPos.y += 1;
             m_time = 0.0f;
         }
+        glm::vec2 savePos = m_currentPos;
+        if (input.getKeyboardState().getKeyState(ag::KeyCode::left) == ag::ButtonState::Pressed) {
+            m_currentPos.x--;
+        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::right) == ag::ButtonState::Pressed) {
+            m_currentPos.x++;
+        }
+        if (isOverRange(m_currentPos.y, m_currentPos.x, m_current)) {
+            m_currentPos = savePos;
+        }
         if (isGround(m_currentPos.y, m_currentPos.x, m_current)) {
             putPiece(m_currentPos.y, m_currentPos.x, m_current);
             initFall();
@@ -192,6 +201,20 @@ private:
                     return true;
                 }
                 if (m_table[tr][tc] != PieceColor::None) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool isOverRange(int row, int column, const PieceTable& t)
+    {
+        for (int i = 0; i < getPieceHeight(t); i++) {
+            for (int j = 0; j < getPieceWidth(t); j++) {
+                int tr = row + i;
+                int tc = column + j;
+                if (tr < 0 || tr >= k_rowMax || tc < 0 || tc >= k_columnMax) {
                     return true;
                 }
             }
