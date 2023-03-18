@@ -205,7 +205,7 @@ private:
     {
         for (int i = 0; i < getPieceHeight(t); i++) {
             for (int j = 0; j < getPieceWidth(t); j++) {
-                PieceColor pc = t.at(i).at(j);
+                PieceColor pc = t[i][j];
                 if (pc == PieceColor::None) {
                     continue;
                 }
