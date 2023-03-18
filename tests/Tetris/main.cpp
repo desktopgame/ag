@@ -3,6 +3,7 @@
 #include <ag/graphics/Model.hpp>
 #include <ag/native/glm.hpp>
 #include <ag/util/Random.hpp>
+#include <algorithm>
 #include <cassert>
 #include <vector>
 
@@ -78,7 +79,7 @@ public:
     void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
         m_time += ag::Engine::getInstance()->getLooper()->deltaTime();
-        if (m_time >= 0.6f) {
+        if (m_time >= 0.2f) {
             m_currentPos.y += 1;
             m_time = 0.0f;
         }
@@ -97,6 +98,7 @@ public:
         }
         if (isGround(m_currentPos.y, m_currentPos.x, m_current)) {
             putPiece(m_currentPos.y, m_currentPos.x, m_current);
+            deleteLine();
             initFall();
         }
         drawGame(window, renderer);
@@ -208,6 +210,24 @@ private:
                     continue;
                 }
                 m_table.at(row + i).at(column + j) = pc;
+            }
+        }
+    }
+
+    void deleteLine()
+    {
+        for (int i = 0; i < k_rowMax; i++) {
+            auto& line = m_table.at(i);
+            if (std::find(line.begin(), line.end(), PieceColor::None) != line.end()) {
+                continue;
+            }
+            for (int j = i; j >= 1; j--) {
+                auto& src = m_table.at(j - 1);
+                auto& dst = m_table.at(j);
+                for (int k = 0; k < k_columnMax; k++) {
+                    dst.at(k) = src.at(k);
+                    src.at(k) = PieceColor::None;
+                }
             }
         }
     }
