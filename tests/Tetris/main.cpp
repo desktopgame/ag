@@ -78,7 +78,7 @@ public:
     void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
         m_time += ag::Engine::getInstance()->getLooper()->deltaTime();
-        if (m_time >= 1.0f) {
+        if (m_time >= 0.6f) {
             m_currentPos.y += 1;
             m_time = 0.0f;
         }
@@ -172,7 +172,7 @@ private:
     void initFall()
     {
         m_current = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
-        m_currentPos = glm::vec2(0, 0);
+        m_currentPos = glm::vec2(ag::Random::range(0, k_columnMax - getPieceWidth(m_current)), 0);
     }
 
     void putPiece(int row, int column, const PieceTable& t)
