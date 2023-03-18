@@ -7,6 +7,12 @@
 #include <cassert>
 #include <vector>
 
+enum class GameState {
+    Title,
+    Game,
+    Result
+};
+
 enum class PieceColor {
     None = 0,
     Cyan,
@@ -53,6 +59,7 @@ const std::vector<PieceTable> k_pieceTables = {
 
 const int k_rowMax = 20;
 const int k_columnMax = 10;
+const glm::ivec2 k_windowSize = { 480, 640 };
 
 class MyApp : public ag::easy::App {
 public:
@@ -62,21 +69,61 @@ public:
         , m_current()
         , m_currentPos()
         , m_time(0.0f)
+        , m_state(GameState::Title)
     {
     }
     void start(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
-        for (int i = 0; i < k_rowMax; i++) {
-            PieceLine line;
-            for (int j = 0; j < k_columnMax; j++) {
-                line.push_back(PieceColor::None);
-            }
-            m_table.push_back(line);
-        }
-        initFall();
+        renderer->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Medium.otf"));
     }
 
     void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
+    {
+        switch (m_state) {
+        case GameState::Title:
+            updateTitle(window, input, renderer);
+            drawTitle(window, renderer);
+            break;
+        case GameState::Game:
+            updateGame(window, input, renderer);
+            drawGame(window, renderer);
+            break;
+        case GameState::Result:
+            break;
+        }
+    }
+
+private:
+    // title
+
+    void updateTitle(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
+    {
+        if (input.getKeyboardState().getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed) {
+            m_state = GameState::Game;
+            initGame();
+            initFall();
+        }
+    }
+
+    void drawTitle(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    {
+        r->begin(w, ag::RenderPass::default2D());
+        {
+            glm::ivec2 size = r->measureString(32, u"Tetris");
+            r->drawString((k_windowSize - size) / 2, 32, u"Tetris", glm::vec4(1, 1, 1, 1));
+        }
+        {
+            glm::ivec2 size = r->measureString(32, u"Enterでスタート");
+            glm::ivec2 center = (k_windowSize - size) / 2;
+            center.y = 400;
+            r->drawString(center, 32, u"Enterでスタート", glm::vec4(1, 1, 1, 1));
+        }
+        r->end();
+    }
+
+    // game
+
+    void updateGame(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
         glm::vec2 savePos = m_currentPos;
         PieceTable saveTable = m_current;
@@ -101,11 +148,7 @@ public:
             deleteLine();
             initFall();
         }
-        drawGame(window, renderer);
     }
-
-private:
-    // draw
 
     void drawGame(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
@@ -173,7 +216,17 @@ private:
         r->fillRect(pos, glm::vec2(32, 32), color);
     }
 
-    // utility
+    void initGame()
+    {
+        m_table.clear();
+        for (int i = 0; i < k_rowMax; i++) {
+            PieceLine line;
+            for (int j = 0; j < k_columnMax; j++) {
+                line.push_back(PieceColor::None);
+            }
+            m_table.push_back(line);
+        }
+    }
 
     void initFall()
     {
@@ -273,14 +326,17 @@ private:
 
     int getPieceHeight(const PieceTable& t) { return t.size(); }
 
+    // result
+
     PieceTable m_table;
     PieceTable m_current;
     glm::vec2 m_currentPos;
     float m_time;
+    GameState m_state;
 };
 
 int main(int argc, char* argv[])
 {
     MyApp app(argc, argv);
-    return app.main(480, 640, false, "Tetris");
+    return app.main(k_windowSize.x, k_windowSize.y, false, "Tetris");
 }
