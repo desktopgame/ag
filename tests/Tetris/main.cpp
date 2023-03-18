@@ -83,13 +83,17 @@ public:
             m_time = 0.0f;
         }
         glm::vec2 savePos = m_currentPos;
+        PieceTable saveTable = m_current;
         if (input.getKeyboardState().getKeyState(ag::KeyCode::left) == ag::ButtonState::Pressed) {
             m_currentPos.x--;
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::right) == ag::ButtonState::Pressed) {
             m_currentPos.x++;
+        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::space) == ag::ButtonState::Pressed) {
+            m_current = rotatePiece(m_current);
         }
         if (isOverRange(m_currentPos.y, m_currentPos.x, m_current)) {
             m_currentPos = savePos;
+            m_current = saveTable;
         }
         if (isGround(m_currentPos.y, m_currentPos.x, m_current)) {
             putPiece(m_currentPos.y, m_currentPos.x, m_current);
@@ -173,6 +177,26 @@ private:
     {
         m_current = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
         m_currentPos = glm::vec2(ag::Random::range(0, k_columnMax - getPieceWidth(m_current)), 0);
+    }
+
+    PieceTable rotatePiece(const PieceTable& t)
+    {
+        PieceTable a;
+        int rc = getPieceHeight(t);
+        int cc = getPieceWidth(t);
+        for (int i = 0; i < cc; i++) {
+            PieceLine line;
+            for (int j = 0; j < rc; j++) {
+                line.emplace_back(PieceColor::None);
+            }
+            a.emplace_back(line);
+        }
+        for (int i = 0; i < rc; i++) {
+            for (int j = 0; j < cc; j++) {
+                a[j][rc - i - 1] = t[i][j];
+            }
+        }
+        return a;
     }
 
     void putPiece(int row, int column, const PieceTable& t)
