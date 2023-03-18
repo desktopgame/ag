@@ -70,5 +70,6 @@ _deps
 
 # tests
 tests/Window/Window
+tests/ModelDraw/ModelDraw
 tests/LowLevel/LowLevel
 tests/SpaceShooter/SpaceShooter

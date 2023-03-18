@@ -12,6 +12,14 @@
         {
             "type": "lldb",
             "request": "launch",
+            "name": "tests/ModelDraw",
+            "program": "${workspaceFolder}/tests/ModelDraw/ModelDraw",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
             "name": "tests/SpaceShooter",
             "program": "${workspaceFolder}/tests/SpaceShooter/SpaceShooter",
             "args": [],
