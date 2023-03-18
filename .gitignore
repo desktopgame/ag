@@ -71,6 +71,4 @@ _deps
 # tests
 tests/Window/Window
 tests/LowLevel/LowLevel
-tests/Model/Model
-tests/TextureModel/TextureModel
 tests/SpaceShooter/SpaceShooter

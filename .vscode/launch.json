@@ -12,24 +12,8 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "tests/Model",
-            "program": "${workspaceFolder}/tests/Model/Model",
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
             "name": "tests/SpaceShooter",
             "program": "${workspaceFolder}/tests/SpaceShooter/SpaceShooter",
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "tests/TextureModel",
-            "program": "${workspaceFolder}/tests/TextureModel/TextureModel",
             "args": [],
             "cwd": "${workspaceFolder}"
         },
