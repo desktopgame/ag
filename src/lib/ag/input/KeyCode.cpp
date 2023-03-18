@@ -133,7 +133,7 @@ KeyCode::KeyCode(int value)
     if (!s_table) {
         s_table = std::make_shared<KeyTable>();
     }
-    if (!s_frozen) {
+    if (!s_frozen && value != 999) {
         s_table->emplace_back(*this);
     }
     if (value == 999) {
