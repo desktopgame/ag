@@ -24,14 +24,6 @@
             "program": "${workspaceFolder}/tests/SpaceShooter/SpaceShooter",
             "args": [],
             "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "tests/Window",
-            "program": "${workspaceFolder}/tests/Window/Window",
-            "args": [],
-            "cwd": "${workspaceFolder}"
         }
     ]
 }

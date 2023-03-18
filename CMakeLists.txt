@@ -17,7 +17,6 @@ function(def_test label)
 endfunction()
 
 if(AG_BUILD_TESTS)
-    def_test(Window)
     def_test(ModelDraw)
     def_test(LowLevel)
     def_test(SpaceShooter)
