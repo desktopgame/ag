@@ -70,13 +70,13 @@ void DxSurface::transitionRenderToPresent()
 void DxSurface::clear(const glm::vec3& color)
 {
     int bbIdx = m_swapChain->GetCurrentBackBufferIndex();
-    // レンダーターゲットを指定
+    // specify render target.
     auto rtvH = m_rtvHeap->GetCPUDescriptorHandleForHeapStart();
     rtvH.ptr += static_cast<ULONG_PTR>(bbIdx * m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
     auto dsvH = m_depthStencilViewHeap->GetCPUDescriptorHandleForHeapStart();
     m_cmdList->OMSetRenderTargets(1, &rtvH, false, &dsvH);
 
-    // 画面クリア
+    // clear.
     m_cmdList->ClearRenderTargetView(rtvH, &color.r, 0, nullptr);
     m_cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
@@ -112,17 +112,15 @@ void DxSurface::draw(const DxPso::Instance& pso, const std::shared_ptr<DxBuffer>
 }
 void DxSurface::execute()
 {
-    // 命令のクローズ
     m_cmdList->Close();
 
-    // コマンドリストの実行
     ID3D12CommandList* cmdlists[] = { m_cmdList.Get() };
     m_cmdQueue->ExecuteCommandLists(1, cmdlists);
 }
 void DxSurface::reset()
 {
-    m_cmdAllocator->Reset(); // キューをクリア
-    m_cmdList->Reset(m_cmdAllocator.Get(), nullptr); // 再びコマンドリストをためる準備
+    m_cmdAllocator->Reset();
+    m_cmdList->Reset(m_cmdAllocator.Get(), nullptr);
 }
 void DxSurface::waitSync()
 {
