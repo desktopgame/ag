@@ -23,9 +23,10 @@ public:
         r->begin(w, ag::RenderPass::default3D());
         r->lookAt(glm::vec3(0, 4, -4), glm::vec3(0, 0, 0), glm::vec3(0, -1, 0));
         r->pushMatrix();
+        r->translate(glm::vec3(-2.0f, 0, 0));
         r->rotateY(glm::radians(m_angle += (100.0f * looper->deltaTime())));
         r->scale(glm::vec3(0.01f, 0.01f, 0.01f));
-        r->drawModel(glm::vec3(), loadModel("testdata/models/TextureCube.fbx"), ag::MeshDrawMode::TextureNoLight);
+        r->drawModel(glm::vec3(0, 0, 0), loadModel("testdata/models/TextureCube.fbx"), ag::MeshDrawMode::TextureNoLight);
         r->popMatrix();
         r->end();
         // 2D rendering

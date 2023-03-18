@@ -181,8 +181,8 @@ void Renderer::scale(const glm::vec3& scale) { m_stack.back().push(glm::scale(gl
 glm::mat4 Renderer::getModelMatrix() const
 {
     glm::mat4 m(1.0f);
-    auto iter = m_stack.rbegin();
-    while (iter != m_stack.rend()) {
+    auto iter = m_stack.begin();
+    while (iter != m_stack.end()) {
         auto i = (*iter).mult();
         m = m * i;
         ++iter;
