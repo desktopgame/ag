@@ -78,11 +78,6 @@ public:
 
     void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
-        m_time += ag::Engine::getInstance()->getLooper()->deltaTime();
-        if (m_time >= 0.2f) {
-            m_currentPos.y += 1;
-            m_time = 0.0f;
-        }
         glm::vec2 savePos = m_currentPos;
         PieceTable saveTable = m_current;
         if (input.getKeyboardState().getKeyState(ag::KeyCode::left) == ag::ButtonState::Pressed) {
@@ -95,6 +90,11 @@ public:
         if (isOverRange(m_currentPos.y, m_currentPos.x, m_current)) {
             m_currentPos = savePos;
             m_current = saveTable;
+        }
+        m_time += ag::Engine::getInstance()->getLooper()->deltaTime();
+        if (m_time >= 0.2f) {
+            m_currentPos.y += 1;
+            m_time = 0.0f;
         }
         if (isGround(m_currentPos.y, m_currentPos.x, m_current)) {
             putPiece(m_currentPos.y, m_currentPos.x, m_current);
