@@ -1,5 +1,5 @@
 #pragma once
-#include <ag/KeyCode.hpp>
+#include <ag/input/KeyCode.hpp>
 #include <ag/native/glm.hpp>
 #include <ag/native/metal.hpp>
 #include <any>
