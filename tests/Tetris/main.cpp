@@ -87,7 +87,7 @@ public:
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::space) == ag::ButtonState::Pressed) {
             m_current = rotatePiece(m_current);
         }
-        if (isOverRange(m_currentPos.y, m_currentPos.x, m_current)) {
+        if (isIntersects(m_currentPos.y, m_currentPos.x, m_current)) {
             m_currentPos = savePos;
             m_current = saveTable;
         }
@@ -252,13 +252,16 @@ private:
         return false;
     }
 
-    bool isOverRange(int row, int column, const PieceTable& t)
+    bool isIntersects(int row, int column, const PieceTable& t)
     {
         for (int i = 0; i < getPieceHeight(t); i++) {
             for (int j = 0; j < getPieceWidth(t); j++) {
                 int tr = row + i;
                 int tc = column + j;
                 if (tr < 0 || tr >= k_rowMax || tc < 0 || tc >= k_columnMax) {
+                    return true;
+                }
+                if (m_table[tr][tc] != PieceColor::None) {
                     return true;
                 }
             }
