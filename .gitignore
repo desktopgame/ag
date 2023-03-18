@@ -69,9 +69,7 @@ _deps
 
 
 # tests
-tests/Hello/Hello
 tests/Window/Window
-tests/Image/Image
 tests/LowLevel/LowLevel
 tests/Model/Model
 tests/TextureModel/TextureModel

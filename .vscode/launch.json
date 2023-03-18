@@ -4,16 +4,8 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "tests/Image",
-            "program": "${workspaceFolder}/tests/Image/Image",
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "tests/Window",
-            "program": "${workspaceFolder}/tests/Window/Window",
+            "name": "tests/LowLevel",
+            "program": "${workspaceFolder}/tests/LowLevel/LowLevel",
             "args": [],
             "cwd": "${workspaceFolder}"
         },
@@ -28,6 +20,14 @@
         {
             "type": "lldb",
             "request": "launch",
+            "name": "tests/SpaceShooter",
+            "program": "${workspaceFolder}/tests/SpaceShooter/SpaceShooter",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
             "name": "tests/TextureModel",
             "program": "${workspaceFolder}/tests/TextureModel/TextureModel",
             "args": [],
@@ -36,24 +36,8 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "tests/LowLevel",
-            "program": "${workspaceFolder}/tests/LowLevel/LowLevel",
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "tests/Hello",
-            "program": "${workspaceFolder}/tests/Hello/Hello",
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "tests/SpaceShooter",
-            "program": "${workspaceFolder}/tests/SpaceShooter/SpaceShooter",
+            "name": "tests/Window",
+            "program": "${workspaceFolder}/tests/Window/Window",
             "args": [],
             "cwd": "${workspaceFolder}"
         }
