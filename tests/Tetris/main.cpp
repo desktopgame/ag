@@ -66,6 +66,7 @@ public:
     MyApp(int argc, char* argv[])
         : App(argc, argv)
         , m_table()
+        , m_next()
         , m_current()
         , m_currentPos()
         , m_time(0.0f)
@@ -171,6 +172,7 @@ private:
                 r->drawRect(pos, size, glm::vec4(1, 1, 1, 1));
             }
         }
+        drawPiece(r, 2, k_columnMax + 1, m_next);
     }
 
     void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, const PieceTable& table)
@@ -232,8 +234,13 @@ private:
 
     void initFall()
     {
-        m_current = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
+        if (m_next.empty()) {
+            m_current = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
+        } else {
+            m_current = m_next;
+        }
         m_currentPos = glm::vec2(ag::Random::range(0, k_columnMax - getPieceWidth(m_current)), 0);
+        m_next = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
     }
 
     PieceTable rotatePiece(const PieceTable& t)
@@ -357,6 +364,7 @@ private:
     }
 
     PieceTable m_table;
+    PieceTable m_next;
     PieceTable m_current;
     glm::vec2 m_currentPos;
     float m_time;
