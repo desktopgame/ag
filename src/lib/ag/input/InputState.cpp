@@ -9,17 +9,17 @@ KeyboardState::KeyboardState()
     std::memset(m_currState, 0, KeyCode::maxKeyCodeValue);
     std::memset(m_prevState, 0, KeyCode::maxKeyCodeValue);
 }
-bool KeyboardState::getKeyValue(int keyCode) const { return m_currState[keyCode]; }
-ButtonState KeyboardState::getKeyState(int keyCode) const
+bool KeyboardState::getKeyValue(KeyCode keyCode) const { return m_currState[keyCode.getValue()]; }
+ButtonState KeyboardState::getKeyState(KeyCode keyCode) const
 {
-    if (!m_prevState[keyCode]) {
-        if (!m_currState[keyCode]) {
+    if (!m_prevState[keyCode.getValue()]) {
+        if (!m_currState[keyCode.getValue()]) {
             return ButtonState::None;
         } else {
             return ButtonState::Pressed;
         }
     } else {
-        if (!m_currState[keyCode]) {
+        if (!m_currState[keyCode.getValue()]) {
             return ButtonState::Released;
         } else {
             return ButtonState::Held;

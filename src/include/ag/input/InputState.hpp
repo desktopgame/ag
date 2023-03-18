@@ -12,8 +12,8 @@ class KeyboardState {
 public:
     friend class InputSystem;
     explicit KeyboardState();
-    bool getKeyValue(int keyCode) const;
-    ButtonState getKeyState(int keyCode) const;
+    bool getKeyValue(KeyCode keyCode) const;
+    ButtonState getKeyState(KeyCode keyCode) const;
 
 private:
     bool m_currState[/* KeyCode::maxKeyCodeValue */ 512];
