@@ -82,7 +82,7 @@ public:
             m_currentPos.y += 1;
             m_time = 0.0f;
         }
-        if (m_currentPos.y + getPieceHeight(m_current) == k_rowMax) {
+        if (isGround(m_currentPos.y, m_currentPos.x, m_current)) {
             putPiece(m_currentPos.y, m_currentPos.x, m_current);
             initFall();
         }
@@ -177,6 +177,26 @@ private:
                 m_table.at(row + i).at(column + j) = pc;
             }
         }
+    }
+
+    bool isGround(int row, int column, const PieceTable& t)
+    {
+        for (int i = 0; i < getPieceHeight(t); i++) {
+            for (int j = 0; j < getPieceWidth(t); j++) {
+                if (t[i][j] == PieceColor::None) {
+                    continue;
+                }
+                int tr = row + i + 1;
+                int tc = column + j;
+                if (tr >= k_rowMax) {
+                    return true;
+                }
+                if (m_table[tr][tc] != PieceColor::None) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     int getPieceWidth(const PieceTable& t) { return t.at(0).size(); }
