@@ -127,6 +127,7 @@ private:
 
     void updateGame(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
+        // input control for piece.
         glm::vec2 savePos = m_currentPos;
         PieceTable saveTable = m_current;
         if (input.getKeyboardState().getKeyState(ag::KeyCode::left) == ag::ButtonState::Pressed) {
@@ -140,6 +141,7 @@ private:
             m_currentPos = savePos;
             m_current = saveTable;
         }
+        // fall piece.
         m_time += ag::Engine::getInstance()->getLooper()->deltaTime();
         if (m_time >= 0.2f) {
             m_currentPos.y += 1;
