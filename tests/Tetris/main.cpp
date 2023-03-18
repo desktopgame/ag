@@ -79,6 +79,7 @@ public:
 
     void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
+        renderer->begin(window, ag::RenderPass::default2D());
         switch (m_state) {
         case GameState::Title:
             updateTitle(window, input, renderer);
@@ -89,8 +90,11 @@ public:
             drawGame(window, renderer);
             break;
         case GameState::Result:
+            updateResult(window, input, renderer);
+            drawResult(window, renderer);
             break;
         }
+        renderer->end();
     }
 
 private:
@@ -107,7 +111,6 @@ private:
 
     void drawTitle(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        r->begin(w, ag::RenderPass::default2D());
         {
             glm::ivec2 size = r->measureString(32, u"Tetris");
             r->drawString((k_windowSize - size) / 2, 32, u"Tetris", glm::vec4(1, 1, 1, 1));
@@ -118,7 +121,6 @@ private:
             center.y = 400;
             r->drawString(center, 32, u"Enterでスタート", glm::vec4(1, 1, 1, 1));
         }
-        r->end();
     }
 
     // game
@@ -152,7 +154,6 @@ private:
 
     void drawGame(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
-        r->begin(w, ag::RenderPass::default2D());
         for (int i = 0; i < k_rowMax; i++) {
             for (int j = 0; j < k_columnMax; j++) {
                 drawPiece(r, i, j, m_table.at(i).at(j));
@@ -168,7 +169,6 @@ private:
                 r->drawRect(pos, size, glm::vec4(1, 1, 1, 1));
             }
         }
-        r->end();
     }
 
     void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, const PieceTable& table)
@@ -265,6 +265,13 @@ private:
                 m_table.at(row + i).at(column + j) = pc;
             }
         }
+        // judge
+        auto firstLine = m_table.at(0);
+        for (PieceColor pc : firstLine) {
+            if (pc != PieceColor::None) {
+                m_state = GameState::Result;
+            }
+        }
     }
 
     void deleteLine()
@@ -327,6 +334,25 @@ private:
     int getPieceHeight(const PieceTable& t) { return t.size(); }
 
     // result
+
+    void updateResult(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
+    {
+        if (input.getKeyboardState().getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed) {
+            m_state = GameState::Game;
+            initGame();
+            initFall();
+        }
+    }
+
+    void drawResult(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    {
+        drawGame(w, r);
+        r->fillRect(glm::vec2(), k_windowSize, glm::vec4(1, 1, 1, 0.5f));
+        {
+            glm::ivec2 size = r->measureString(32, u"Enterでもう一度");
+            r->drawString((k_windowSize - size) / 2, 32, u"Enterでもう一度", glm::vec4(0, 0, 0, 1));
+        }
+    }
 
     PieceTable m_table;
     PieceTable m_current;
