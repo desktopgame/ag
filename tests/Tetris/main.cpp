@@ -63,7 +63,7 @@ public:
         , m_time(0.0f)
     {
     }
-    void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    void start(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
         for (int i = 0; i < k_rowMax; i++) {
             PieceLine line;
@@ -75,7 +75,7 @@ public:
         initFall();
     }
 
-    void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
         m_time += ag::Engine::getInstance()->getLooper()->deltaTime();
         if (m_time >= 1.0f) {
@@ -86,7 +86,7 @@ public:
             putPiece(m_currentPos.y, m_currentPos.x, m_current);
             initFall();
         }
-        drawGame(w, r);
+        drawGame(window, renderer);
     }
 
 private:

@@ -12,6 +12,10 @@ namespace ag::easy {
 App::App(int argc, char* argv[])
     : m_engine(ag::Engine::getInstance()->startup(argc, argv))
     , m_renderer()
+    , m_textureMap()
+    , m_fontMap()
+    , m_modelMap()
+    , m_inputSystem()
 {
 }
 App::~App()
@@ -24,13 +28,15 @@ int App::main(int width, int height, bool resizable, const std::string& title)
     auto window = ag::Window::create(width, height, resizable, title);
     window->makeContextCurrent();
     m_renderer = std::make_shared<ag::Renderer>();
-    this->start(window, m_renderer);
+    m_inputSystem = std::make_shared<InputSystem>(window);
+    this->start(window, m_inputSystem->getInputState(), m_renderer);
     // start main loop.
     while (looper->nextLoop()) {
         while (looper->nextWindow()) {
             auto w = looper->acquire();
             m_renderer->resize(w->getSize());
-            this->update(w, m_renderer);
+            m_inputSystem->scanEvents();
+            this->update(w, m_inputSystem->getInputState(), m_renderer);
             looper->release();
         }
     }

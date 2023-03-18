@@ -17,6 +17,7 @@ class FontMap;
 class Window;
 class Renderer {
 public:
+    using Instance = std::shared_ptr<Renderer>;
     explicit Renderer();
 
     void begin(const std::shared_ptr<Window>& window, const RenderPass& pass);

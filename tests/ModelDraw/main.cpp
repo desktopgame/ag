@@ -10,39 +10,39 @@ public:
         : App(argc, argv)
     {
     }
-    void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    void start(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
         m_angle = 0.0f;
     }
 
-    void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
         auto engine = ag::Engine::getInstance();
         auto looper = engine->getLooper();
         // 3D rendering
-        r->begin(w, ag::RenderPass::default3D());
-        r->lookAt(glm::vec3(0, 4, -4), glm::vec3(0, 0, 0), glm::vec3(0, -1, 0));
+        renderer->begin(window, ag::RenderPass::default3D());
+        renderer->lookAt(glm::vec3(0, 4, -4), glm::vec3(0, 0, 0), glm::vec3(0, -1, 0));
         m_angle += (100.0f * looper->deltaTime());
 
-        r->pushMatrix();
-        r->translate(glm::vec3(-2.0f, 0, 0));
-        r->rotateY(glm::radians(m_angle));
-        r->scale(glm::vec3(0.01f, 0.01f, 0.01f));
-        r->drawModel(glm::vec3(0, 0, 0), loadModel("testdata/models/Cube.fbx"), ag::MeshDrawMode::ColorNoLight);
-        r->popMatrix();
+        renderer->pushMatrix();
+        renderer->translate(glm::vec3(-2.0f, 0, 0));
+        renderer->rotateY(glm::radians(m_angle));
+        renderer->scale(glm::vec3(0.01f, 0.01f, 0.01f));
+        renderer->drawModel(glm::vec3(0, 0, 0), loadModel("testdata/models/Cube.fbx"), ag::MeshDrawMode::ColorNoLight);
+        renderer->popMatrix();
 
-        r->pushMatrix();
-        r->translate(glm::vec3(2.0f, 0, 0));
-        r->rotateY(glm::radians(m_angle));
-        r->scale(glm::vec3(0.01f, 0.01f, 0.01f));
-        r->drawModel(glm::vec3(0, 0, 0), loadModel("testdata/models/TextureCube.fbx"), ag::MeshDrawMode::TextureNoLight);
-        r->popMatrix();
+        renderer->pushMatrix();
+        renderer->translate(glm::vec3(2.0f, 0, 0));
+        renderer->rotateY(glm::radians(m_angle));
+        renderer->scale(glm::vec3(0.01f, 0.01f, 0.01f));
+        renderer->drawModel(glm::vec3(0, 0, 0), loadModel("testdata/models/TextureCube.fbx"), ag::MeshDrawMode::TextureNoLight);
+        renderer->popMatrix();
 
-        r->end();
+        renderer->end();
         // 2D rendering
-        r->begin(w, ag::RenderPass::default2D());
-        r->fillRect(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
-        r->end();
+        renderer->begin(window, ag::RenderPass::default2D());
+        renderer->fillRect(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
+        renderer->end();
     }
 
 private:

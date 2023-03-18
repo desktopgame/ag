@@ -6,27 +6,27 @@ public:
         : App(argc, argv)
     {
     }
-    void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    void start(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
-        r->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"));
+        renderer->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Regular.otf"));
         loadTexture("testdata/textures/ghicon.png");
     }
-    void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
-        r->begin(w, ag::RenderPass::default2D());
-        r->fillCircle(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
-        r->fillRect(glm::vec2(0, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
-        r->drawRect(glm::vec2(100, 0), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
-        r->drawCircle(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
-        r->drawTexture(glm::vec2(200, 0), loadTexture("testdata/textures/ghicon.png"), glm::vec4(1, 1, 1, 1));
-        r->fillRect(glm::vec2(0, 0), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
-        r->fillRect(glm::vec2(500, 500), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
+        renderer->begin(window, ag::RenderPass::default2D());
+        renderer->fillCircle(glm::vec2(), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
+        renderer->fillRect(glm::vec2(0, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
+        renderer->drawRect(glm::vec2(100, 0), glm::vec2(100, 100), glm::vec4(1, 1, 0, 1));
+        renderer->drawCircle(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec4(1, 0, 0, 1));
+        renderer->drawTexture(glm::vec2(200, 0), loadTexture("testdata/textures/ghicon.png"), glm::vec4(1, 1, 1, 1));
+        renderer->fillRect(glm::vec2(0, 0), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
+        renderer->fillRect(glm::vec2(500, 500), glm::vec2(200, 200), glm::vec4(1, 0, 0, 0.5f));
 
         glm::vec2 helloTextPos = glm::vec2(600, 600);
-        r->drawString(helloTextPos, 20, u"こんにちは世界", glm::vec4(1, 1, 1, 1));
-        helloTextPos.x += r->measureString(20, u"こんにちは世界").x;
-        r->drawString(helloTextPos, 20, u"さようなら", glm::vec4(1, 0, 1, 1));
-        r->end();
+        renderer->drawString(helloTextPos, 20, u"こんにちは世界", glm::vec4(1, 1, 1, 1));
+        helloTextPos.x += renderer->measureString(20, u"こんにちは世界").x;
+        renderer->drawString(helloTextPos, 20, u"さようなら", glm::vec4(1, 0, 1, 1));
+        renderer->end();
     }
 
 private:
