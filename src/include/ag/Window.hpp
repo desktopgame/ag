@@ -1,5 +1,6 @@
 #pragma once
 #include <ag/input/KeyCode.hpp>
+#include <ag/input/MouseButton.hpp>
 #include <ag/native/glm.hpp>
 #include <ag/native/metal.hpp>
 #include <any>
@@ -84,6 +85,9 @@ public:
 
     bool isKeyPress(KeyCode kc) const;
     bool isKeyRelease(KeyCode kc) const;
+
+    bool isMousePress(MouseButton button) const;
+    bool isMouseRelease(MouseButton button) const;
 
     void dispose();
     bool isDisposed() const;

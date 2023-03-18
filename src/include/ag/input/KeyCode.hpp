@@ -1,126 +1,158 @@
 #pragma once
+#include <memory>
+#include <vector>
+
 namespace ag {
-enum class KeyCode : int {
-    Unknown = -1,
-    Space = 32,
-    Apostrophe = 39,
-    Comma = 44,
-    Minus = 45,
-    Period = 46,
-    Slash = 47,
-    Num0 = 48,
-    Num1 = 49,
-    Num2 = 50,
-    Num3 = 51,
-    Num4 = 52,
-    Num5 = 53,
-    Num6 = 54,
-    Num7 = 55,
-    Num8 = 56,
-    Num9 = 57,
-    Semicolon = 59,
-    Equal = 61,
-    A = 65,
-    B = 66,
-    C = 67,
-    D = 68,
-    E = 69,
-    F = 70,
-    G = 71,
-    H = 72,
-    I = 73,
-    J = 74,
-    K = 75,
-    L = 76,
-    M = 77,
-    N = 78,
-    O = 79,
-    P = 80,
-    Q = 81,
-    R = 82,
-    S = 83,
-    T = 84,
-    U = 85,
-    V = 86,
-    W = 87,
-    X = 88,
-    Y = 89,
-    Z = 90,
-    LeftBracket = 91,
-    Backslash = 92,
-    RightBracket = 93,
-    GraveAccent = 96,
-    World1 = 161,
-    World2 = 162,
-    Escape = 256,
-    Enter = 257,
-    Tab = 258,
-    Backspace = 259,
-    Insert = 260,
-    Delete = 261,
-    Right = 262,
-    Left = 263,
-    Down = 264,
-    Up = 265,
-    PageUp = 266,
-    PageDown = 267,
-    Home = 268,
-    End = 269,
-    CapsLock = 280,
-    ScrollLock = 281,
-    NumLock = 282,
-    PrintScreen = 283,
-    Pause = 284,
-    F1 = 290,
-    F2 = 291,
-    F3 = 292,
-    F4 = 293,
-    F5 = 294,
-    F6 = 295,
-    F7 = 296,
-    F8 = 297,
-    F9 = 298,
-    F10 = 299,
-    F11 = 300,
-    F12 = 301,
-    F13 = 302,
-    F14 = 303,
-    F15 = 304,
-    F16 = 305,
-    F17 = 306,
-    F18 = 307,
-    F19 = 308,
-    F20 = 309,
-    F21 = 310,
-    F22 = 311,
-    F23 = 312,
-    F24 = 313,
-    F25 = 314,
-    Kp0 = 320,
-    Kp1 = 321,
-    Kp2 = 322,
-    Kp3 = 323,
-    Kp4 = 324,
-    Kp5 = 325,
-    Kp6 = 326,
-    Kp7 = 327,
-    Kp8 = 328,
-    Kp9 = 329,
-    KpDecimal = 330,
-    KpDivide = 331,
-    KpMultiply = 332,
-    KpSubtract = 333,
-    KpAdd = 334,
-    KpEnter = 335,
-    KpEqual = 336,
-    LeftShift = 340,
-    LeftControl = 341,
-    LeftAlt = 342,
-    LeftSuper = 343,
-    RightShift = 344,
-    RightControl = 345,
-    RightAlt = 346,
-    RightSuper = 347,
-    Menu = 348,
+class KeyCode;
+using KeyTable = std::vector<KeyCode>;
+
+class KeyCode {
+private:
+    static std::shared_ptr<KeyTable> s_table;
+
+public:
+    static const KeyCode unknown;
+    static const KeyCode space;
+    static const KeyCode apostrophe;
+    static const KeyCode comma;
+    static const KeyCode minus;
+    static const KeyCode period;
+    static const KeyCode slash;
+    static const KeyCode number0;
+    static const KeyCode number1;
+    static const KeyCode number2;
+    static const KeyCode number3;
+    static const KeyCode number4;
+    static const KeyCode number5;
+    static const KeyCode number6;
+    static const KeyCode number7;
+    static const KeyCode number8;
+    static const KeyCode number9;
+    static const KeyCode semicolon;
+    static const KeyCode equal;
+    static const KeyCode a;
+    static const KeyCode b;
+    static const KeyCode c;
+    static const KeyCode d;
+    static const KeyCode e;
+    static const KeyCode f;
+    static const KeyCode g;
+    static const KeyCode h;
+    static const KeyCode i;
+    static const KeyCode j;
+    static const KeyCode k;
+    static const KeyCode l;
+    static const KeyCode m;
+    static const KeyCode n;
+    static const KeyCode o;
+    static const KeyCode p;
+    static const KeyCode q;
+    static const KeyCode r;
+    static const KeyCode s;
+    static const KeyCode t;
+    static const KeyCode u;
+    static const KeyCode v;
+    static const KeyCode w;
+    static const KeyCode x;
+    static const KeyCode y;
+    static const KeyCode z;
+    static const KeyCode leftBracket;
+    static const KeyCode backSlash;
+    static const KeyCode rightBracket;
+    static const KeyCode graveAccent;
+    static const KeyCode world1;
+    static const KeyCode world2;
+    static const KeyCode escape;
+    static const KeyCode enter;
+    static const KeyCode tab;
+    static const KeyCode backspace;
+    static const KeyCode insert;
+    static const KeyCode delete_;
+    static const KeyCode right;
+    static const KeyCode left;
+    static const KeyCode down;
+    static const KeyCode up;
+    static const KeyCode pageUp;
+    static const KeyCode pageDown;
+    static const KeyCode home;
+    static const KeyCode end;
+    static const KeyCode capsLock;
+    static const KeyCode scrollLock;
+    static const KeyCode numLock;
+    static const KeyCode printScreen;
+    static const KeyCode pause;
+    static const KeyCode f1;
+    static const KeyCode f2;
+    static const KeyCode f3;
+    static const KeyCode f4;
+    static const KeyCode f5;
+    static const KeyCode f6;
+    static const KeyCode f7;
+    static const KeyCode f8;
+    static const KeyCode f9;
+    static const KeyCode f10;
+    static const KeyCode f11;
+    static const KeyCode f12;
+    static const KeyCode f13;
+    static const KeyCode f14;
+    static const KeyCode f15;
+    static const KeyCode f16;
+    static const KeyCode f17;
+    static const KeyCode f18;
+    static const KeyCode f19;
+    static const KeyCode f20;
+    static const KeyCode f21;
+    static const KeyCode f22;
+    static const KeyCode f23;
+    static const KeyCode f24;
+    static const KeyCode f25;
+    static const KeyCode kp0;
+    static const KeyCode kp1;
+    static const KeyCode kp2;
+    static const KeyCode kp3;
+    static const KeyCode kp4;
+    static const KeyCode kp5;
+    static const KeyCode kp6;
+    static const KeyCode kp7;
+    static const KeyCode kp8;
+    static const KeyCode kp9;
+    static const KeyCode kpDecimal;
+    static const KeyCode kpDivide;
+    static const KeyCode kpMultiply;
+    static const KeyCode kpSubtract;
+    static const KeyCode kpAdd;
+    static const KeyCode kpEnter;
+    static const KeyCode kpEqual;
+    static const KeyCode leftShift;
+    static const KeyCode leftControl;
+    static const KeyCode leftAlt;
+    static const KeyCode leftSuper;
+    static const KeyCode rightShift;
+    static const KeyCode rightControl;
+    static const KeyCode rightAlt;
+    static const KeyCode rightSuper;
+    static const KeyCode menu;
+    static const KeyCode term;
+    static const int maxKeyCodeValue;
+
+    /**
+     * create new key code, and add to global key table.
+     * @param value
+     */
+    KeyCode(int value);
+    /**
+     * @return
+     */
+    int getValue() const;
+
+    /**
+     * returns the global key table.
+     * @return
+     */
+    static KeyTable getKeys();
+
+private:
+    int m_value;
+    static bool s_frozen;
 };
 }
