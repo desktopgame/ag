@@ -2,6 +2,7 @@
 #include <ag/easy/App.hpp>
 #include <ag/graphics/Model.hpp>
 #include <ag/native/glm.hpp>
+#include <ag/util/Random.hpp>
 #include <cassert>
 #include <vector>
 
@@ -19,26 +20,86 @@ enum class PieceColor {
 using PieceLine = std::vector<PieceColor>;
 using PieceTable = std::vector<PieceLine>;
 
+const std::vector<PieceTable> k_pieceTables = {
+    // I
+    { { PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan } },
+    // O
+    {
+        { PieceColor::Yellow, PieceColor::Yellow },
+        { PieceColor::Yellow, PieceColor::Yellow },
+    },
+    // S
+    {
+        { PieceColor::None, PieceColor::Green, PieceColor::Green },
+        { PieceColor::Green, PieceColor::Green, PieceColor::None },
+    },
+    // Z
+    {
+        { PieceColor::Red, PieceColor::Red, PieceColor::None },
+        { PieceColor::None, PieceColor::Red, PieceColor::Red },
+    },
+    // L
+    {
+        { PieceColor::Orange, PieceColor::None, PieceColor::None },
+        { PieceColor::Orange, PieceColor::Orange, PieceColor::Orange },
+    },
+    // T
+    {
+        { PieceColor::None, PieceColor::Purple, PieceColor::None },
+        { PieceColor::Purple, PieceColor::Purple, PieceColor::Purple },
+    }
+};
+
 class MyApp : public ag::easy::App {
 public:
     MyApp(int argc, char* argv[])
         : App(argc, argv)
+        , m_table()
+        , m_current()
+        , m_currentPos()
+        , m_time(0.0f)
     {
     }
     void start(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
+        for (int i = 0; i < 20; i++) {
+            PieceLine line;
+            for (int j = 0; j < 10; j++) {
+                line.push_back(PieceColor::None);
+            }
+            m_table.push_back(line);
+        }
+        initFall();
     }
 
     void update(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
     {
+        m_time += ag::Engine::getInstance()->getLooper()->deltaTime();
+        if (m_time >= 1.0f) {
+            m_currentPos.y += 1;
+            m_time = 0.0f;
+        }
+        if (m_currentPos.y + getPieceHeight(m_current) == 20) {
+            putPiece(m_currentPos.y, m_currentPos.x, m_current);
+            initFall();
+        }
+        drawGame(w, r);
+    }
+
+private:
+    // draw
+
+    void drawGame(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    {
         r->begin(w, ag::RenderPass::default2D());
-        drawPiece(r, 0, 0, PieceColor::Cyan);
-        drawPiece(r, 1, 0, PieceColor::Yellow);
-        drawPiece(r, 2, 0, PieceColor::Green);
-        drawPiece(r, 3, 0, PieceColor::Red);
-        drawPiece(r, 4, 0, PieceColor::Blue);
-        drawPiece(r, 5, 0, PieceColor::Orange);
-        drawPiece(r, 6, 0, PieceColor::Purple);
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 10; j++) {
+                drawPiece(r, i, j, m_table.at(i).at(j));
+            }
+        }
+        if (!m_current.empty()) {
+            drawPiece(r, m_currentPos.y, m_currentPos.x, m_current);
+        }
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 10; j++) {
                 glm::vec2 pos = glm::vec2(1 + (j * 32), (i * 32));
@@ -47,6 +108,16 @@ public:
             }
         }
         r->end();
+    }
+
+    void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, const PieceTable& table)
+    {
+        for (int i = 0; i < table.size(); i++) {
+            for (int j = 0; j < table.at(i).size(); j++) {
+                PieceColor pc = table.at(i).at(j);
+                drawPiece(r, row + i, column + j, pc);
+            }
+        }
     }
 
     void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, PieceColor pc)
@@ -84,7 +155,35 @@ public:
         r->fillRect(pos, glm::vec2(32, 32), color);
     }
 
-private:
+    // utility
+
+    void initFall()
+    {
+        m_current = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
+        m_currentPos = glm::vec2(0, 0);
+    }
+
+    void putPiece(int row, int column, const PieceTable& t)
+    {
+        for (int i = 0; i < getPieceHeight(t); i++) {
+            for (int j = 0; j < getPieceWidth(t); j++) {
+                PieceColor pc = t.at(i).at(j);
+                if (pc == PieceColor::None) {
+                    continue;
+                }
+                m_table.at(row + i).at(column + j) = pc;
+            }
+        }
+    }
+
+    int getPieceWidth(const PieceTable& t) { return t.at(0).size(); }
+
+    int getPieceHeight(const PieceTable& t) { return t.size(); }
+
+    PieceTable m_table;
+    PieceTable m_current;
+    glm::vec2 m_currentPos;
+    float m_time;
 };
 
 int main(int argc, char* argv[])
