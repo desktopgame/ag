@@ -72,4 +72,5 @@ _deps
 tests/SpriteDraw/SpriteDraw
 tests/ModelDraw/ModelDraw
 tests/LowLevel/LowLevel
+tests/Tetris/Tetris
 tests/SpaceShooter/SpaceShooter

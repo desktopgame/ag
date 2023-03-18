@@ -32,6 +32,14 @@
             "program": "${workspaceFolder}/tests/SpriteDraw/SpriteDraw",
             "args": [],
             "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "tests/Tetris",
+            "program": "${workspaceFolder}/tests/Tetris/Tetris",
+            "args": [],
+            "cwd": "${workspaceFolder}"
         }
     ]
 }
