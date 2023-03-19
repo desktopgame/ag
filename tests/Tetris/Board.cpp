@@ -31,6 +31,13 @@ PieceColor Board::get(int row, int column) const
 {
     return m_table.at(row).at(column);
 }
+int Board::calcGroundRow(int row, int column, const PieceTable& t)
+{
+    while (!isGround(row, column, t)) {
+        row++;
+    }
+    return row;
+}
 bool Board::isGround(int row, int column, const PieceTable& t)
 {
     for (int i = 0; i < util::getPieceHeight(t); i++) {

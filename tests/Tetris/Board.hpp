@@ -10,6 +10,7 @@ public:
 
     void put(int row, int column, const PieceTable& t);
     PieceColor get(int row, int column) const;
+    int calcGroundRow(int row, int column, const PieceTable& t);
     bool isGround(int row, int column, const PieceTable& t);
     bool isIntersects(int row, int column, const PieceTable& t);
     void match();

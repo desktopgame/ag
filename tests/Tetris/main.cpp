@@ -96,13 +96,18 @@ public:
 
     void draw(const ag::Renderer::Instance& renderer) override
     {
-        // draw game
+        // draw static pieces
         for (int i = 0; i < Board::k_rowMax; i++) {
             for (int j = 0; j < Board::k_columnMax; j++) {
-                drawPiece(renderer, i, j, m_board.get(i, j));
+                drawPiece(renderer, i, j, m_board.get(i, j), false);
             }
         }
-        drawPiece(renderer, m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent());
+        // draw ghost
+        int ghostRow = m_board.calcGroundRow(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent());
+        drawPiece(renderer, ghostRow, m_fall.getColumn(), m_fall.getCurrent(), true);
+        // draw falling piece
+        drawPiece(renderer, m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent(), false);
+        // draw grid
         for (int i = 0; i < Board::k_rowMax; i++) {
             for (int j = 0; j < Board::k_columnMax; j++) {
                 glm::vec2 pos = glm::vec2(1 + (j * 32), (i * 32));
@@ -110,7 +115,8 @@ public:
                 renderer->drawRect(pos, size, glm::vec4(1, 1, 1, 1));
             }
         }
-        drawPiece(renderer, 2, Board::k_columnMax + 1, m_fall.getNext());
+        // draw next piece
+        drawPiece(renderer, 2, Board::k_columnMax + 1, m_fall.getNext(), false);
         // draw result
         if (m_gameEnd) {
             renderer->fillRect(glm::vec2(), k_windowSize, glm::vec4(1, 1, 1, 0.5f));
@@ -126,23 +132,24 @@ public:
     }
 
 private:
-    void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, const PieceTable& table)
+    void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, const PieceTable& table, bool isGhost)
     {
         for (int i = 0; i < table.size(); i++) {
             for (int j = 0; j < table.at(i).size(); j++) {
                 PieceColor pc = table.at(i).at(j);
-                drawPiece(r, row + i, column + j, pc);
+                drawPiece(r, row + i, column + j, pc, isGhost);
             }
         }
     }
 
-    void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, PieceColor pc)
+    void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, PieceColor pc, bool isGhost)
     {
         if (pc == PieceColor::None) {
             return;
         }
         glm::vec2 pos = glm::vec2(1 + (column * 32), row * 32);
         glm::vec4 color;
+        glm::vec4 mult = isGhost ? glm::vec4(0.5f, 0.5f, 0.5f, 1) : glm::vec4(1, 1, 1, 1);
         switch (pc) {
         case PieceColor::None:
             break;
@@ -168,7 +175,7 @@ private:
             color = glm::vec4(1, 0, 1, 1);
             break;
         }
-        r->fillRect(pos, glm::vec2(32, 32), color);
+        r->fillRect(pos, glm::vec2(32, 32), color * mult);
     }
 
     Board m_board;
