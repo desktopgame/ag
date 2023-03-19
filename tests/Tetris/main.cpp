@@ -9,58 +9,6 @@
 #include <cassert>
 #include <vector>
 
-enum class GameState {
-    Title,
-    Game,
-    Result
-};
-
-enum class PieceColor {
-    None = 0,
-    Cyan,
-    Yellow,
-    Green,
-    Red,
-    Blue,
-    Orange,
-    Purple
-};
-
-using PieceLine = std::vector<PieceColor>;
-using PieceTable = std::vector<PieceLine>;
-
-const std::vector<PieceTable> k_pieceTables = {
-    // I
-    { { PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan } },
-    // O
-    {
-        { PieceColor::Yellow, PieceColor::Yellow },
-        { PieceColor::Yellow, PieceColor::Yellow },
-    },
-    // S
-    {
-        { PieceColor::None, PieceColor::Green, PieceColor::Green },
-        { PieceColor::Green, PieceColor::Green, PieceColor::None },
-    },
-    // Z
-    {
-        { PieceColor::Red, PieceColor::Red, PieceColor::None },
-        { PieceColor::None, PieceColor::Red, PieceColor::Red },
-    },
-    // L
-    {
-        { PieceColor::Orange, PieceColor::None, PieceColor::None },
-        { PieceColor::Orange, PieceColor::Orange, PieceColor::Orange },
-    },
-    // T
-    {
-        { PieceColor::None, PieceColor::Purple, PieceColor::None },
-        { PieceColor::Purple, PieceColor::Purple, PieceColor::Purple },
-    }
-};
-
-const int k_rowMax = 20;
-const int k_columnMax = 10;
 const glm::ivec2 k_windowSize = { 480, 640 };
 
 class TitleScene : public ag::SceneBase {
@@ -174,6 +122,53 @@ public:
     }
 
 private:
+    enum class PieceColor {
+        None = 0,
+        Cyan,
+        Yellow,
+        Green,
+        Red,
+        Blue,
+        Orange,
+        Purple
+    };
+
+    using PieceLine = std::vector<PieceColor>;
+    using PieceTable = std::vector<PieceLine>;
+
+    const std::vector<PieceTable> k_pieceTables = {
+        // I
+        { { PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan } },
+        // O
+        {
+            { PieceColor::Yellow, PieceColor::Yellow },
+            { PieceColor::Yellow, PieceColor::Yellow },
+        },
+        // S
+        {
+            { PieceColor::None, PieceColor::Green, PieceColor::Green },
+            { PieceColor::Green, PieceColor::Green, PieceColor::None },
+        },
+        // Z
+        {
+            { PieceColor::Red, PieceColor::Red, PieceColor::None },
+            { PieceColor::None, PieceColor::Red, PieceColor::Red },
+        },
+        // L
+        {
+            { PieceColor::Orange, PieceColor::None, PieceColor::None },
+            { PieceColor::Orange, PieceColor::Orange, PieceColor::Orange },
+        },
+        // T
+        {
+            { PieceColor::None, PieceColor::Purple, PieceColor::None },
+            { PieceColor::Purple, PieceColor::Purple, PieceColor::Purple },
+        }
+    };
+
+    const int k_rowMax = 20;
+    const int k_columnMax = 10;
+
     void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, const PieceTable& table)
     {
         for (int i = 0; i < table.size(); i++) {
