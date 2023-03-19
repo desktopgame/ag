@@ -11,6 +11,7 @@ public:
 
     void save();
     void move(const glm::ivec2 offs);
+    void locate(const glm::ivec2 pos);
     void rotate();
     void restore();
 

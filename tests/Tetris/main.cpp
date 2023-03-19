@@ -74,6 +74,8 @@ public:
             m_fall.move({ 1, 0 });
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::down) == ag::ButtonState::Pressed) {
             m_fall.move({ 0, 1 });
+        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed || input.getKeyboardState().getKeyState(ag::KeyCode::kpEnter) == ag::ButtonState::Pressed) {
+            m_fall.locate({ m_fall.getColumn(), m_board.calcGroundRow(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent()) });
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::space) == ag::ButtonState::Pressed) {
             m_fall.rotate();
         }

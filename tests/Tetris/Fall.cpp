@@ -43,6 +43,10 @@ void Fall::move(const glm::ivec2 offs)
 {
     m_position += offs;
 }
+void Fall::locate(const glm::ivec2 pos)
+{
+    m_position = pos;
+}
 void Fall::rotate()
 {
     PieceTable a;
