@@ -1,4 +1,5 @@
 #include "Board.hpp"
+#include "Fall.hpp"
 #include "Type.hpp"
 #include "Util.hpp"
 #include <ag/agOne.hpp>
@@ -52,7 +53,7 @@ public:
     void show() override
     {
         m_board.clear();
-        initFall();
+        m_fall.reset();
         m_gameEnd = false;
     }
 
@@ -65,29 +66,23 @@ public:
             return;
         }
         // input control for piece.
-        glm::vec2 savePos = m_currentPos;
-        PieceTable saveTable = m_current;
+        m_fall.save();
         if (input.getKeyboardState().getKeyState(ag::KeyCode::left) == ag::ButtonState::Pressed) {
-            m_currentPos.x--;
+            m_fall.move(-1);
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::right) == ag::ButtonState::Pressed) {
-            m_currentPos.x++;
+            m_fall.move(1);
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::space) == ag::ButtonState::Pressed) {
-            m_current = rotatePiece(m_current);
+            m_fall.rotate();
         }
-        if (m_board.isIntersects(m_currentPos.y, m_currentPos.x, m_current)) {
-            m_currentPos = savePos;
-            m_current = saveTable;
+        if (m_board.isIntersects(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent())) {
+            m_fall.restore();
         }
         // fall piece.
-        m_time += ag::Engine::getInstance()->getLooper()->deltaTime();
-        if (m_time >= 0.2f) {
-            m_currentPos.y += 1;
-            m_time = 0.0f;
-        }
-        if (m_board.isGround(m_currentPos.y, m_currentPos.x, m_current)) {
-            m_board.put(m_currentPos.y, m_currentPos.x, m_current);
+        m_fall.tick(ag::Engine::getInstance()->getLooper()->deltaTime());
+        if (m_board.isGround(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent())) {
+            m_board.put(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent());
             m_board.match();
-            initFall();
+            m_fall.reset();
         }
     }
 
@@ -99,9 +94,7 @@ public:
                 drawPiece(renderer, i, j, m_board.get(i, j));
             }
         }
-        if (!m_current.empty()) {
-            drawPiece(renderer, m_currentPos.y, m_currentPos.x, m_current);
-        }
+        drawPiece(renderer, m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent());
         for (int i = 0; i < Board::k_rowMax; i++) {
             for (int j = 0; j < Board::k_columnMax; j++) {
                 glm::vec2 pos = glm::vec2(1 + (j * 32), (i * 32));
@@ -109,7 +102,7 @@ public:
                 renderer->drawRect(pos, size, glm::vec4(1, 1, 1, 1));
             }
         }
-        drawPiece(renderer, 2, Board::k_columnMax + 1, m_next);
+        drawPiece(renderer, 2, Board::k_columnMax + 1, m_fall.getNext());
         // draw result
         if (m_gameEnd) {
             renderer->fillRect(glm::vec2(), k_windowSize, glm::vec4(1, 1, 1, 0.5f));
@@ -125,36 +118,6 @@ public:
     }
 
 private:
-    const std::vector<PieceTable> k_pieceTables = {
-        // I
-        { { PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan } },
-        // O
-        {
-            { PieceColor::Yellow, PieceColor::Yellow },
-            { PieceColor::Yellow, PieceColor::Yellow },
-        },
-        // S
-        {
-            { PieceColor::None, PieceColor::Green, PieceColor::Green },
-            { PieceColor::Green, PieceColor::Green, PieceColor::None },
-        },
-        // Z
-        {
-            { PieceColor::Red, PieceColor::Red, PieceColor::None },
-            { PieceColor::None, PieceColor::Red, PieceColor::Red },
-        },
-        // L
-        {
-            { PieceColor::Orange, PieceColor::None, PieceColor::None },
-            { PieceColor::Orange, PieceColor::Orange, PieceColor::Orange },
-        },
-        // T
-        {
-            { PieceColor::None, PieceColor::Purple, PieceColor::None },
-            { PieceColor::Purple, PieceColor::Purple, PieceColor::Purple },
-        }
-    };
-
     void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, const PieceTable& table)
     {
         for (int i = 0; i < table.size(); i++) {
@@ -200,43 +163,8 @@ private:
         r->fillRect(pos, glm::vec2(32, 32), color);
     }
 
-    void initFall()
-    {
-        if (m_next.empty()) {
-            m_current = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
-        } else {
-            m_current = m_next;
-        }
-        m_currentPos = glm::vec2(ag::Random::range(0, Board::k_columnMax - util::getPieceWidth(m_current)), 0);
-        m_next = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
-        m_time = 0.0f;
-    }
-
-    PieceTable rotatePiece(const PieceTable& t)
-    {
-        PieceTable a;
-        int rc = util::getPieceHeight(t);
-        int cc = util::getPieceWidth(t);
-        for (int i = 0; i < cc; i++) {
-            PieceLine line;
-            for (int j = 0; j < rc; j++) {
-                line.emplace_back(PieceColor::None);
-            }
-            a.emplace_back(line);
-        }
-        for (int i = 0; i < rc; i++) {
-            for (int j = 0; j < cc; j++) {
-                a[j][rc - i - 1] = t[i][j];
-            }
-        }
-        return a;
-    }
-
     Board m_board;
-    PieceTable m_next;
-    PieceTable m_current;
-    glm::vec2 m_currentPos;
-    float m_time;
+    Fall m_fall;
     bool m_gameEnd;
 };
 
