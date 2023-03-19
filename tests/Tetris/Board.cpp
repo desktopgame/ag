@@ -61,6 +61,9 @@ bool Board::isIntersects(int row, int column, const PieceTable& t)
 {
     for (int i = 0; i < util::getPieceHeight(t); i++) {
         for (int j = 0; j < util::getPieceWidth(t); j++) {
+            if (t[i][j] == PieceColor::None) {
+                continue;
+            }
             int tr = row + i;
             int tc = column + j;
             if (tr < 0 || tr >= k_rowMax || tc < 0 || tc >= k_columnMax) {
