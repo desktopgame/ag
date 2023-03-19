@@ -3,7 +3,7 @@ project(${T_APP_NAME} CXX)
 
 set(CMAKE_MODULE_PATH "${TEST_TEMPLATE_MODS}")
 
-add_executable(${T_APP_NAME} main.cpp)
+add_executable(${T_APP_NAME} ${T_APP_SOURCES})
 target_compile_definitions(
     ${T_APP_NAME}
     PRIVATE
