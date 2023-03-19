@@ -21,7 +21,7 @@ public:
         auto looper = engine->getLooper();
         // 3D rendering
         renderer->begin(window, ag::RenderPass::default3D());
-        renderer->lookAt(glm::vec3(0, 4, -4), glm::vec3(0, 0, 0), glm::vec3(0, -1, 0));
+        renderer->lookAt(glm::vec3(0, 4, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
         m_angle += (100.0f * looper->deltaTime());
 
         renderer->pushMatrix();

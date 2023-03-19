@@ -12,7 +12,7 @@ void Camera::resize(int width, int height)
 {
     float fWidth = static_cast<float>(width);
     float fHeight = static_cast<float>(height);
-    m_projMat = glm::perspective(30.f, fWidth / fHeight, 1.f, 1000.f);
+    m_projMat = glm::perspective(glm::radians(60.f), fWidth / fHeight, 1.f, 1000.f);
 }
 
 void Camera::lookAt(const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up)
