@@ -60,23 +60,24 @@ public:
 
     void update(const ag::InputState& input, float deltaTime) override
     {
+        const ag::KeyboardState& kb = input.getKeyboardState();
         if (m_gameEnd) {
-            if (input.getKeyboardState().getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed) {
+            if (kb.getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed) {
                 show();
             }
             return;
         }
         // input control for piece.
         m_fall.save();
-        if (input.getKeyboardState().getKeyState(ag::KeyCode::left) == ag::ButtonState::Pressed) {
+        if (kb.getKeyState(ag::KeyCode::left) == ag::ButtonState::Pressed) {
             m_fall.move({ -1, 0 });
-        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::right) == ag::ButtonState::Pressed) {
+        } else if (kb.getKeyState(ag::KeyCode::right) == ag::ButtonState::Pressed) {
             m_fall.move({ 1, 0 });
-        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::down) == ag::ButtonState::Pressed) {
+        } else if (kb.getKeyState(ag::KeyCode::down) == ag::ButtonState::Pressed) {
             m_fall.move({ 0, 1 });
-        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed || input.getKeyboardState().getKeyState(ag::KeyCode::kpEnter) == ag::ButtonState::Pressed) {
+        } else if (kb.getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed || input.getKeyboardState().getKeyState(ag::KeyCode::kpEnter) == ag::ButtonState::Pressed) {
             m_fall.locate({ m_fall.getColumn(), m_board.calcGroundRow(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent()) });
-        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::space) == ag::ButtonState::Pressed) {
+        } else if (kb.getKeyState(ag::KeyCode::space) == ag::ButtonState::Pressed) {
             m_fall.rotate();
         }
         if (m_board.isIntersects(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent())) {
