@@ -54,6 +54,7 @@ public:
     {
         m_board.clear();
         m_fall.reset();
+        m_score = 0;
         m_gameEnd = false;
     }
 
@@ -82,14 +83,14 @@ public:
         // fall piece.
         if (m_board.isGround(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent())) {
             m_board.put(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent());
-            m_board.match();
+            m_score += m_board.match() * 10;
             m_fall.reset();
             return;
         }
         m_fall.tick(ag::Engine::getInstance()->getLooper()->deltaTime());
         if (m_board.isGround(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent())) {
             m_board.put(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent());
-            m_board.match();
+            m_score += m_board.match() * 10;
             m_fall.reset();
         }
     }
@@ -117,6 +118,20 @@ public:
         }
         // draw next piece
         drawPiece(renderer, 2, Board::k_columnMax + 1, m_fall.getNext(), false);
+        // draw score
+        char scoreChars[9] = {};
+        memset(scoreChars, '\0', sizeof(scoreChars));
+        ::sprintf(scoreChars, "%08d", m_score);
+        std::vector<char16_t> scoreVec;
+        for (char c : scoreChars) {
+            if (c == '\0')
+                break;
+            scoreVec.push_back(static_cast<char16_t>(c));
+        }
+        std::u16string scoreString = std::u16string(scoreVec.begin(), scoreVec.end());
+        glm::vec2 scoreSize = renderer->measureString(32, scoreString);
+        int space = k_windowSize.x - (32 * 10);
+        renderer->drawString(glm::vec2(32 * 10) + (space - scoreSize.x) / 2, 32, scoreString, glm::vec4(1, 1, 1, 1));
         // draw result
         if (m_gameEnd) {
             renderer->fillRect(glm::vec2(), k_windowSize, glm::vec4(1, 1, 1, 0.5f));
@@ -180,6 +195,7 @@ private:
 
     Board m_board;
     Fall m_fall;
+    int m_score;
     bool m_gameEnd;
 };
 

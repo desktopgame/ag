@@ -73,8 +73,9 @@ bool Board::isIntersects(int row, int column, const PieceTable& t)
     }
     return false;
 }
-void Board::match()
+int Board::match()
 {
+    int deleteLines = 0;
     for (int i = 0; i < k_rowMax; i++) {
         auto& line = m_table.at(i);
         if (std::find(line.begin(), line.end(), PieceColor::None) != line.end()) {
@@ -88,7 +89,9 @@ void Board::match()
                 src.at(k) = PieceColor::None;
             }
         }
+        deleteLines++;
     }
+    return deleteLines;
 }
 void Board::clear()
 {
