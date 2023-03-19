@@ -1,3 +1,6 @@
+#include "Board.hpp"
+#include "Type.hpp"
+#include "Util.hpp"
 #include <ag/agOne.hpp>
 #include <ag/easy/App.hpp>
 #include <ag/graphics/Model.hpp>
@@ -48,7 +51,7 @@ class GameScene : public ag::SceneBase {
 public:
     void show() override
     {
-        initBoard();
+        m_board.clear();
         initFall();
         m_gameEnd = false;
     }
@@ -71,7 +74,7 @@ public:
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::space) == ag::ButtonState::Pressed) {
             m_current = rotatePiece(m_current);
         }
-        if (isIntersects(m_currentPos.y, m_currentPos.x, m_current)) {
+        if (m_board.isIntersects(m_currentPos.y, m_currentPos.x, m_current)) {
             m_currentPos = savePos;
             m_current = saveTable;
         }
@@ -81,9 +84,9 @@ public:
             m_currentPos.y += 1;
             m_time = 0.0f;
         }
-        if (isGround(m_currentPos.y, m_currentPos.x, m_current)) {
-            putPiece(m_currentPos.y, m_currentPos.x, m_current);
-            deleteLine();
+        if (m_board.isGround(m_currentPos.y, m_currentPos.x, m_current)) {
+            m_board.put(m_currentPos.y, m_currentPos.x, m_current);
+            m_board.match();
             initFall();
         }
     }
@@ -91,22 +94,22 @@ public:
     void draw(const ag::Renderer::Instance& renderer) override
     {
         // draw game
-        for (int i = 0; i < k_rowMax; i++) {
-            for (int j = 0; j < k_columnMax; j++) {
-                drawPiece(renderer, i, j, m_table.at(i).at(j));
+        for (int i = 0; i < Board::k_rowMax; i++) {
+            for (int j = 0; j < Board::k_columnMax; j++) {
+                drawPiece(renderer, i, j, m_board.get(i, j));
             }
         }
         if (!m_current.empty()) {
             drawPiece(renderer, m_currentPos.y, m_currentPos.x, m_current);
         }
-        for (int i = 0; i < k_rowMax; i++) {
-            for (int j = 0; j < k_columnMax; j++) {
+        for (int i = 0; i < Board::k_rowMax; i++) {
+            for (int j = 0; j < Board::k_columnMax; j++) {
                 glm::vec2 pos = glm::vec2(1 + (j * 32), (i * 32));
                 glm::vec2 size = glm::vec2(32, 32);
                 renderer->drawRect(pos, size, glm::vec4(1, 1, 1, 1));
             }
         }
-        drawPiece(renderer, 2, k_columnMax + 1, m_next);
+        drawPiece(renderer, 2, Board::k_columnMax + 1, m_next);
         // draw result
         if (m_gameEnd) {
             renderer->fillRect(glm::vec2(), k_windowSize, glm::vec4(1, 1, 1, 0.5f));
@@ -122,20 +125,6 @@ public:
     }
 
 private:
-    enum class PieceColor {
-        None = 0,
-        Cyan,
-        Yellow,
-        Green,
-        Red,
-        Blue,
-        Orange,
-        Purple
-    };
-
-    using PieceLine = std::vector<PieceColor>;
-    using PieceTable = std::vector<PieceLine>;
-
     const std::vector<PieceTable> k_pieceTables = {
         // I
         { { PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan, PieceColor::Cyan } },
@@ -165,9 +154,6 @@ private:
             { PieceColor::Purple, PieceColor::Purple, PieceColor::Purple },
         }
     };
-
-    const int k_rowMax = 20;
-    const int k_columnMax = 10;
 
     void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, const PieceTable& table)
     {
@@ -214,18 +200,6 @@ private:
         r->fillRect(pos, glm::vec2(32, 32), color);
     }
 
-    void initBoard()
-    {
-        m_table = {};
-        for (int i = 0; i < k_rowMax; i++) {
-            PieceLine line;
-            for (int j = 0; j < k_columnMax; j++) {
-                line.push_back(PieceColor::None);
-            }
-            m_table.push_back(line);
-        }
-    }
-
     void initFall()
     {
         if (m_next.empty()) {
@@ -233,7 +207,7 @@ private:
         } else {
             m_current = m_next;
         }
-        m_currentPos = glm::vec2(ag::Random::range(0, k_columnMax - getPieceWidth(m_current)), 0);
+        m_currentPos = glm::vec2(ag::Random::range(0, Board::k_columnMax - util::getPieceWidth(m_current)), 0);
         m_next = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
         m_time = 0.0f;
     }
@@ -241,8 +215,8 @@ private:
     PieceTable rotatePiece(const PieceTable& t)
     {
         PieceTable a;
-        int rc = getPieceHeight(t);
-        int cc = getPieceWidth(t);
+        int rc = util::getPieceHeight(t);
+        int cc = util::getPieceWidth(t);
         for (int i = 0; i < cc; i++) {
             PieceLine line;
             for (int j = 0; j < rc; j++) {
@@ -258,86 +232,7 @@ private:
         return a;
     }
 
-    void putPiece(int row, int column, const PieceTable& t)
-    {
-        for (int i = 0; i < getPieceHeight(t); i++) {
-            for (int j = 0; j < getPieceWidth(t); j++) {
-                PieceColor pc = t[i][j];
-                if (pc == PieceColor::None) {
-                    continue;
-                }
-                m_table.at(row + i).at(column + j) = pc;
-            }
-        }
-        // judge
-        auto firstLine = m_table.at(0);
-        for (PieceColor pc : firstLine) {
-            if (pc != PieceColor::None) {
-                m_gameEnd = true;
-            }
-        }
-    }
-
-    void deleteLine()
-    {
-        for (int i = 0; i < k_rowMax; i++) {
-            auto& line = m_table.at(i);
-            if (std::find(line.begin(), line.end(), PieceColor::None) != line.end()) {
-                continue;
-            }
-            for (int j = i; j >= 1; j--) {
-                auto& src = m_table.at(j - 1);
-                auto& dst = m_table.at(j);
-                for (int k = 0; k < k_columnMax; k++) {
-                    dst.at(k) = src.at(k);
-                    src.at(k) = PieceColor::None;
-                }
-            }
-        }
-    }
-
-    bool isGround(int row, int column, const PieceTable& t)
-    {
-        for (int i = 0; i < getPieceHeight(t); i++) {
-            for (int j = 0; j < getPieceWidth(t); j++) {
-                if (t[i][j] == PieceColor::None) {
-                    continue;
-                }
-                int tr = row + i + 1;
-                int tc = column + j;
-                if (tr >= k_rowMax) {
-                    return true;
-                }
-                if (m_table[tr][tc] != PieceColor::None) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    bool isIntersects(int row, int column, const PieceTable& t)
-    {
-        for (int i = 0; i < getPieceHeight(t); i++) {
-            for (int j = 0; j < getPieceWidth(t); j++) {
-                int tr = row + i;
-                int tc = column + j;
-                if (tr < 0 || tr >= k_rowMax || tc < 0 || tc >= k_columnMax) {
-                    return true;
-                }
-                if (m_table[tr][tc] != PieceColor::None) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    int getPieceWidth(const PieceTable& t) { return t.at(0).size(); }
-
-    int getPieceHeight(const PieceTable& t) { return t.size(); }
-
-    PieceTable m_table;
+    Board m_board;
     PieceTable m_next;
     PieceTable m_current;
     glm::vec2 m_currentPos;
