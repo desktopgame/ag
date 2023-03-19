@@ -68,9 +68,11 @@ public:
         // input control for piece.
         m_fall.save();
         if (input.getKeyboardState().getKeyState(ag::KeyCode::left) == ag::ButtonState::Pressed) {
-            m_fall.move(-1);
+            m_fall.move({ -1, 0 });
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::right) == ag::ButtonState::Pressed) {
-            m_fall.move(1);
+            m_fall.move({ 1, 0 });
+        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::down) == ag::ButtonState::Pressed) {
+            m_fall.move({ 0, 1 });
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::space) == ag::ButtonState::Pressed) {
             m_fall.rotate();
         }
@@ -78,6 +80,12 @@ public:
             m_fall.restore();
         }
         // fall piece.
+        if (m_board.isGround(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent())) {
+            m_board.put(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent());
+            m_board.match();
+            m_fall.reset();
+            return;
+        }
         m_fall.tick(ag::Engine::getInstance()->getLooper()->deltaTime());
         if (m_board.isGround(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent())) {
             m_board.put(m_fall.getRow(), m_fall.getColumn(), m_fall.getCurrent());

@@ -10,7 +10,7 @@ public:
     void tick(float deltaTime);
 
     void save();
-    void move(int xOffs);
+    void move(const glm::ivec2 offs);
     void rotate();
     void restore();
 

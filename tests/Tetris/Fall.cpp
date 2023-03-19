@@ -39,9 +39,9 @@ void Fall::save()
     m_saveTable = m_current;
     m_savePosition = m_position;
 }
-void Fall::move(int xOffs)
+void Fall::move(const glm::ivec2 offs)
 {
-    m_position.x += xOffs;
+    m_position += offs;
 }
 void Fall::rotate()
 {
