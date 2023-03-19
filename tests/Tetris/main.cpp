@@ -2,6 +2,8 @@
 #include <ag/easy/App.hpp>
 #include <ag/graphics/Model.hpp>
 #include <ag/native/glm.hpp>
+#include <ag/scene/SceneBase.hpp>
+#include <ag/scene/SceneManager.hpp>
 #include <ag/util/Random.hpp>
 #include <algorithm>
 #include <cassert>
@@ -61,73 +63,56 @@ const int k_rowMax = 20;
 const int k_columnMax = 10;
 const glm::ivec2 k_windowSize = { 480, 640 };
 
-class MyApp : public ag::easy::App {
+class TitleScene : public ag::SceneBase {
 public:
-    MyApp(int argc, char* argv[])
-        : App(argc, argv)
-        , m_table()
-        , m_next()
-        , m_current()
-        , m_currentPos()
-        , m_time(0.0f)
-        , m_state(GameState::Title)
+    void show() override
     {
+        m_isFinished = false;
+        m_nextScene = "Game";
     }
-    void start(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
+    void update(const ag::InputState& input, float deltaTime) override
     {
-        renderer->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Medium.otf"));
-    }
-
-    void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
-    {
-        renderer->begin(window, ag::RenderPass::default2D());
-        switch (m_state) {
-        case GameState::Title:
-            updateTitle(window, input, renderer);
-            drawTitle(window, renderer);
-            break;
-        case GameState::Game:
-            updateGame(window, input, renderer);
-            drawGame(window, renderer);
-            break;
-        case GameState::Result:
-            updateResult(window, input, renderer);
-            drawResult(window, renderer);
-            break;
+        if (input.getKeyboardState().getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed) {
+            m_isFinished = true;
         }
-        renderer->end();
+    }
+    void draw(const ag::Renderer::Instance& renderer) override
+    {
+        {
+            glm::ivec2 size = renderer->measureString(32, u"Tetris");
+            renderer->drawString((k_windowSize - size) / 2, 32, u"Tetris", glm::vec4(1, 1, 1, 1));
+        }
+        {
+            glm::ivec2 size = renderer->measureString(32, u"Enterでスタート");
+            glm::ivec2 center = (k_windowSize - size) / 2;
+            center.y = 400;
+            renderer->drawString(center, 32, u"Enterでスタート", glm::vec4(1, 1, 1, 1));
+        }
+    }
+    void hide() override
+    {
     }
 
 private:
-    // title
+};
 
-    void updateTitle(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
+class GameScene : public ag::SceneBase {
+public:
+    void show() override
     {
-        if (input.getKeyboardState().getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed) {
-            m_state = GameState::Game;
-            initGame();
-            initFall();
-        }
+        initBoard();
+        initFall();
+        m_gameEnd = false;
     }
 
-    void drawTitle(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    void update(const ag::InputState& input, float deltaTime) override
     {
-        {
-            glm::ivec2 size = r->measureString(32, u"Tetris");
-            r->drawString((k_windowSize - size) / 2, 32, u"Tetris", glm::vec4(1, 1, 1, 1));
+        if (m_gameEnd) {
+            if (input.getKeyboardState().getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed) {
+                show();
+            }
+            return;
         }
-        {
-            glm::ivec2 size = r->measureString(32, u"Enterでスタート");
-            glm::ivec2 center = (k_windowSize - size) / 2;
-            center.y = 400;
-            r->drawString(center, 32, u"Enterでスタート", glm::vec4(1, 1, 1, 1));
-        }
-    }
-
-    // game
-
-    void updateGame(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
-    {
         // input control for piece.
         glm::vec2 savePos = m_currentPos;
         PieceTable saveTable = m_current;
@@ -155,26 +140,40 @@ private:
         }
     }
 
-    void drawGame(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
+    void draw(const ag::Renderer::Instance& renderer) override
     {
+        // draw game
         for (int i = 0; i < k_rowMax; i++) {
             for (int j = 0; j < k_columnMax; j++) {
-                drawPiece(r, i, j, m_table.at(i).at(j));
+                drawPiece(renderer, i, j, m_table.at(i).at(j));
             }
         }
         if (!m_current.empty()) {
-            drawPiece(r, m_currentPos.y, m_currentPos.x, m_current);
+            drawPiece(renderer, m_currentPos.y, m_currentPos.x, m_current);
         }
         for (int i = 0; i < k_rowMax; i++) {
             for (int j = 0; j < k_columnMax; j++) {
                 glm::vec2 pos = glm::vec2(1 + (j * 32), (i * 32));
                 glm::vec2 size = glm::vec2(32, 32);
-                r->drawRect(pos, size, glm::vec4(1, 1, 1, 1));
+                renderer->drawRect(pos, size, glm::vec4(1, 1, 1, 1));
             }
         }
-        drawPiece(r, 2, k_columnMax + 1, m_next);
+        drawPiece(renderer, 2, k_columnMax + 1, m_next);
+        // draw result
+        if (m_gameEnd) {
+            renderer->fillRect(glm::vec2(), k_windowSize, glm::vec4(1, 1, 1, 0.5f));
+            {
+                glm::ivec2 size = renderer->measureString(32, u"Enterでもう一度");
+                renderer->drawString((k_windowSize - size) / 2, 32, u"Enterでもう一度", glm::vec4(0, 0, 0, 1));
+            }
+        }
     }
 
+    void hide() override
+    {
+    }
+
+private:
     void drawPiece(const std::shared_ptr<ag::Renderer>& r, int row, int column, const PieceTable& table)
     {
         for (int i = 0; i < table.size(); i++) {
@@ -220,9 +219,9 @@ private:
         r->fillRect(pos, glm::vec2(32, 32), color);
     }
 
-    void initGame()
+    void initBoard()
     {
-        m_table.clear();
+        m_table = {};
         for (int i = 0; i < k_rowMax; i++) {
             PieceLine line;
             for (int j = 0; j < k_columnMax; j++) {
@@ -241,6 +240,7 @@ private:
         }
         m_currentPos = glm::vec2(ag::Random::range(0, k_columnMax - getPieceWidth(m_current)), 0);
         m_next = k_pieceTables.at(ag::Random::range(0, k_pieceTables.size() - 1));
+        m_time = 0.0f;
     }
 
     PieceTable rotatePiece(const PieceTable& t)
@@ -278,7 +278,7 @@ private:
         auto firstLine = m_table.at(0);
         for (PieceColor pc : firstLine) {
             if (pc != PieceColor::None) {
-                m_state = GameState::Result;
+                m_gameEnd = true;
             }
         }
     }
@@ -342,33 +342,40 @@ private:
 
     int getPieceHeight(const PieceTable& t) { return t.size(); }
 
-    // result
-
-    void updateResult(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
-    {
-        if (input.getKeyboardState().getKeyState(ag::KeyCode::enter) == ag::ButtonState::Pressed) {
-            m_state = GameState::Game;
-            initGame();
-            initFall();
-        }
-    }
-
-    void drawResult(const std::shared_ptr<ag::Window>& w, const std::shared_ptr<ag::Renderer>& r)
-    {
-        drawGame(w, r);
-        r->fillRect(glm::vec2(), k_windowSize, glm::vec4(1, 1, 1, 0.5f));
-        {
-            glm::ivec2 size = r->measureString(32, u"Enterでもう一度");
-            r->drawString((k_windowSize - size) / 2, 32, u"Enterでもう一度", glm::vec4(0, 0, 0, 1));
-        }
-    }
-
     PieceTable m_table;
     PieceTable m_next;
     PieceTable m_current;
     glm::vec2 m_currentPos;
     float m_time;
-    GameState m_state;
+    bool m_gameEnd;
+};
+
+class MyApp : public ag::easy::App {
+public:
+    MyApp(int argc, char* argv[])
+        : App(argc, argv)
+        , m_sceneManager({
+              { "Title", std::make_shared<TitleScene>() },
+              { "Game", std::make_shared<GameScene>() },
+          })
+    {
+    }
+    void start(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
+    {
+        renderer->setFontMap(loadFontMap("testdata/fonts/NotoSansJP-Medium.otf"));
+        m_sceneManager.start("Title");
+    }
+
+    void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
+    {
+        renderer->begin(window, ag::RenderPass::default2D());
+        m_sceneManager.update(input, ag::Engine::getInstance()->getLooper()->deltaTime());
+        m_sceneManager.draw(renderer);
+        renderer->end();
+    }
+
+private:
+    ag::SceneManager m_sceneManager;
 };
 
 int main(int argc, char* argv[])
