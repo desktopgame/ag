@@ -1,7 +1,9 @@
+#include "Debri.hpp"
 #include <ag/agOne.hpp>
 #include <ag/easy/App.hpp>
 #include <ag/graphics/Model.hpp>
 #include <ag/native/glm.hpp>
+#include <ag/util/Random.hpp>
 #include <cassert>
 
 class MyApp : public ag::easy::App {
@@ -14,6 +16,10 @@ public:
     void start(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
         m_angle = 0.0f;
+        m_speed = 1.0f;
+        for (int i = 0; i < 10; i++) {
+            m_objects.emplace_back(createDebri());
+        }
     }
 
     void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
@@ -24,26 +30,30 @@ public:
         renderer->begin(window, ag::RenderPass::default3D());
         renderer->lookAt(m_playerPosition, m_playerPosition + glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
         m_angle += (100.0f * looper->deltaTime());
+        m_speed = 1.0f;
         if (input.getKeyboardState().getKeyState(ag::KeyCode::left) == ag::ButtonState::Held) {
             m_playerPosition.x -= 10.0f * looper->deltaTime();
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::right) == ag::ButtonState::Held) {
             m_playerPosition.x += 10.0f * looper->deltaTime();
+        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::up) == ag::ButtonState::Held) {
+            m_speed = 3.0f;
         }
-        m_playerPosition.z -= looper->deltaTime();
+        m_playerPosition.z -= m_speed * looper->deltaTime();
 
-        renderer->pushMatrix();
-        renderer->translate(glm::vec3(-2.0f, 0, 0));
-        renderer->rotateY(glm::radians(m_angle));
-        renderer->scale(glm::vec3(0.01f, 0.01f, 0.01f));
-        renderer->drawModel(glm::vec3(0, 0, 0), loadModel("testdata/models/Cube.fbx"), ag::MeshDrawMode::ColorNoLight);
-        renderer->popMatrix();
-
-        renderer->pushMatrix();
-        renderer->translate(glm::vec3(2.0f, 0, 0));
-        renderer->rotateY(glm::radians(m_angle));
-        renderer->scale(glm::vec3(0.01f, 0.01f, 0.01f));
-        renderer->drawModel(glm::vec3(0, 0, 0), loadModel("testdata/models/TextureCube.fbx"), ag::MeshDrawMode::TextureNoLight);
-        renderer->popMatrix();
+        for (auto obj : m_objects) {
+            obj->update(input, looper->deltaTime());
+        }
+        for (auto obj : m_objects) {
+            obj->draw(renderer);
+        }
+        int size = m_objects.size();
+        auto iter = std::remove_if(m_objects.begin(), m_objects.end(), [&](ag::GameObject::Instance e) -> bool {
+            return e->getPosition().z - m_playerPosition.z > 3.0f;
+        });
+        m_objects.erase(iter, m_objects.end());
+        while (m_objects.size() < size) {
+            m_objects.emplace_back(createDebri());
+        }
 
         renderer->end();
         // 2D rendering
@@ -53,8 +63,20 @@ public:
     }
 
 private:
+    ag::GameObject::Instance createDebri()
+    {
+        ag::GameObject::Instance ret = ag::GameObject::create("Debri");
+        float pz = m_playerPosition.z;
+        auto debri = std::make_shared<Debri>(ret);
+        debri->setModel(loadModel("testdata/models/Cube.fbx"));
+        ret->setPosition({ ag::Random::range(-4, 4) * 3.0f, 0, pz - (ag::Random::range(4, 8) * 3.0f) });
+        ret->addComponent(debri);
+        return ret;
+    }
     glm::vec3 m_playerPosition;
     float m_angle;
+    float m_speed;
+    std::vector<ag::GameObject::Instance> m_objects;
 };
 
 int main(int argc, char* argv[])
