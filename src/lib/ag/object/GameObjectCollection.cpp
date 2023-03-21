@@ -17,6 +17,9 @@ GameObject::Instance GameObjectCollection::create(const std::string& name)
 void GameObjectCollection::update(const ag::InputState& input, float deltaTime)
 {
     for (auto obj : m_objects) {
+        if (obj->isDestroyed()) {
+            continue;
+        }
         obj->update(input, deltaTime);
     }
     auto iter = std::remove_if(m_objects.begin(), m_objects.end(), [](GameObject::Instance e) -> bool {
@@ -27,6 +30,9 @@ void GameObjectCollection::update(const ag::InputState& input, float deltaTime)
 void GameObjectCollection::draw(const ag::Renderer::Instance& renderer)
 {
     for (auto obj : m_objects) {
+        if (obj->isDestroyed()) {
+            continue;
+        }
         obj->draw(renderer);
     }
 }
