@@ -39,21 +39,19 @@ void GameObjectCollection::draw(const ag::Renderer::Instance& renderer)
 
 GameObject::Instance GameObjectCollection::findByName(const std::string& name) const
 {
-    auto iter = std::find(m_objects.begin(), m_objects.end(), [name](ag::GameObject::Instance e) -> bool {
-        return e->getName() == name;
-    });
-    if (iter != m_objects.end()) {
-        return *iter;
+    for (auto e : m_objects) {
+        if (e->getName() == name) {
+            return e;
+        }
     }
     return nullptr;
 }
 GameObject::Instance GameObjectCollection::findByTag(const std::string& tag) const
 {
-    auto iter = std::find(m_objects.begin(), m_objects.end(), [tag](ag::GameObject::Instance e) -> bool {
-        return e->getTag() == tag;
-    });
-    if (iter != m_objects.end()) {
-        return *iter;
+    for (auto e : m_objects) {
+        if (e->getTag() == tag) {
+            return e;
+        }
     }
     return nullptr;
 }

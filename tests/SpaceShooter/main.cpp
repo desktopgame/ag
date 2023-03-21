@@ -1,4 +1,5 @@
 #include "Bullet.hpp"
+#include "DebriGenerator.hpp"
 #include "Player.hpp"
 #include <ag/agOne.hpp>
 #include <ag/easy/App.hpp>
@@ -19,13 +20,16 @@ public:
     }
     void start(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
     {
+        // プレイヤー生成
         auto playerObject = m_gameObjectCollection.create("Player");
         m_player = std::make_shared<Player>(playerObject);
         m_player->setup(m_gameObjectCollection, loadModel("testdata/models/Ball.fbx"));
         playerObject->addComponent(m_player);
-        for (int i = 0; i < 10; i++) {
-            createDebri();
-        }
+        // デブリ生成機生成
+        auto debriGeneratorObject = m_gameObjectCollection.create("Generator");
+        m_debriGenerator = std::make_shared<DebriGenerator>(debriGeneratorObject);
+        m_debriGenerator->setup(m_gameObjectCollection, m_player, loadModel("testdata/models/Cube.fbx"));
+        debriGeneratorObject->addComponent(m_debriGenerator);
     }
 
     void update(const ag::Window::Instance& window, const ag::InputState& input, const ag::Renderer::Instance& renderer)
@@ -36,13 +40,8 @@ public:
         renderer->begin(window, ag::RenderPass::default3D());
         renderer->lookAt(m_player->getGameObject()->getPosition(), m_player->getGameObject()->getPosition() + glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 
-        size_t size = m_gameObjectCollection.size();
         m_gameObjectCollection.update(input, looper->deltaTime());
         m_gameObjectCollection.draw(renderer);
-
-        while (m_gameObjectCollection.size() < size) {
-            createDebri();
-        }
 
         renderer->end();
         // 2D rendering
@@ -56,17 +55,8 @@ public:
     }
 
 private:
-    void createDebri()
-    {
-        ag::GameObject::Instance ret = m_gameObjectCollection.create("Debri");
-        float pz = m_player->getGameObject()->getPosition().z;
-        auto debri = std::make_shared<ag::ModelRenderer>(ret);
-        debri->setModel(loadModel("testdata/models/Cube.fbx"));
-        ret->setPosition({ ag::Random::range(-4, 4) * 3.0f, 0, pz - (ag::Random::range(4, 8) * 3.0f) });
-        ret->setScale({ 0.01f, 0.01f, 0.01f });
-        ret->addComponent(debri);
-    }
     std::shared_ptr<Player> m_player;
+    std::shared_ptr<DebriGenerator> m_debriGenerator;
     ag::GameObjectCollection m_gameObjectCollection;
 };
 
