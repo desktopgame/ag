@@ -21,7 +21,7 @@ public:
     std::vector<std::shared_ptr<T>> getComponents() const
     {
         std::vector<std::shared_ptr<T>> ret;
-        for (Component::Instance& c : m_components) {
+        for (Component::Instance c : m_components) {
             ret.emplace_back(std::static_pointer_cast<T>(c));
         }
         return ret;
