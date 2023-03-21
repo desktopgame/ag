@@ -24,6 +24,7 @@ void GameObject::draw(const ag::Renderer::Instance& renderer)
 void GameObject::addComponent(const Component::Instance& c)
 {
     m_components.emplace_back(c);
+    c->start();
 }
 
 void GameObject::removeComponent(const Component::Instance& c)
