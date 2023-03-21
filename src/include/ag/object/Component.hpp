@@ -18,6 +18,6 @@ public:
     std::shared_ptr<GameObject> getGameObject() const;
 
 private:
-    std::shared_ptr<GameObject> m_gameObject;
+    std::weak_ptr<GameObject> m_gameObject;
 };
 }

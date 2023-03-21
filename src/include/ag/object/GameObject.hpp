@@ -10,6 +10,7 @@ namespace ag {
 class GameObject : public std::enable_shared_from_this<GameObject> {
 public:
     using Instance = std::shared_ptr<GameObject>;
+    using Reference = std::weak_ptr<GameObject>;
 
     static Instance create(const std::string& name);
     void update(const ag::InputState& input, float deltaTime);
