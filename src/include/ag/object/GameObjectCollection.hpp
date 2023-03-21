@@ -14,6 +14,8 @@ public:
     void update(const ag::InputState& input, float deltaTime);
     void draw(const ag::Renderer::Instance& renderer);
 
+    GameObject::Instance findByName(const std::string& name) const;
+    GameObject::Instance findByTag(const std::string& tag) const;
     size_t size() const;
 
 private:
