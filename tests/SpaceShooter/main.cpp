@@ -1,8 +1,8 @@
-#include "Debri.hpp"
 #include <ag/agOne.hpp>
 #include <ag/easy/App.hpp>
 #include <ag/graphics/Model.hpp>
 #include <ag/native/glm.hpp>
+#include <ag/object/ModelRenderer.hpp>
 #include <ag/util/Random.hpp>
 #include <cassert>
 
@@ -71,9 +71,10 @@ private:
     {
         ag::GameObject::Instance ret = ag::GameObject::create("Debri");
         float pz = m_playerPosition.z;
-        auto debri = std::make_shared<Debri>(ret);
+        auto debri = std::make_shared<ag::ModelRenderer>(ret);
         debri->setModel(loadModel("testdata/models/Cube.fbx"));
         ret->setPosition({ ag::Random::range(-4, 4) * 3.0f, 0, pz - (ag::Random::range(4, 8) * 3.0f) });
+        ret->setScale({ 0.01f, 0.01f, 0.01f });
         ret->addComponent(debri);
         return ret;
     }
