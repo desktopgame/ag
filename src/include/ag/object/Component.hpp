@@ -12,6 +12,7 @@ public:
     virtual ~Component() = default;
     virtual void update(const InputState& input, float deltaTime) = 0;
     virtual void draw(const Renderer::Instance& renderer) = 0;
+    virtual void onDestroy();
 
     std::shared_ptr<GameObject> getGameObject() const;
 

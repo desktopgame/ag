@@ -32,6 +32,7 @@ void GameObject::removeComponent(const Component::Instance& c)
         return e == c;
     });
     m_components.erase(iter, m_components.end());
+    c->onDestroy();
 }
 std::vector<Component::Instance> GameObject::getComponents() const { return m_components; }
 
@@ -49,6 +50,16 @@ glm::vec3 GameObject::getRotation() const { return m_rotation; }
 
 void GameObject::setScale(const glm::vec3& scale) { m_scale = scale; }
 glm::vec3 GameObject::getScale() const { return m_scale; }
+
+void GameObject::destroy()
+{
+    m_isDestroyed = true;
+    for (auto c : m_components) {
+        c->onDestroy();
+    }
+    m_components.clear();
+}
+bool GameObject::isDestroyed() const { return m_isDestroyed; }
 // private
 GameObject::GameObject()
     : m_components()

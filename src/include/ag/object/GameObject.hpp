@@ -55,6 +55,9 @@ public:
     void setScale(const glm::vec3& scale);
     glm::vec3 getScale() const;
 
+    void destroy();
+    bool isDestroyed() const;
+
 private:
     GameObject();
     std::vector<Component::Instance> m_components;
@@ -63,5 +66,6 @@ private:
     glm::vec3 m_position;
     glm::vec3 m_rotation;
     glm::vec3 m_scale;
+    bool m_isDestroyed;
 };
 }
