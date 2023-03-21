@@ -3,6 +3,7 @@
 #include <ag/easy/App.hpp>
 #include <ag/graphics/Model.hpp>
 #include <ag/native/glm.hpp>
+#include <ag/object/GameObjectCollection.hpp>
 #include <ag/object/ModelRenderer.hpp>
 #include <ag/util/Random.hpp>
 #include <cassert>
@@ -19,7 +20,7 @@ public:
         m_angle = 0.0f;
         m_speed = 1.0f;
         for (int i = 0; i < 10; i++) {
-            m_objects.emplace_back(createDebri());
+            createDebri();
         }
     }
 
@@ -39,23 +40,16 @@ public:
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::up) == ag::ButtonState::Held) {
             m_speed = 3.0f;
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::z) == ag::ButtonState::Held) {
-            m_objects.push_back(createBullet());
+            createBullet();
         }
         m_playerPosition.z -= m_speed * looper->deltaTime();
 
-        for (auto obj : m_objects) {
-            obj->update(input, looper->deltaTime());
-        }
-        for (auto obj : m_objects) {
-            obj->draw(renderer);
-        }
-        int size = m_objects.size();
-        auto iter = std::remove_if(m_objects.begin(), m_objects.end(), [&](ag::GameObject::Instance e) -> bool {
-            return e->getPosition().z - m_playerPosition.z > 3.0f;
-        });
-        m_objects.erase(iter, m_objects.end());
-        while (m_objects.size() < size) {
-            m_objects.emplace_back(createDebri());
+        size_t size = m_gameObjectCollection.size();
+        m_gameObjectCollection.update(input, looper->deltaTime());
+        m_gameObjectCollection.draw(renderer);
+
+        while (m_gameObjectCollection.size() < size) {
+            createDebri();
         }
 
         renderer->end();
@@ -70,20 +64,19 @@ public:
     }
 
 private:
-    ag::GameObject::Instance createDebri()
+    void createDebri()
     {
-        ag::GameObject::Instance ret = ag::GameObject::create("Debri");
+        ag::GameObject::Instance ret = m_gameObjectCollection.create("Debri");
         float pz = m_playerPosition.z;
         auto debri = std::make_shared<ag::ModelRenderer>(ret);
         debri->setModel(loadModel("testdata/models/Cube.fbx"));
         ret->setPosition({ ag::Random::range(-4, 4) * 3.0f, 0, pz - (ag::Random::range(4, 8) * 3.0f) });
         ret->setScale({ 0.01f, 0.01f, 0.01f });
         ret->addComponent(debri);
-        return ret;
     }
-    ag::GameObject::Instance createBullet()
+    void createBullet()
     {
-        ag::GameObject::Instance ret = ag::GameObject::create("Bullet");
+        ag::GameObject::Instance ret = m_gameObjectCollection.create("Bullet");
         auto debri = std::make_shared<ag::ModelRenderer>(ret);
         auto bullet = std::make_shared<Bullet>(ret);
         bullet->setDirection({ 0, 0, -1 });
@@ -93,12 +86,11 @@ private:
         ret->setScale({ 0.01f, 0.01f, 0.01f });
         ret->addComponent(debri);
         ret->addComponent(bullet);
-        return ret;
     }
     glm::vec3 m_playerPosition;
     float m_angle;
     float m_speed;
-    std::vector<ag::GameObject::Instance> m_objects;
+    ag::GameObjectCollection m_gameObjectCollection;
 };
 
 int main(int argc, char* argv[])
