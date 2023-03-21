@@ -53,6 +53,9 @@ glm::vec3 GameObject::getScale() const { return m_scale; }
 
 void GameObject::destroy()
 {
+    if (m_isDestroyed) {
+        return;
+    }
     m_isDestroyed = true;
     for (auto c : m_components) {
         c->onDestroy();
