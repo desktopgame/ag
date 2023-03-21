@@ -58,7 +58,7 @@ public:
         renderer->end();
         // 2D rendering
         renderer->begin(window, ag::RenderPass::default2D());
-        renderer->drawCircle((glm::vec2(1280, 720) - glm::vec2(120, 120)) / 2.0f, glm::vec2(120, 120), glm::vec4(0, 1, 0, 1));
+        renderer->drawTexture((glm::vec2(1280, 720) - glm::vec2(120, 120)) / 2.0f, loadTexture("testdata/textures/Aim.png"), glm::vec4(1, 1, 1, 1));
         renderer->drawCircle(glm::vec2(1280 - 200, 0), glm::vec2(200, 200), glm::vec4(1, 1, 0, 1));
         renderer->fillRect(glm::vec2(1280 - 400, 720 - 120), glm::vec2(400, 120), glm::vec4(1, 0.5f, 0, 1));
         renderer->fillRect(glm::vec2(1280 - 300, 720 - 120 - 120), glm::vec2(300, 120), glm::vec4(1, 0, 0, 1));
