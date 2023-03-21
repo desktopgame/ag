@@ -1,3 +1,4 @@
+#include "Bullet.hpp"
 #include <ag/agOne.hpp>
 #include <ag/easy/App.hpp>
 #include <ag/graphics/Model.hpp>
@@ -37,6 +38,8 @@ public:
             m_playerPosition.x += 10.0f * looper->deltaTime();
         } else if (input.getKeyboardState().getKeyState(ag::KeyCode::up) == ag::ButtonState::Held) {
             m_speed = 3.0f;
+        } else if (input.getKeyboardState().getKeyState(ag::KeyCode::z) == ag::ButtonState::Held) {
+            m_objects.push_back(createBullet());
         }
         m_playerPosition.z -= m_speed * looper->deltaTime();
 
@@ -76,6 +79,20 @@ private:
         ret->setPosition({ ag::Random::range(-4, 4) * 3.0f, 0, pz - (ag::Random::range(4, 8) * 3.0f) });
         ret->setScale({ 0.01f, 0.01f, 0.01f });
         ret->addComponent(debri);
+        return ret;
+    }
+    ag::GameObject::Instance createBullet()
+    {
+        ag::GameObject::Instance ret = ag::GameObject::create("Bullet");
+        auto debri = std::make_shared<ag::ModelRenderer>(ret);
+        auto bullet = std::make_shared<Bullet>(ret);
+        bullet->setDirection({ 0, 0, -1 });
+        bullet->setSpeed(20);
+        debri->setModel(loadModel("testdata/models/Ball.fbx"));
+        ret->setPosition(m_playerPosition);
+        ret->setScale({ 0.01f, 0.01f, 0.01f });
+        ret->addComponent(debri);
+        ret->addComponent(bullet);
         return ret;
     }
     glm::vec3 m_playerPosition;
