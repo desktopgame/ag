@@ -20,5 +20,6 @@ public:
 
 private:
     std::vector<GameObject::Instance> m_objects;
+    std::vector<GameObject::Instance> m_buffer;
 };
 }
