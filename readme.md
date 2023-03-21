@@ -19,7 +19,7 @@ cmake . -DASSIMP_BUILD_TESTS=OFF -DASSIMP_WARNINGS_AS_ERRORS=OFF -DBUILD_SHARED_
 ````
 
 # example
-agは簡単な2D描画しかサポートしていません。
+agは簡単な2D描画のサンプル
 ````.cpp
 #include <ag/easy/App.hpp>
 
