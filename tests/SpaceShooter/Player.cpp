@@ -39,7 +39,7 @@ void Player::createBullet()
     bullet->setDirection({ 0, 0, -1 });
     bullet->setSpeed(20);
     debri->setModel(m_bulletModel);
-    ret->setPosition({ 0, 0, 10 });
+    ret->setPosition(getGameObject()->getPosition());
     ret->setScale({ 0.01f, 0.01f, 0.01f });
     ret->addComponent(debri);
     ret->addComponent(bullet);
