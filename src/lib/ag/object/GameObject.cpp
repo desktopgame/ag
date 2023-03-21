@@ -71,6 +71,7 @@ GameObject::GameObject()
     , m_position()
     , m_rotation()
     , m_scale(1, 1, 1)
+    , m_isDestroyed(false)
 {
 }
 }
