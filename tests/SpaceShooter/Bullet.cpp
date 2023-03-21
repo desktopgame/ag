@@ -14,6 +14,9 @@ void Bullet::update(const ag::InputState& input, float deltaTime)
     auto obj = getGameObject();
     obj->setPosition(obj->getPosition() + (m_direction * m_speed * deltaTime));
     m_lifetime -= deltaTime;
+    if (m_lifetime < 0.0f) {
+        getGameObject()->destroy();
+    }
 }
 void Bullet::draw(const ag::Renderer::Instance& renderer) { }
 
