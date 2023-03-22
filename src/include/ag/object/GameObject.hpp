@@ -65,6 +65,8 @@ public:
 private:
     GameObject();
     std::vector<Component::Instance> m_components;
+    std::vector<Component::Instance> m_addBuffer;
+    std::vector<Component::Instance> m_removeBuffer;
     std::string m_name;
     std::string m_tag;
     glm::vec3 m_position;

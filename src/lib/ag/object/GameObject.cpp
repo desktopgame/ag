@@ -10,6 +10,20 @@ GameObject::Instance GameObject::create(const std::string& name)
 }
 void GameObject::update(const ag::InputState& input, float deltaTime)
 {
+    // add reserved components
+    for (auto a : m_addBuffer) {
+        m_components.emplace_back(a);
+    }
+    m_addBuffer.clear();
+    // remove reserved components
+    for (auto r : m_removeBuffer) {
+        auto iter = std::remove_if(m_components.begin(), m_components.end(), [r](Component::Instance e) -> bool {
+            return e == r;
+        });
+        m_components.erase(iter, m_components.end());
+    }
+    m_removeBuffer.clear();
+    // update components
     for (auto c : m_components) {
         c->update(input, deltaTime);
     }
@@ -23,16 +37,13 @@ void GameObject::draw(const ag::Renderer::Instance& renderer)
 
 void GameObject::addComponent(const Component::Instance& c)
 {
-    m_components.emplace_back(c);
+    m_addBuffer.emplace_back(c);
     c->start();
 }
 
 void GameObject::removeComponent(const Component::Instance& c)
 {
-    auto iter = std::remove_if(m_components.begin(), m_components.end(), [c](Component::Instance e) -> bool {
-        return e == c;
-    });
-    m_components.erase(iter, m_components.end());
+    m_removeBuffer.emplace_back(c);
     c->onDestroy();
 }
 std::vector<Component::Instance> GameObject::getComponents() const { return m_components; }
@@ -67,6 +78,8 @@ bool GameObject::isDestroyed() const { return m_isDestroyed; }
 // private
 GameObject::GameObject()
     : m_components()
+    , m_addBuffer()
+    , m_removeBuffer()
     , m_name("")
     , m_tag("")
     , m_position()
