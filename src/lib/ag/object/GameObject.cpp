@@ -26,6 +26,9 @@ void GameObject::update(const ag::InputState& input, float deltaTime)
     // update components
     for (auto c : m_components) {
         c->update(input, deltaTime);
+        if (isDestroyed()) {
+            break;
+        }
     }
 }
 void GameObject::draw(const ag::Renderer::Instance& renderer)
