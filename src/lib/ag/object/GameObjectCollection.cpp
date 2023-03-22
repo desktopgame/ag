@@ -17,16 +17,19 @@ GameObject::Instance GameObjectCollection::create(const std::string& name)
 }
 void GameObjectCollection::update(const ag::InputState& input, float deltaTime)
 {
+    // add reserved objects
     for (auto obj : m_buffer) {
         m_objects.emplace_back(obj);
     }
     m_buffer.clear();
+    // update objects
     for (auto obj : m_objects) {
         if (obj->isDestroyed()) {
             continue;
         }
         obj->update(input, deltaTime);
     }
+    // remove for destroyed objects
     auto iter = std::remove_if(m_objects.begin(), m_objects.end(), [](GameObject::Instance e) -> bool {
         return e->isDestroyed();
     });
